@@ -208,7 +208,7 @@ Projektil se pravi **usred napadačke animacije** (npr. u trenutku kad ruka ide 
 
 ### Pravila ponašanja
 
-1. **Preimenuj u zajedničke nazive** u svim grupama: `Idle`, `Move`, `Attack`, `Hit`, `Death`, pa jedan skup događaja radi za sve. Blob: walk → `Move`, bite → `Attack`. Flying: fastflying → `Move`. Standing ima `walk` i `run`: jedan je `Move`, drugi `Walk`, a koji se koristi određuje object varijabla `MoveAnim` (spori tipovi kao Yeti i Cactoro koriste `walk`). GDevelop razlikuje velika i mala slova.
+1. **Animacije se ne preimenuju.** Behavior `Enemy` (poglavlje 10) sam bira animaciju po stanju i property-ju `BodyType` (Blob, Standing, Flying). Standing ima `Walk` i `Run`, pa property `MoveAnim` bira koji se koristi za kretanje (spori tipovi kao Yeti i Cactoro koriste `Walk`), a `AttackAnim` bira `Punch` ili `Weapon`. GDevelop razlikuje velika i mala slova, a imena u behavior-u su ista kao u modelima (`Idle`, `Walk`, `Bite`, `FastFlying`, `HitReact`...).
 2. **Prioritet stanja:** `Death > Hit > Attack > Move > Idle`.
 3. **Blob nema `hitreact`**, pa ga lažiraj: bljesak ili tresenje objekta pri pogotku (ekstenzije "Flash object" i "3D object shake") plus kratak squash skale.
 4. **Bez stunlock-a:** ako svaki metak pokreće `hitreact`, neprijatelj pod brzom paljbom nikad ne napada. Hit animacija samo ako nije usred napada, najviše jednom u ~0.5 s, ili samo kad pogodak skine više od ~15% HP-a. Tenkovi, elite i bossevi je ignorišu (super armor).
@@ -346,7 +346,43 @@ Sva četiri boss-a dele isti skup animacija, pa je dovoljan **jedan state machin
 
 ---
 
-## 10. Odloženo (sledeći korak)
+## 10. Ekstenzija Amaze: behavior `Enemy`
+
+Fajl: `eventsFunctionsExtensions/amaze.json`. Zahteva ekstenziju "Health points and damage" (HP i šteta primljena preko nje). Behavior se kači na 3D Model objekte, a ceo tuning je u Properties panelu.
+
+**Properties:** `BodyType`, `Role`, `Family`, `Speed`, `Damage`, `XP`, `AttackRange`, `AttackCooldown`, `AttackDuration`, `AttackMomentTime`, `AttackAnim`, `MoveAnim`, `AggroRange`, `EvolvesTo` (ime objekta, prazno = ne evoluira), `EvolveTime`, `SuperArmor`, `HitCooldown`, `DeathTimeout`, `LeaveCorpse`. `Health` je required behavior.
+
+**Smrt i leševi:** kad animacija `Death` završi (uslov `HasAnimationEnded`), ne upisuje se dužina po modelu. U editoru objekta `Death` mora da ima isključen **Loop**, inače nikad ne završi. `DeathTimeout` (5 s) je sigurnosna mreža za tu grešku.
+- `LeaveCorpse` uključen (podrazumevano): neprijatelj prelazi u stanje `Dead`. Završena animacija ostaje na poslednjem frejmu (GDevelop je drži), a `Enemy` više ništa ne radi osim brojanja `CorpseTime()`. Leš je trag kojim se igrač seća gde je već bio.
+- `LeaveCorpse` isključen: objekat se briše čim animacija završi.
+- Slobodna akcija `Amaze::LimitCorpses(Enemies, ..., Max)` jednom po frejmu briše najstariji leš kad ih ima više od `Max` (npr. 15). Uslov `IsCorpse` služi za sve ostalo.
+
+**Stanja** (prioritet `Death > Hit > Attack > Move > Idle`, plus `Evolving`, `Intro`, `Celebrate`) menjaju se u `doStepPostEvents`. Razlog: Health briše svoju zastavicu "just damaged" u `doStepPreEvents`, pa je jedino posle događaja scene još vidljiva.
+
+**Šta event sheet radi:**
+
+| Šta | Kako |
+|---|---|
+| Meta za kretanje | akcija `SetTarget(x, y)` svaki frejm (igrač, kasnije ćelija flow-field-a) |
+| Udarac / projektil | uslov `AttackMoment` (jedan frejm, na `AttackMomentTime` unutar napada); melee proverava domet, ranged pravi projektil |
+| Šteta neprijatelju | `Health::Hit` na objektu; behavior sam reaguje (`Hit`, `Death`) |
+| XP i dropovi | uslov `JustDied` (jedan frejm) |
+| Skaliranje | akcija `ApplyLevelScaling(nivo)` pri spawnu (+12% HP, +8% štete po nivou) |
+| Evolucija | slobodna akcija `Amaze::ProcessEvolutions(Enemies, ...)` jednom po frejmu |
+| Igrač umre | akcija `Celebrate` |
+| Leševi | slobodna akcija `Amaze::LimitCorpses(Enemies, ..., 15)` jednom po frejmu |
+
+**Evolucija:** tajmer kreće pri prvom aggrou. U poslednjoj sekundi neprijatelj stane i igra `Dance` (Blob). `ProcessEvolutions` zatim pravi objekat iz `EvolvesTo` (akcija "Create an object from its name"), prenosi poziciju, ugao, Z, procenat HP-a i aggro, pušta `Wave` (Standing) i briše stari. Svi objekti koji mogu da nastanu moraju da budu u grupi "Enemies".
+
+**Ograničenja prve verzije:**
+- Kretanje je pravo ka meti i **ne poštuje zidove**. To je u redu za leteće, a kopnene čeka flow-field.
+- `Ranged` ne drži distancu, to se dodaje u event sheet-u ili kasnije u behavior-u.
+- Blob nema `HitReact`, pa pri pogotku samo nastavlja trenutnu animaciju. Bljesak ili tresenje ide preko ekstenzija iz pravila 3.
+- Cena, `minLevel` i težina ostaju u spawn tabeli (poglavlje 6), jer se properties ne mogu čitati bez instance.
+
+---
+
+## 11. Odloženo (sledeći korak)
 
 - Sistem perkova i level-up **pre** podešavanja skaliranja težine: HP +12% i budžet +4 po nivou su samo početne vrednosti, a prava kriva se bira tek kad se zna koliko jak igrač postaje
 - Damage i health preko GDevelop ekstenzija ("Health points and damage" i "Fire bullets / 3D fire bullet")

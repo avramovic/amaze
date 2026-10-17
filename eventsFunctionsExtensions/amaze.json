@@ -1,0 +1,4375 @@
+{
+  "author": "",
+  "category": "Game mechanic",
+  "dimension": "",
+  "extensionNamespace": "",
+  "fullName": "aMAZE gameplay",
+  "gdevelopVersion": "",
+  "helpPath": "",
+  "iconUrl": "",
+  "name": "Amaze",
+  "previewIconUrl": "",
+  "shortDescription": "Enemy and player behaviors for aMAZE.",
+  "version": "0.1.0",
+  "description": "Data-driven enemy behavior (stats, roles, state machine, evolution) and player run/meta progression for aMAZE. See docs/neprijatelji.md and docs/progresija.md.",
+  "tags": [],
+  "authorIds": [],
+  "dependencies": [],
+  "globalVariables": [],
+  "sceneVariables": [],
+  "eventsFunctions": [
+    {
+      "description": "Replace every enemy that is ready to evolve with an object of the name in its EvolvesTo property. HP percentage, position, rotation and aggro carry over. Call once per frame; the group must contain every object that can be created.",
+      "fullName": "Process evolutions",
+      "functionType": "Action",
+      "name": "ProcessEvolutions",
+      "sentence": "Process evolutions of _PARAM1_",
+      "group": "Enemies",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::ForEach",
+          "object": "Enemies",
+          "variables": [
+            {
+              "name": "evo",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "px",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "py",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "pz",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "pangle",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "hpPct",
+              "type": "number",
+              "value": 1
+            }
+          ],
+          "conditions": [
+            {
+              "type": {
+                "value": "Amaze::Enemy::IsReadyToEvolve"
+              },
+              "parameters": [
+                "Enemies",
+                "EnemyBehavior",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "SetStringVariable"
+              },
+              "parameters": [
+                "evo",
+                "=",
+                "Enemies.EnemyBehavior::EvolutionTarget()"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "px",
+                "=",
+                "Enemies.X()"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "py",
+                "=",
+                "Enemies.Y()"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "pz",
+                "=",
+                "Enemies.Object3D::Z()"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "pangle",
+                "=",
+                "Enemies.Angle()"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "hpPct",
+                "=",
+                "Enemies.HealthBehavior::Health() / Enemies.HealthBehavior::MaxHealth()"
+              ]
+            },
+            {
+              "type": {
+                "value": "CreateByName"
+              },
+              "parameters": [
+                "",
+                "Enemies",
+                "evo",
+                "px",
+                "py",
+                ""
+              ]
+            }
+          ],
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Only the new object is not marked ready to evolve",
+              "comment2": ""
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "Amaze::Enemy::IsReadyToEvolve",
+                    "inverted": true
+                  },
+                  "parameters": [
+                    "Enemies",
+                    "EnemyBehavior",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetAngle"
+                  },
+                  "parameters": [
+                    "Enemies",
+                    "=",
+                    "pangle"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Scene3D::Base3DBehavior::SetZ"
+                  },
+                  "parameters": [
+                    "Enemies",
+                    "Object3D",
+                    "=",
+                    "pz"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Health::Health::SetCurrentHealth"
+                  },
+                  "parameters": [
+                    "Enemies",
+                    "HealthBehavior",
+                    "hpPct * Enemies.HealthBehavior::MaxHealth()",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Amaze::Enemy::ForceAggro"
+                  },
+                  "parameters": [
+                    "Enemies",
+                    "EnemyBehavior"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Amaze::Enemy::StartIntro"
+                  },
+                  "parameters": [
+                    "Enemies",
+                    "EnemyBehavior"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "The old object is still marked ready to evolve",
+              "comment2": ""
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "Amaze::Enemy::IsReadyToEvolve"
+                  },
+                  "parameters": [
+                    "Enemies",
+                    "EnemyBehavior",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Delete"
+                  },
+                  "parameters": [
+                    "Enemies",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ]
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enemies (group with the Enemy behavior)",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemy behavior",
+          "name": "EnemyBehavior",
+          "type": "behavior",
+          "supplementaryInformation": "Amaze::Enemy"
+        },
+        {
+          "description": "Health behavior",
+          "name": "HealthBehavior",
+          "type": "behavior",
+          "supplementaryInformation": "Health::Health"
+        },
+        {
+          "description": "3D capability",
+          "name": "Object3D",
+          "type": "behavior",
+          "supplementaryInformation": "Scene3D::Base3DBehavior"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Keep at most MaxCorpses corpses: when there are more, the oldest one is destroyed. Call once per frame (it removes one corpse per call).",
+      "fullName": "Limit corpses",
+      "functionType": "Action",
+      "name": "LimitCorpses",
+      "sentence": "Keep at most _PARAM3_ corpses among _PARAM1_",
+      "group": "Enemies",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [],
+          "actions": [],
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::ForEach",
+              "object": "Enemies",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "Amaze::Enemy::IsCorpse"
+                  },
+                  "parameters": [
+                    "Enemies",
+                    "EnemyBehavior",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "corpseCount",
+                    "+",
+                    "1"
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "Enemies.EnemyBehavior::CorpseTime()",
+                        ">",
+                        "oldestAge"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "oldestAge",
+                        "=",
+                        "Enemies.EnemyBehavior::CorpseTime()"
+                      ]
+                    }
+                  ],
+                  "events": []
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "corpseCount",
+                    ">",
+                    "MaxCorpses"
+                  ]
+                }
+              ],
+              "actions": [],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::ForEach",
+                  "object": "Enemies",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::IsCorpse"
+                      },
+                      "parameters": [
+                        "Enemies",
+                        "EnemyBehavior",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "Enemies.EnemyBehavior::CorpseTime()",
+                        ">=",
+                        "oldestAge"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "Delete"
+                      },
+                      "parameters": [
+                        "Enemies",
+                        ""
+                      ]
+                    }
+                  ],
+                  "events": []
+                }
+              ]
+            }
+          ],
+          "variables": [
+            {
+              "name": "corpseCount",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "oldestAge",
+              "type": "number",
+              "value": 0
+            }
+          ]
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enemies (group with the Enemy behavior)",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemy behavior",
+          "name": "EnemyBehavior",
+          "type": "behavior",
+          "supplementaryInformation": "Amaze::Enemy"
+        },
+        {
+          "description": "Maximum number of corpses",
+          "name": "MaxCorpses",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    }
+  ],
+  "eventsFunctionsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+      {
+        "functionName": "ProcessEvolutions"
+      },
+      {
+        "functionName": "LimitCorpses"
+      }
+    ]
+  },
+  "eventsBasedBehaviors": [
+    {
+      "description": "Generic enemy: stats, state machine, animations and evolution.",
+      "fullName": "Enemy",
+      "helpPath": "",
+      "iconUrl": "",
+      "name": "Enemy",
+      "objectType": "",
+      "previewIconUrl": "",
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "doStepPostEvents"
+          },
+          {
+            "functionName": "SetTarget"
+          },
+          {
+            "functionName": "ForceAggro"
+          },
+          {
+            "functionName": "Celebrate"
+          },
+          {
+            "functionName": "StartIntro"
+          },
+          {
+            "functionName": "ApplyLevelScaling"
+          },
+          {
+            "functionName": "IsInState"
+          },
+          {
+            "functionName": "AttackMoment"
+          },
+          {
+            "functionName": "IsReadyToEvolve"
+          },
+          {
+            "functionName": "JustDied"
+          },
+          {
+            "functionName": "IsCorpse"
+          },
+          {
+            "functionName": "CorpseTime"
+          },
+          {
+            "functionName": "EvolutionTarget"
+          }
+        ]
+      },
+      "eventsFunctions": [
+        {
+          "description": "",
+          "fullName": "",
+          "functionType": "Action",
+          "name": "doStepPostEvents",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "One-frame flags are cleared here; scene events read them in the next frame",
+              "comment2": ""
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "JustDied",
+                    "False",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "AttackMoment",
+                    "False",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Death has the highest priority",
+              "comment2": ""
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Dead\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Health::Health::IsDead"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Health",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    "=",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "JustDied",
+                    "True",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "ReadyToEvolve",
+                    "False",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Dead\""
+                  ]
+                }
+              ],
+              "actions": [],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "Timers",
+                  "comment2": ""
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "+",
+                        "TimeDelta()"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "AttackTimer",
+                        "-",
+                        "TimeDelta()"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "HitTimer",
+                        "-",
+                        "TimeDelta()"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "Aggro: starts when the target gets within range, never stops",
+                  "comment2": ""
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "HasTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "DistanceBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)",
+                        "<=",
+                        "AggroRange"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "Evolution timer: runs from first aggro, even if the player runs away",
+                  "comment2": ""
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "EvolvesTo",
+                        "!=",
+                        "\"\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "EvolveTimer",
+                        "+",
+                        "TimeDelta()"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "EvolvesTo",
+                        "!=",
+                        "\"\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "EvolveTimer",
+                        ">=",
+                        "EvolveTime"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "True",
+                        ""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "Last second before evolving: stop and telegraph (Dance for Blob)",
+                  "comment2": ""
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "EvolvesTo",
+                        "!=",
+                        "\"\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "EvolveTimer",
+                        ">=",
+                        "EvolveTime - 1"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Evolving\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "Hit reaction: not during an attack or evolution, throttled, ignored with super armor",
+                  "comment2": ""
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "Health::Health::IsJustDamaged"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Health",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "SuperArmor",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "HitTimer",
+                        "<=",
+                        "0"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Evolving\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "=",
+                        "0"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "HitTimer",
+                        "=",
+                        "HitCooldown"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "0.4"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "1"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "Attack",
+                  "comment2": ""
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Death\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "HasTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "AttackTimer",
+                        "<=",
+                        "0"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "DistanceBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)",
+                        "<=",
+                        "AttackRange"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "=",
+                        "0"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "AttackTimer",
+                        "=",
+                        "AttackCooldown"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "AttackFired",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Object",
+                        "=",
+                        "AngleBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "AttackFired",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "AttackMomentTime"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "AttackFired",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "AttackMoment",
+                        "True",
+                        ""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "AttackDuration"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "Movement: straight towards the target (flow-field can replace SetTarget later)",
+                  "comment2": ""
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Death\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "HasTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "Role",
+                        "!=",
+                        "\"Stationary\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "DistanceBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)",
+                        ">",
+                        "AttackRange * 0.9"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Object",
+                        "=",
+                        "AngleBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetX"
+                      },
+                      "parameters": [
+                        "Object",
+                        "+",
+                        "cos(toRad(Object.Angle())) * Speed * TimeDelta()"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetY"
+                      },
+                      "parameters": [
+                        "Object",
+                        "+",
+                        "sin(toRad(Object.Angle())) * Speed * TimeDelta()"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "State -> animation (names are the original model animations)",
+                  "comment2": ""
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Blob\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Walk\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Flying\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"FastFlying\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Standing\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "MoveAnim"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Blob\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Bite\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Flying\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Punch\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Standing\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "AttackAnim"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "!=",
+                        "\"Blob\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"HitReact\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Blob\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "CurrentAnim"
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Blob\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Dance\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "!=",
+                        "\"Blob\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Standing\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Wave\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "!=",
+                        "\"Standing\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Celebrate\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Yes\""
+                      ]
+                    }
+                  ],
+                  "events": []
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Death: play the animation, destroy when it ends. CurrentAnim must already be Death (it is applied below, one frame later) or the previous animation would be checked. DeathTimeout is a safety net for a Death animation that loops.",
+              "comment2": ""
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Death\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    "+",
+                    "TimeDelta()"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "DesiredAnim",
+                    "=",
+                    "\"Death\""
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "CurrentAnim",
+                    "=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    ">=",
+                    "0.2"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::Or"
+                  },
+                  "parameters": [],
+                  "subInstructions": [
+                    {
+                      "type": {
+                        "value": "AnimatableCapability::AnimatableBehavior::HasAnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Animation",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "DeathTimeout"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "LeaveCorpse",
+                    "False",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Delete"
+                  },
+                  "parameters": [
+                    "Object",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "The finished Death animation holds its last pose, so a corpse needs no more work",
+              "comment2": ""
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "CurrentAnim",
+                    "=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    ">=",
+                    "0.2"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::Or"
+                  },
+                  "parameters": [],
+                  "subInstructions": [
+                    {
+                      "type": {
+                        "value": "AnimatableCapability::AnimatableBehavior::HasAnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Animation",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "DeathTimeout"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "LeaveCorpse",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Dead\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "CorpseAge",
+                    "=",
+                    "0"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Dead\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "CorpseAge",
+                    "+",
+                    "TimeDelta()"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Apply the animation only when it changes",
+              "comment2": ""
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "DesiredAnim",
+                    "!=",
+                    "\"\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "DesiredAnim",
+                    "!=",
+                    "CurrentAnim"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "AnimatableCapability::AnimatableBehavior::SetName"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Animation",
+                    "=",
+                    "DesiredAnim"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "CurrentAnim",
+                    "=",
+                    "DesiredAnim"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set the position the enemy moves towards (the player, or the next flow-field cell).",
+          "fullName": "Set target position",
+          "functionType": "Action",
+          "name": "SetTarget",
+          "sentence": "Set target of _PARAM0_ to _PARAM2_;_PARAM3_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "TargetX",
+                    "=",
+                    "TargetPosX"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "TargetY",
+                    "=",
+                    "TargetPosY"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "HasTarget",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "Target X",
+              "name": "TargetPosX",
+              "type": "expression"
+            },
+            {
+              "description": "Target Y",
+              "name": "TargetPosY",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Control"
+        },
+        {
+          "description": "Make the enemy aggressive regardless of distance (e.g. an evolved enemy keeps chasing).",
+          "fullName": "Force aggro",
+          "functionType": "Action",
+          "name": "ForceAggro",
+          "sentence": "Force aggro on _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "Aggro",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Control"
+        },
+        {
+          "description": "Play the celebration animation (e.g. when the player dies).",
+          "fullName": "Celebrate",
+          "functionType": "Action",
+          "name": "Celebrate",
+          "sentence": "Make _PARAM0_ celebrate",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Dead\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Celebrate\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    "=",
+                    "0"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Control"
+        },
+        {
+          "description": "Play the spawn intro for one second (Wave for Standing models). Used for freshly evolved enemies.",
+          "fullName": "Start intro",
+          "functionType": "Action",
+          "name": "StartIntro",
+          "sentence": "Start intro on _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Intro\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    "=",
+                    "0"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Control"
+        },
+        {
+          "description": "Scale max health (+12% per level) and damage (+8% per level) from the level number.",
+          "fullName": "Apply level scaling",
+          "functionType": "Action",
+          "name": "ApplyLevelScaling",
+          "sentence": "Apply scaling of level _PARAM2_ to _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Health::Health::SetMaxHealth"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Health",
+                    "Object.Health::MaxHealth() * (1 + 0.12 * (Level - 1))",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Health::Health::SetCurrentHealth"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Health",
+                    "Object.Health::MaxHealth()",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "Damage",
+                    "*",
+                    "1 + 0.08 * (Level - 1)"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "Level number",
+              "name": "Level",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Control"
+        },
+        {
+          "description": "Check the state: Idle, Move, Attack, Hit, Evolving, Intro, Celebrate or Death.",
+          "fullName": "Is in state",
+          "functionType": "Condition",
+          "name": "IsInState",
+          "sentence": "_PARAM0_ is in state _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "StateName"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "State name",
+              "name": "StateName",
+              "type": "string"
+            }
+          ],
+          "objectGroups": [],
+          "group": "State"
+        },
+        {
+          "description": "True for one frame when the attack lands (melee) or should fire (projectile).",
+          "fullName": "Attack moment",
+          "functionType": "Condition",
+          "name": "AttackMoment",
+          "sentence": "The attack of _PARAM0_ lands now",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "AttackMoment",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Attack"
+        },
+        {
+          "description": "True once the evolve timer has run out. ProcessEvolutions replaces the object.",
+          "fullName": "Is ready to evolve",
+          "functionType": "Condition",
+          "name": "IsReadyToEvolve",
+          "sentence": "_PARAM0_ is ready to evolve",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "ReadyToEvolve",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Evolution"
+        },
+        {
+          "description": "True for one frame when death starts (grant XP, drop loot).",
+          "fullName": "Just died",
+          "functionType": "Condition",
+          "name": "JustDied",
+          "sentence": "_PARAM0_ just died",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "JustDied",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "State"
+        },
+        {
+          "description": "True when the enemy is dead and its Death animation has finished (it stays in the scene).",
+          "fullName": "Is corpse",
+          "functionType": "Condition",
+          "name": "IsCorpse",
+          "sentence": "_PARAM0_ is a corpse",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Dead\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "State"
+        },
+        {
+          "description": "Seconds since the enemy became a corpse.",
+          "fullName": "Corpse time",
+          "functionType": "Expression",
+          "name": "CorpseTime",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "CorpseAge"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "State",
+          "expressionType": {
+            "type": "expression"
+          }
+        },
+        {
+          "description": "Name of the object this enemy evolves into (empty if none).",
+          "fullName": "Evolution target",
+          "functionType": "Expression",
+          "name": "EvolutionTarget",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnString"
+                  },
+                  "parameters": [
+                    "EvolvesTo"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Evolution",
+          "expressionType": {
+            "type": "string"
+          }
+        }
+      ],
+      "propertyDescriptors": [
+        {
+          "value": "Blob",
+          "type": "Choice",
+          "label": "Body type (animation group)",
+          "name": "BodyType",
+          "group": "Type",
+          "extraInformation": [
+            "Blob",
+            "Standing",
+            "Flying"
+          ],
+          "choices": [
+            {
+              "value": "Blob",
+              "label": "Blob"
+            },
+            {
+              "value": "Standing",
+              "label": "Standing"
+            },
+            {
+              "value": "Flying",
+              "label": "Flying"
+            }
+          ]
+        },
+        {
+          "value": "Swarm",
+          "type": "Choice",
+          "label": "Role",
+          "name": "Role",
+          "group": "Type",
+          "extraInformation": [
+            "Swarm",
+            "Chaser",
+            "Jumper",
+            "Ranged",
+            "Stationary",
+            "Flying",
+            "Tank",
+            "Boss"
+          ],
+          "choices": [
+            {
+              "value": "Swarm",
+              "label": "Swarm"
+            },
+            {
+              "value": "Chaser",
+              "label": "Chaser"
+            },
+            {
+              "value": "Jumper",
+              "label": "Jumper"
+            },
+            {
+              "value": "Ranged",
+              "label": "Ranged"
+            },
+            {
+              "value": "Stationary",
+              "label": "Stationary"
+            },
+            {
+              "value": "Flying",
+              "label": "Flying"
+            },
+            {
+              "value": "Tank",
+              "label": "Tank"
+            },
+            {
+              "value": "Boss",
+              "label": "Boss"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "type": "String",
+          "label": "Family",
+          "name": "Family",
+          "group": "Type"
+        },
+        {
+          "value": "200",
+          "type": "Number",
+          "label": "Speed (pixels per second)",
+          "name": "Speed",
+          "group": "Stats"
+        },
+        {
+          "value": "5",
+          "type": "Number",
+          "label": "Damage",
+          "name": "Damage",
+          "group": "Stats"
+        },
+        {
+          "value": "1",
+          "type": "Number",
+          "label": "XP dropped on death",
+          "name": "XP",
+          "group": "Stats"
+        },
+        {
+          "value": "80",
+          "type": "Number",
+          "label": "Attack range (pixels)",
+          "name": "AttackRange",
+          "group": "Attack"
+        },
+        {
+          "value": "1.5",
+          "type": "Number",
+          "label": "Attack cooldown (seconds)",
+          "name": "AttackCooldown",
+          "group": "Attack"
+        },
+        {
+          "value": "0.8",
+          "type": "Number",
+          "label": "Attack duration (seconds)",
+          "name": "AttackDuration",
+          "group": "Attack"
+        },
+        {
+          "value": "0.4",
+          "type": "Number",
+          "label": "Time into the attack when it lands or fires (seconds)",
+          "name": "AttackMomentTime",
+          "group": "Attack"
+        },
+        {
+          "value": "Punch",
+          "type": "Choice",
+          "label": "Standing attack animation",
+          "name": "AttackAnim",
+          "group": "Attack",
+          "extraInformation": [
+            "Punch",
+            "Weapon"
+          ],
+          "choices": [
+            {
+              "value": "Punch",
+              "label": "Punch"
+            },
+            {
+              "value": "Weapon",
+              "label": "Weapon"
+            }
+          ]
+        },
+        {
+          "value": "Run",
+          "type": "Choice",
+          "label": "Standing move animation",
+          "name": "MoveAnim",
+          "group": "Movement",
+          "extraInformation": [
+            "Walk",
+            "Run"
+          ],
+          "choices": [
+            {
+              "value": "Walk",
+              "label": "Walk"
+            },
+            {
+              "value": "Run",
+              "label": "Run"
+            }
+          ]
+        },
+        {
+          "value": "1200",
+          "type": "Number",
+          "label": "Aggro range (pixels)",
+          "name": "AggroRange",
+          "group": "Movement"
+        },
+        {
+          "value": "",
+          "type": "String",
+          "label": "Evolves to (object name, empty = never)",
+          "name": "EvolvesTo",
+          "group": "Evolution"
+        },
+        {
+          "value": "25",
+          "type": "Number",
+          "label": "Time from aggro to evolution (seconds)",
+          "name": "EvolveTime",
+          "group": "Evolution"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Super armor (ignores hit reaction)",
+          "name": "SuperArmor",
+          "group": "Hit"
+        },
+        {
+          "value": "0.5",
+          "type": "Number",
+          "label": "Minimum time between hit reactions (seconds)",
+          "name": "HitCooldown",
+          "group": "Hit"
+        },
+        {
+          "value": "5",
+          "type": "Number",
+          "label": "Safety limit: destroy after this many seconds even if Death never ends (looping Death)",
+          "name": "DeathTimeout",
+          "group": "Hit"
+        },
+        {
+          "value": "true",
+          "type": "Boolean",
+          "label": "Leave a corpse after death (frozen, marks where the player has been)",
+          "name": "LeaveCorpse",
+          "group": "Hit"
+        },
+        {
+          "value": "",
+          "type": "Behavior",
+          "label": "Health",
+          "extraInformation": [
+            "Health::Health"
+          ],
+          "choices": [],
+          "name": "Health"
+        },
+        {
+          "value": "Idle",
+          "type": "String",
+          "label": "State",
+          "name": "State",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "State time",
+          "name": "StateTime",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Target X",
+          "name": "TargetX",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Target Y",
+          "name": "TargetY",
+          "hidden": true
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Has target",
+          "name": "HasTarget",
+          "hidden": true
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Aggro",
+          "name": "Aggro",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Evolve timer",
+          "name": "EvolveTimer",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Attack timer",
+          "name": "AttackTimer",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Hit timer",
+          "name": "HitTimer",
+          "hidden": true
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Attack fired",
+          "name": "AttackFired",
+          "hidden": true
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Attack moment (one frame)",
+          "name": "AttackMoment",
+          "hidden": true
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Ready to evolve",
+          "name": "ReadyToEvolve",
+          "hidden": true
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Just died (one frame)",
+          "name": "JustDied",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Seconds since the corpse was left",
+          "name": "CorpseAge",
+          "hidden": true
+        },
+        {
+          "value": "",
+          "type": "String",
+          "label": "Current animation",
+          "name": "CurrentAnim",
+          "hidden": true
+        },
+        {
+          "value": "",
+          "type": "String",
+          "label": "Desired animation",
+          "name": "DesiredAnim",
+          "hidden": true
+        }
+      ],
+      "propertiesFolderStructure": {
+        "folderName": "__ROOT"
+      },
+      "sharedPropertyDescriptors": []
+    },
+    {
+      "description": "Player run data: XP, run level, meta bonuses, hit invulnerability.",
+      "fullName": "Player",
+      "helpPath": "",
+      "iconUrl": "",
+      "name": "Player",
+      "objectType": "",
+      "previewIconUrl": "",
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "onCreated"
+          },
+          {
+            "functionName": "doStepPostEvents"
+          },
+          {
+            "functionName": "AddXP"
+          },
+          {
+            "functionName": "ConsumeLevelUp"
+          },
+          {
+            "functionName": "ApplyMetaLevel"
+          },
+          {
+            "functionName": "ResetRun"
+          },
+          {
+            "functionName": "HasPendingLevelUp"
+          },
+          {
+            "functionName": "JustLeveledUp"
+          },
+          {
+            "functionName": "XPToNextLevel"
+          },
+          {
+            "functionName": "TotalDamageMultiplier"
+          }
+        ]
+      },
+      "eventsFunctions": [
+        {
+          "description": "",
+          "fullName": "",
+          "functionType": "Action",
+          "name": "onCreated",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Health::Health::SetCooldownDuration"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Health",
+                    "InvulnerabilityTime",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "",
+          "fullName": "",
+          "functionType": "Action",
+          "name": "doStepPostEvents",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "JustLeveledUp",
+                    "False",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Add XP to the run. Levels up as many times as the XP allows.",
+          "fullName": "Add XP",
+          "functionType": "Action",
+          "name": "AddXP",
+          "sentence": "Add _PARAM2_ XP to _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "RunXP",
+                    "+",
+                    "Amount"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::While",
+              "infiniteLoopWarning": true,
+              "whileConditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "RunXP",
+                    ">=",
+                    "XPBase + XPGrowth * (RunLevel - 1)"
+                  ]
+                }
+              ],
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "RunXP",
+                    "-",
+                    "XPBase + XPGrowth * (RunLevel - 1)"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "RunLevel",
+                    "+",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "PendingLevelUps",
+                    "+",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "JustLeveledUp",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            },
+            {
+              "description": "XP amount",
+              "name": "Amount",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Run"
+        },
+        {
+          "description": "Call when the player has picked a perk for one pending level up.",
+          "fullName": "Consume a level up",
+          "functionType": "Action",
+          "name": "ConsumeLevelUp",
+          "sentence": "Consume a pending level up of _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "PendingLevelUps",
+                    ">",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "PendingLevelUps",
+                    "-",
+                    "1"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Run"
+        },
+        {
+          "description": "Store the meta level and apply its small bonuses (only if enabled). Call once when the player is created.",
+          "fullName": "Apply meta level",
+          "functionType": "Action",
+          "name": "ApplyMetaLevel",
+          "sentence": "Apply meta level _PARAM2_ to _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "MetaLevel",
+                    "=",
+                    "NewMetaLevel"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "MetaBonusesEnabled",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "MetaDamageBonus",
+                    "=",
+                    "MetaDamagePerLevel * min(NewMetaLevel, MetaBonusCap)"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Health::Health::SetMaxHealth"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Health",
+                    "Object.Health::MaxHealth() * (1 + MetaHPPerLevel * min(NewMetaLevel, MetaBonusCap))",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Health::Health::SetCurrentHealth"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Health",
+                    "Object.Health::MaxHealth()",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            },
+            {
+              "description": "Meta level",
+              "name": "NewMetaLevel",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Meta"
+        },
+        {
+          "description": "Reset run XP and level (meta level stays).",
+          "fullName": "Reset run",
+          "functionType": "Action",
+          "name": "ResetRun",
+          "sentence": "Reset run of _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "RunXP",
+                    "=",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "RunLevel",
+                    "=",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "PendingLevelUps",
+                    "=",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "JustLeveledUp",
+                    "False",
+                    ""
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Run"
+        },
+        {
+          "description": "True while there is a level up waiting for a perk choice.",
+          "fullName": "Has pending level up",
+          "functionType": "Condition",
+          "name": "HasPendingLevelUp",
+          "sentence": "_PARAM0_ has a pending level up",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "PendingLevelUps",
+                    ">",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Run"
+        },
+        {
+          "description": "True for one frame when the run level increased.",
+          "fullName": "Just leveled up",
+          "functionType": "Condition",
+          "name": "JustLeveledUp",
+          "sentence": "_PARAM0_ just leveled up",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ],
+              "events": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "JustLeveledUp",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Run"
+        },
+        {
+          "description": "XP needed to reach the next run level.",
+          "fullName": "XP to next level",
+          "functionType": "Expression",
+          "name": "XPToNextLevel",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "XPBase + XPGrowth * (RunLevel - 1)"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Run",
+          "expressionType": {
+            "type": "expression"
+          }
+        },
+        {
+          "description": "Damage multiplier including the meta bonus. Multiply the player's damage by this.",
+          "fullName": "Total damage multiplier",
+          "functionType": "Expression",
+          "name": "TotalDamageMultiplier",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "DamageMultiplier * (1 + MetaDamageBonus)"
+                  ]
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Player",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": [],
+          "group": "Stats",
+          "expressionType": {
+            "type": "expression"
+          }
+        }
+      ],
+      "propertyDescriptors": [
+        {
+          "value": "300",
+          "type": "Number",
+          "label": "Move speed",
+          "name": "MoveSpeed",
+          "group": "Stats"
+        },
+        {
+          "value": "1",
+          "type": "Number",
+          "label": "Damage multiplier (perks change this)",
+          "name": "DamageMultiplier",
+          "group": "Stats"
+        },
+        {
+          "value": "150",
+          "type": "Number",
+          "label": "Pickup range (XP, drops)",
+          "name": "PickupRange",
+          "group": "Stats"
+        },
+        {
+          "value": "0.5",
+          "type": "Number",
+          "label": "Invulnerability after a hit (seconds)",
+          "name": "InvulnerabilityTime",
+          "group": "Stats"
+        },
+        {
+          "value": "5",
+          "type": "Number",
+          "label": "XP for level 2",
+          "name": "XPBase",
+          "group": "Run"
+        },
+        {
+          "value": "5",
+          "type": "Number",
+          "label": "Additional XP per level",
+          "name": "XPGrowth",
+          "group": "Run"
+        },
+        {
+          "value": "true",
+          "type": "Boolean",
+          "label": "Meta bonuses enabled (off in daily)",
+          "name": "MetaBonusesEnabled",
+          "group": "Meta"
+        },
+        {
+          "value": "0.02",
+          "type": "Number",
+          "label": "Damage bonus per meta level",
+          "name": "MetaDamagePerLevel",
+          "group": "Meta"
+        },
+        {
+          "value": "0.03",
+          "type": "Number",
+          "label": "Max health bonus per meta level",
+          "name": "MetaHPPerLevel",
+          "group": "Meta"
+        },
+        {
+          "value": "10",
+          "type": "Number",
+          "label": "Highest meta level that still gives power",
+          "name": "MetaBonusCap",
+          "group": "Meta"
+        },
+        {
+          "value": "",
+          "type": "Behavior",
+          "label": "Health",
+          "extraInformation": [
+            "Health::Health"
+          ],
+          "choices": [],
+          "name": "Health"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Run XP",
+          "name": "RunXP",
+          "hidden": true
+        },
+        {
+          "value": "1",
+          "type": "Number",
+          "label": "Run level",
+          "name": "RunLevel",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Pending level ups",
+          "name": "PendingLevelUps",
+          "hidden": true
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Just leveled up (one frame)",
+          "name": "JustLeveledUp",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Meta level",
+          "name": "MetaLevel",
+          "hidden": true
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Meta damage bonus",
+          "name": "MetaDamageBonus",
+          "hidden": true
+        }
+      ],
+      "propertiesFolderStructure": {
+        "folderName": "__ROOT"
+      },
+      "sharedPropertyDescriptors": []
+    }
+  ],
+  "eventsBasedObjects": []
+}

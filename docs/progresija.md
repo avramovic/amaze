@@ -163,7 +163,25 @@ Rezultat (nivo do kog si stigao, ili vreme) je uporediv jer svi igraju iste nivo
 
 ---
 
-## 5. Otvorena pitanja
+## 5. Behavior `Player` (ekstenzija Amaze)
+
+Lightweight nosač podataka runa. Kači se na objekat koji predstavlja telo igrača (npr. nevidljivi collider koji prati headset). Oružja, zone i holsteri još nisu u njemu. Zahteva "Health points and damage".
+
+| Grupa | Properties |
+|---|---|
+| Stats | `MoveSpeed`, `DamageMultiplier`, `PickupRange`, `InvulnerabilityTime` |
+| Run | `XPBase`, `XPGrowth` (XP za sledeći level = `XPBase + XPGrowth × (RunLevel − 1)`) |
+| Meta | `MetaBonusesEnabled` (isključiti u daily), `MetaDamagePerLevel`, `MetaHPPerLevel`, `MetaBonusCap` |
+
+- **`InvulnerabilityTime`** se pri kreiranju prenosi u Health kao damage cooldown (i-frames), pa roj ne topi igrača svaki frejm.
+- **Akcije:** `AddXP(iznos)` (level-up koliko god puta XP dozvoli), `ConsumeLevelUp` (kad igrač izabere perk), `ApplyMetaLevel(nivo)` (pozvati jednom pri kreiranju igrača), `ResetRun`.
+- **Uslovi:** `HasPendingLevelUp`, `JustLeveledUp` (jedan frejm).
+- **Izrazi:** `XPToNextLevel()`, `TotalDamageMultiplier()` (perkovi menjaju `DamageMultiplier`, meta bonus se dodaje odvojeno).
+- Čuvanje meta nivoa (Storage) i prenos između scena (globalne varijable) ostaju u event sheet-u.
+
+---
+
+## 6. Otvorena pitanja
 
 - Da li igrač od starta ima fiksan broj zona, ili počinje samo sa lukom i ostalo nalazi usput? (Menja izgled prvog nivoa.)
 - Koja tačno oružja idu u prvu verziju (predlog: luk, munja, mač)?
