@@ -1,0 +1,283 @@
+{
+  "firstLayout": "",
+  "gdVersion": {
+    "build": 284,
+    "major": 5,
+    "minor": 6,
+    "revision": 0
+  },
+  "initialGDVersion": "5.6.283",
+  "properties": {
+    "adaptGameResolutionAtRuntime": true,
+    "antialiasingMode": "MSAA",
+    "antialisingEnabledOnMobile": false,
+    "folderProject": true,
+    "orientation": "landscape",
+    "packageName": "com.example.gamename",
+    "pixelsRounding": false,
+    "projectUuid": "942fb1bd-ddc2-4cf2-9be5-104d58175505",
+    "scaleMode": "linear",
+    "sizeOnStartupMode": "adaptWidth",
+    "templateSlug": "",
+    "version": "1.0.0",
+    "name": "aMAZE",
+    "description": "",
+    "author": "",
+    "windowWidth": 1280,
+    "windowHeight": 720,
+    "latestCompilationDirectory": "",
+    "maxFPS": 60,
+    "minFPS": 20,
+    "verticalSync": false,
+    "platformSpecificAssets": {
+      "android-icon-144": "",
+      "android-icon-192": "",
+      "android-icon-36": "",
+      "android-icon-48": "",
+      "android-icon-72": "",
+      "android-icon-96": "",
+      "android-windowSplashScreenAnimatedIcon": "",
+      "desktop-icon-512": "",
+      "ios-icon-100": "",
+      "ios-icon-1024": "",
+      "ios-icon-114": "",
+      "ios-icon-120": "",
+      "ios-icon-144": "",
+      "ios-icon-152": "",
+      "ios-icon-167": "",
+      "ios-icon-180": "",
+      "ios-icon-20": "",
+      "ios-icon-29": "",
+      "ios-icon-40": "",
+      "ios-icon-50": "",
+      "ios-icon-57": "",
+      "ios-icon-58": "",
+      "ios-icon-60": "",
+      "ios-icon-72": "",
+      "ios-icon-76": "",
+      "ios-icon-80": "",
+      "ios-icon-87": ""
+    },
+    "loadingScreen": {
+      "backgroundColor": 0,
+      "backgroundFadeInDuration": 0.2,
+      "backgroundImageResourceName": "",
+      "gdevelopLogoStyle": "light",
+      "logoAndProgressFadeInDuration": 0.2,
+      "logoAndProgressLogoFadeInDelay": 0,
+      "minDuration": 1.5,
+      "progressBarColor": 16777215,
+      "progressBarHeight": 20,
+      "progressBarMaxWidth": 200,
+      "progressBarMinWidth": 40,
+      "progressBarWidthPercent": 30,
+      "showGDevelopSplash": true,
+      "showProgressBar": true
+    },
+    "watermark": {
+      "placement": "bottom-left",
+      "showWatermark": true
+    },
+    "authorIds": [],
+    "authorUsernames": [],
+    "categories": [],
+    "playableDevices": [],
+    "extensionProperties": [],
+    "platforms": [
+      {
+        "name": "GDevelop JS platform"
+      }
+    ],
+    "currentPlatform": "GDevelop JS platform"
+  },
+  "resources": {
+    "resources": [
+      {
+        "file": "assets/Ground Path Open.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Ground Path Open.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Nature/Ground/57c7a7d13eef9b32cf67f4d4a714e2cc086599a8d5110279a638c7364f368991_Ground Path Open.glb",
+          "name": "Ground Path Open.glb"
+        }
+      },
+      {
+        "file": "assets/Hedge Large.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Hedge Large.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Fantasy Town Kit/Plant/504dd8af3b2760eab894fb8bfd8d746d66ad1b4dc931a097c92f89d177c76da4_Hedge Large.glb",
+          "name": "Hedge Large.glb"
+        }
+      },
+      {
+        "file": "assets/Pillar Stone.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Pillar Stone.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Fantasy Town Kit/Building/0d72ab1b98f2cb77a5c4f88e6f1728d9da19388f84b71e6e330b1852ba46fce9_Pillar Stone.glb",
+          "name": "Pillar Stone.glb"
+        }
+      },
+      {
+        "file": "assets/Yeti.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Yeti.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/7eb05db681c175397362b118197f70ad7c654ef87a689efea29c1f32d8c488a0_Yeti.glb",
+          "name": "Yeti.glb"
+        }
+      },
+      {
+        "file": "assets/Mech Fernando The Flamingo.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Mech Fernando The Flamingo.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Space Station/Characters/Robot/278d1af0e5343f9676ba990207dcb50c6c636f7d6610d1e7edad6aed5eaf35ef_Mech Fernando The Flamingo.glb",
+          "name": "Mech Fernando The Flamingo.glb"
+        }
+      },
+      {
+        "file": "assets/Astronaut Fernando The Flamingo.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Astronaut Fernando The Flamingo.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Space Station/Characters/b4ccc02556a6fbfe78bd31f7af9c974ba6ccabccc9ab6eb78876abb52ae912d2_Astronaut Fernando The Flamingo.glb",
+          "name": "Astronaut Fernando The Flamingo.glb"
+        }
+      },
+      {
+        "file": "assets/Spaceship Fernando The Flamingo.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Spaceship Fernando The Flamingo.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Space Station/Vehicles/Spaceship/099b5d140ec15c846a52cc28e336d1bedccab4692d55c526b8459699aa6d5c59_Spaceship Fernando The Flamingo.glb",
+          "name": "Spaceship Fernando The Flamingo.glb"
+        }
+      },
+      {
+        "file": "assets/GreenBlob.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "GreenBlob.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/ea2e8729301673806a85052a21008a98ea4b727e4c4c3734d2fad7f5cec9cef1_GreenBlob.glb",
+          "name": "GreenBlob.glb"
+        }
+      },
+      {
+        "file": "assets/Orc.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Orc.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/9a5389a4d6af8651ffefbd35c32601ac6283ebb5e900101891e7987c5bf38ac4_Orc.glb",
+          "name": "Orc.glb"
+        }
+      },
+      {
+        "file": "assets/Cactoro.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Cactoro.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/a45d4524d089518c479a371e054fbe7498fb7f31dd4ae073a180a7473dbf21e5_Cactoro.glb",
+          "name": "Cactoro.glb"
+        }
+      },
+      {
+        "file": "assets/Cactoro2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Cactoro.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/ca0363bb3934630ef5bfb0b76a605db43a00b7d4f9373b3f934e63a932b94971_Cactoro.glb",
+          "name": "Cactoro.glb"
+        }
+      },
+      {
+        "file": "assets/Orc2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Orc.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/e99324137bf573e5320c51610bdb87ee898231208bf04b3d937ce138603a05f3_Orc.glb",
+          "name": "Orc.glb"
+        }
+      },
+      {
+        "file": "assets/Goleling.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Goleling.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/78396d839769b827ce0b6338e5a5b5b3f5c7213bb94f009a0d674599258fdcd8_Goleling.glb",
+          "name": "Goleling.glb"
+        }
+      },
+      {
+        "file": "assets/Tribal.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Tribal.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/dfa647805de61ed19a985d4cf10cf7154f2351a99336264848ee400e7304cc26_Tribal.glb",
+          "name": "Tribal.glb"
+        }
+      }
+    ]
+  },
+  "objects": [],
+  "objectsFolderStructure": {
+    "folderName": "__ROOT"
+  },
+  "objectsGroups": [],
+  "variables": [],
+  "layouts": [
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/layouts/untitled-scene"
+    }
+  ],
+  "externalEvents": [],
+  "eventsFunctionsExtensions": [
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/mazegenerator"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/edgescrollcamera"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/health"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/firebullet"
+    }
+  ],
+  "externalLayouts": []
+}

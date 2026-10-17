@@ -1,0 +1,1462 @@
+{
+  "b": 255,
+  "disableInputWhenNotFocused": true,
+  "mangledName": "Untitled_32scene",
+  "name": "Untitled scene",
+  "r": 247,
+  "renderer3DWorldScale": 100,
+  "standardSortMethod": true,
+  "stopSoundsOnStartup": true,
+  "title": "",
+  "v": 249,
+  "uiSettings": {
+    "grid": false,
+    "gridType": "rectangular",
+    "gridWidth": 32,
+    "gridHeight": 32,
+    "gridDepth": 32,
+    "gridOffsetX": 0,
+    "gridOffsetY": 0,
+    "gridOffsetZ": 0,
+    "gridColor": 10401023,
+    "gridAlpha": 0.8,
+    "snap": false,
+    "zoomFactor": 0.546875,
+    "windowMask": false,
+    "selectedLayer": "",
+    "gameEditorMode": "instances-editor"
+  },
+  "objectsGroups": [],
+  "variables": [],
+  "instances": [
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "",
+      "name": "Yeti",
+      "persistentUuid": "fd430db6-ea7c-4b27-9d9f-040da4c073c8",
+      "width": 0,
+      "x": 1070,
+      "y": 212,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "",
+      "name": "Astronaut_Fernando_The_Flamingo",
+      "persistentUuid": "e100fa59-bbbe-4ebb-9e64-8932c693e35a",
+      "width": 0,
+      "x": 548,
+      "y": 511,
+      "zOrder": 2,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "",
+      "name": "Tribal",
+      "persistentUuid": "260e8fa5-46cd-4f21-9d20-39e26ec79caa",
+      "width": 0,
+      "x": 645,
+      "y": 276,
+      "zOrder": 3,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    }
+  ],
+  "objects": [
+    {
+      "assetStoreId": "9dab50e9346b4413b43c192bfcf7f013c9cd979f8479b4a60cde0ddeb5eb552b",
+      "name": "Ground_Path_Open",
+      "persistentUuid": "e4b8ddd0-2e23-4cad-8645-e096a65f0425",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "isFolded": true,
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 45,
+        "height": 45,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Ground Path Open.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": -90,
+        "width": 45,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "5a5430aa7de9f0cf84669aaf32010a0421f54e4f9aabfe63af0c2fd10cc3e9d0",
+      "name": "Hedge_Large",
+      "persistentUuid": "1e846067-cf33-432d-a95c-6fd9b02d7fe1",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "MazeObject",
+          "type": "MazeGenerator::MazeObject"
+        },
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
+      "content": {
+        "centerLocation": "BottomCenterZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 200,
+        "height": 200,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Hedge Large.glb",
+        "originLocation": "BottomCenterZ",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "width": 200,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "5a5430aa7de9f0cf84669aaf32010a0421f54e4f9aabfe63af0c2fd10cc3e9d0",
+      "name": "Hedge_Large_Hor",
+      "persistentUuid": "a2ea36ee-2700-44db-af9d-e236b01fd6e3",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "MazeObject",
+          "type": "MazeGenerator::MazeObject"
+        },
+        {
+          "isFolded": true,
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
+      "content": {
+        "centerLocation": "BottomCenterZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 200,
+        "height": 200,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Hedge Large.glb",
+        "originLocation": "BottomCenterZ",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 200,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "99d3bd2c39d3bd39c6158bb32f52c2e27ba5b359232e0b136bfbcb335cc46f1c",
+      "name": "Pillar_Stone",
+      "persistentUuid": "74a43a39-61db-4052-92b3-904632968ceb",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
+      "content": {
+        "centerLocation": "BottomCenterZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 200,
+        "height": 200,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Pillar Stone.glb",
+        "originLocation": "BottomCenterZ",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "width": 200,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "a3db39a416f9e0ced6b42621fa546f071327e3a775eb94dd2afb1b4dd81a94df",
+      "name": "Yeti",
+      "persistentUuid": "615507a0-6cd3-42f2-8543-528aa72114bf",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 139,
+        "height": 139,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Yeti.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 139,
+        "animations": [
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": true,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": true,
+            "name": "Run",
+            "source": "Run"
+          },
+          {
+            "loop": false,
+            "name": "Duck",
+            "source": "Duck"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": true,
+            "name": "Punch",
+            "source": "Punch"
+          },
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": true,
+            "name": "JumpIdle",
+            "source": "Jump_Idle"
+          },
+          {
+            "loop": false,
+            "name": "JumpLand",
+            "source": "Jump_Land"
+          },
+          {
+            "loop": false,
+            "name": "HitReact",
+            "source": "HitReact"
+          },
+          {
+            "loop": false,
+            "name": "Wave",
+            "source": "Wave"
+          },
+          {
+            "loop": false,
+            "name": "Weapon",
+            "source": "Weapon"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "70ca452c241acae2fe85261f9343c24aa41224031fc48372a912b3727cddc16e",
+      "name": "Mech_Fernando_The_Flamingo",
+      "persistentUuid": "ba532d77-b857-4e26-857d-bdba1212a81e",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 107,
+        "height": 107,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Mech Fernando The Flamingo.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 107,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "49f6de7ddb223636593fad466b793cd460b11eeb4e84ab6c4069b3abcfd79de3",
+      "name": "Astronaut_Fernando_The_Flamingo",
+      "persistentUuid": "c633240c-b106-4e8c-b5b7-fbee49a31a9f",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 157,
+        "height": 157,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Astronaut Fernando The Flamingo.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 157,
+        "animations": [
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": false,
+            "name": "Duck",
+            "source": "Duck"
+          },
+          {
+            "loop": false,
+            "name": "HitReact",
+            "source": "HitReact"
+          },
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": true,
+            "name": "Idle_Gun",
+            "source": "Idle_Gun"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": true,
+            "name": "Jump_Idle",
+            "source": "Jump_Idle"
+          },
+          {
+            "loop": false,
+            "name": "Jump_Land",
+            "source": "Jump_Land"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          },
+          {
+            "loop": false,
+            "name": "Punch",
+            "source": "Punch"
+          },
+          {
+            "loop": true,
+            "name": "Run",
+            "source": "Run"
+          },
+          {
+            "loop": true,
+            "name": "Run_Gun",
+            "source": "Run_Gun"
+          },
+          {
+            "loop": true,
+            "name": "Run_Gun_Shoot",
+            "source": "Run_Gun_Shoot"
+          },
+          {
+            "loop": true,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": true,
+            "name": "Walk_Gun",
+            "source": "Walk_Gun"
+          },
+          {
+            "loop": false,
+            "name": "Wave",
+            "source": "Wave"
+          },
+          {
+            "loop": false,
+            "name": "Weapon",
+            "source": "Weapon"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "bb6e82cd7891683fcc1fdb922ea7e98762edcf8eaff44d334840bcdae2b28170",
+      "name": "Spaceship_Fernando_The_Flamingo",
+      "persistentUuid": "7cdfb5ba-360a-480c-a119-9d9e795252ff",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 334,
+        "height": 334,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Spaceship Fernando The Flamingo.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 334,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "eab6cc7028289aa5a73fceb5672651fbecf77f4e63860fee57ace5a50c421adb",
+      "name": "GreenBlob",
+      "persistentUuid": "0ea27b69-2ce5-4871-8cb8-166fddd9073c",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 67,
+        "height": 67,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "GreenBlob.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 67,
+        "animations": [
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": true,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": false,
+            "name": "Bite",
+            "source": "Bite_Front"
+          },
+          {
+            "loop": false,
+            "name": "Dance",
+            "source": "Dance"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "bc008642fb9974188307d0e0400bcfdf2fc5f34b72ee22d7c5f328da3e7a17d1",
+      "name": "OrcBlob",
+      "persistentUuid": "4f1557be-f33e-4ac0-ac1b-09c791881b97",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 79,
+        "height": 79,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Orc.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 79,
+        "animations": [
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": true,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": false,
+            "name": "Bite",
+            "source": "Bite_Front"
+          },
+          {
+            "loop": false,
+            "name": "Dance",
+            "source": "Dance"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "aaf22d8f2738de0c73ca8b7fd9ca9b8dc32374f4a8843f5b0f3af7dba07a2c2e",
+      "name": "CactoroBlob",
+      "persistentUuid": "b6476114-f01e-4ffc-be2e-ffa6c0ee1281",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 122,
+        "height": 122,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Cactoro.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 122,
+        "animations": [
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": true,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": false,
+            "name": "Bite",
+            "source": "Bite_Front"
+          },
+          {
+            "loop": false,
+            "name": "Dance",
+            "source": "Dance"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "8c39ad53f1b329125a9593dd3c2787341645df18ba78399a877802c1140f159f",
+      "name": "Cactoro",
+      "persistentUuid": "43f3e754-0d31-42ef-9dbe-034fb0471ba3",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 139,
+        "height": 139,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Cactoro.glb2",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 139,
+        "animations": [
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": true,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": true,
+            "name": "Run",
+            "source": "Run"
+          },
+          {
+            "loop": false,
+            "name": "Duck",
+            "source": "Duck"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": false,
+            "name": "Punch",
+            "source": "Punch"
+          },
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": true,
+            "name": "JumpIdle",
+            "source": "Jump_Idle"
+          },
+          {
+            "loop": false,
+            "name": "JumpLand",
+            "source": "Jump_Land"
+          },
+          {
+            "loop": false,
+            "name": "HitReact",
+            "source": "HitReact"
+          },
+          {
+            "loop": false,
+            "name": "Wave",
+            "source": "Wave"
+          },
+          {
+            "loop": false,
+            "name": "Weapon",
+            "source": "Weapon"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "eef976c598c6a4e66f6385ecf4dd026640b0ea1adf62e6fac7735e0ee53654da",
+      "name": "Orc",
+      "persistentUuid": "efa2bf36-b7b7-484c-972d-07e62721ba3f",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 141,
+        "height": 141,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Orc.glb2",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 141,
+        "animations": [
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": true,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": true,
+            "name": "Run",
+            "source": "Run"
+          },
+          {
+            "loop": false,
+            "name": "Duck",
+            "source": "Duck"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": false,
+            "name": "Punch",
+            "source": "Punch"
+          },
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": true,
+            "name": "JumpIdle",
+            "source": "Jump_Idle"
+          },
+          {
+            "loop": false,
+            "name": "JumpLand",
+            "source": "Jump_Land"
+          },
+          {
+            "loop": false,
+            "name": "HitReact",
+            "source": "HitReact"
+          },
+          {
+            "loop": false,
+            "name": "Wave",
+            "source": "Wave"
+          },
+          {
+            "loop": false,
+            "name": "Weapon",
+            "source": "Weapon"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "5a56edad602ddd7f3e87d7dd1d08c69d216c86952b1e727b82ec19357ff69f98",
+      "name": "Goleling",
+      "persistentUuid": "adb9c491-7e93-4279-8976-3cc9a8af69b8",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 131,
+        "height": 131,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Goleling.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 131,
+        "animations": [
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Flying_Idle"
+          },
+          {
+            "loop": false,
+            "name": "Punch",
+            "source": "Punch"
+          },
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": true,
+            "name": "FastFlying",
+            "source": "Fast_Flying"
+          },
+          {
+            "loop": false,
+            "name": "HitReact",
+            "source": "HitReact"
+          },
+          {
+            "loop": false,
+            "name": "Headbutt",
+            "source": "Headbutt"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "d410e44cd95bd4f746ea339591acc446acb456c5eeebb041a741f7bfd92c3f9e",
+      "name": "Tribal",
+      "persistentUuid": "a55a38fb-b778-4f08-b168-26b8df9120e4",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 165,
+        "height": 165,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Tribal.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 165,
+        "animations": [
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Flying_Idle"
+          },
+          {
+            "loop": false,
+            "name": "Punch",
+            "source": "Punch"
+          },
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": true,
+            "name": "FastFlying",
+            "source": "Fast_Flying"
+          },
+          {
+            "loop": false,
+            "name": "HitReact",
+            "source": "HitReact"
+          },
+          {
+            "loop": false,
+            "name": "Headbutt",
+            "source": "Headbutt"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          }
+        ]
+      }
+    }
+  ],
+  "objectsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+      {
+        "folderName": "Maze",
+        "children": [
+          {
+            "objectName": "Pillar_Stone"
+          },
+          {
+            "objectName": "Hedge_Large_Hor"
+          },
+          {
+            "objectName": "Hedge_Large"
+          },
+          {
+            "objectName": "Ground_Path_Open"
+          }
+        ]
+      },
+      {
+        "folderName": "Enemies",
+        "children": [
+          {
+            "folderName": "Flying",
+            "children": [
+              {
+                "objectName": "Goleling"
+              },
+              {
+                "objectName": "Tribal"
+              }
+            ]
+          },
+          {
+            "folderName": "Standing",
+            "children": [
+              {
+                "objectName": "Yeti"
+              },
+              {
+                "objectName": "Cactoro"
+              },
+              {
+                "objectName": "Orc"
+              }
+            ]
+          },
+          {
+            "folderName": "Blob",
+            "children": [
+              {
+                "objectName": "GreenBlob"
+              },
+              {
+                "objectName": "OrcBlob"
+              },
+              {
+                "objectName": "CactoroBlob"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "objectName": "Mech_Fernando_The_Flamingo"
+      },
+      {
+        "objectName": "Astronaut_Fernando_The_Flamingo"
+      },
+      {
+        "objectName": "Spaceship_Fernando_The_Flamingo"
+      }
+    ]
+  },
+  "events": [
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "MazeGenerator::GenerateMazeWithSeed"
+          },
+          "parameters": [
+            "",
+            "0",
+            "0",
+            "2000",
+            "2000",
+            "400",
+            "400",
+            "\"maze\"",
+            "0",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "MazeGenerator::CreateMaze3DFloorObjects"
+          },
+          "parameters": [
+            "",
+            "\"maze\"",
+            "Ground_Path_Open",
+            "Object3D",
+            "Resizable",
+            "\"\"",
+            "0",
+            "400",
+            "400",
+            "0",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "MazeGenerator::CreateMaze3DWallObjects"
+          },
+          "parameters": [
+            "",
+            "\"maze\"",
+            "Hedge_Large_Hor",
+            "Object3D",
+            "Resizable",
+            "Hedge_Large",
+            "Object3D",
+            "Resizable",
+            "\"\"",
+            "0",
+            "400",
+            "80",
+            "200",
+            "80",
+            "400",
+            "200",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "MazeGenerator::CreateMaze3DCornerObjects"
+          },
+          "parameters": [
+            "",
+            "\"maze\"",
+            "Pillar_Stone",
+            "Object3D",
+            "Resizable",
+            "\"\"",
+            "0",
+            "80",
+            "80",
+            "250",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "EdgeScrollCamera::EnableEdgeScrollCamera"
+          },
+          "parameters": [
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "EdgeScrollCamera::ConfigureEdgeScrollCamera"
+          },
+          "parameters": [
+            "",
+            "50",
+            "100",
+            "",
+            "0",
+            "\"Progressive speed\"",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "ZoomCamera"
+          },
+          "parameters": [
+            "",
+            "1",
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+          },
+          "parameters": [
+            "Yeti",
+            "Animation",
+            "=",
+            "\"Walk\""
+          ]
+        },
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+          },
+          "parameters": [
+            "Tribal",
+            "Animation",
+            "=",
+            "\"FastFlying\""
+          ]
+        }
+      ]
+    },
+    {
+      "disabled": true,
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": []
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "Hedge_Large_Hor.MazeObject::MazeObjectWallDirection()",
+            "=",
+            "\"LeftWall\""
+          ]
+        }
+      ],
+      "actions": []
+    }
+  ],
+  "layers": [
+    {
+      "ambientLightColorB": 200,
+      "ambientLightColorG": 200,
+      "ambientLightColorR": 200,
+      "camera2DPlaneMaxDrawingDistance": 5000,
+      "camera3DFarPlaneDistance": 10000,
+      "camera3DFieldOfView": 45,
+      "camera3DNearPlaneDistance": 3,
+      "cameraType": "",
+      "followBaseLayerCamera": false,
+      "isLightingLayer": false,
+      "isLocked": false,
+      "name": "",
+      "renderingType": "",
+      "visibility": true,
+      "cameras": [
+        {
+          "defaultSize": true,
+          "defaultViewport": true,
+          "height": 0,
+          "viewportBottom": 1,
+          "viewportLeft": 0,
+          "viewportRight": 1,
+          "viewportTop": 0,
+          "width": 0
+        }
+      ],
+      "effects": [
+        {
+          "effectType": "Scene3D::HemisphereLight",
+          "name": "3D Ambient Hemisphere Light",
+          "doubleParameters": {
+            "elevation": 40,
+            "intensity": 0.33,
+            "rotation": 300
+          },
+          "stringParameters": {
+            "groundColor": "127;127;127",
+            "skyColor": "255;255;255",
+            "top": "Z+"
+          },
+          "booleanParameters": {}
+        },
+        {
+          "effectType": "Scene3D::DirectionalLight",
+          "name": "3D Sun Light",
+          "doubleParameters": {
+            "distanceFromCamera": 1500,
+            "elevation": 40,
+            "frustumSize": 4000,
+            "intensity": 0.75,
+            "minimumShadowBias": 0,
+            "rotation": 300
+          },
+          "stringParameters": {
+            "color": "255;255;255",
+            "shadowQuality": "high",
+            "shadowRenderingMode": "fittedToCameraView",
+            "top": "Z+"
+          },
+          "booleanParameters": {
+            "isCastingShadow": true
+          }
+        }
+      ]
+    }
+  ],
+  "behaviorsSharedData": [
+    {
+      "name": "Animation",
+      "type": "AnimatableCapability::AnimatableBehavior"
+    },
+    {
+      "name": "Flippable",
+      "type": "FlippableCapability::FlippableBehavior"
+    },
+    {
+      "name": "MazeObject",
+      "type": "MazeGenerator::MazeObject"
+    },
+    {
+      "name": "Object3D",
+      "type": "Scene3D::Base3DBehavior"
+    },
+    {
+      "name": "Physics3D",
+      "type": "Physics3D::Physics3DBehavior",
+      "gravityX": 0,
+      "gravityY": 0,
+      "gravityZ": -9.8,
+      "worldScale": 100
+    },
+    {
+      "name": "Resizable",
+      "type": "ResizableCapability::ResizableBehavior"
+    },
+    {
+      "name": "Scale",
+      "type": "ScalableCapability::ScalableBehavior"
+    }
+  ]
+}
