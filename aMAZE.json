@@ -245,6 +245,18 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/dfa647805de61ed19a985d4cf10cf7154f2351a99336264848ee400e7304cc26_Tribal.glb",
           "name": "Tribal.glb"
         }
+      },
+      {
+        "file": "assets/GDevelopInvalidTextureBlock.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "GDevelopInvalidTextureBlock.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Cubes/01-Placeholders/683fe375b7ad53e894d022b3694ed1b2a3d24b43a9de34f341b8a7cb2723c582_GDevelopInvalidTextureBlock.png",
+          "name": "GDevelopInvalidTextureBlock.png"
+        }
       }
     ]
   },
@@ -281,6 +293,10 @@
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/eventsFunctionsExtensions/amaze"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/webxr"
     }
   ],
   "externalLayouts": []

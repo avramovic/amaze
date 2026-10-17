@@ -24,43 +24,10 @@
       "functionType": "Action",
       "name": "ProcessEvolutions",
       "sentence": "Process evolutions of _PARAM1_",
-      "group": "Enemies",
       "events": [
         {
           "type": "BuiltinCommonInstructions::ForEach",
           "object": "Enemies",
-          "variables": [
-            {
-              "name": "evo",
-              "type": "string",
-              "value": ""
-            },
-            {
-              "name": "px",
-              "type": "number",
-              "value": 0
-            },
-            {
-              "name": "py",
-              "type": "number",
-              "value": 0
-            },
-            {
-              "name": "pz",
-              "type": "number",
-              "value": 0
-            },
-            {
-              "name": "pangle",
-              "type": "number",
-              "value": 0
-            },
-            {
-              "name": "hpPct",
-              "type": "number",
-              "value": 1
-            }
-          ],
           "conditions": [
             {
               "type": {
@@ -159,16 +126,15 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "Only the new object is not marked ready to evolve",
-              "comment2": ""
+              "comment": "Only the new object is not marked ready to evolve"
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
               "conditions": [
                 {
                   "type": {
-                    "value": "Amaze::Enemy::IsReadyToEvolve",
-                    "inverted": true
+                    "inverted": true,
+                    "value": "Amaze::Enemy::IsReadyToEvolve"
                   },
                   "parameters": [
                     "Enemies",
@@ -228,8 +194,7 @@
                     "EnemyBehavior"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Comment",
@@ -241,8 +206,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "The old object is still marked ready to evolve",
-              "comment2": ""
+              "comment": "The old object is still marked ready to evolve"
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -268,8 +232,39 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
+            }
+          ],
+          "variables": [
+            {
+              "name": "evo",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "px",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "py",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "pz",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "pangle",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "name": "hpPct",
+              "type": "number",
+              "value": 1
             }
           ]
         }
@@ -283,20 +278,20 @@
         {
           "description": "Enemy behavior",
           "name": "EnemyBehavior",
-          "type": "behavior",
-          "supplementaryInformation": "Amaze::Enemy"
+          "supplementaryInformation": "Amaze::Enemy",
+          "type": "behavior"
         },
         {
           "description": "Health behavior",
           "name": "HealthBehavior",
-          "type": "behavior",
-          "supplementaryInformation": "Health::Health"
+          "supplementaryInformation": "Health::Health",
+          "type": "behavior"
         },
         {
           "description": "3D capability",
           "name": "Object3D",
-          "type": "behavior",
-          "supplementaryInformation": "Scene3D::Base3DBehavior"
+          "supplementaryInformation": "Scene3D::Base3DBehavior",
+          "type": "behavior"
         }
       ],
       "objectGroups": []
@@ -307,7 +302,6 @@
       "functionType": "Action",
       "name": "LimitCorpses",
       "sentence": "Keep at most _PARAM3_ corpses among _PARAM1_",
-      "group": "Enemies",
       "events": [
         {
           "type": "BuiltinCommonInstructions::Standard",
@@ -367,8 +361,7 @@
                         "Enemies.EnemyBehavior::CorpseTime()"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 }
               ]
             },
@@ -423,8 +416,7 @@
                         ""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 }
               ]
             }
@@ -452,8 +444,8 @@
         {
           "description": "Enemy behavior",
           "name": "EnemyBehavior",
-          "type": "behavior",
-          "supplementaryInformation": "Amaze::Enemy"
+          "supplementaryInformation": "Amaze::Enemy",
+          "type": "behavior"
         },
         {
           "description": "Maximum number of corpses",
@@ -484,53 +476,8 @@
       "name": "Enemy",
       "objectType": "",
       "previewIconUrl": "",
-      "eventsFunctionsFolderStructure": {
-        "folderName": "__ROOT",
-        "children": [
-          {
-            "functionName": "doStepPostEvents"
-          },
-          {
-            "functionName": "SetTarget"
-          },
-          {
-            "functionName": "ForceAggro"
-          },
-          {
-            "functionName": "Celebrate"
-          },
-          {
-            "functionName": "StartIntro"
-          },
-          {
-            "functionName": "ApplyLevelScaling"
-          },
-          {
-            "functionName": "IsInState"
-          },
-          {
-            "functionName": "AttackMoment"
-          },
-          {
-            "functionName": "IsReadyToEvolve"
-          },
-          {
-            "functionName": "JustDied"
-          },
-          {
-            "functionName": "IsCorpse"
-          },
-          {
-            "functionName": "CorpseTime"
-          },
-          {
-            "functionName": "EvolutionTarget"
-          }
-        ]
-      },
       "eventsFunctions": [
         {
-          "description": "",
           "fullName": "",
           "functionType": "Action",
           "name": "doStepPostEvents",
@@ -546,8 +493,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "One-frame flags are cleared here; scene events read them in the next frame",
-              "comment2": ""
+              "comment": "One-frame flags are cleared here; scene events read them in the next frame"
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -573,8 +519,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Comment",
@@ -586,8 +531,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "Death has the highest priority",
-              "comment2": ""
+              "comment": "Death has the highest priority"
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -664,8 +608,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -703,8 +646,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Timers",
-                  "comment2": ""
+                  "comment": "Timers"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -740,8 +682,7 @@
                         "TimeDelta()"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Comment",
@@ -753,8 +694,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Aggro: starts when the target gets within range, never stops",
-                  "comment2": ""
+                  "comment": "Aggro: starts when the target gets within range, never stops"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -801,8 +741,7 @@
                         ""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Comment",
@@ -814,8 +753,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Evolution timer: runs from first aggro, even if the player runs away",
-                  "comment2": ""
+                  "comment": "Evolution timer: runs from first aggro, even if the player runs away"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -862,8 +800,7 @@
                         "TimeDelta()"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -910,8 +847,7 @@
                         ""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Comment",
@@ -923,8 +859,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Last second before evolving: stop and telegraph (Dance for Blob)",
-                  "comment2": ""
+                  "comment": "Last second before evolving: stop and telegraph (Dance for Blob)"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -991,8 +926,7 @@
                         "0"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Comment",
@@ -1004,8 +938,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Hit reaction: not during an attack or evolution, throttled, ignored with super armor",
-                  "comment2": ""
+                  "comment": "Hit reaction: not during an attack or evolution, throttled, ignored with super armor"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1092,8 +1025,7 @@
                         "HitCooldown"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1130,8 +1062,7 @@
                         "\"Idle\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1168,8 +1099,7 @@
                         "\"Idle\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Comment",
@@ -1181,8 +1111,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Attack",
-                  "comment2": ""
+                  "comment": "Attack"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1339,8 +1268,7 @@
                         "AngleBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1397,8 +1325,7 @@
                         ""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1435,8 +1362,7 @@
                         "\"Idle\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Comment",
@@ -1448,8 +1374,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Movement: straight towards the target (flow-field can replace SetTarget later)",
-                  "comment2": ""
+                  "comment": "Movement: straight towards the target (flow-field can replace SetTarget later)"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1476,8 +1401,7 @@
                         "\"Idle\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1624,8 +1548,7 @@
                         "sin(toRad(Object.Angle())) * Speed * TimeDelta()"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Comment",
@@ -1637,8 +1560,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "State -> animation (names are the original model animations)",
-                  "comment2": ""
+                  "comment": "State -> animation (names are the original model animations)"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1665,8 +1587,7 @@
                         "\"Idle\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1703,8 +1624,7 @@
                         "\"Walk\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1741,8 +1661,7 @@
                         "\"FastFlying\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1779,8 +1698,7 @@
                         "MoveAnim"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1817,8 +1735,7 @@
                         "\"Bite\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1855,8 +1772,7 @@
                         "\"Punch\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1893,8 +1809,7 @@
                         "AttackAnim"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1931,8 +1846,7 @@
                         "\"HitReact\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -1969,8 +1883,7 @@
                         "CurrentAnim"
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -2007,8 +1920,7 @@
                         "\"Dance\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -2045,8 +1957,7 @@
                         "\"Idle\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -2083,8 +1994,7 @@
                         "\"Wave\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -2121,8 +2031,7 @@
                         "\"Idle\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -2149,8 +2058,7 @@
                         "\"Yes\""
                       ]
                     }
-                  ],
-                  "events": []
+                  ]
                 }
               ]
             },
@@ -2164,8 +2072,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "Death: play the animation, destroy when it ends. CurrentAnim must already be Death (it is applied below, one frame later) or the previous animation would be checked. DeathTimeout is a safety net for a Death animation that loops.",
-              "comment2": ""
+              "comment": "Death: play the animation, destroy when it ends. CurrentAnim must already be Death (it is applied below, one frame later) or the previous animation would be checked. DeathTimeout is a safety net for a Death animation that loops."
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -2202,8 +2109,7 @@
                     "\"Death\""
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -2287,8 +2193,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Comment",
@@ -2300,8 +2205,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "The finished Death animation holds its last pose, so a corpse needs no more work",
-              "comment2": ""
+              "comment": "The finished Death animation holds its last pose, so a corpse needs no more work"
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -2396,8 +2300,7 @@
                     "0"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -2424,8 +2327,7 @@
                     "TimeDelta()"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Comment",
@@ -2437,8 +2339,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "Apply the animation only when it changes",
-              "comment2": ""
+              "comment": "Apply the animation only when it changes"
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -2486,8 +2387,7 @@
                     "DesiredAnim"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -2546,8 +2446,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -2573,8 +2472,7 @@
               "type": "expression"
             }
           ],
-          "objectGroups": [],
-          "group": "Control"
+          "objectGroups": []
         },
         {
           "description": "Make the enemy aggressive regardless of distance (e.g. an evolved enemy keeps chasing).",
@@ -2597,8 +2495,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -2614,8 +2511,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Control"
+          "objectGroups": []
         },
         {
           "description": "Play the celebration animation (e.g. when the player dies).",
@@ -2669,8 +2565,7 @@
                     "0"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -2686,8 +2581,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Control"
+          "objectGroups": []
         },
         {
           "description": "Play the spawn intro for one second (Wave for Standing models). Used for freshly evolved enemies.",
@@ -2720,8 +2614,7 @@
                     "0"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -2737,8 +2630,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Control"
+          "objectGroups": []
         },
         {
           "description": "Scale max health (+12% per level) and damage (+8% per level) from the level number.",
@@ -2783,8 +2675,7 @@
                     "1 + 0.08 * (Level - 1)"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -2805,8 +2696,7 @@
               "type": "expression"
             }
           ],
-          "objectGroups": [],
-          "group": "Control"
+          "objectGroups": []
         },
         {
           "description": "Check the state: Idle, Move, Attack, Hit, Evolving, Intro, Celebrate or Death.",
@@ -2827,8 +2717,7 @@
                     "False"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -2853,8 +2742,7 @@
                     "True"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -2875,8 +2763,7 @@
               "type": "string"
             }
           ],
-          "objectGroups": [],
-          "group": "State"
+          "objectGroups": []
         },
         {
           "description": "True for one frame when the attack lands (melee) or should fire (projectile).",
@@ -2897,8 +2784,7 @@
                     "False"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -2923,8 +2809,7 @@
                     "True"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -2940,8 +2825,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Attack"
+          "objectGroups": []
         },
         {
           "description": "True once the evolve timer has run out. ProcessEvolutions replaces the object.",
@@ -2962,8 +2846,7 @@
                     "False"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -2988,8 +2871,7 @@
                     "True"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -3005,8 +2887,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Evolution"
+          "objectGroups": []
         },
         {
           "description": "True for one frame when death starts (grant XP, drop loot).",
@@ -3027,8 +2908,7 @@
                     "False"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -3053,8 +2933,7 @@
                     "True"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -3070,8 +2949,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "State"
+          "objectGroups": []
         },
         {
           "description": "True when the enemy is dead and its Death animation has finished (it stays in the scene).",
@@ -3092,8 +2970,7 @@
                     "False"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -3118,8 +2995,7 @@
                     "True"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -3135,8 +3011,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "State"
+          "objectGroups": []
         },
         {
           "description": "Seconds since the enemy became a corpse.",
@@ -3157,10 +3032,12 @@
                     "CorpseAge"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
+          "expressionType": {
+            "type": "expression"
+          },
           "parameters": [
             {
               "description": "Object",
@@ -3174,16 +3051,12 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "State",
-          "expressionType": {
-            "type": "expression"
-          }
+          "objectGroups": []
         },
         {
           "description": "Name of the object this enemy evolves into (empty if none).",
           "fullName": "Evolution target",
-          "functionType": "Expression",
+          "functionType": "StringExpression",
           "name": "EvolutionTarget",
           "sentence": "",
           "events": [
@@ -3199,10 +3072,12 @@
                     "EvolvesTo"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
+          "expressionType": {
+            "type": "string"
+          },
           "parameters": [
             {
               "description": "Object",
@@ -3216,19 +3091,58 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Evolution",
-          "expressionType": {
-            "type": "string"
-          }
+          "objectGroups": []
         }
       ],
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "doStepPostEvents"
+          },
+          {
+            "functionName": "SetTarget"
+          },
+          {
+            "functionName": "ForceAggro"
+          },
+          {
+            "functionName": "Celebrate"
+          },
+          {
+            "functionName": "StartIntro"
+          },
+          {
+            "functionName": "ApplyLevelScaling"
+          },
+          {
+            "functionName": "IsInState"
+          },
+          {
+            "functionName": "AttackMoment"
+          },
+          {
+            "functionName": "IsReadyToEvolve"
+          },
+          {
+            "functionName": "JustDied"
+          },
+          {
+            "functionName": "IsCorpse"
+          },
+          {
+            "functionName": "CorpseTime"
+          },
+          {
+            "functionName": "EvolutionTarget"
+          }
+        ]
+      },
       "propertyDescriptors": [
         {
           "value": "Blob",
           "type": "Choice",
           "label": "Body type (animation group)",
-          "name": "BodyType",
           "group": "Type",
           "extraInformation": [
             "Blob",
@@ -3237,24 +3151,24 @@
           ],
           "choices": [
             {
-              "value": "Blob",
-              "label": "Blob"
+              "label": "Blob",
+              "value": "Blob"
             },
             {
-              "value": "Standing",
-              "label": "Standing"
+              "label": "Standing",
+              "value": "Standing"
             },
             {
-              "value": "Flying",
-              "label": "Flying"
+              "label": "Flying",
+              "value": "Flying"
             }
-          ]
+          ],
+          "name": "BodyType"
         },
         {
           "value": "Swarm",
           "type": "Choice",
           "label": "Role",
-          "name": "Role",
           "group": "Type",
           "extraInformation": [
             "Swarm",
@@ -3268,100 +3182,100 @@
           ],
           "choices": [
             {
-              "value": "Swarm",
-              "label": "Swarm"
+              "label": "Swarm",
+              "value": "Swarm"
             },
             {
-              "value": "Chaser",
-              "label": "Chaser"
+              "label": "Chaser",
+              "value": "Chaser"
             },
             {
-              "value": "Jumper",
-              "label": "Jumper"
+              "label": "Jumper",
+              "value": "Jumper"
             },
             {
-              "value": "Ranged",
-              "label": "Ranged"
+              "label": "Ranged",
+              "value": "Ranged"
             },
             {
-              "value": "Stationary",
-              "label": "Stationary"
+              "label": "Stationary",
+              "value": "Stationary"
             },
             {
-              "value": "Flying",
-              "label": "Flying"
+              "label": "Flying",
+              "value": "Flying"
             },
             {
-              "value": "Tank",
-              "label": "Tank"
+              "label": "Tank",
+              "value": "Tank"
             },
             {
-              "value": "Boss",
-              "label": "Boss"
+              "label": "Boss",
+              "value": "Boss"
             }
-          ]
+          ],
+          "name": "Role"
         },
         {
           "value": "",
           "type": "String",
           "label": "Family",
-          "name": "Family",
-          "group": "Type"
+          "group": "Type",
+          "name": "Family"
         },
         {
           "value": "200",
           "type": "Number",
           "label": "Speed (pixels per second)",
-          "name": "Speed",
-          "group": "Stats"
+          "group": "Stats",
+          "name": "Speed"
         },
         {
           "value": "5",
           "type": "Number",
           "label": "Damage",
-          "name": "Damage",
-          "group": "Stats"
+          "group": "Stats",
+          "name": "Damage"
         },
         {
           "value": "1",
           "type": "Number",
           "label": "XP dropped on death",
-          "name": "XP",
-          "group": "Stats"
+          "group": "Stats",
+          "name": "XP"
         },
         {
           "value": "80",
           "type": "Number",
           "label": "Attack range (pixels)",
-          "name": "AttackRange",
-          "group": "Attack"
+          "group": "Attack",
+          "name": "AttackRange"
         },
         {
           "value": "1.5",
           "type": "Number",
           "label": "Attack cooldown (seconds)",
-          "name": "AttackCooldown",
-          "group": "Attack"
+          "group": "Attack",
+          "name": "AttackCooldown"
         },
         {
           "value": "0.8",
           "type": "Number",
           "label": "Attack duration (seconds)",
-          "name": "AttackDuration",
-          "group": "Attack"
+          "group": "Attack",
+          "name": "AttackDuration"
         },
         {
           "value": "0.4",
           "type": "Number",
           "label": "Time into the attack when it lands or fires (seconds)",
-          "name": "AttackMomentTime",
-          "group": "Attack"
+          "group": "Attack",
+          "name": "AttackMomentTime"
         },
         {
           "value": "Punch",
           "type": "Choice",
           "label": "Standing attack animation",
-          "name": "AttackAnim",
           "group": "Attack",
           "extraInformation": [
             "Punch",
@@ -3369,20 +3283,20 @@
           ],
           "choices": [
             {
-              "value": "Punch",
-              "label": "Punch"
+              "label": "Punch",
+              "value": "Punch"
             },
             {
-              "value": "Weapon",
-              "label": "Weapon"
+              "label": "Weapon",
+              "value": "Weapon"
             }
-          ]
+          ],
+          "name": "AttackAnim"
         },
         {
           "value": "Run",
           "type": "Choice",
           "label": "Standing move animation",
-          "name": "MoveAnim",
           "group": "Movement",
           "extraInformation": [
             "Walk",
@@ -3390,63 +3304,64 @@
           ],
           "choices": [
             {
-              "value": "Walk",
-              "label": "Walk"
+              "label": "Walk",
+              "value": "Walk"
             },
             {
-              "value": "Run",
-              "label": "Run"
+              "label": "Run",
+              "value": "Run"
             }
-          ]
+          ],
+          "name": "MoveAnim"
         },
         {
           "value": "1200",
           "type": "Number",
           "label": "Aggro range (pixels)",
-          "name": "AggroRange",
-          "group": "Movement"
+          "group": "Movement",
+          "name": "AggroRange"
         },
         {
           "value": "",
           "type": "String",
           "label": "Evolves to (object name, empty = never)",
-          "name": "EvolvesTo",
-          "group": "Evolution"
+          "group": "Evolution",
+          "name": "EvolvesTo"
         },
         {
           "value": "25",
           "type": "Number",
           "label": "Time from aggro to evolution (seconds)",
-          "name": "EvolveTime",
-          "group": "Evolution"
+          "group": "Evolution",
+          "name": "EvolveTime"
         },
         {
           "value": "false",
           "type": "Boolean",
           "label": "Super armor (ignores hit reaction)",
-          "name": "SuperArmor",
-          "group": "Hit"
+          "group": "Hit",
+          "name": "SuperArmor"
         },
         {
           "value": "0.5",
           "type": "Number",
           "label": "Minimum time between hit reactions (seconds)",
-          "name": "HitCooldown",
-          "group": "Hit"
+          "group": "Hit",
+          "name": "HitCooldown"
         },
         {
           "value": "5",
           "type": "Number",
           "label": "Safety limit: destroy after this many seconds even if Death never ends (looping Death)",
-          "name": "DeathTimeout",
-          "group": "Hit"
+          "group": "Hit",
+          "name": "DeathTimeout"
         },
         {
           "value": "true",
           "type": "Boolean",
           "label": "Leave a corpse after death (frozen, marks where the player has been)",
-          "name": "LeaveCorpse",
-          "group": "Hit"
+          "group": "Hit",
+          "name": "LeaveCorpse"
         },
         {
           "value": "",
@@ -3462,119 +3377,258 @@
           "value": "Idle",
           "type": "String",
           "label": "State",
-          "name": "State",
-          "hidden": true
+          "hidden": true,
+          "name": "State"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "State time",
-          "name": "StateTime",
-          "hidden": true
+          "hidden": true,
+          "name": "StateTime"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Target X",
-          "name": "TargetX",
-          "hidden": true
+          "hidden": true,
+          "name": "TargetX"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Target Y",
-          "name": "TargetY",
-          "hidden": true
+          "hidden": true,
+          "name": "TargetY"
         },
         {
           "value": "false",
           "type": "Boolean",
           "label": "Has target",
-          "name": "HasTarget",
-          "hidden": true
+          "hidden": true,
+          "name": "HasTarget"
         },
         {
           "value": "false",
           "type": "Boolean",
           "label": "Aggro",
-          "name": "Aggro",
-          "hidden": true
+          "hidden": true,
+          "name": "Aggro"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Evolve timer",
-          "name": "EvolveTimer",
-          "hidden": true
+          "hidden": true,
+          "name": "EvolveTimer"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Attack timer",
-          "name": "AttackTimer",
-          "hidden": true
+          "hidden": true,
+          "name": "AttackTimer"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Hit timer",
-          "name": "HitTimer",
-          "hidden": true
+          "hidden": true,
+          "name": "HitTimer"
         },
         {
           "value": "false",
           "type": "Boolean",
           "label": "Attack fired",
-          "name": "AttackFired",
-          "hidden": true
+          "hidden": true,
+          "name": "AttackFired"
         },
         {
           "value": "false",
           "type": "Boolean",
           "label": "Attack moment (one frame)",
-          "name": "AttackMoment",
-          "hidden": true
+          "hidden": true,
+          "name": "AttackMoment"
         },
         {
           "value": "false",
           "type": "Boolean",
           "label": "Ready to evolve",
-          "name": "ReadyToEvolve",
-          "hidden": true
+          "hidden": true,
+          "name": "ReadyToEvolve"
         },
         {
           "value": "false",
           "type": "Boolean",
           "label": "Just died (one frame)",
-          "name": "JustDied",
-          "hidden": true
+          "hidden": true,
+          "name": "JustDied"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Seconds since the corpse was left",
-          "name": "CorpseAge",
-          "hidden": true
+          "hidden": true,
+          "name": "CorpseAge"
         },
         {
           "value": "",
           "type": "String",
           "label": "Current animation",
-          "name": "CurrentAnim",
-          "hidden": true
+          "hidden": true,
+          "name": "CurrentAnim"
         },
         {
           "value": "",
           "type": "String",
           "label": "Desired animation",
-          "name": "DesiredAnim",
-          "hidden": true
+          "hidden": true,
+          "name": "DesiredAnim"
         }
       ],
       "propertiesFolderStructure": {
-        "folderName": "__ROOT"
-      },
-      "sharedPropertyDescriptors": []
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "folderName": "Type",
+            "children": [
+              {
+                "propertyName": "BodyType"
+              },
+              {
+                "propertyName": "Role"
+              },
+              {
+                "propertyName": "Family"
+              }
+            ]
+          },
+          {
+            "folderName": "Stats",
+            "children": [
+              {
+                "propertyName": "Speed"
+              },
+              {
+                "propertyName": "Damage"
+              },
+              {
+                "propertyName": "XP"
+              }
+            ]
+          },
+          {
+            "folderName": "Attack",
+            "children": [
+              {
+                "propertyName": "AttackRange"
+              },
+              {
+                "propertyName": "AttackCooldown"
+              },
+              {
+                "propertyName": "AttackDuration"
+              },
+              {
+                "propertyName": "AttackMomentTime"
+              },
+              {
+                "propertyName": "AttackAnim"
+              }
+            ]
+          },
+          {
+            "folderName": "Movement",
+            "children": [
+              {
+                "propertyName": "MoveAnim"
+              },
+              {
+                "propertyName": "AggroRange"
+              }
+            ]
+          },
+          {
+            "folderName": "Evolution",
+            "children": [
+              {
+                "propertyName": "EvolvesTo"
+              },
+              {
+                "propertyName": "EvolveTime"
+              }
+            ]
+          },
+          {
+            "folderName": "Hit",
+            "children": [
+              {
+                "propertyName": "SuperArmor"
+              },
+              {
+                "propertyName": "HitCooldown"
+              },
+              {
+                "propertyName": "DeathTimeout"
+              },
+              {
+                "propertyName": "LeaveCorpse"
+              }
+            ]
+          },
+          {
+            "propertyName": "Health"
+          },
+          {
+            "propertyName": "State"
+          },
+          {
+            "propertyName": "StateTime"
+          },
+          {
+            "propertyName": "TargetX"
+          },
+          {
+            "propertyName": "TargetY"
+          },
+          {
+            "propertyName": "HasTarget"
+          },
+          {
+            "propertyName": "Aggro"
+          },
+          {
+            "propertyName": "EvolveTimer"
+          },
+          {
+            "propertyName": "AttackTimer"
+          },
+          {
+            "propertyName": "HitTimer"
+          },
+          {
+            "propertyName": "AttackFired"
+          },
+          {
+            "propertyName": "AttackMoment"
+          },
+          {
+            "propertyName": "ReadyToEvolve"
+          },
+          {
+            "propertyName": "JustDied"
+          },
+          {
+            "propertyName": "CorpseAge"
+          },
+          {
+            "propertyName": "CurrentAnim"
+          },
+          {
+            "propertyName": "DesiredAnim"
+          }
+        ]
+      }
     },
     {
       "description": "Player run data: XP, run level, meta bonuses, hit invulnerability.",
@@ -3584,44 +3638,8 @@
       "name": "Player",
       "objectType": "",
       "previewIconUrl": "",
-      "eventsFunctionsFolderStructure": {
-        "folderName": "__ROOT",
-        "children": [
-          {
-            "functionName": "onCreated"
-          },
-          {
-            "functionName": "doStepPostEvents"
-          },
-          {
-            "functionName": "AddXP"
-          },
-          {
-            "functionName": "ConsumeLevelUp"
-          },
-          {
-            "functionName": "ApplyMetaLevel"
-          },
-          {
-            "functionName": "ResetRun"
-          },
-          {
-            "functionName": "HasPendingLevelUp"
-          },
-          {
-            "functionName": "JustLeveledUp"
-          },
-          {
-            "functionName": "XPToNextLevel"
-          },
-          {
-            "functionName": "TotalDamageMultiplier"
-          }
-        ]
-      },
       "eventsFunctions": [
         {
-          "description": "",
           "fullName": "",
           "functionType": "Action",
           "name": "onCreated",
@@ -3642,8 +3660,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -3662,7 +3679,6 @@
           "objectGroups": []
         },
         {
-          "description": "",
           "fullName": "",
           "functionType": "Action",
           "name": "doStepPostEvents",
@@ -3682,8 +3698,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -3722,12 +3737,11 @@
                     "Amount"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
-              "type": "BuiltinCommonInstructions::While",
               "infiniteLoopWarning": true,
+              "type": "BuiltinCommonInstructions::While",
               "whileConditions": [
                 {
                   "type": {
@@ -3782,8 +3796,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -3804,8 +3817,7 @@
               "type": "expression"
             }
           ],
-          "objectGroups": [],
-          "group": "Run"
+          "objectGroups": []
         },
         {
           "description": "Call when the player has picked a perk for one pending level up.",
@@ -3839,8 +3851,7 @@
                     "1"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -3856,8 +3867,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Run"
+          "objectGroups": []
         },
         {
           "description": "Store the meta level and apply its small bonuses (only if enabled). Call once when the player is created.",
@@ -3880,8 +3890,7 @@
                     "NewMetaLevel"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -3930,8 +3939,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -3952,8 +3960,7 @@
               "type": "expression"
             }
           ],
-          "objectGroups": [],
-          "group": "Meta"
+          "objectGroups": []
         },
         {
           "description": "Reset run XP and level (meta level stays).",
@@ -4006,8 +4013,7 @@
                     ""
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -4023,8 +4029,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Run"
+          "objectGroups": []
         },
         {
           "description": "True while there is a level up waiting for a perk choice.",
@@ -4045,8 +4050,7 @@
                     "False"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -4071,8 +4075,7 @@
                     "True"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -4088,8 +4091,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Run"
+          "objectGroups": []
         },
         {
           "description": "True for one frame when the run level increased.",
@@ -4110,8 +4112,7 @@
                     "False"
                   ]
                 }
-              ],
-              "events": []
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
@@ -4136,8 +4137,7 @@
                     "True"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": [
@@ -4153,8 +4153,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Run"
+          "objectGroups": []
         },
         {
           "description": "XP needed to reach the next run level.",
@@ -4175,10 +4174,12 @@
                     "XPBase + XPGrowth * (RunLevel - 1)"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
+          "expressionType": {
+            "type": "expression"
+          },
           "parameters": [
             {
               "description": "Object",
@@ -4192,11 +4193,7 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Run",
-          "expressionType": {
-            "type": "expression"
-          }
+          "objectGroups": []
         },
         {
           "description": "Damage multiplier including the meta bonus. Multiply the player's damage by this.",
@@ -4217,10 +4214,12 @@
                     "DamageMultiplier * (1 + MetaDamageBonus)"
                   ]
                 }
-              ],
-              "events": []
+              ]
             }
           ],
+          "expressionType": {
+            "type": "expression"
+          },
           "parameters": [
             {
               "description": "Object",
@@ -4234,83 +4233,114 @@
               "type": "behavior"
             }
           ],
-          "objectGroups": [],
-          "group": "Stats",
-          "expressionType": {
-            "type": "expression"
-          }
+          "objectGroups": []
         }
       ],
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "onCreated"
+          },
+          {
+            "functionName": "doStepPostEvents"
+          },
+          {
+            "functionName": "AddXP"
+          },
+          {
+            "functionName": "ConsumeLevelUp"
+          },
+          {
+            "functionName": "ApplyMetaLevel"
+          },
+          {
+            "functionName": "ResetRun"
+          },
+          {
+            "functionName": "HasPendingLevelUp"
+          },
+          {
+            "functionName": "JustLeveledUp"
+          },
+          {
+            "functionName": "XPToNextLevel"
+          },
+          {
+            "functionName": "TotalDamageMultiplier"
+          }
+        ]
+      },
       "propertyDescriptors": [
         {
           "value": "300",
           "type": "Number",
           "label": "Move speed",
-          "name": "MoveSpeed",
-          "group": "Stats"
+          "group": "Stats",
+          "name": "MoveSpeed"
         },
         {
           "value": "1",
           "type": "Number",
           "label": "Damage multiplier (perks change this)",
-          "name": "DamageMultiplier",
-          "group": "Stats"
+          "group": "Stats",
+          "name": "DamageMultiplier"
         },
         {
           "value": "150",
           "type": "Number",
           "label": "Pickup range (XP, drops)",
-          "name": "PickupRange",
-          "group": "Stats"
+          "group": "Stats",
+          "name": "PickupRange"
         },
         {
           "value": "0.5",
           "type": "Number",
           "label": "Invulnerability after a hit (seconds)",
-          "name": "InvulnerabilityTime",
-          "group": "Stats"
+          "group": "Stats",
+          "name": "InvulnerabilityTime"
         },
         {
           "value": "5",
           "type": "Number",
           "label": "XP for level 2",
-          "name": "XPBase",
-          "group": "Run"
+          "group": "Run",
+          "name": "XPBase"
         },
         {
           "value": "5",
           "type": "Number",
           "label": "Additional XP per level",
-          "name": "XPGrowth",
-          "group": "Run"
+          "group": "Run",
+          "name": "XPGrowth"
         },
         {
           "value": "true",
           "type": "Boolean",
           "label": "Meta bonuses enabled (off in daily)",
-          "name": "MetaBonusesEnabled",
-          "group": "Meta"
+          "group": "Meta",
+          "name": "MetaBonusesEnabled"
         },
         {
           "value": "0.02",
           "type": "Number",
           "label": "Damage bonus per meta level",
-          "name": "MetaDamagePerLevel",
-          "group": "Meta"
+          "group": "Meta",
+          "name": "MetaDamagePerLevel"
         },
         {
           "value": "0.03",
           "type": "Number",
           "label": "Max health bonus per meta level",
-          "name": "MetaHPPerLevel",
-          "group": "Meta"
+          "group": "Meta",
+          "name": "MetaHPPerLevel"
         },
         {
           "value": "10",
           "type": "Number",
           "label": "Highest meta level that still gives power",
-          "name": "MetaBonusCap",
-          "group": "Meta"
+          "group": "Meta",
+          "name": "MetaBonusCap"
         },
         {
           "value": "",
@@ -4326,49 +4356,116 @@
           "value": "0",
           "type": "Number",
           "label": "Run XP",
-          "name": "RunXP",
-          "hidden": true
+          "hidden": true,
+          "name": "RunXP"
         },
         {
           "value": "1",
           "type": "Number",
           "label": "Run level",
-          "name": "RunLevel",
-          "hidden": true
+          "hidden": true,
+          "name": "RunLevel"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Pending level ups",
-          "name": "PendingLevelUps",
-          "hidden": true
+          "hidden": true,
+          "name": "PendingLevelUps"
         },
         {
           "value": "false",
           "type": "Boolean",
           "label": "Just leveled up (one frame)",
-          "name": "JustLeveledUp",
-          "hidden": true
+          "hidden": true,
+          "name": "JustLeveledUp"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Meta level",
-          "name": "MetaLevel",
-          "hidden": true
+          "hidden": true,
+          "name": "MetaLevel"
         },
         {
           "value": "0",
           "type": "Number",
           "label": "Meta damage bonus",
-          "name": "MetaDamageBonus",
-          "hidden": true
+          "hidden": true,
+          "name": "MetaDamageBonus"
         }
       ],
       "propertiesFolderStructure": {
-        "folderName": "__ROOT"
-      },
-      "sharedPropertyDescriptors": []
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "folderName": "Stats",
+            "children": [
+              {
+                "propertyName": "MoveSpeed"
+              },
+              {
+                "propertyName": "DamageMultiplier"
+              },
+              {
+                "propertyName": "PickupRange"
+              },
+              {
+                "propertyName": "InvulnerabilityTime"
+              }
+            ]
+          },
+          {
+            "folderName": "Run",
+            "children": [
+              {
+                "propertyName": "XPBase"
+              },
+              {
+                "propertyName": "XPGrowth"
+              }
+            ]
+          },
+          {
+            "folderName": "Meta",
+            "children": [
+              {
+                "propertyName": "MetaBonusesEnabled"
+              },
+              {
+                "propertyName": "MetaDamagePerLevel"
+              },
+              {
+                "propertyName": "MetaHPPerLevel"
+              },
+              {
+                "propertyName": "MetaBonusCap"
+              }
+            ]
+          },
+          {
+            "propertyName": "Health"
+          },
+          {
+            "propertyName": "RunXP"
+          },
+          {
+            "propertyName": "RunLevel"
+          },
+          {
+            "propertyName": "PendingLevelUps"
+          },
+          {
+            "propertyName": "JustLeveledUp"
+          },
+          {
+            "propertyName": "MetaLevel"
+          },
+          {
+            "propertyName": "MetaDamageBonus"
+          }
+        ]
+      }
     }
   ],
   "eventsBasedObjects": []
