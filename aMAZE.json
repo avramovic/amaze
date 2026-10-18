@@ -257,6 +257,37 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Cubes/01-Placeholders/683fe375b7ad53e894d022b3694ed1b2a3d24b43a9de34f341b8a7cb2723c582_GDevelopInvalidTextureBlock.png",
           "name": "GDevelopInvalidTextureBlock.png"
         }
+      },
+      {
+        "file": "Chest.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Chest.glb",
+        "userAdded": false
+      },
+      {
+        "file": "assets/Vortex.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Vortex.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/52e7e70620a45c89e0d9e981dfa9761a1009089bb1efcd6d9bb0d22053c5ad05_Vortex.png",
+          "name": "Vortex.png"
+        }
+      },
+      {
+        "file": "assets/Star.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Star.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/2736e1baf451642adb045f4a74ed8327ec2b45df81ea34ddb6a274dead6152d8_Star.png",
+          "name": "Star.png"
+        }
       }
     ]
   },
@@ -297,6 +328,14 @@
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/eventsFunctionsExtensions/webxr"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/particleemitter3d"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/firstpersoncamera"
     }
   ],
   "externalLayouts": []

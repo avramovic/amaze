@@ -148,7 +148,7 @@ dok je budget >= najjeftinija cena:
 (roj tipovi se guraju u grupama od 3-5)
 ```
 
-**Ćelije za spawn** se izračunaju jednom: bez početnog radijusa oko igrača, po mogućnosti slepe ulice i veći prostori. U runtime-u se izbace ćelije koje igrač trenutno vidi ili su preblizu.
+**Ćelije za spawn** se izračunaju jednom: bez početnog radijusa oko igrača, po mogućnosti slepe ulice i veći prostori. U runtime-u se izbace ćelije koje igrač trenutno vidi ili su preblizu. "Vidi" znači ćelije koje je dosegao BFS kuling lavirinta (uslov `Amaze::IsMazeCellVisible`, poglavlje 9).
 
 **Runtime:**
 - Svake ~2 s: ako `alive < cap` i red nije prazan, pogledaj prvih nekoliko elemenata reda i napravi prvi čija je ćelija u **opsegu aktivacije** igrača (npr. 8-20 ćelija putanje) i koju igrač ne vidi. Red i ćelije ostaju isti za sve igrače, menja se samo trenutak spawna. Ako nijedan nije u opsegu duže od ~10 s, uzmi najbliži dozvoljeni, da nivo ne stane.
@@ -343,6 +343,17 @@ Sva četiri boss-a dele isti skup animacija, pa je dovoljan **jedan state machin
 - Pathfinding: jedna flow-field (BFS) mapa od igrača, osvežena svakih 0.2-0.5 s, svi ganjači prate gradijent.
 - Većina modela deli jednu paletu boja, pa pokušati da dele materijal (manje draw call-ova).
 - Proveriti broj poligona po modelu u GDevelopu.
+
+### Kuling lavirinta (BFS po ćelijama)
+
+`webxr` ekstenzija radi samo frustum culling (sakriva ono iza igrača i sa strane). Zidovi ništa ne zaklanjaju, pa se sve u vidnom konusu iza zidova i dalje crta. Lavirint je graf, a pogled prolazi samo kroz otvorene prolaze, pa ekstenzija Amaze radi BFS od ćelije igrača kroz otvorene zidove do dubine N i **sakriva sve izvan dosegnutih ćelija** (`object.hide`; skriveni 3D objekat se uopšte ne crta). Fizika i logika skrivenih objekata rade dalje.
+
+- **Dve Object Group:** `MazeStatic` (zidovi, podovi, stubovi) se osvežava samo kad igrač pređe u drugu ćeliju, a `MazeDynamic` (neprijatelji, leševi) svaki frejm.
+- **Poziv svaki frejm:** `Amaze::UpdateMazeCulling("maze", MazeStatic, MazeDynamic, glava.X, glava.Y, 6)` (bez uslova na grupe). Posle generisanja novog lavirinta ili izmene zidova pozvati `ResetMazeCulling("maze")`.
+- **Ćelija objekta** se računa iz pozicije centra, ne iz taga. Zidovi i stubovi leže na ivicama i uglovima, pa pripadaju do 4 ćelije i vidljivi su ako je bilo koja od njih vidljiva.
+- **Magla** istog dometa krije pop-in: Scene3D efekat "Fog (linear)" na sloju, početak oko `(N−2) × širina ćelije`, kraj oko `N × širina ćelije`.
+- **Debug:** `MazeCullVisibleCells("maze")`, `MazeCullHiddenObjects("maze")`, `SetMazeCullingEnabled(Ne)` za poređenje.
+- `webxr` frustum culling ostaje uključen i radi kao dodatni sloj.
 
 ---
 

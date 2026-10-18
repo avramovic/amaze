@@ -10,7 +10,7 @@
   "name": "Amaze",
   "previewIconUrl": "",
   "shortDescription": "Enemy and player behaviors for aMAZE.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Data-driven enemy behavior (stats, roles, state machine, evolution) and player run/meta progression for aMAZE. See docs/neprijatelji.md and docs/progresija.md.",
   "tags": [],
   "authorIds": [],
@@ -454,6 +454,452 @@
         }
       ],
       "objectGroups": []
+    },
+    {
+      "description": "Run once when the first scene loads. Defines the maze culling helpers (BFS through open maze passages, hiding of objects outside the reached cells).",
+      "fullName": "Amaze — on first scene loaded",
+      "functionType": "Action",
+      "name": "onFirstSceneLoaded",
+      "sentence": "Initialize aMAZE maze culling helpers",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "// aMAZE maze culling helpers: BFS through open maze passages, objects outside the",
+            "// reached cells are hidden (not drawn at all). Walls are read from the",
+            "// MazeGenerator scene variable __MazeGenerator[MazeID].{UpWall,DownWall,LeftWall,RightWall}.",
+            "if (gdjs.amazeCull) {",
+            "    return;",
+            "}",
+            "const C = (gdjs.amazeCull = {",
+            "    mazes: {},",
+            "    enabled: true,",
+            "    // Objects whose centre is closer than this (in cells) to a cell edge belong to both cells.",
+            "    edgeTolerance: 0.1,",
+            "});",
+            "",
+            "// Cached per maze and per scene. Call ResetMazeCulling after generating a new maze or",
+            "// changing its walls.",
+            "C.getMaze = function (runtimeScene, mazeId) {",
+            "    let m = C.mazes[mazeId];",
+            "    if (m && m.scene === runtimeScene) return m;",
+            "    const root = runtimeScene.getVariables().get('__MazeGenerator');",
+            "    if (!root || !root.hasChild(mazeId)) return null;",
+            "    const v = root.getChild(mazeId);",
+            "    const rows = v.getChild('NumRows').getAsNumber();",
+            "    const cols = v.getChild('NumColumns').getAsNumber();",
+            "    const n = rows * cols;",
+            "    if (!(n > 0)) return null;",
+            "    const read = function (name) {",
+            "        const out = new Uint8Array(n);",
+            "        const arr = v.getChild(name).getAllChildrenArray();",
+            "        for (let i = 0; i < n; i++) out[i] = arr[i] && arr[i].getAsBoolean() ? 1 : 0;",
+            "        return out;",
+            "    };",
+            "    m = {",
+            "        scene: runtimeScene,",
+            "        rows: rows,",
+            "        cols: cols,",
+            "        n: n,",
+            "        x0: v.getChild('MazeX').getAsNumber(),",
+            "        y0: v.getChild('MazeY').getAsNumber(),",
+            "        fw: v.getChild('FloorWidth').getAsNumber(),",
+            "        fh: v.getChild('FloorHeight').getAsNumber(),",
+            "        up: read('UpWall'),",
+            "        down: read('DownWall'),",
+            "        left: read('LeftWall'),",
+            "        right: read('RightWall'),",
+            "        // Everything counts as visible until the first update has run.",
+            "        visible: new Uint8Array(n).fill(1),",
+            "        queue: new Int32Array(n),",
+            "        dist: new Int16Array(n),",
+            "        visibleCount: n,",
+            "        cellIndex: -1,",
+            "        depth: -1,",
+            "        dirty: true,",
+            "        hiddenStatic: new Set(),",
+            "        hiddenDynamic: new Set(),",
+            "    };",
+            "    // A passage exists only if neither side has a wall there. Walls should be symmetric;",
+            "    // warn once if they are not.",
+            "    let mismatch = 0;",
+            "    for (let c = 0; c < n; c++) {",
+            "        const r = (c / cols) | 0;",
+            "        const k = c - r * cols;",
+            "        if (r < rows - 1 && m.down[c] !== m.up[c + cols]) mismatch++;",
+            "        if (k < cols - 1 && m.right[c] !== m.left[c + 1]) mismatch++;",
+            "    }",
+            "    if (mismatch > 0) {",
+            "        console.warn('[Amaze] maze \"' + mazeId + '\" has ' + mismatch +",
+            "            ' asymmetric walls between neighbouring cells; culling treats them as walls.');",
+            "    }",
+            "    C.mazes[mazeId] = m;",
+            "    return m;",
+            "};",
+            "",
+            "// BFS from a 0-based cell through open passages, at most `depth` cells away.",
+            "C.bfs = function (m, row, col, depth) {",
+            "    m.visible.fill(0);",
+            "    m.visibleCount = 0;",
+            "    const cols = m.cols;",
+            "    const q = m.queue;",
+            "    const d = m.dist;",
+            "    let head = 0;",
+            "    let tail = 0;",
+            "    const s = row * cols + col;",
+            "    m.visible[s] = 1;",
+            "    d[s] = 0;",
+            "    q[tail++] = s;",
+            "    while (head < tail) {",
+            "        const c = q[head++];",
+            "        const dc = d[c];",
+            "        if (dc >= depth) continue;",
+            "        const r = (c / cols) | 0;",
+            "        const k = c - r * cols;",
+            "        let nb;",
+            "        if (r > 0 && !m.up[c] && !m.down[c - cols]) {",
+            "            nb = c - cols;",
+            "            if (!m.visible[nb]) { m.visible[nb] = 1; d[nb] = dc + 1; q[tail++] = nb; }",
+            "        }",
+            "        if (r < m.rows - 1 && !m.down[c] && !m.up[c + cols]) {",
+            "            nb = c + cols;",
+            "            if (!m.visible[nb]) { m.visible[nb] = 1; d[nb] = dc + 1; q[tail++] = nb; }",
+            "        }",
+            "        if (k > 0 && !m.left[c] && !m.right[c - 1]) {",
+            "            nb = c - 1;",
+            "            if (!m.visible[nb]) { m.visible[nb] = 1; d[nb] = dc + 1; q[tail++] = nb; }",
+            "        }",
+            "        if (k < cols - 1 && !m.right[c] && !m.left[c + 1]) {",
+            "            nb = c + 1;",
+            "            if (!m.visible[nb]) { m.visible[nb] = 1; d[nb] = dc + 1; q[tail++] = nb; }",
+            "        }",
+            "    }",
+            "    m.visibleCount = tail;",
+            "};",
+            "",
+            "// Walls and pillars sit exactly on cell edges and corners, so they belong to up to 4 cells.",
+            "// They are visible if any of those cells is visible. Objects outside the maze are never hidden.",
+            "C.isVisibleAt = function (m, x, y) {",
+            "    const fx = (x - m.x0) / m.fw;",
+            "    const fy = (y - m.y0) / m.fh;",
+            "    const e = C.edgeTolerance;",
+            "    const rx = Math.round(fx);",
+            "    const ry = Math.round(fy);",
+            "    const c0 = Math.abs(fx - rx) < e ? rx - 1 : Math.floor(fx);",
+            "    const c1 = Math.abs(fx - rx) < e ? rx : c0;",
+            "    const r0 = Math.abs(fy - ry) < e ? ry - 1 : Math.floor(fy);",
+            "    const r1 = Math.abs(fy - ry) < e ? ry : r0;",
+            "    let inside = false;",
+            "    for (let r = r0; r <= r1; r++) {",
+            "        if (r < 0 || r >= m.rows) continue;",
+            "        for (let c = c0; c <= c1; c++) {",
+            "            if (c < 0 || c >= m.cols) continue;",
+            "            inside = true;",
+            "            if (m.visible[r * m.cols + c]) return true;",
+            "        }",
+            "    }",
+            "    return !inside;",
+            "};",
+            "",
+            "// Only objects hidden by culling are shown again, so objects the game hides itself stay hidden.",
+            "// `key` is \"hiddenStatic\" or \"hiddenDynamic\". The set is rebuilt from the given list, so",
+            "// destroyed objects drop out of it by themselves.",
+            "C.applyTo = function (m, objects, key) {",
+            "    const previous = m[key];",
+            "    const next = new Set();",
+            "    for (let i = 0; i < objects.length; i++) {",
+            "        const o = objects[i];",
+            "        const vis = C.isVisibleAt(m, o.getCenterXInScene(), o.getCenterYInScene());",
+            "        if (!vis) {",
+            "            next.add(o);",
+            "            if (!previous.has(o)) o.hide(true);",
+            "        } else if (previous.has(o)) {",
+            "            o.hide(false);",
+            "        }",
+            "    }",
+            "    m[key] = next;",
+            "};",
+            "",
+            "C.hiddenCount = function (m) {",
+            "    return m.hiddenStatic.size + m.hiddenDynamic.size;",
+            "};",
+            "",
+            "C.showAll = function (m) {",
+            "    m.hiddenStatic.forEach(function (o) { o.hide(false); });",
+            "    m.hiddenDynamic.forEach(function (o) { o.hide(false); });",
+            "    m.hiddenStatic = new Set();",
+            "    m.hiddenDynamic = new Set();",
+            "    m.visible.fill(1);",
+            "    m.visibleCount = m.n;",
+            "    m.cellIndex = -1;",
+            "    m.dirty = true;",
+            "};"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Hide everything the player cannot see in a maze. Runs a breadth-first search from the cell at the given position through open passages, up to Depth cells away. Objects in StaticObjects (walls, floors, pillars) are updated only when the player enters another cell. Objects in DynamicObjects (enemies, corpses) are checked every frame. Call it once per frame, without conditions on the groups. Objects are hidden, not destroyed, so their physics and logic keep running.",
+      "fullName": "Update maze culling",
+      "functionType": "Action",
+      "name": "UpdateMazeCulling",
+      "sentence": "Update culling of maze _PARAM1_ around _PARAM4_;_PARAM5_ (depth _PARAM6_ cells, static: _PARAM2_, dynamic: _PARAM3_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const C = gdjs.amazeCull;",
+            "if (!C) { console.warn('[Amaze] maze culling is not initialised'); return; }",
+            "const m = C.getMaze(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\"));",
+            "if (!m || !C.enabled) return;",
+            "const px = eventsFunctionContext.getArgument(\"X\");",
+            "const py = eventsFunctionContext.getArgument(\"Y\");",
+            "const depth = Math.max(0, Math.floor(eventsFunctionContext.getArgument(\"Depth\")));",
+            "const col = Math.floor((px - m.x0) / m.fw);",
+            "const row = Math.floor((py - m.y0) / m.fh);",
+            "const inside = row >= 0 && col >= 0 && row < m.rows && col < m.cols;",
+            "const idx = inside ? row * m.cols + col : -2;",
+            "if (idx !== m.cellIndex || depth !== m.depth || m.dirty) {",
+            "    if (inside) {",
+            "        C.bfs(m, row, col, depth);",
+            "    } else {",
+            "        // Player outside the maze: show everything instead of hiding it all.",
+            "        m.visible.fill(1);",
+            "        m.visibleCount = m.n;",
+            "    }",
+            "    m.cellIndex = idx;",
+            "    m.depth = depth;",
+            "    m.dirty = false;",
+            "    C.applyTo(m, eventsFunctionContext.getObjects(\"StaticObjects\"), \"hiddenStatic\");",
+            "}",
+            "C.applyTo(m, eventsFunctionContext.getObjects(\"DynamicObjects\"), \"hiddenDynamic\");"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": true
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Static objects (group: walls, floors, pillars)",
+          "name": "StaticObjects",
+          "type": "objectList"
+        },
+        {
+          "description": "Dynamic objects (group: enemies, corpses)",
+          "name": "DynamicObjects",
+          "type": "objectList"
+        },
+        {
+          "description": "Player X position",
+          "name": "X",
+          "type": "expression"
+        },
+        {
+          "description": "Player Y position",
+          "name": "Y",
+          "type": "expression"
+        },
+        {
+          "description": "How many cells away the player can see",
+          "name": "Depth",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Show every hidden object and forget the cached maze walls. Call it after generating a new maze or changing its walls.",
+      "fullName": "Reset maze culling",
+      "functionType": "Action",
+      "name": "ResetMazeCulling",
+      "sentence": "Reset culling of maze _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const C = gdjs.amazeCull;",
+            "if (!C) return;",
+            "const id = eventsFunctionContext.getArgument(\"MazeID\");",
+            "const m = C.mazes[id];",
+            "if (m) C.showAll(m);",
+            "delete C.mazes[id];"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Turn maze culling on or off. Turning it off shows every hidden object (useful to compare performance).",
+      "fullName": "Enable maze culling",
+      "functionType": "Action",
+      "name": "SetMazeCullingEnabled",
+      "sentence": "Enable maze culling: _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const C = gdjs.amazeCull;",
+            "if (!C) return;",
+            "C.enabled = !!eventsFunctionContext.getArgument(\"Enabled\");",
+            "Object.keys(C.mazes).forEach(function (id) {",
+            "    if (C.enabled) C.mazes[id].dirty = true; else C.showAll(C.mazes[id]);",
+            "});"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enable culling (No = show everything)",
+          "name": "Enabled",
+          "type": "yesorno"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "True when maze culling is enabled. True by default.",
+      "fullName": "Maze culling enabled",
+      "functionType": "Condition",
+      "name": "IsMazeCullingEnabled",
+      "sentence": "Maze culling is enabled",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "eventsFunctionContext.returnValue = !gdjs.amazeCull || gdjs.amazeCull.enabled;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "True when the cell is reached by the last culling update, i.e. the player can possibly see it. Use it for spawning: do not create enemies in visible cells. Row and column start at 1 like the rest of the maze extension. True for every cell until the first update.",
+      "fullName": "Maze cell is visible",
+      "functionType": "Condition",
+      "name": "IsMazeCellVisible",
+      "sentence": "Cell row _PARAM2_ column _PARAM3_ of maze _PARAM1_ is visible",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const C = gdjs.amazeCull;",
+            "const m = C ? C.getMaze(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\")) : null;",
+            "if (!m || !gdjs.amazeCull.enabled) { eventsFunctionContext.returnValue = true; return; }",
+            "const r = eventsFunctionContext.getArgument(\"Row\") - 1;",
+            "const c = eventsFunctionContext.getArgument(\"Column\") - 1;",
+            "eventsFunctionContext.returnValue = r >= 0 && c >= 0 && r < m.rows && c < m.cols && !!m.visible[r * m.cols + c];"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Row (starting at 1)",
+          "name": "Row",
+          "type": "expression"
+        },
+        {
+          "description": "Column (starting at 1)",
+          "name": "Column",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of maze cells reached by the last culling update (debug).",
+      "fullName": "Visible maze cells",
+      "functionType": "Expression",
+      "name": "MazeCullVisibleCells",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const C = gdjs.amazeCull;",
+            "const m = C ? C.getMaze(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\")) : null;",
+            "eventsFunctionContext.returnValue = m ? m.visibleCount : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of objects currently hidden by maze culling (debug).",
+      "fullName": "Hidden maze objects",
+      "functionType": "Expression",
+      "name": "MazeCullHiddenObjects",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const C = gdjs.amazeCull;",
+            "const m = C ? C.getMaze(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\")) : null;",
+            "eventsFunctionContext.returnValue = m ? C.hiddenCount(m) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
     }
   ],
   "eventsFunctionsFolderStructure": {
@@ -464,6 +910,30 @@
       },
       {
         "functionName": "LimitCorpses"
+      },
+      {
+        "functionName": "onFirstSceneLoaded"
+      },
+      {
+        "functionName": "UpdateMazeCulling"
+      },
+      {
+        "functionName": "ResetMazeCulling"
+      },
+      {
+        "functionName": "SetMazeCullingEnabled"
+      },
+      {
+        "functionName": "IsMazeCullingEnabled"
+      },
+      {
+        "functionName": "IsMazeCellVisible"
+      },
+      {
+        "functionName": "MazeCullVisibleCells"
+      },
+      {
+        "functionName": "MazeCullHiddenObjects"
       }
     ]
   },

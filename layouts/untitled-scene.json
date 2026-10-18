@@ -24,7 +24,7 @@
     "zoomFactor": 0.546875,
     "windowMask": false,
     "selectedLayer": "",
-    "gameEditorMode": "instances-editor"
+    "gameEditorMode": "embedded-game"
   },
   "objectsGroups": [],
   "variables": [],
@@ -86,9 +86,28 @@
       "name": "Player",
       "persistentUuid": "ff1c2c1e-bfb5-4b6a-931e-e9f3f7689eaf",
       "width": 60,
-      "x": 71,
-      "y": 40,
+      "x": 72,
+      "y": 191,
       "zOrder": 4,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": true,
+      "depth": 32,
+      "height": 32,
+      "keepRatio": true,
+      "layer": "",
+      "name": "PortalSparkles",
+      "persistentUuid": "2d95e7ac-6112-4ec0-bba4-a0f0336a5c87",
+      "rotationX": 90,
+      "width": 32,
+      "x": 279,
+      "y": 224,
+      "z": 20,
+      "zOrder": 6,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -103,6 +122,10 @@
       "variables": [],
       "effects": [],
       "behaviors": [
+        {
+          "name": "MazeObject",
+          "type": "MazeGenerator::MazeObject"
+        },
         {
           "isFolded": true,
           "name": "Physics3D",
@@ -1213,6 +1236,193 @@
         "isReceivingShadow": true,
         "tint": "255;255;255"
       }
+    },
+    {
+      "assetStoreId": "",
+      "name": "Chest",
+      "persistentUuid": "67ad1d10-0383-4826-8125-543d6a2271f7",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "BottomCenterZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 100,
+        "height": 100,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Chest.glb",
+        "originLocation": "BottomCenterZ",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 100,
+        "animations": [
+          {
+            "loop": false,
+            "name": "Chest_Close",
+            "source": "Chest_Close"
+          },
+          {
+            "loop": false,
+            "name": "Chest_Open",
+            "source": "Chest_Open"
+          },
+          {
+            "loop": false,
+            "name": "Chest_Armature|Chest_Close",
+            "source": "Chest_Armature|Chest_Close"
+          },
+          {
+            "loop": false,
+            "name": "Chest_Armature|Chest_Open",
+            "source": "Chest_Armature|Chest_Open"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "d8ddaf0d1872fde7f9b170b63b8df38d7dbed3a1f5de8d64bb57957d4677629c",
+      "name": "PortalVortex",
+      "persistentUuid": "a4ff0d2e-9e1d-4d1c-a0e5-6525ef3e8bfb",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0,
+        "ShouldAutodestruct": false,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": 0,
+        "ZoneRadius": 0,
+        "EndScale": 0.2,
+        "RenderMode": "Billboard",
+        "Blending": "Additive",
+        "StartColor": "120;50;220",
+        "EndColor": "30;120;230",
+        "StartOpacity": 110,
+        "EndOpacity": 0,
+        "StartSizeMin": 120,
+        "StartSizeMax": 220,
+        "Flow": 30,
+        "LifespanMin": 1,
+        "LifespanMax": 1.6,
+        "StartSpeedMin": 0,
+        "StartSpeedMax": 4,
+        "SpayConeAngle": 0
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "Vortex.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assetStoreId": "d8ddaf0d1872fde7f9b170b63b8df38d7dbed3a1f5de8d64bb57957d4677629c",
+      "name": "PortalSparkles",
+      "persistentUuid": "94cdebe3-18b7-4eeb-a4c6-0a02197a801d",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0,
+        "ShouldAutodestruct": false,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": 0,
+        "ZoneRadius": 0,
+        "EndScale": 0,
+        "RenderMode": "Billboard",
+        "Blending": "Additive",
+        "StartColor": "220;240;255",
+        "EndColor": "150;90;255",
+        "StartOpacity": 255,
+        "EndOpacity": 0,
+        "StartSizeMin": 10,
+        "StartSizeMax": 20,
+        "Flow": 60,
+        "LifespanMin": 0.8,
+        "LifespanMax": 1.3,
+        "StartSpeedMin": 50,
+        "StartSpeedMax": 100,
+        "SpayConeAngle": 0
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "Star.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -1290,6 +1500,15 @@
       },
       {
         "objectName": "Player"
+      },
+      {
+        "objectName": "Chest"
+      },
+      {
+        "objectName": "PortalVortex"
+      },
+      {
+        "objectName": "PortalSparkles"
       }
     ]
   },
@@ -1414,7 +1633,7 @@
           },
           "parameters": [
             "",
-            "1",
+            "0.5",
             "",
             ""
           ]
@@ -1440,14 +1659,217 @@
             "=",
             "\"FastFlying\""
           ]
+        },
+        {
+          "type": {
+            "value": "MazeGenerator::FindFarthestDeadEnd"
+          },
+          "parameters": [
+            "",
+            "\"maze\"",
+            "0",
+            "0",
+            ""
+          ]
+        }
+      ],
+      "events": [
+        {
+          "disabled": true,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [],
+          "actions": [
+            {
+              "type": {
+                "value": "FirstPersonCamera::LookFrom3DObjectEyes"
+              },
+              "parameters": [
+                "",
+                "Player",
+                "Object3D",
+                "",
+                ""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::ForEach",
+          "object": "Ground_Path_Open",
+          "conditions": [
+            {
+              "type": {
+                "value": "MazeGenerator::MazeObject::CheckMazeObjectMazeID"
+              },
+              "parameters": [
+                "Ground_Path_Open",
+                "MazeObject",
+                "\"maze\"",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "Egal"
+              },
+              "parameters": [
+                "MazeGenerator::MazeNumWalls(Ground_Path_Open.MazeObject::MazeObjectMazeID(),Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
+                "=",
+                "3"
+              ]
+            }
+          ],
+          "actions": [],
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                    "=",
+                    "MazeGenerator::MazeFarthestDeadEndRow()"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                    "=",
+                    "MazeGenerator::MazeFarthestDeadEndColumn()"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Create"
+                  },
+                  "parameters": [
+                    "",
+                    "PortalVortex",
+                    "0",
+                    "0",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetCenter"
+                  },
+                  "parameters": [
+                    "PortalVortex",
+                    "=",
+                    "Ground_Path_Open.CenterX()",
+                    "=",
+                    "Ground_Path_Open.CenterY()"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Scene3D::Base3DBehavior::SetRotationX"
+                  },
+                  "parameters": [
+                    "PortalVortex",
+                    "Object3D",
+                    "=",
+                    "90"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Else",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                    "!=",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                    "!=",
+                    "1"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Create"
+                  },
+                  "parameters": [
+                    "",
+                    "Chest",
+                    "0",
+                    "0",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetCenter"
+                  },
+                  "parameters": [
+                    "Chest",
+                    "=",
+                    "Ground_Path_Open.CenterX()",
+                    "=",
+                    "Ground_Path_Open.CenterY()"
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
     {
       "disabled": true,
       "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [],
+      "conditions": [
+        {
+          "type": {
+            "value": "Egal"
+          },
+          "parameters": [
+            "MazeGenerator::MazeCellDepth(Ground_Path_Open.MazeObject::MazeObjectMazeID(),Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
+            ">=",
+            "5"
+          ]
+        }
+      ],
       "actions": []
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::SetMazeCullingEnabled"
+          },
+          "parameters": [
+            "",
+            "yes",
+            ""
+          ]
+        }
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
