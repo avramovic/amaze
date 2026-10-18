@@ -1667,8 +1667,8 @@
           "parameters": [
             "",
             "\"maze\"",
-            "0",
-            "0",
+            "1",
+            "1",
             ""
           ]
         }
@@ -1760,6 +1760,18 @@
                 },
                 {
                   "type": {
+                    "value": "Create"
+                  },
+                  "parameters": [
+                    "",
+                    "PortalSparkles",
+                    "0",
+                    "0",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
                     "value": "SetCenter"
                   },
                   "parameters": [
@@ -1772,13 +1784,14 @@
                 },
                 {
                   "type": {
-                    "value": "Scene3D::Base3DBehavior::SetRotationX"
+                    "value": "SetCenter"
                   },
                   "parameters": [
-                    "PortalVortex",
-                    "Object3D",
+                    "PortalSparkles",
                     "=",
-                    "90"
+                    "Ground_Path_Open.CenterX()",
+                    "=",
+                    "Ground_Path_Open.CenterY()"
                   ]
                 }
               ]
@@ -1791,19 +1804,9 @@
                     "value": "BuiltinCommonInstructions::CompareNumbers"
                   },
                   "parameters": [
-                    "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                    "Ground_Path_Open.MazeObject::MazeObjectRow() + Ground_Path_Open.MazeObject::MazeObjectColumn()",
                     "!=",
-                    "1"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "BuiltinCommonInstructions::CompareNumbers"
-                  },
-                  "parameters": [
-                    "Ground_Path_Open.MazeObject::MazeObjectColumn()",
-                    "!=",
-                    "1"
+                    "2"
                   ]
                 }
               ],
@@ -1830,6 +1833,150 @@
                     "Ground_Path_Open.CenterX()",
                     "=",
                     "Ground_Path_Open.CenterY()"
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "disabled": true,
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "AnimatableCapability::AnimatableBehavior::SetName"
+                      },
+                      "parameters": [
+                        "Chest",
+                        "Animation",
+                        "=",
+                        "\"Chest_Open\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "MazeGenerator::CheckMazeWall"
+                      },
+                      "parameters": [
+                        "",
+                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
+                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "\"RightWall\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Chest",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "MazeGenerator::CheckMazeWall"
+                      },
+                      "parameters": [
+                        "",
+                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
+                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "\"DownWall\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Chest",
+                        "=",
+                        "90"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "MazeGenerator::CheckMazeWall"
+                      },
+                      "parameters": [
+                        "",
+                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
+                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "\"LeftWall\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Chest",
+                        "=",
+                        "180"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "MazeGenerator::CheckMazeWall"
+                      },
+                      "parameters": [
+                        "",
+                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
+                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "\"UpWall\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Chest",
+                        "=",
+                        "270"
+                      ]
+                    }
                   ]
                 }
               ]
