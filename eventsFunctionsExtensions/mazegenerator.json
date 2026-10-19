@@ -3665,7 +3665,7 @@
               },
               "parameters": [
                 "__MazeGenerator[GetArgumentAsString(\"MazeID\")][\"DownWall\"][Variable(__MazeGenerator.Index)-Variable(__MazeGenerator[GetArgumentAsString(\"MazeID\")].NumColumns)]",
-                "True"
+                "False"
               ]
             }
           ]
@@ -9611,6 +9611,180 @@
       "objectGroups": []
     },
     {
+      "description": "Turns a percentage of the dead ends into loops by removing one wall each. Never touches outer border walls, and always leaves at least 2 dead ends. Uses the maze seed (see Set maze seed). Call it BEFORE creating the wall, floor and corner objects, and before Compute dead ends.",
+      "fullName": "Braid maze (remove dead ends)",
+      "functionType": "Action",
+      "name": "BraidMaze",
+      "sentence": "Braid maze _PARAM1_: remove _PARAM2_% of dead ends (start cell: row _PARAM3_ column _PARAM4_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const mazeID = eventsFunctionContext.getArgument('MazeID');",
+            "const maze = runtimeScene.getVariables().get('__MazeGenerator').getChild(mazeID);",
+            "const cols = maze.getChild('NumColumns').getAsNumber();",
+            "const total = maze.getChild('NumberOfCells').getAsNumber();",
+            "const left = maze.getChild('LeftWall').getAllChildrenArray();",
+            "const right = maze.getChild('RightWall').getAllChildrenArray();",
+            "const up = maze.getChild('UpWall').getAllChildrenArray();",
+            "const down = maze.getChild('DownWall').getAllChildrenArray();",
+            "const wall = (arr, i) => arr[i].getAsBoolean();",
+            "const wallCount = (i) => wall(left, i) + wall(right, i) + wall(up, i) + wall(down, i);",
+            "const rnd = () => {",
+            "  if (gdjs.__mazeGeneratorRngState == null) return Math.random();",
+            "  let t = (gdjs.__mazeGeneratorRngState = (gdjs.__mazeGeneratorRngState + 0x6D2B79F5) | 0);",
+            "  t = Math.imul(t ^ (t >>> 15), t | 1);",
+            "  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);",
+            "  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;",
+            "};",
+            "const percent = eventsFunctionContext.getArgument('Percent');",
+            "const startRow = eventsFunctionContext.getArgument('StartRow');",
+            "const startCol = eventsFunctionContext.getArgument('StartColumn');",
+            "const start = (startRow - 1) * cols + (startCol - 1);",
+            "",
+            "const deadEnds = [];",
+            "for (let i = 0; i < total; i++) if (i !== start && wallCount(i) === 3) deadEnds.push(i);",
+            "let remaining = deadEnds.length;",
+            "const toRemove = Math.round(deadEnds.length * percent / 100);",
+            "",
+            "// Fisher-Yates shuffle with the maze PRNG so the result is seedable.",
+            "for (let i = deadEnds.length - 1; i > 0; i--) {",
+            "  const j = Math.floor(rnd() * (i + 1));",
+            "  [deadEnds[i], deadEnds[j]] = [deadEnds[j], deadEnds[i]];",
+            "}",
+            "",
+            "let removed = 0;",
+            "for (const i of deadEnds) {",
+            "  if (removed >= toRemove) break;",
+            "  // Keep at least 2 dead ends (one for the exit, one for an enemy).",
+            "  if (remaining <= 2) break;",
+            "  if (wallCount(i) !== 3) continue; // already opened by a neighbour's removal",
+            "  const col = i % cols;",
+            "  // Closed walls that are not on the outer border: [wall array, neighbour index, neighbour's matching wall array]",
+            "  const options = [];",
+            "  if (wall(left, i) && col > 0) options.push([left, i - 1, right]);",
+            "  if (wall(right, i) && col < cols - 1) options.push([right, i + 1, left]);",
+            "  if (wall(up, i) && i >= cols) options.push([up, i - cols, down]);",
+            "  if (wall(down, i) && i < total - cols) options.push([down, i + cols, up]);",
+            "  if (options.length === 0) continue;",
+            "  // Prefer a neighbour that is itself a dead end: one removal clears two.",
+            "  const preferred = options.filter((o) => o[1] !== start && wallCount(o[1]) === 3);",
+            "  const pool = preferred.length > 0 ? preferred : options;",
+            "  const [arr, n, opposite] = pool[Math.floor(rnd() * pool.length)];",
+            "  const neighbourWasDeadEnd = n !== start && wallCount(n) === 3;",
+            "  arr[i].setBoolean(false);",
+            "  opposite[n].setBoolean(false);",
+            "  remaining -= neighbourWasDeadEnd ? 2 : 1;",
+            "  removed++;",
+            "}"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "MazeID",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Percent of dead ends to open (0-100)",
+          "name": "Percent",
+          "type": "expression"
+        },
+        {
+          "description": "Start Row (e.g. the player's cell)",
+          "name": "StartRow",
+          "type": "expression"
+        },
+        {
+          "description": "Start Column (e.g. the player's cell)",
+          "name": "StartColumn",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Collects every dead end (cell with exactly 3 walls) reachable from the start cell, with its path distance (BFS), sorted from farthest to nearest. The start cell is excluded. Use it after the maze is final (after Braid maze). Also stores the cell count and the start cell for Assign dead end roles.",
+      "fullName": "Compute dead ends",
+      "functionType": "Action",
+      "name": "ComputeDeadEnds",
+      "sentence": "Compute the dead ends of maze _PARAM1_ from row _PARAM2_ column _PARAM3_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const mazeID = eventsFunctionContext.getArgument('MazeID');",
+            "const maze = runtimeScene.getVariables().get('__MazeGenerator').getChild(mazeID);",
+            "const cols = maze.getChild('NumColumns').getAsNumber();",
+            "const total = maze.getChild('NumberOfCells').getAsNumber();",
+            "const left = maze.getChild('LeftWall').getAllChildrenArray();",
+            "const right = maze.getChild('RightWall').getAllChildrenArray();",
+            "const up = maze.getChild('UpWall').getAllChildrenArray();",
+            "const down = maze.getChild('DownWall').getAllChildrenArray();",
+            "const wall = (arr, i) => arr[i].getAsBoolean();",
+            "const wallCount = (i) => wall(left, i) + wall(right, i) + wall(up, i) + wall(down, i);",
+            "const startRow = eventsFunctionContext.getArgument('StartRow');",
+            "const startCol = eventsFunctionContext.getArgument('StartColumn');",
+            "const start = (startRow - 1) * cols + (startCol - 1);",
+            "",
+            "const result = [];",
+            "gdjs.__mazeDeadEnds = result;",
+            "if (!(start >= 0 && start < total)) return;",
+            "",
+            "// Breadth-first search; every reachable dead end (3 walls) except the start is collected.",
+            "const dist = new Array(total).fill(-1);",
+            "const queue = [start];",
+            "dist[start] = 0;",
+            "for (let head = 0; head < queue.length; head++) {",
+            "  const i = queue[head];",
+            "  const col = i % cols;",
+            "  if (i !== start && wallCount(i) === 3) {",
+            "    result.push({ row: Math.floor(i / cols) + 1, column: col + 1, distance: dist[i], role: '' });",
+            "  }",
+            "  const next = [];",
+            "  if (!wall(left, i) && col > 0) next.push(i - 1);",
+            "  if (!wall(right, i) && col < cols - 1) next.push(i + 1);",
+            "  if (!wall(up, i) && i >= cols) next.push(i - cols);",
+            "  if (!wall(down, i) && i < total - cols) next.push(i + cols);",
+            "  for (const n of next) {",
+            "    if (dist[n] === -1) {",
+            "      dist[n] = dist[i] + 1;",
+            "      queue.push(n);",
+            "    }",
+            "  }",
+            "}",
+            "result.sort((a, b) => b.distance - a.distance);",
+            "gdjs.__mazeDeadEndsInfo = { cells: total, startRow: startRow, startColumn: startCol };"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "MazeID",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Start Row (e.g. the player's cell)",
+          "name": "StartRow",
+          "type": "expression"
+        },
+        {
+          "description": "Start Column (e.g. the player's cell)",
+          "name": "StartColumn",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
       "description": "Row of the dead end found by the last Find farthest dead end action",
       "fullName": "Farthest dead end row",
       "functionType": "Expression",
@@ -9766,6 +9940,12 @@
       },
       {
         "functionName": "FindFarthestDeadEnd"
+      },
+      {
+        "functionName": "BraidMaze"
+      },
+      {
+        "functionName": "ComputeDeadEnds"
       },
       {
         "functionName": "MazeFarthestDeadEndRow"

@@ -288,6 +288,48 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/2736e1baf451642adb045f4a74ed8327ec2b45df81ea34ddb6a274dead6152d8_Star.png",
           "name": "Star.png"
         }
+      },
+      {
+        "file": "assets/red.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "red.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Cubes/01-Placeholders/c232f3bdd15adc9b47e7cbb04ffacb43627649d9f1f121937e1911bd1d9e7488_red.png",
+          "name": "red.png"
+        }
+      },
+      {
+        "file": "assets/Tree High Round.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Tree High Round.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Fantasy Town Kit/Plant/3fdc3fbda7997b10e2db68c27f7a5b4941e4b15b204f091ab0279c9bfb6e7656_Tree High Round.glb",
+          "name": "Tree High Round.glb"
+        }
+      },
+      {
+        "file": "ringball.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "ringball.glb",
+        "userAdded": false
+      },
+      {
+        "file": "assets/Mist.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Mist.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/8f951492ce4f075492f1d379907eeabc62798cf896f4cde0161dd64a0af1dd90_Mist.png",
+          "name": "Mist.png"
+        }
       }
     ]
   },
@@ -296,7 +338,13 @@
     "folderName": "__ROOT"
   },
   "objectsGroups": [],
-  "variables": [],
+  "variables": [
+    {
+      "name": "Level",
+      "type": "number",
+      "value": 1
+    }
+  ],
   "layouts": [
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,

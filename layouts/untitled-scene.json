@@ -1423,6 +1423,135 @@
           ]
         }
       }
+    },
+    {
+      "assetStoreId": "315fa4e7a77a5b966e40028cb6d98e0454fcc0a9079882bea8140c9029e7d1b7",
+      "name": "Tree_High_Round",
+      "persistentUuid": "013cf9fd-a7e2-498d-a42f-a855ee78df74",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 550,
+        "height": 550,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Tree High Round.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "width": 550,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "",
+      "name": "Spawner",
+      "persistentUuid": "215387aa-5790-40fa-b338-3c30d06c3f48",
+      "type": "Scene3D::Model3DObject",
+      "variables": [
+        {
+          "name": "rotAxis",
+          "persistentUuid": "935f403a-306b-4603-ac68-30a97a210791",
+          "type": "string",
+          "value": "X"
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "ObjectCenter",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 196.9496002197266,
+        "height": 200.00000000000003,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "ringball.glb",
+        "originLocation": "BottomCenterZ",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 168.00000000000009,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "a61708cde30e2982a77ef1bf8c5925fa0621c28b580a8703481512b49a74a4ba",
+      "name": "GroundMist",
+      "persistentUuid": "8c837962-f584-4ec7-ae2e-62a65e62553e",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0,
+        "ShouldAutodestruct": false,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": 0,
+        "ZoneRadius": 200,
+        "EndScale": 1.8,
+        "RenderMode": "Billboard",
+        "Blending": "Normal",
+        "StartColor": "205;210;220",
+        "EndColor": "190;200;215",
+        "StartOpacity": 45,
+        "EndOpacity": 0,
+        "StartSizeMin": 120,
+        "StartSizeMax": 200,
+        "Flow": 18,
+        "LifespanMin": 6,
+        "LifespanMax": 9,
+        "StartSpeedMin": 4,
+        "StartSpeedMax": 14,
+        "SpayConeAngle": 90
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "Mist.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -1442,6 +1571,9 @@
           },
           {
             "objectName": "Ground_Path_Open"
+          },
+          {
+            "objectName": "Tree_High_Round"
           }
         ]
       },
@@ -1509,6 +1641,12 @@
       },
       {
         "objectName": "PortalSparkles"
+      },
+      {
+        "objectName": "Spawner"
+      },
+      {
+        "objectName": "GroundMist"
       }
     ]
   },
@@ -1540,6 +1678,19 @@
             "400",
             "\"maze\"",
             "0",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "MazeGenerator::BraidMaze"
+          },
+          "parameters": [
+            "",
+            "\"maze\"",
+            "15",
+            "1",
+            "1",
             ""
           ]
         },
@@ -1662,13 +1813,24 @@
         },
         {
           "type": {
-            "value": "MazeGenerator::FindFarthestDeadEnd"
+            "value": "MazeGenerator::ComputeDeadEnds"
           },
           "parameters": [
             "",
             "\"maze\"",
             "1",
             "1",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::AssignDeadEndRoles"
+          },
+          "parameters": [
+            "",
+            "6",
+            "0",
             ""
           ]
         }
@@ -1707,16 +1869,6 @@
                 "\"maze\"",
                 ""
               ]
-            },
-            {
-              "type": {
-                "value": "Egal"
-              },
-              "parameters": [
-                "MazeGenerator::MazeNumWalls(Ground_Path_Open.MazeObject::MazeObjectMazeID(),Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
-                "=",
-                "3"
-              ]
             }
           ],
           "actions": [],
@@ -1726,22 +1878,12 @@
               "conditions": [
                 {
                   "type": {
-                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                    "value": "BuiltinCommonInstructions::CompareStrings"
                   },
                   "parameters": [
-                    "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                    "Amaze::DeadEndRole(Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
                     "=",
-                    "MazeGenerator::MazeFarthestDeadEndRow()"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "BuiltinCommonInstructions::CompareNumbers"
-                  },
-                  "parameters": [
-                    "Ground_Path_Open.MazeObject::MazeObjectColumn()",
-                    "=",
-                    "MazeGenerator::MazeFarthestDeadEndColumn()"
+                    "\"Exit\""
                   ]
                 }
               ],
@@ -1797,16 +1939,207 @@
               ]
             },
             {
-              "type": "BuiltinCommonInstructions::Else",
+              "type": "BuiltinCommonInstructions::Standard",
               "conditions": [
                 {
                   "type": {
-                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                    "value": "BuiltinCommonInstructions::CompareStrings"
                   },
                   "parameters": [
-                    "Ground_Path_Open.MazeObject::MazeObjectRow() + Ground_Path_Open.MazeObject::MazeObjectColumn()",
-                    "!=",
-                    "2"
+                    "Amaze::DeadEndRole(Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
+                    "=",
+                    "\"Enemy\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Create"
+                  },
+                  "parameters": [
+                    "",
+                    "Spawner",
+                    "0",
+                    "0",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Create"
+                  },
+                  "parameters": [
+                    "",
+                    "GroundMist",
+                    "0",
+                    "0",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetCenter"
+                  },
+                  "parameters": [
+                    "Spawner",
+                    "=",
+                    "Ground_Path_Open.CenterX()",
+                    "=",
+                    "Ground_Path_Open.CenterY()"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetCenter"
+                  },
+                  "parameters": [
+                    "GroundMist",
+                    "=",
+                    "Ground_Path_Open.CenterX()",
+                    "=",
+                    "Ground_Path_Open.CenterY()"
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "MazeGenerator::CheckMazeWall"
+                      },
+                      "parameters": [
+                        "",
+                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
+                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "\"RightWall\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Chest",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "MazeGenerator::CheckMazeWall"
+                      },
+                      "parameters": [
+                        "",
+                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
+                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "\"DownWall\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Spawner",
+                        "=",
+                        "90"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "MazeGenerator::CheckMazeWall"
+                      },
+                      "parameters": [
+                        "",
+                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
+                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "\"LeftWall\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Spawner",
+                        "=",
+                        "180"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "MazeGenerator::CheckMazeWall"
+                      },
+                      "parameters": [
+                        "",
+                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
+                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
+                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "\"UpWall\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Spawner",
+                        "=",
+                        "270"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "Amaze::DeadEndRole(Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
+                    "=",
+                    "\"Chest\""
                   ]
                 }
               ],
@@ -2015,29 +2348,79 @@
             "yes",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetRotationX"
+          },
+          "parameters": [
+            "Spawner",
+            "Object3D",
+            "+",
+            "1"
+          ]
         }
       ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "value": "BuiltinCommonInstructions::CompareStrings"
-          },
-          "parameters": [
-            "Hedge_Large_Hor.MazeObject::MazeObjectWallDirection()",
-            "=",
-            "\"LeftWall\""
-          ]
-        }
-      ],
+      "conditions": [],
       "actions": []
     },
     {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [],
-      "actions": []
+      "type": "BuiltinCommonInstructions::ForEach",
+      "object": "Pillar_Stone",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Hedge_Large",
+            "Hedge_Large",
+            "Physics3D",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Hedge_Large_Hor",
+            "Hedge_Large_Hor",
+            "Physics3D",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "",
+            "Tree_High_Round",
+            "Pillar_Stone.X()",
+            "Pillar_Stone.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            ""
+          ]
+        }
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
