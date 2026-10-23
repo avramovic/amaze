@@ -431,6 +431,12 @@ Napomena: pool je "od nivoa naviše", stariji tipovi ostaju. Ako blobovi na viso
 
 ---
 
+## 11d. Stražari na putu (implementirano)
+
+Stacionarni tipovi (Mushnub) ne izlaze iz spawnera, jer su spawneri u slepim ulicama gde igrač ne dolazi. Spawn tabela ima osmi parametar `OnRoute` (1 = stražar). `BuildEnemyQueue` takve tipove ne stavlja u red nego u posebnu listu (isti budžet, težine i `FadeAfter`, pa je učestalost kao pre), a `PlaceRouteEnemies` ih postavlja na polja najkraćeg puta od starta do izlaza (ne na prva dva polja i ne na izlaz), ravnomerno raspoređene. Ispod svakog stoji `BlueMist` (plavi mist, radijus 200) koji nestaje kad stražar umre. Domet napada Mushnub-a (200) odgovara mistu. Stražari se ne pomeraju: `SeparateEnemies` ih ne odgurava, a ostali neprijatelji ih zaobilaze. Igrač ne može da prođe kroz neprijatelje (izguran je iz njih, radijus 35 + 40% širine neprijatelja). Stražari se ne računaju u limit živih neprijatelja i ne vezuju spawner za talas. Postavljaju se samo od nivoa 2.
+
+---
+
 ## 12. Odloženo (sledeći korak)
 
 - Sistem perkova i level-up **pre** podešavanja skaliranja težine: HP +12% i budžet +4 po nivou su samo početne vrednosti, a prava kriva se bira tek kad se zna koliko jak igrač postaje

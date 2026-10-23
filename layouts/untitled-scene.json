@@ -3416,7 +3416,7 @@
           "Speed": "0",
           "Damage": "8",
           "XP": "4",
-          "AttackRange": "260",
+          "AttackRange": "200",
           "AttackCooldown": "1.2",
           "AttackDuration": "2",
           "AttackMomentTime": "0.4",
@@ -3881,7 +3881,7 @@
           "Speed": "0",
           "Damage": "6",
           "XP": "2",
-          "AttackRange": "220",
+          "AttackRange": "200",
           "AttackCooldown": "1.2",
           "AttackDuration": "2",
           "AttackMomentTime": "0.4",
@@ -9368,6 +9368,76 @@
           }
         ]
       }
+    },
+    {
+      "assetStoreId": "a61708cde30e2982a77ef1bf8c5925fa0621c28b580a8703481512b49a74a4ba",
+      "name": "BlueMist",
+      "persistentUuid": "5d0f6b1e-7c3a-4a8e-9b21-3f4c8d2a6e10",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0,
+        "ShouldAutodestruct": false,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": 0,
+        "ZoneRadius": 200,
+        "EndScale": 1.8,
+        "RenderMode": "Billboard",
+        "Blending": "Normal",
+        "StartColor": "18;90;210",
+        "EndColor": "120;190;255",
+        "StartOpacity": 45,
+        "EndOpacity": 0,
+        "StartSizeMin": 120,
+        "StartSizeMax": 200,
+        "Flow": 18,
+        "LifespanMin": 6,
+        "LifespanMax": 9,
+        "StartSpeedMin": 4,
+        "StartSpeedMax": 14,
+        "SpayConeAngle": 90
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "Mist.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -9592,6 +9662,9 @@
       },
       {
         "objectName": "EnemyProjectile"
+      },
+      {
+        "objectName": "BlueMist"
       }
     ]
   },
@@ -9852,6 +9925,7 @@
             "3",
             "5",
             "8",
+            "0",
             ""
           ]
         },
@@ -9868,6 +9942,7 @@
             "3",
             "5",
             "8",
+            "0",
             ""
           ]
         },
@@ -9884,6 +9959,7 @@
             "3",
             "5",
             "8",
+            "0",
             ""
           ]
         },
@@ -9900,6 +9976,7 @@
             "3",
             "5",
             "8",
+            "0",
             ""
           ]
         },
@@ -9916,6 +9993,7 @@
             "3",
             "5",
             "8",
+            "0",
             ""
           ]
         },
@@ -9932,6 +10010,7 @@
             "2",
             "3",
             "14",
+            "0",
             ""
           ]
         },
@@ -9948,6 +10027,7 @@
             "1",
             "2",
             "18",
+            "1",
             ""
           ]
         },
@@ -9964,6 +10044,7 @@
             "1",
             "2",
             "18",
+            "0",
             ""
           ]
         },
@@ -9980,6 +10061,7 @@
             "1",
             "3",
             "18",
+            "0",
             ""
           ]
         },
@@ -9996,6 +10078,7 @@
             "1",
             "3",
             "19",
+            "0",
             ""
           ]
         },
@@ -10012,6 +10095,7 @@
             "1",
             "2",
             "21",
+            "0",
             ""
           ]
         },
@@ -10028,6 +10112,7 @@
             "1",
             "2",
             "19",
+            "0",
             ""
           ]
         },
@@ -10044,6 +10129,7 @@
             "1",
             "1",
             "19",
+            "1",
             ""
           ]
         },
@@ -10060,6 +10146,7 @@
             "1",
             "2",
             "22",
+            "0",
             ""
           ]
         },
@@ -10076,6 +10163,7 @@
             "1",
             "3",
             "20",
+            "0",
             ""
           ]
         },
@@ -10092,6 +10180,7 @@
             "1",
             "2",
             "22",
+            "0",
             ""
           ]
         },
@@ -10108,6 +10197,7 @@
             "1",
             "3",
             "20",
+            "0",
             ""
           ]
         },
@@ -10124,6 +10214,7 @@
             "1",
             "2",
             "23",
+            "0",
             ""
           ]
         },
@@ -10140,6 +10231,7 @@
             "1",
             "2",
             "23",
+            "0",
             ""
           ]
         },
@@ -10156,6 +10248,7 @@
             "1",
             "2",
             "23",
+            "0",
             ""
           ]
         },
@@ -10172,6 +10265,7 @@
             "1",
             "3",
             "21",
+            "0",
             ""
           ]
         },
@@ -10188,6 +10282,7 @@
             "1",
             "2",
             "21",
+            "0",
             ""
           ]
         },
@@ -10204,6 +10299,7 @@
             "1",
             "2",
             "23",
+            "0",
             ""
           ]
         },
@@ -10220,6 +10316,7 @@
             "1",
             "2",
             "24",
+            "0",
             ""
           ]
         },
@@ -10236,6 +10333,7 @@
             "1",
             "2",
             "24",
+            "0",
             ""
           ]
         },
@@ -10252,6 +10350,7 @@
             "1",
             "2",
             "24",
+            "0",
             ""
           ]
         },
@@ -10268,6 +10367,7 @@
             "1",
             "2",
             "24",
+            "0",
             ""
           ]
         },
@@ -10283,6 +10383,7 @@
             "3",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10300,6 +10401,7 @@
             "1",
             "2",
             "25",
+            "0",
             ""
           ]
         },
@@ -10316,6 +10418,7 @@
             "1",
             "2",
             "25",
+            "0",
             ""
           ]
         },
@@ -10332,6 +10435,7 @@
             "1",
             "2",
             "26",
+            "0",
             ""
           ]
         },
@@ -10347,6 +10451,7 @@
             "3",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10364,6 +10469,7 @@
             "1",
             "2",
             "27",
+            "0",
             ""
           ]
         },
@@ -10380,6 +10486,7 @@
             "1",
             "2",
             "28",
+            "0",
             ""
           ]
         },
@@ -10395,6 +10502,7 @@
             "3",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10412,6 +10520,7 @@
             "1",
             "2",
             "29",
+            "0",
             ""
           ]
         },
@@ -10427,6 +10536,7 @@
             "3",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10444,6 +10554,7 @@
             "1",
             "2",
             "30",
+            "0",
             ""
           ]
         },
@@ -10459,6 +10570,7 @@
             "3",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10476,6 +10588,7 @@
             "1",
             "1",
             "31",
+            "0",
             ""
           ]
         },
@@ -10491,6 +10604,7 @@
             "3",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10508,6 +10622,7 @@
             "1",
             "1",
             "0",
+            "0",
             ""
           ]
         },
@@ -10523,6 +10638,7 @@
             "3",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10540,6 +10656,7 @@
             "1",
             "1",
             "0",
+            "0",
             ""
           ]
         },
@@ -10555,6 +10672,7 @@
             "3",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10572,6 +10690,7 @@
             "1",
             "1",
             "0",
+            "0",
             ""
           ]
         },
@@ -10587,6 +10706,7 @@
             "1",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -10604,6 +10724,7 @@
             "1",
             "1",
             "0",
+            "0",
             ""
           ]
         },
@@ -10620,6 +10741,7 @@
             "1",
             "1",
             "0",
+            "0",
             ""
           ]
         },
@@ -10635,6 +10757,7 @@
             "1",
             "1",
             "1",
+            "0",
             "0",
             ""
           ]
@@ -11174,6 +11297,57 @@
       ]
     },
     {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Stationary guards (Mushnub) stand on the route from the start to the exit, with a blue mist under each"
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+          },
+          "parameters": [
+            "Level",
+            ">=",
+            "2"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::PlaceRouteEnemies"
+          },
+          "parameters": [
+            "",
+            "Enemies",
+            "Enemy",
+            "\"maze\"",
+            "Level",
+            "\"BlueMist\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
       "disabled": true,
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
@@ -11352,8 +11526,11 @@
           "parameters": [
             "",
             "Enemies",
+            "Enemy",
             "Health",
             "0.7",
+            "Player",
+            "35",
             ""
           ]
         }

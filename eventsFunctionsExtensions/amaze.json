@@ -444,6 +444,8 @@
             "const S = (gdjs.amazeSpawn = {",
             "    table: [],",
             "    queue: [],",
+            "    routeList: [],",
+            "    routeMists: [],",
             "    aliveBy: {},",
             "    globalAlive: 0,",
             "    nextId: 1,",
@@ -617,6 +619,8 @@
             "S.buildQueue = function (level, seed) {",
             "    S.seedRng(seed | 0);",
             "    S.queue = [];",
+            "    S.routeList = [];",
+            "    S.routeMists = [];",
             "    let budget = 12 + 4 * level;",
             "    const pool = S.table.filter(function (e) { return e.minLevel <= level; });",
             "    for (let guard = 0; guard < 200; guard++) {",
@@ -631,19 +635,25 @@
             "        }",
             "        let n = pick.groupMin + Math.floor(S.rng() * (pick.groupMax - pick.groupMin + 1));",
             "        n = Math.max(1, Math.min(n, Math.floor(budget / pick.cost)));",
-            "        for (let i = 0; i < n; i++) S.queue.push(pick.name);",
+            "        for (let i = 0; i < n; i++) (pick.onRoute ? S.routeList : S.queue).push(pick.name);",
             "        budget -= n * pick.cost;",
             "    }",
-            "    console.log('[Amaze] enemy queue (level ' + level + ', seed ' + seed + '): ' + S.queue.join(', '));",
+            "    console.log('[Amaze] enemy queue (level ' + level + ', seed ' + seed + '): ' + S.queue.join(', ') + ' | on the route: ' + S.routeList.join(', '));",
             "};",
             "",
             "// Separation: push overlapping living enemies apart (a little per frame, so it looks like shoving, not teleporting).",
-            "S.separate = function (list, scale, dt) {",
+            "// Enemies in `fixed` (stationary guards) never move: the other enemy is pushed away alone, sliding to the side",
+            "// so it does not get stuck pressing straight against the guard.",
+            "S.separate = function (list, scale, dt, fixed) {",
             "    const cap = 250 * dt;",
+            "    const fixedCap = 600 * dt;",
             "    for (let i = 0; i < list.length; i++) {",
             "        for (let j = i + 1; j < list.length; j++) {",
             "            const a = list[i];",
             "            const b = list[j];",
+            "            const fa = fixed.indexOf(a) >= 0;",
+            "            const fb = fixed.indexOf(b) >= 0;",
+            "            if (fa && fb) continue;",
             "            const wa = Math.min(Math.max(a.getWidth(), 60), 140);",
             "            const wb = Math.min(Math.max(b.getWidth(), 60), 140);",
             "            const minDist = (wa + wb) * 0.5 * scale;",
@@ -657,12 +667,36 @@
             "                dy = Math.sin(ang);",
             "                dist = 1;",
             "            }",
-            "            const push = Math.min((minDist - dist) / 2, cap);",
             "            const nx = dx / dist;",
             "            const ny = dy / dist;",
-            "            a.setPosition(a.getX() - nx * push, a.getY() - ny * push);",
-            "            b.setPosition(b.getX() + nx * push, b.getY() + ny * push);",
+            "            if (fa || fb) {",
+            "                const mover = fa ? b : a;",
+            "                const dir = fa ? 1 : -1;",
+            "                const push = Math.min(minDist - dist, fixedCap);",
+            "                const side = (mover.getUniqueId ? mover.getUniqueId() : 0) % 2 === 0 ? 1 : -1;",
+            "                mover.setPosition(mover.getX() + (nx * dir - ny * 0.6 * side) * push, mover.getY() + (ny * dir + nx * 0.6 * side) * push);",
+            "            } else {",
+            "                const push = Math.min((minDist - dist) / 2, cap);",
+            "                a.setPosition(a.getX() - nx * push, a.getY() - ny * push);",
+            "                b.setPosition(b.getX() + nx * push, b.getY() + ny * push);",
+            "            }",
             "        }",
+            "    }",
+            "};",
+            "",
+            "// The player cannot walk through enemies: it is pushed out of them (enemies and guards stay where they are).",
+            "S.blockPlayer = function (player, list, radius) {",
+            "    if (!player) return;",
+            "    for (let i = 0; i < list.length; i++) {",
+            "        const e = list[i];",
+            "        const r = radius + Math.min(Math.max(e.getWidth() * 0.4, 25), 65);",
+            "        let dx = player.getCenterXInScene() - e.getCenterXInScene();",
+            "        let dy = player.getCenterYInScene() - e.getCenterYInScene();",
+            "        let dist = Math.hypot(dx, dy);",
+            "        if (dist >= r) continue;",
+            "        if (dist < 0.001) { dx = 1; dy = 0; dist = 1; }",
+            "        const push = r - dist;",
+            "        player.setPosition(player.getX() + (dx / dist) * push, player.getY() + (dy / dist) * push);",
             "    }",
             "};",
             ""
@@ -1291,7 +1325,7 @@
       "fullName": "Set enemy spawn info",
       "functionType": "Action",
       "name": "SetEnemySpawnInfo",
-      "sentence": "Spawn table: _PARAM1_ (cost _PARAM2_, from level _PARAM3_, weight _PARAM4_, group _PARAM5_-_PARAM6_) (fades after level _PARAM7_)",
+      "sentence": "Spawn table: _PARAM1_ (cost _PARAM2_, from level _PARAM3_, weight _PARAM4_, group _PARAM5_-_PARAM6_) (fades after level _PARAM7_) (on route: _PARAM8_)",
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
@@ -1302,6 +1336,7 @@
             "const entry = { name: name, cost: Math.max(1, eventsFunctionContext.getArgument(\"Cost\")), minLevel: eventsFunctionContext.getArgument(\"MinLevel\"), weight: Math.max(0, eventsFunctionContext.getArgument(\"Weight\")), groupMin: Math.max(1, Math.floor(eventsFunctionContext.getArgument(\"GroupMin\"))), groupMax: 1 };",
             "entry.groupMax = Math.max(entry.groupMin, Math.floor(eventsFunctionContext.getArgument(\"GroupMax\")));",
             "entry.fadeAfter = Math.max(0, eventsFunctionContext.getArgument(\"FadeAfter\"));",
+            "entry.onRoute = eventsFunctionContext.getArgument(\"OnRoute\") > 0;",
             "const i = S.table.findIndex(function (e) { return e.name === name; });",
             "if (i >= 0) S.table[i] = entry; else S.table.push(entry);"
           ],
@@ -1344,6 +1379,11 @@
         {
           "description": "Level after which the weight fades to 10% over 10 levels (0 = never)",
           "name": "FadeAfter",
+          "type": "expression"
+        },
+        {
+          "description": "1 = stationary guard placed on the route to the exit instead of coming out of a spawner",
+          "name": "OnRoute",
           "type": "expression"
         }
       ],
@@ -1615,6 +1655,16 @@
                 "Enemies",
                 "HealthBehavior",
                 ""
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareStrings"
+              },
+              "parameters": [
+                "Enemies.EnemyBehavior::RoleName()",
+                "!=",
+                "\"Stationary\""
               ]
             }
           ],
@@ -1911,11 +1961,11 @@
       "objectGroups": []
     },
     {
-      "description": "Push overlapping living enemies apart so they spread around the player instead of stacking. Call once per frame. Scale 0.7 means two enemies keep about 70% of their widths apart.",
+      "description": "Push overlapping living enemies apart so they spread around the player instead of stacking, keep stationary guards in place, and stop the player from walking through enemies (the player is pushed out). Also removes the mist under guards that are dead. Call once per frame. Scale 0.7 means two enemies keep about 70% of their widths apart.",
       "fullName": "Separate enemies",
       "functionType": "Action",
       "name": "SeparateEnemies",
-      "sentence": "Push apart overlapping enemies of _PARAM1_ (scale _PARAM3_)",
+      "sentence": "Separate enemies of _PARAM1_ (scale _PARAM4_) and block _PARAM5_ (radius _PARAM6_)",
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
@@ -1924,8 +1974,12 @@
             "if (!S) return;",
             "const ctx = eventsFunctionContext;",
             "const hName = ctx.getBehaviorName(\"HealthBehavior\");",
+            "const eName = ctx.getBehaviorName(\"EnemyBehavior\");",
             "const living = ctx.getObjects(\"Enemies\").filter(function (o) { const h = o.getBehavior(hName); return h && !h.IsDead(ctx); });",
-            "S.separate(living, ctx.getArgument(\"Scale\"), gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene));"
+            "const fixed = living.filter(function (o) { return o.getBehavior(eName).RoleName(ctx) === \"Stationary\"; });",
+            "S.cleanMists(runtimeScene, living);",
+            "S.separate(living, ctx.getArgument(\"Scale\"), gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene), fixed);",
+            "S.blockPlayer(ctx.getObjects(\"Player\")[0], living, ctx.getArgument(\"PlayerRadius\"));"
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -1939,14 +1993,30 @@
           "type": "objectList"
         },
         {
+          "description": "Enemy behavior",
+          "name": "EnemyBehavior",
+          "type": "behavior",
+          "supplementaryInformation": "Amaze::Enemy"
+        },
+        {
           "description": "Health behavior",
           "name": "HealthBehavior",
-          "supplementaryInformation": "Health::Health",
-          "type": "behavior"
+          "type": "behavior",
+          "supplementaryInformation": "Health::Health"
         },
         {
           "description": "Distance kept, as a fraction of the widths (0.7)",
           "name": "Scale",
+          "type": "expression"
+        },
+        {
+          "description": "Player (pushed out of enemies)",
+          "name": "Player",
+          "type": "objectList"
+        },
+        {
+          "description": "Radius of the player (pixels)",
+          "name": "PlayerRadius",
           "type": "expression"
         }
       ],
@@ -1984,6 +2054,55 @@
           "description": "Distance to the player (pixels)",
           "name": "Distance",
           "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Place the stationary enemies of the spawn queue (types marked OnRoute) on cells of the route from the start to the exit, with a mist object under each. Call once after BuildEnemyQueue.",
+      "fullName": "Place guards on the route",
+      "functionType": "Action",
+      "name": "PlaceRouteEnemies",
+      "sentence": "Place guards of maze _PARAM3_ on the route (level _PARAM4_, mist object _PARAM5_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S) return;",
+            "S.placeRoute(runtimeScene, eventsFunctionContext, eventsFunctionContext.getArgument(\"MazeID\"), eventsFunctionContext.getArgument(\"Level\"), eventsFunctionContext.getArgument(\"MistObject\"));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enemies (group with the Enemy behavior)",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemy behavior",
+          "name": "EnemyBehavior",
+          "supplementaryInformation": "Amaze::Enemy",
+          "type": "behavior"
+        },
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Level number",
+          "name": "Level",
+          "type": "expression"
+        },
+        {
+          "description": "Object created under each guard (empty = none)",
+          "name": "MistObject",
+          "type": "string"
         }
       ],
       "objectGroups": []
@@ -2084,6 +2203,9 @@
       },
       {
         "functionName": "PlayEnemySound"
+      },
+      {
+        "functionName": "PlaceRouteEnemies"
       }
     ]
   },
