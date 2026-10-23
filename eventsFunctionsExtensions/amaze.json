@@ -8610,7 +8610,7 @@
                   "parameters": [
                     "Pending",
                     "=",
-                    "WaveSize + floor(SpawnLevel / 6)"
+                    "WaveSize + floor(max(SpawnLevel - 2, 0) / 4)"
                   ]
                 },
                 {
@@ -9235,7 +9235,7 @@
           "objectGroups": []
         },
         {
-          "description": "Level that sets the wave size (+1 enemy per wave every 6 levels, +1 wave every 10 levels). RunSpawners sets it.",
+          "description": "Level that sets the wave size (+1 enemy per wave every 4 levels after level 2, +1 wave every 10 levels). RunSpawners sets it.",
           "fullName": "Set level",
           "functionType": "Action",
           "name": "SetSpawnLevel",
@@ -9316,9 +9316,9 @@
       },
       "propertyDescriptors": [
         {
-          "value": "3",
+          "value": "1",
           "type": "Number",
-          "label": "Enemies per wave",
+          "label": "Enemies per wave on level 2 (grows with the level: +1 every 4 levels)",
           "group": "Waves",
           "name": "WaveSize"
         },

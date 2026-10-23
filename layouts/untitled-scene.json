@@ -2326,7 +2326,7 @@
         {
           "name": "Spawning",
           "type": "Amaze::Spawner",
-          "WaveSize": "3",
+          "WaveSize": "1",
           "Waves": "3",
           "WaveCooldown": "4",
           "SpawnInterval": "0.4",
@@ -11322,24 +11322,6 @@
         },
         {
           "type": {
-            "value": "Amaze::RunSpawners"
-          },
-          "parameters": [
-            "",
-            "Spawner",
-            "Spawning",
-            "Enemies",
-            "Enemy",
-            "Health",
-            "Object3D",
-            "\"maze\"",
-            "Level",
-            "12",
-            ""
-          ]
-        },
-        {
-          "type": {
             "value": "Amaze::ProcessEvolutions"
           },
           "parameters": [
@@ -11372,6 +11354,53 @@
             "Enemies",
             "Health",
             "0.7",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Level 1 has no enemies. From level 2 spawners create them; at most 2 + Level/2 (max 12) alive at once, and waves grow slowly with the level"
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+          },
+          "parameters": [
+            "Level",
+            ">=",
+            "2"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::RunSpawners"
+          },
+          "parameters": [
+            "",
+            "Spawner",
+            "Spawning",
+            "Enemies",
+            "Enemy",
+            "Health",
+            "Object3D",
+            "\"maze\"",
+            "Level",
+            "min(12, 2 + floor(Level / 2))",
             ""
           ]
         }
