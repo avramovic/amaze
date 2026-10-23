@@ -59,16 +59,15 @@
   ],
   "variables": [
     {
-      "name": "Level",
-      "persistentUuid": "60a35c54-32a8-484a-86fb-d51fbb548203",
-      "type": "number",
-      "value": 6
-    },
-    {
       "name": "Seed",
       "persistentUuid": "2098992a-6536-4ecc-8b16-8613ef7d449e",
       "type": "number",
       "value": 0
+    },
+    {
+      "name": "Blocks",
+      "type": "number",
+      "value": 5
     }
   ],
   "instances": [
@@ -385,7 +384,15 @@
           "RangedAnim": "Punch",
           "SlotAngle": "0",
           "ActiveAttackAnim": "Weapon",
-          "CelebrateIndex": "0"
+          "CelebrateIndex": "0",
+          "DanceRepeats": "3",
+          "EvolveDances": "0",
+          "SoundAttack": "",
+          "SoundHit": "",
+          "SoundDeath": "",
+          "SoundEvolve": "",
+          "SoundCelebrate": "",
+          "SoundAggro": ""
         },
         {
           "name": "Health",
@@ -731,7 +738,15 @@
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
           "ActiveAttackAnim": "Punch",
-          "CelebrateIndex": "0"
+          "CelebrateIndex": "0",
+          "DanceRepeats": "3",
+          "EvolveDances": "0",
+          "SoundAttack": "",
+          "SoundHit": "",
+          "SoundDeath": "",
+          "SoundEvolve": "",
+          "SoundCelebrate": "",
+          "SoundAggro": ""
         },
         {
           "isFolded": true,
@@ -879,7 +894,15 @@
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
           "ActiveAttackAnim": "Punch",
-          "CelebrateIndex": "0"
+          "CelebrateIndex": "0",
+          "DanceRepeats": "3",
+          "EvolveDances": "0",
+          "SoundAttack": "",
+          "SoundHit": "",
+          "SoundDeath": "",
+          "SoundEvolve": "",
+          "SoundCelebrate": "",
+          "SoundAggro": ""
         },
         {
           "name": "Health",
@@ -1026,7 +1049,15 @@
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
           "ActiveAttackAnim": "Punch",
-          "CelebrateIndex": "0"
+          "CelebrateIndex": "0",
+          "DanceRepeats": "3",
+          "EvolveDances": "0",
+          "SoundAttack": "",
+          "SoundHit": "",
+          "SoundDeath": "",
+          "SoundEvolve": "",
+          "SoundCelebrate": "",
+          "SoundAggro": ""
         },
         {
           "name": "Health",
@@ -1173,7 +1204,15 @@
           "RangedAnim": "Punch",
           "SlotAngle": "0",
           "ActiveAttackAnim": "Weapon",
-          "CelebrateIndex": "0"
+          "CelebrateIndex": "0",
+          "DanceRepeats": "3",
+          "EvolveDances": "0",
+          "SoundAttack": "",
+          "SoundHit": "",
+          "SoundDeath": "",
+          "SoundEvolve": "",
+          "SoundCelebrate": "",
+          "SoundAggro": ""
         },
         {
           "name": "Health",
@@ -1350,7 +1389,15 @@
           "RangedAnim": "Punch",
           "SlotAngle": "0",
           "ActiveAttackAnim": "Weapon",
-          "CelebrateIndex": "0"
+          "CelebrateIndex": "0",
+          "DanceRepeats": "3",
+          "EvolveDances": "0",
+          "SoundAttack": "",
+          "SoundHit": "",
+          "SoundDeath": "",
+          "SoundEvolve": "",
+          "SoundCelebrate": "",
+          "SoundAggro": ""
         },
         {
           "name": "Health",
@@ -1527,7 +1574,15 @@
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
           "ActiveAttackAnim": "Punch",
-          "CelebrateIndex": "0"
+          "CelebrateIndex": "0",
+          "DanceRepeats": "3",
+          "EvolveDances": "0",
+          "SoundAttack": "",
+          "SoundHit": "",
+          "SoundDeath": "",
+          "SoundEvolve": "",
+          "SoundCelebrate": "",
+          "SoundAggro": ""
         },
         {
           "name": "Health",
@@ -1674,7 +1729,15 @@
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
           "ActiveAttackAnim": "Punch",
-          "CelebrateIndex": "0"
+          "CelebrateIndex": "0",
+          "DanceRepeats": "3",
+          "EvolveDances": "0",
+          "SoundAttack": "",
+          "SoundHit": "",
+          "SoundDeath": "",
+          "SoundEvolve": "",
+          "SoundCelebrate": "",
+          "SoundAggro": ""
         },
         {
           "name": "Health",
@@ -1832,6 +1895,7 @@
           "masks": 17
         },
         {
+          "isFolded": true,
           "name": "PhysicsCharacter3D",
           "type": "Physics3D::PhysicsCharacter3D",
           "physics3D": "Physics3D",
@@ -1849,6 +1913,27 @@
           "stairHeightMax": 20,
           "shouldBindObjectAndForwardAngle": true,
           "canBePushed": true
+        },
+        {
+          "name": "Player",
+          "type": "Amaze::Player",
+          "MoveSpeed": 300,
+          "DamageMultiplier": 1,
+          "PickupRange": 150,
+          "InvulnerabilityTime": 0.5,
+          "XPBase": 5,
+          "XPGrowth": -41,
+          "MetaBonusesEnabled": true,
+          "MetaDamagePerLevel": 0.02,
+          "MetaHPPerLevel": 0.03,
+          "MetaBonusCap": 10,
+          "Health": "Health",
+          "RunXP": 0,
+          "RunLevel": 1,
+          "PendingLevelUps": 0,
+          "JustLeveledUp": false,
+          "MetaLevel": 0,
+          "MetaDamageBonus": 0
         }
       ],
       "content": {
@@ -2149,7 +2234,7 @@
     },
     {
       "assetStoreId": "a61708cde30e2982a77ef1bf8c5925fa0621c28b580a8703481512b49a74a4ba",
-      "name": "GroundMist",
+      "name": "RedMist",
       "persistentUuid": "8c837962-f584-4ec7-ae2e-62a65e62553e",
       "type": "ParticleEmitter3D::ParticleEmitter3D",
       "variant": "",
@@ -2166,8 +2251,8 @@
         "EndScale": 1.8,
         "RenderMode": "Billboard",
         "Blending": "Normal",
-        "StartColor": "205;210;220",
-        "EndColor": "190;200;215",
+        "StartColor": "208;2;27",
+        "EndColor": "245;166;35",
         "StartOpacity": 45,
         "EndOpacity": 0,
         "StartSizeMin": 120,
@@ -2350,7 +2435,7 @@
         "objectName": "Spawner"
       },
       {
-        "objectName": "GroundMist"
+        "objectName": "RedMist"
       },
       {
         "objectName": "EnemyProjectile"
@@ -2358,6 +2443,88 @@
     ]
   },
   "events": [
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Seeds: RunSeed (global) is chosen once per run, 0 = not chosen yet. Seed (scene) is derived from it and the global Level, so every level differs but the whole run can be replayed with the same RunSeed. Type a number into RunSeed to replay a run."
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+          },
+          "parameters": [
+            "RunSeed",
+            "=",
+            "0"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "RunSeed",
+            "=",
+            "RandomInRange(1, 999999)"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "Seed",
+            "=",
+            "RunSeed + Level * 7919"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "Blocks",
+            "=",
+            "min(50, 4 + ceil(Level / 2))"
+          ]
+        }
+      ]
+    },
     {
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
@@ -2379,12 +2546,12 @@
             "",
             "0",
             "0",
-            "2000",
-            "2000",
+            "Blocks * 400",
+            "Blocks * 400",
             "400",
             "400",
             "\"maze\"",
-            "0",
+            "Seed",
             ""
           ]
         },
@@ -2649,6 +2816,36 @@
             "Seed",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "DebuggerTools::ConsoleLog"
+          },
+          "parameters": [
+            "\"Level: \"+Level",
+            "\"info\"",
+            "\"eventsheet\""
+          ]
+        },
+        {
+          "type": {
+            "value": "DebuggerTools::ConsoleLog"
+          },
+          "parameters": [
+            "\"Seed: \"+Seed",
+            "\"info\"",
+            "\"eventsheet\""
+          ]
+        },
+        {
+          "type": {
+            "value": "DebuggerTools::ConsoleLog"
+          },
+          "parameters": [
+            "\"Blocks: \" + ToString(Blocks)",
+            "\"info\"",
+            "\"eventsheet\""
+          ]
         }
       ],
       "events": [
@@ -2796,7 +2993,7 @@
                   },
                   "parameters": [
                     "",
-                    "GroundMist",
+                    "RedMist",
                     "0",
                     "0",
                     ""
@@ -2819,7 +3016,7 @@
                     "value": "SetCenter"
                   },
                   "parameters": [
-                    "GroundMist",
+                    "RedMist",
                     "=",
                     "Ground_Path_Open.CenterX()",
                     "=",
@@ -4001,6 +4198,50 @@
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Distance"
+          },
+          "parameters": [
+            "Player",
+            "PortalVortex",
+            "100",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::Once"
+          },
+          "parameters": []
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "Level",
+            "+",
+            "1"
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"Untitled scene\"",
+            ""
+          ]
+        }
+      ]
     }
   ],
   "layers": [
@@ -4107,6 +4348,10 @@
     {
       "name": "PhysicsCharacter3D",
       "type": "Physics3D::PhysicsCharacter3D"
+    },
+    {
+      "name": "Player",
+      "type": "Amaze::Player"
     },
     {
       "name": "Resizable",

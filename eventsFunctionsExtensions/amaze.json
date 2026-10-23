@@ -1926,6 +1926,42 @@
         }
       ],
       "objectGroups": []
+    },
+    {
+      "description": "Play a sound of an enemy. The volume falls off with the distance to the player: full inside 300 px, silent beyond 1800 px. An empty file name plays nothing.",
+      "fullName": "Play enemy sound",
+      "functionType": "Action",
+      "name": "PlayEnemySound",
+      "sentence": "Play enemy sound _PARAM1_ (distance _PARAM2_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const file = eventsFunctionContext.getArgument(\"File\");",
+            "if (!file) return;",
+            "const distance = eventsFunctionContext.getArgument(\"Distance\");",
+            "const volume = Math.max(0, Math.min(1, (1800 - distance) / 1500));",
+            "if (volume < 0.02) return;",
+            "gdjs.evtTools.sound.playSound(runtimeScene, file, false, volume * 100, 1);"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Sound file (audio resource)",
+          "name": "File",
+          "type": "string"
+        },
+        {
+          "description": "Distance to the player (pixels)",
+          "name": "Distance",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
     }
   ],
   "eventsFunctionsFolderStructure": {
@@ -2020,6 +2056,9 @@
       },
       {
         "functionName": "SeparateEnemies"
+      },
+      {
+        "functionName": "PlayEnemySound"
       }
     ]
   },
@@ -2163,6 +2202,16 @@
                     "False",
                     ""
                   ]
+                },
+                {
+                  "type": {
+                    "value": "Amaze::PlayEnemySound"
+                  },
+                  "parameters": [
+                    "",
+                    "SoundDeath",
+                    "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
+                  ]
                 }
               ]
             },
@@ -2296,6 +2345,16 @@
                         "True",
                         ""
                       ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::PlayEnemySound"
+                      },
+                      "parameters": [
+                        "",
+                        "SoundAggro",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
+                      ]
                     }
                   ]
                 },
@@ -2359,53 +2418,6 @@
                   ]
                 },
                 {
-                  "type": "BuiltinCommonInstructions::Standard",
-                  "conditions": [
-                    {
-                      "type": {
-                        "value": "BooleanVariable"
-                      },
-                      "parameters": [
-                        "Aggro",
-                        "True",
-                        ""
-                      ]
-                    },
-                    {
-                      "type": {
-                        "value": "BuiltinCommonInstructions::CompareStrings"
-                      },
-                      "parameters": [
-                        "EvolvesTo",
-                        "!=",
-                        "\"\""
-                      ]
-                    },
-                    {
-                      "type": {
-                        "value": "BuiltinCommonInstructions::CompareNumbers"
-                      },
-                      "parameters": [
-                        "EvolveTimer",
-                        ">=",
-                        "EvolveTime"
-                      ]
-                    }
-                  ],
-                  "actions": [
-                    {
-                      "type": {
-                        "value": "SetBooleanVariable"
-                      },
-                      "parameters": [
-                        "ReadyToEvolve",
-                        "True",
-                        ""
-                      ]
-                    }
-                  ]
-                },
-                {
                   "type": "BuiltinCommonInstructions::Comment",
                   "color": {
                     "b": 109,
@@ -2447,7 +2459,7 @@
                       "parameters": [
                         "EvolveTimer",
                         ">=",
-                        "EvolveTime - 1"
+                        "EvolveTime"
                       ]
                     },
                     {
@@ -2458,6 +2470,16 @@
                         "State",
                         "!=",
                         "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "False",
+                        ""
                       ]
                     }
                   ],
@@ -2480,6 +2502,352 @@
                         "StateTime",
                         "=",
                         "0"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "EvolveDances",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
+                  "comment": "Evolution dance: the Dance animation plays DanceRepeats times (it is short), then the enemy is ready to be replaced"
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Blob\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "0.2"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "CurrentAnim",
+                        "=",
+                        "DesiredAnim"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::AnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "EvolveDances",
+                        "+",
+                        "1"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "EvolveDances",
+                        "<",
+                        "DanceRepeats"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "EvolveDances",
+                        ">",
+                        "0"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "<=",
+                        "0"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::RestartAnimation"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "EvolveDances",
+                        ">=",
+                        "DanceRepeats"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::PlayEnemySound"
+                      },
+                      "parameters": [
+                        "",
+                        "SoundEvolve",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "!=",
+                        "\"Blob\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "1"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::PlayEnemySound"
+                      },
+                      "parameters": [
+                        "",
+                        "SoundEvolve",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "10"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "ReadyToEvolve",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::PlayEnemySound"
+                      },
+                      "parameters": [
+                        "",
+                        "SoundEvolve",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
                       ]
                     }
                   ]
@@ -2579,6 +2947,16 @@
                         "HitTimer",
                         "=",
                         "HitCooldown"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::PlayEnemySound"
+                      },
+                      "parameters": [
+                        "",
+                        "SoundHit",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
                       ]
                     }
                   ]
@@ -3184,6 +3562,16 @@
                         "AttackMoment",
                         "True",
                         ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::PlayEnemySound"
+                      },
+                      "parameters": [
+                        "",
+                        "SoundAttack",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
                       ]
                     }
                   ]
@@ -5170,6 +5558,16 @@
                     "=",
                     "Random(1)"
                   ]
+                },
+                {
+                  "type": {
+                    "value": "Amaze::PlayEnemySound"
+                  },
+                  "parameters": [
+                    "",
+                    "SoundCelebrate",
+                    "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
+                  ]
                 }
               ]
             }
@@ -6327,6 +6725,41 @@
             }
           ],
           "objectGroups": []
+        },
+        {
+          "description": "Play the current animation again from its start (for animations that are repeated).",
+          "fullName": "Restart animation",
+          "functionType": "Action",
+          "name": "RestartAnimation",
+          "sentence": "Restart the animation of _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const n = o.getAnimationName();",
+                "// Switching away and back in the same frame makes the model play the animation from its start.",
+                "if (n && n !== 'Idle') { o.setAnimationName('Idle'); o.setAnimationName(n); }"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
         }
       ],
       "eventsFunctionsFolderStructure": {
@@ -6409,6 +6842,9 @@
           },
           {
             "functionName": "AnimationEnded"
+          },
+          {
+            "functionName": "RestartAnimation"
           }
         ]
       },
@@ -6605,7 +7041,7 @@
         {
           "value": "25",
           "type": "Number",
-          "label": "Time from aggro to evolution (seconds)",
+          "label": "Time from first aggro until the evolution dance starts (seconds)",
           "group": "Evolution",
           "name": "EvolveTime"
         },
@@ -6891,6 +7327,86 @@
           "label": "Celebration step (0 or 1)",
           "hidden": true,
           "name": "CelebrateIndex"
+        },
+        {
+          "value": "3",
+          "type": "Number",
+          "label": "Times the evolution dance plays before the enemy evolves",
+          "group": "Evolution",
+          "name": "DanceRepeats"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Evolution dances played",
+          "hidden": true,
+          "name": "EvolveDances"
+        },
+        {
+          "value": "",
+          "type": "Resource",
+          "label": "Sound when an attack lands or fires",
+          "group": "Sounds",
+          "extraInformation": [
+            "audio"
+          ],
+          "choices": [],
+          "name": "SoundAttack"
+        },
+        {
+          "value": "",
+          "type": "Resource",
+          "label": "Sound when the enemy is hit",
+          "group": "Sounds",
+          "extraInformation": [
+            "audio"
+          ],
+          "choices": [],
+          "name": "SoundHit"
+        },
+        {
+          "value": "",
+          "type": "Resource",
+          "label": "Sound when the enemy dies",
+          "group": "Sounds",
+          "extraInformation": [
+            "audio"
+          ],
+          "choices": [],
+          "name": "SoundDeath"
+        },
+        {
+          "value": "",
+          "type": "Resource",
+          "label": "Sound when the enemy evolves",
+          "group": "Sounds",
+          "extraInformation": [
+            "audio"
+          ],
+          "choices": [],
+          "name": "SoundEvolve"
+        },
+        {
+          "value": "",
+          "type": "Resource",
+          "label": "Sound when the enemy starts celebrating (the player died)",
+          "group": "Sounds",
+          "extraInformation": [
+            "audio"
+          ],
+          "choices": [],
+          "name": "SoundCelebrate"
+        },
+        {
+          "value": "",
+          "type": "Resource",
+          "label": "Sound when the enemy notices the player",
+          "group": "Sounds",
+          "extraInformation": [
+            "audio"
+          ],
+          "choices": [],
+          "name": "SoundAggro"
         }
       ],
       "propertiesFolderStructure": {
@@ -6975,6 +7491,9 @@
               },
               {
                 "propertyName": "EvolveTime"
+              },
+              {
+                "propertyName": "DanceRepeats"
               }
             ]
           },
@@ -6992,6 +7511,29 @@
               },
               {
                 "propertyName": "LeaveCorpse"
+              }
+            ]
+          },
+          {
+            "folderName": "Sounds",
+            "children": [
+              {
+                "propertyName": "SoundAttack"
+              },
+              {
+                "propertyName": "SoundHit"
+              },
+              {
+                "propertyName": "SoundDeath"
+              },
+              {
+                "propertyName": "SoundEvolve"
+              },
+              {
+                "propertyName": "SoundCelebrate"
+              },
+              {
+                "propertyName": "SoundAggro"
               }
             ]
           },
@@ -7066,6 +7608,9 @@
           },
           {
             "propertyName": "CelebrateIndex"
+          },
+          {
+            "propertyName": "EvolveDances"
           }
         ]
       }
