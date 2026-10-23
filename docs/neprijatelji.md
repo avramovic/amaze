@@ -407,6 +407,30 @@ Fajl: `eventsFunctionsExtensions/amaze.json`. Zahteva ekstenziju "Health points 
 
 ---
 
+## 11b. Progresija tipova po nivoima (implementirano)
+
+`SetEnemySpawnInfo` u početnom eventu scene je jedina tabela (cena, minimalni nivo, težina, veličina grupe). Redosled otvaranja:
+
+| Nivoi | Šta se pojavljuje |
+|---|---|
+| 1-5 | samo blobovi koji ne evoluiraju (Cat, Dog, Chicken, GreenBlob, PinkBlob, GreenSpikyBlob), pa stacionarni Mushnub (4) i Wizard (5) |
+| 6-9 | blobovi koji evoluiraju (Orc, Cactoro, Birb, Ninja, Fish, Pigeon, Alien) i njihovi Standing oblici (Orc 7, Cactoro i Birb 8, Frog, Bunny, Ninja, Fish 9) |
+| 10-19 | prvi leteći (Goleling, Armabee 10; Glub, Alpaking 11; Pigeon 12; Hywirl 13; TribalFly 14), strelci (Squidle 15, Ghost 16), Dragon 17; Standing Alien i Monkroose (10), Yeti (12), elite (BlueDemon 14, Dino 15, OrcSkull 16) |
+| 20+ | elite leteći (*Evolved, preleću zidove), Demon2 (18), GhostSkull (19), mini-bossevi (MushroomKing, Demon, Tribal 20, DragonEvolved 22) |
+
+Napomena: pool je "od nivoa naviše", stariji tipovi ostaju. Ako blobovi na visokim nivoima predominiraju, spusti im težinu.
+
+---
+
+## 11c. Balans (implementirano)
+
+- **Slabljenje starih tipova:** `SetEnemySpawnInfo` ima sedmi parametar `FadeAfter`. Posle tog nivoa težina tipa pada na 10% kroz 10 nivoa (0 = nikad). Roj (Cat, Dog, Chicken, Green, Pink) slabi posle 8, ostali obični tipovi `minNivo + 12..14`. Elite, Yeti i mini-bossevi nikad ne slabe, pa se mešavina sa nivoom pomera ka težim tipovima.
+- **Veličina talasa:** spawner dobija nivo od `RunSpawners`. Talas ima `WaveSize + floor(nivo / 6)` neprijatelja, a broj talasa je `Waves + floor(nivo / 10)`. Globalni cap živih (12) ostaje.
+- **Skaliranje statistika** (`ApplyLevelScaling`): HP +10% po nivou do 20, pa +5%. Šteta +4% po nivou do 20, pa +2%. Na nivou 100 je to HP x6.9 i šteta x3.4 (ranije HP x12.9 i šteta x8.9, što bi bilo neodrživo uz igrača sa 100 HP).
+- **Igrač:** `Health` igrača ima 0.5 s neranjivosti posle pogotka, što ograničava štetu od gomile na `šteta / 0.5 s`, bez obzira koliko ih ima.
+
+---
+
 ## 12. Odloženo (sledeći korak)
 
 - Sistem perkova i level-up **pre** podešavanja skaliranja težine: HP +12% i budžet +4 po nivou su samo početne vrednosti, a prava kriva se bira tek kad se zna koliko jak igrač postaje

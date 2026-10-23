@@ -45,12 +45,14 @@
             "    }",
             "    const hb = o.getBehavior(hName);",
             "    const pct = hb.MaxHealth(ctx) > 0 ? hb.Health(ctx) / hb.MaxHealth(ctx) : 1;",
-            "    // Both models use the model origin (feet), so the origin point is what must stay in place.\n    n.setPosition(o.getX(), o.getY());",
+            "    // Both models use the model origin (feet), so the origin point is what must stay in place.",
+            "    n.setPosition(o.getX(), o.getY());",
             "    n.setAngle(o.getAngle());",
             "    if (n.setZ && o.getZ) n.setZ(o.getZ());",
             "    const nh = n.getBehavior(hName);",
             "    nh.SetCurrentHealth(pct * nh.MaxHealth(ctx), ctx);",
             "    const nb = n.getBehavior(eName);",
+            "    if (n.setZ) n.setZ(Math.max(n.getZ(), nb.FlyHeight(ctx)));",
             "    nb.SetSpawnerId(eb.SpawnerId(ctx), ctx);",
             "    nb.SetSlotAngle(eb.SlotAngle(ctx), ctx);",
             "    nb.ForceAggro(ctx);",
@@ -606,6 +608,12 @@
             "    };",
             "};",
             "",
+            "// Weight of a type on a level: full until fadeAfter, then falling to 10% over 10 levels (fadeAfter 0 = never).",
+            "S.weightAt = function (e, level) {",
+            "    if (!(e.fadeAfter > 0) || level <= e.fadeAfter) return e.weight;",
+            "    return e.weight * Math.max(0.1, 1 - (level - e.fadeAfter) / 10);",
+            "};",
+            "",
             "S.buildQueue = function (level, seed) {",
             "    S.seedRng(seed | 0);",
             "    S.queue = [];",
@@ -614,11 +622,11 @@
             "    for (let guard = 0; guard < 200; guard++) {",
             "        const options = pool.filter(function (e) { return e.cost <= budget; });",
             "        if (options.length === 0) break;",
-            "        const total = options.reduce(function (sum, e) { return sum + e.weight; }, 0);",
+            "        const total = options.reduce(function (sum, e) { return sum + S.weightAt(e, level); }, 0);",
             "        let r = S.rng() * total;",
             "        let pick = options[options.length - 1];",
             "        for (let i = 0; i < options.length; i++) {",
-            "            r -= options[i].weight;",
+            "            r -= S.weightAt(options[i], level);",
             "            if (r < 0) { pick = options[i]; break; }",
             "        }",
             "        let n = pick.groupMin + Math.floor(S.rng() * (pick.groupMax - pick.groupMin + 1));",
@@ -1283,7 +1291,7 @@
       "fullName": "Set enemy spawn info",
       "functionType": "Action",
       "name": "SetEnemySpawnInfo",
-      "sentence": "Spawn table: _PARAM1_ (cost _PARAM2_, from level _PARAM3_, weight _PARAM4_, group _PARAM5_-_PARAM6_)",
+      "sentence": "Spawn table: _PARAM1_ (cost _PARAM2_, from level _PARAM3_, weight _PARAM4_, group _PARAM5_-_PARAM6_) (fades after level _PARAM7_)",
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
@@ -1293,6 +1301,7 @@
             "const name = eventsFunctionContext.getArgument(\"Name\");",
             "const entry = { name: name, cost: Math.max(1, eventsFunctionContext.getArgument(\"Cost\")), minLevel: eventsFunctionContext.getArgument(\"MinLevel\"), weight: Math.max(0, eventsFunctionContext.getArgument(\"Weight\")), groupMin: Math.max(1, Math.floor(eventsFunctionContext.getArgument(\"GroupMin\"))), groupMax: 1 };",
             "entry.groupMax = Math.max(entry.groupMin, Math.floor(eventsFunctionContext.getArgument(\"GroupMax\")));",
+            "entry.fadeAfter = Math.max(0, eventsFunctionContext.getArgument(\"FadeAfter\"));",
             "const i = S.table.findIndex(function (e) { return e.name === name; });",
             "if (i >= 0) S.table[i] = entry; else S.table.push(entry);"
           ],
@@ -1330,6 +1339,11 @@
         {
           "description": "Largest group",
           "name": "GroupMax",
+          "type": "expression"
+        },
+        {
+          "description": "Level after which the weight fades to 10% over 10 levels (0 = never)",
+          "name": "FadeAfter",
           "type": "expression"
         }
       ],
@@ -1640,6 +1654,16 @@
                 "SpawnerBehavior",
                 "Amaze::FlowDistance(MazeID, Spawners.CenterX(), Spawners.CenterY())"
               ]
+            },
+            {
+              "type": {
+                "value": "Amaze::Spawner::SetSpawnLevel"
+              },
+              "parameters": [
+                "Spawners",
+                "SpawnerBehavior",
+                "Level"
+              ]
             }
           ]
         },
@@ -1827,7 +1851,8 @@
             "S.queue.shift();",
             "const obj = runtimeScene.createObject(name);",
             "if (!obj) { console.warn('[Amaze] cannot create enemy \"' + name + '\" (is it in the scene?)'); return; }",
-            "// The models use the model origin (feet), so the origin point goes to the spawner centre.\nobj.setPosition(ctx.getArgument(\"X\"), ctx.getArgument(\"Y\"));",
+            "// The models use the model origin (feet), so the origin point goes to the spawner centre.",
+            "obj.setPosition(ctx.getArgument(\"X\"), ctx.getArgument(\"Y\"));",
             "const enemy = obj.getBehavior(ctx.getBehaviorName(\"EnemyBehavior\"));",
             "const id = ctx.getArgument(\"SpawnerId\");",
             "enemy.ApplyLevelScaling(ctx.getArgument(\"Level\"), ctx);",
@@ -5637,7 +5662,7 @@
           "objectGroups": []
         },
         {
-          "description": "Scale max health (+12% per level) and damage (+8% per level) from the level number.",
+          "description": "Scale max health (+10% per level up to level 20, then +5%) and damage (+4% per level up to level 20, then +2%) from the level number.",
           "fullName": "Apply level scaling",
           "functionType": "Action",
           "name": "ApplyLevelScaling",
@@ -5654,7 +5679,7 @@
                   "parameters": [
                     "Object",
                     "Health",
-                    "Object.Health::MaxHealth() * (1 + 0.12 * (Level - 1))",
+                    "Object.Health::MaxHealth() * (1 + 0.1 * min(Level - 1, 19) + 0.05 * max(Level - 20, 0))",
                     ""
                   ]
                 },
@@ -5676,7 +5701,7 @@
                   "parameters": [
                     "Damage",
                     "*",
-                    "1 + 0.08 * (Level - 1)"
+                    "1 + 0.04 * min(Level - 1, 19) + 0.02 * max(Level - 20, 0)"
                   ]
                 }
               ]
@@ -8585,7 +8610,7 @@
                   "parameters": [
                     "Pending",
                     "=",
-                    "WaveSize"
+                    "WaveSize + floor(SpawnLevel / 6)"
                   ]
                 },
                 {
@@ -8734,7 +8759,7 @@
                   "parameters": [
                     "WavesDone",
                     ">=",
-                    "Waves"
+                    "Waves + floor(SpawnLevel / 10)"
                   ]
                 }
               ],
@@ -9208,6 +9233,50 @@
             }
           ],
           "objectGroups": []
+        },
+        {
+          "description": "Level that sets the wave size (+1 enemy per wave every 6 levels, +1 wave every 10 levels). RunSpawners sets it.",
+          "fullName": "Set level",
+          "functionType": "Action",
+          "name": "SetSpawnLevel",
+          "sentence": "Set the level of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "SpawnLevel",
+                    "=",
+                    "NewLevel"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            },
+            {
+              "description": "Level",
+              "name": "NewLevel",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
         }
       ],
       "eventsFunctionsFolderStructure": {
@@ -9239,6 +9308,9 @@
           },
           {
             "functionName": "State"
+          },
+          {
+            "functionName": "SetSpawnLevel"
           }
         ]
       },
@@ -9333,6 +9405,13 @@
           "label": "Wants to spawn an enemy this frame",
           "hidden": true,
           "name": "WantsSpawn"
+        },
+        {
+          "value": "1",
+          "type": "Number",
+          "label": "Level used for the wave size",
+          "hidden": true,
+          "name": "SpawnLevel"
         }
       ],
       "propertiesFolderStructure": {
@@ -9381,6 +9460,9 @@
           },
           {
             "propertyName": "WantsSpawn"
+          },
+          {
+            "propertyName": "SpawnLevel"
           }
         ]
       }

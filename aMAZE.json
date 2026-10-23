@@ -330,6 +330,468 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/8f951492ce4f075492f1d379907eeabc62798cf896f4cde0161dd64a0af1dd90_Mist.png",
           "name": "Mist.png"
         }
+      },
+      {
+        "file": "assets/Alien2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Alien.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/c6a959567fc45ded23f28a33f72d4ea7025502eb7c3a66e542b9d77df102b21a_Alien.glb",
+          "name": "Alien.glb"
+        }
+      },
+      {
+        "file": "assets/Cat2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Cat.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/68ebd8be44683b6eb5b6f4a06e0c7f9bb9a40c6ab5f8c291ab1cb93187fffe76_Cat.glb",
+          "name": "Cat.glb"
+        }
+      },
+      {
+        "file": "assets/Birb3.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Birb.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/31a978db39e0ec407c8e8014abc17961f381a989e0dd6cd13ce4ef06d5913c3f_Birb.glb",
+          "name": "Birb.glb"
+        }
+      },
+      {
+        "file": "assets/Dog2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Dog.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/252e8301a5ca89e9a04f27e3081351827df4c70359318bd5a0e9aac8f08998b6_Dog.glb",
+          "name": "Dog.glb"
+        }
+      },
+      {
+        "file": "assets/Chicken2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Chicken.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/aa3e17476f7e30d24aa2ac8d119964106c96cbf2cc2c84f688e6d2f5948abe6a_Chicken.glb",
+          "name": "Chicken.glb"
+        }
+      },
+      {
+        "file": "assets/Fish2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Fish.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/49b9ffa5a766cc38e882b384f18f03c6261df6b16422b367bce0d5f61f480148_Fish.glb",
+          "name": "Fish.glb"
+        }
+      },
+      {
+        "file": "assets/Mushnub Evolved2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Mushnub Evolved.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/591eb2e707a6f06a575989a57d6e183f39b0731b981820793db4dd1c17a696ad_Mushnub Evolved.glb",
+          "name": "Mushnub Evolved.glb"
+        }
+      },
+      {
+        "file": "assets/Ninja2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Ninja.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/f04621c7ae1fbafef332c3023d99b7d46a2aa7f8a414918bb4b33bc2c9748359_Ninja.glb",
+          "name": "Ninja.glb"
+        }
+      },
+      {
+        "file": "assets/GreenSpikyBlob2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "GreenSpikyBlob.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/0d10052c069f2446c56b828425a140182e7bc2736479abf79e2d752995e6bfcb_GreenSpikyBlob.glb",
+          "name": "GreenSpikyBlob.glb"
+        }
+      },
+      {
+        "file": "assets/Mushnub2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Mushnub.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/5b98d29a46d721bd56420724ec8651070d270cfb8ae1910f4a894304709ea0f7_Mushnub.glb",
+          "name": "Mushnub.glb"
+        }
+      },
+      {
+        "file": "assets/PinkBlob2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "PinkBlob.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/40be46f6c73fa05248c391af5c8d3c80c010a4c1078716b6ee8bc41d72127d04_PinkBlob.glb",
+          "name": "PinkBlob.glb"
+        }
+      },
+      {
+        "file": "assets/Pigeon2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Pigeon.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/8956d29f6c2f9095ab1e4217a3a7693bbfa183981c11d734f581df02667d4a87_Pigeon.glb",
+          "name": "Pigeon.glb"
+        }
+      },
+      {
+        "file": "assets/Wizard2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Wizard.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/45e5cc2a54047ca2c5958edd77934b899a2ed23a6bb99a348e7bb81bc8672023_Wizard.glb",
+          "name": "Wizard.glb"
+        }
+      },
+      {
+        "file": "assets/Yeti3.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Yeti.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Blob/978d46009fa936a909375d95b80db3496a77f4b684a32df336333d62b0a604b5_Yeti.glb",
+          "name": "Yeti.glb"
+        }
+      },
+      {
+        "file": "assets/Birb5.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Birb.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/42d0caa56666991da629128270c11ca59b57c049a04d725c0eb3248532feab16_Birb.glb",
+          "name": "Birb.glb"
+        }
+      },
+      {
+        "file": "assets/BlueDemon2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "BlueDemon.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/fdfdbf673233a7fd2a2164172836ebd402707014e52ba2eb331446da0d50fa5f_BlueDemon.glb",
+          "name": "BlueDemon.glb"
+        }
+      },
+      {
+        "file": "assets/Alien4.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Alien.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/5eaac0a104976176095b725316d9d9ad21af21393d8d13a30ad10ed679507d99_Alien.glb",
+          "name": "Alien.glb"
+        }
+      },
+      {
+        "file": "assets/Dino2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Dino.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/42cdfc83c6be2793dca946e451e3fa32456c67f0a9fd66239ad24e540c3995ba_Dino.glb",
+          "name": "Dino.glb"
+        }
+      },
+      {
+        "file": "assets/Demon2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Demon.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/e15b1d4a1a59fcd7a6d6881175723d57d69272ddfa467b2c0473829bf3e82f2b_Demon.glb",
+          "name": "Demon.glb"
+        }
+      },
+      {
+        "file": "assets/MushroomKing2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "MushroomKing.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/b29009c953188ade7869c74e10771342a627ca96456218904d2f8eab47688e3f_MushroomKing.glb",
+          "name": "MushroomKing.glb"
+        }
+      },
+      {
+        "file": "assets/Monkroose2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Monkroose.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/c5b3bf1077891a5c370f04e0bb8020d25f091cb1a5baaaff41fc2d73e5d132d1_Monkroose.glb",
+          "name": "Monkroose.glb"
+        }
+      },
+      {
+        "file": "assets/Frog2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Frog.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/c8ec849f39a3fc6cf66904e52047ff6ad5e9cb8963834207f056169fa4e39c0a_Frog.glb",
+          "name": "Frog.glb"
+        }
+      },
+      {
+        "file": "assets/Ninja4.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Ninja.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/b5693c5b8f5d6639f404c2cabaeb853869cf4f7c04adc9f839af187e68587cdc_Ninja.glb",
+          "name": "Ninja.glb"
+        }
+      },
+      {
+        "file": "assets/Fish4.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Fish.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/e4bae9f2a7b60ca5f6493da221dc60e8cd5967d7bf35b37e91df97852f723baf_Fish.glb",
+          "name": "Fish.glb"
+        }
+      },
+      {
+        "file": "assets/Orc Skull2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Orc Skull.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/5291a463be60a9245de5227fdfe020cfdb084269b451f71d2fa109ff281752c1_Orc Skull.glb",
+          "name": "Orc Skull.glb"
+        }
+      },
+      {
+        "file": "assets/Tribal2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Tribal.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/0d7dd5e8201535df3f021fae2500da8c4d155aea1e1f6a8ed619af3205bdea30_Tribal.glb",
+          "name": "Tribal.glb"
+        }
+      },
+      {
+        "file": "assets/Bunny.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Bunny.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Standing/d3ede48f1b7b3c5c2a0aba8499f84117c72e1411f3069b94dd026db295587de5_Bunny.glb",
+          "name": "Bunny.glb"
+        }
+      },
+      {
+        "file": "assets/Alpaking Evolved.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Alpaking Evolved.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/90edf93810eb65874f6f5f882496486b60f848d0d167a82b977267d5adb20bd7_Alpaking Evolved.glb",
+          "name": "Alpaking Evolved.glb"
+        }
+      },
+      {
+        "file": "assets/Armabee Evolved.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Armabee Evolved.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/a4d0d409e2c5789e9b4c59b7772e1b4d18c366a8a45856b30f0e05654c92dea7_Armabee Evolved.glb",
+          "name": "Armabee Evolved.glb"
+        }
+      },
+      {
+        "file": "assets/Alpaking.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Alpaking.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/33336c6c5a15c998adcf2034e95b43d9c6ad29cc27c386342b0083e005587258_Alpaking.glb",
+          "name": "Alpaking.glb"
+        }
+      },
+      {
+        "file": "assets/Armabee.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Armabee.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/5a652acc87095aeb88ac7f92e9df043d6ef1f5e9ac0afee15ac2372facd92e08_Armabee.glb",
+          "name": "Armabee.glb"
+        }
+      },
+      {
+        "file": "assets/Dragon.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Dragon.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/356ad6a400d222e4b893f79525b93a9e20f4642449460e9d37d76cbb9d137f6d_Dragon.glb",
+          "name": "Dragon.glb"
+        }
+      },
+      {
+        "file": "assets/Glub Evolved.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Glub Evolved.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/e1dc87abd11873bf496baa25e33904853fa236e011aed1530f1d156493319b9a_Glub Evolved.glb",
+          "name": "Glub Evolved.glb"
+        }
+      },
+      {
+        "file": "assets/Glub.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Glub.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/46f7b9ed9f1aca38fede4642e0de0bbbc1de8fb9e014bf18d94c18c30ed3d658_Glub.glb",
+          "name": "Glub.glb"
+        }
+      },
+      {
+        "file": "assets/Goleling Evolved.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Goleling Evolved.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/8fdc56697eed6009c6dd27069e1096f56860fea3888d95fd7343bd571fb70b2d_Goleling Evolved.glb",
+          "name": "Goleling Evolved.glb"
+        }
+      },
+      {
+        "file": "assets/Pigeon3.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Pigeon.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/d9765199b521d00d906ec18017e03bdd83b73119b9958ba63e5d6c862fd63ffb_Pigeon.glb",
+          "name": "Pigeon.glb"
+        }
+      },
+      {
+        "file": "assets/Demon3.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Demon.glb2",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/2087b492277e562fa53acd948b9f702589803bebb29bfa343cef9ef8190d42a8_Demon.glb",
+          "name": "Demon.glb"
+        }
+      },
+      {
+        "file": "assets/Dragon Evolved.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Dragon Evolved.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/bce94ce6169957acf211bd02b94e11134cc4d21e5a788daecddb9a8cb647c66e_Dragon Evolved.glb",
+          "name": "Dragon Evolved.glb"
+        }
+      },
+      {
+        "file": "assets/Ghost.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Ghost.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/5cb86101acffa30cba519208ced259216841e47f4bba6597ea047f32fede0ba0_Ghost.glb",
+          "name": "Ghost.glb"
+        }
+      },
+      {
+        "file": "assets/Ghost Skull2.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Ghost Skull.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/f588a28f51e5bb9ab5ab869a05f465c9e84284b2f3f3bb83fa13b29d3a5b41ab_Ghost Skull.glb",
+          "name": "Ghost Skull.glb"
+        }
+      },
+      {
+        "file": "assets/Hywirl.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Hywirl.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/17f3cd47d4ea968ec3a36a9bab8b1de8cb11bb179d1e62397a09d7896b591048_Hywirl.glb",
+          "name": "Hywirl.glb"
+        }
+      },
+      {
+        "file": "assets/Squidle.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Squidle.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/3042abbeda56de6842d5ce9e5a0f5ff229ec1b17115c0d8b2f96a8cbb02c84b5_Squidle.glb",
+          "name": "Squidle.glb"
+        }
       }
     ]
   },
