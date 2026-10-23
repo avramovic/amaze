@@ -81,28 +81,9 @@
       "name": "Player",
       "persistentUuid": "ff1c2c1e-bfb5-4b6a-931e-e9f3f7689eaf",
       "width": 60,
-      "x": 72,
-      "y": 191,
+      "x": 200,
+      "y": 200,
       "zOrder": 4,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": true,
-      "depth": 32,
-      "height": 32,
-      "keepRatio": true,
-      "layer": "",
-      "name": "PortalSparkles",
-      "persistentUuid": "2d95e7ac-6112-4ec0-bba4-a0f0336a5c87",
-      "rotationX": 90,
-      "width": 32,
-      "x": 279,
-      "y": 224,
-      "z": 20,
-      "zOrder": 6,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -400,7 +381,10 @@
           "WaypointX": "0",
           "WaypointY": "0",
           "CanAttack": "true",
-          "Health": "Health"
+          "Health": "Health",
+          "RangedAnim": "Weapon",
+          "SlotAngle": "0",
+          "ActiveAttackAnim": "Punch"
         },
         {
           "name": "Health",
@@ -742,7 +726,10 @@
           "WaypointX": "0",
           "WaypointY": "0",
           "CanAttack": "true",
-          "Health": "Health"
+          "Health": "Health",
+          "RangedAnim": "Weapon",
+          "SlotAngle": "0",
+          "ActiveAttackAnim": "Punch"
         },
         {
           "isFolded": true,
@@ -886,7 +873,10 @@
           "WaypointX": "0",
           "WaypointY": "0",
           "CanAttack": "true",
-          "Health": "Health"
+          "Health": "Health",
+          "RangedAnim": "Weapon",
+          "SlotAngle": "0",
+          "ActiveAttackAnim": "Punch"
         },
         {
           "name": "Health",
@@ -1029,7 +1019,10 @@
           "WaypointX": "0",
           "WaypointY": "0",
           "CanAttack": "true",
-          "Health": "Health"
+          "Health": "Health",
+          "RangedAnim": "Weapon",
+          "SlotAngle": "0",
+          "ActiveAttackAnim": "Punch"
         },
         {
           "name": "Health",
@@ -1172,7 +1165,10 @@
           "WaypointX": "0",
           "WaypointY": "0",
           "CanAttack": "true",
-          "Health": "Health"
+          "Health": "Health",
+          "RangedAnim": "Weapon",
+          "SlotAngle": "0",
+          "ActiveAttackAnim": "Punch"
         },
         {
           "name": "Health",
@@ -1313,7 +1309,7 @@
           "AttackCooldown": "1.5",
           "AttackDuration": "0.8",
           "AttackMomentTime": "0.4",
-          "AttackAnim": "Weapon",
+          "AttackAnim": "Punch",
           "MoveAnim": "Run",
           "AggroRange": "3000",
           "EvolvesTo": "",
@@ -1345,7 +1341,10 @@
           "WaypointX": "0",
           "WaypointY": "0",
           "CanAttack": "true",
-          "Health": "Health"
+          "Health": "Health",
+          "RangedAnim": "Weapon",
+          "SlotAngle": "0",
+          "ActiveAttackAnim": "Punch"
         },
         {
           "name": "Health",
@@ -1518,7 +1517,10 @@
           "WaypointX": "0",
           "WaypointY": "0",
           "CanAttack": "true",
-          "Health": "Health"
+          "Health": "Health",
+          "RangedAnim": "Weapon",
+          "SlotAngle": "0",
+          "ActiveAttackAnim": "Punch"
         },
         {
           "name": "Health",
@@ -1661,7 +1663,10 @@
           "WaypointX": "0",
           "WaypointY": "0",
           "CanAttack": "true",
-          "Health": "Health"
+          "Health": "Health",
+          "RangedAnim": "Weapon",
+          "SlotAngle": "0",
+          "ActiveAttackAnim": "Punch"
         },
         {
           "name": "Health",
@@ -1760,6 +1765,7 @@
       "effects": [],
       "behaviors": [
         {
+          "isFolded": true,
           "name": "Health",
           "type": "Health::Health",
           "Health": "100",
@@ -3309,6 +3315,18 @@
             "15",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SeparateEnemies"
+          },
+          "parameters": [
+            "",
+            "Enemies",
+            "Health",
+            "0.7",
+            ""
+          ]
         }
       ]
     },
@@ -3387,8 +3405,8 @@
               "parameters": [
                 "Enemies",
                 "Enemy",
-                "Amaze::FlowTargetX(\"maze\", Enemies.CenterX(), Enemies.CenterY())",
-                "Amaze::FlowTargetY(\"maze\", Enemies.CenterX(), Enemies.CenterY())"
+                "Amaze::FlowTargetX(\"maze\", Enemies.CenterX(), Enemies.CenterY(), Enemies.Enemy::AttackRange() * 0.8, Enemies.Enemy::SlotAngle())",
+                "Amaze::FlowTargetY(\"maze\", Enemies.CenterX(), Enemies.CenterY(), Enemies.Enemy::AttackRange() * 0.8, Enemies.Enemy::SlotAngle())"
               ]
             }
           ]
@@ -3704,6 +3722,166 @@
           "parameters": [
             "Enemies",
             "Enemy"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "ThirdPersonCamera::LookFromDistanceAtObject3D"
+          },
+          "parameters": [
+            "",
+            "Player",
+            "Object3D",
+            "1000",
+            "Player.Angle()+90",
+            "45",
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": []
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "KeyFromTextPressed"
+          },
+          "parameters": [
+            "",
+            "\"w\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Physics3D::PhysicsCharacter3D::SimulateForwardKey"
+          },
+          "parameters": [
+            "Player",
+            "PhysicsCharacter3D"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "KeyFromTextPressed"
+          },
+          "parameters": [
+            "",
+            "\"a\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Physics3D::PhysicsCharacter3D::SimulateLeftKey"
+          },
+          "parameters": [
+            "Player",
+            "PhysicsCharacter3D"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "KeyFromTextPressed"
+          },
+          "parameters": [
+            "",
+            "\"s\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Physics3D::PhysicsCharacter3D::SimulateBackwardKey"
+          },
+          "parameters": [
+            "Player",
+            "PhysicsCharacter3D"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "KeyFromTextPressed"
+          },
+          "parameters": [
+            "",
+            "\"d\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Physics3D::PhysicsCharacter3D::SimulateRightKey"
+          },
+          "parameters": [
+            "Player",
+            "PhysicsCharacter3D"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": []
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Distance"
+          },
+          "parameters": [
+            "Player",
+            "Chest",
+            "200",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+          },
+          "parameters": [
+            "Chest",
+            "Animation",
+            "=",
+            "\"Chest_Open\""
           ]
         }
       ]
