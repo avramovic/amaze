@@ -26,57 +26,52 @@
     "selectedLayer": "",
     "gameEditorMode": "embedded-game"
   },
-  "objectsGroups": [],
-  "variables": [],
+  "objectsGroups": [
+    {
+      "name": "Enemies",
+      "objects": [
+        {
+          "name": "Yeti"
+        },
+        {
+          "name": "GreenBlob"
+        },
+        {
+          "name": "OrcBlob"
+        },
+        {
+          "name": "CactoroBlob"
+        },
+        {
+          "name": "Cactoro"
+        },
+        {
+          "name": "Goleling"
+        },
+        {
+          "name": "Orc"
+        },
+        {
+          "name": "Tribal"
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "Level",
+      "persistentUuid": "60a35c54-32a8-484a-86fb-d51fbb548203",
+      "type": "number",
+      "value": 6
+    },
+    {
+      "name": "Seed",
+      "persistentUuid": "2098992a-6536-4ecc-8b16-8613ef7d449e",
+      "type": "number",
+      "value": 0
+    }
+  ],
   "instances": [
-    {
-      "angle": 0,
-      "customSize": false,
-      "height": 0,
-      "keepRatio": true,
-      "layer": "",
-      "name": "Yeti",
-      "persistentUuid": "fd430db6-ea7c-4b27-9d9f-040da4c073c8",
-      "width": 0,
-      "x": 1070,
-      "y": 212,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": false,
-      "height": 0,
-      "keepRatio": true,
-      "layer": "",
-      "name": "Astronaut_Fernando_The_Flamingo",
-      "persistentUuid": "e100fa59-bbbe-4ebb-9e64-8932c693e35a",
-      "width": 0,
-      "x": 548,
-      "y": 511,
-      "zOrder": 2,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": false,
-      "height": 0,
-      "keepRatio": true,
-      "layer": "",
-      "name": "Tribal",
-      "persistentUuid": "260e8fa5-46cd-4f21-9d20-39e26ec79caa",
-      "width": 0,
-      "x": 645,
-      "y": 276,
-      "zOrder": 3,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
     {
       "angle": 0,
       "customSize": true,
@@ -359,7 +354,83 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Enemy",
+          "type": "Amaze::Enemy",
+          "BodyType": "Standing",
+          "Role": "Tank",
+          "Family": "Yeti",
+          "Speed": "120",
+          "Damage": "20",
+          "XP": "8",
+          "AttackRange": "130",
+          "AttackCooldown": "2",
+          "AttackDuration": "0.8",
+          "AttackMomentTime": "0.4",
+          "AttackAnim": "Punch",
+          "MoveAnim": "Walk",
+          "AggroRange": "3000",
+          "EvolvesTo": "",
+          "EvolveTime": "25",
+          "SuperArmor": "Yes",
+          "HitCooldown": "0.5",
+          "DeathTimeout": "5",
+          "LeaveCorpse": "Yes",
+          "State": "Idle",
+          "StateTime": "0",
+          "TargetX": "0",
+          "TargetY": "0",
+          "HasTarget": "false",
+          "Aggro": "false",
+          "EvolveTimer": "0",
+          "AttackTimer": "0",
+          "HitTimer": "0",
+          "AttackFired": "false",
+          "AttackMoment": "false",
+          "ReadyToEvolve": "false",
+          "JustDied": "false",
+          "CorpseAge": "0",
+          "CurrentAnim": "",
+          "DesiredAnim": "",
+          "CanCrossWalls": "No",
+          "FlyHeight": "0",
+          "MeleeRange": "0",
+          "SpawnerId": "0",
+          "WaypointX": "0",
+          "WaypointY": "0",
+          "CanAttack": "true",
+          "Health": "Health"
+        },
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "150",
+          "CurrentHealth": "0",
+          "MaxHealth": "150",
+          "DamageCooldown": "0",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -625,7 +696,84 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Enemy",
+          "type": "Amaze::Enemy",
+          "BodyType": "Blob",
+          "Role": "Swarm",
+          "Family": "",
+          "Speed": "180",
+          "Damage": "5",
+          "XP": "1",
+          "AttackRange": "90",
+          "AttackCooldown": "1.2",
+          "AttackDuration": "0.8",
+          "AttackMomentTime": "0.4",
+          "AttackAnim": "Punch",
+          "MoveAnim": "Run",
+          "AggroRange": "3000",
+          "EvolvesTo": "",
+          "EvolveTime": "25",
+          "SuperArmor": "No",
+          "HitCooldown": "0.5",
+          "DeathTimeout": "5",
+          "LeaveCorpse": "Yes",
+          "State": "Idle",
+          "StateTime": "0",
+          "TargetX": "0",
+          "TargetY": "0",
+          "HasTarget": "false",
+          "Aggro": "false",
+          "EvolveTimer": "0",
+          "AttackTimer": "0",
+          "HitTimer": "0",
+          "AttackFired": "false",
+          "AttackMoment": "false",
+          "ReadyToEvolve": "false",
+          "JustDied": "false",
+          "CorpseAge": "0",
+          "CurrentAnim": "",
+          "DesiredAnim": "",
+          "CanCrossWalls": "No",
+          "FlyHeight": "0",
+          "MeleeRange": "0",
+          "SpawnerId": "0",
+          "WaypointX": "0",
+          "WaypointY": "0",
+          "CanAttack": "true",
+          "Health": "Health"
+        },
+        {
+          "isFolded": true,
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "15",
+          "CurrentHealth": "0",
+          "MaxHealth": "15",
+          "DamageCooldown": "0",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -692,7 +840,83 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Enemy",
+          "type": "Amaze::Enemy",
+          "BodyType": "Blob",
+          "Role": "Swarm",
+          "Family": "Orc",
+          "Speed": "240",
+          "Damage": "5",
+          "XP": "1",
+          "AttackRange": "90",
+          "AttackCooldown": "1.5",
+          "AttackDuration": "0.8",
+          "AttackMomentTime": "0.4",
+          "AttackAnim": "Punch",
+          "MoveAnim": "Run",
+          "AggroRange": "3000",
+          "EvolvesTo": "Orc",
+          "EvolveTime": "25",
+          "SuperArmor": "No",
+          "HitCooldown": "0.5",
+          "DeathTimeout": "5",
+          "LeaveCorpse": "Yes",
+          "State": "Idle",
+          "StateTime": "0",
+          "TargetX": "0",
+          "TargetY": "0",
+          "HasTarget": "false",
+          "Aggro": "false",
+          "EvolveTimer": "0",
+          "AttackTimer": "0",
+          "HitTimer": "0",
+          "AttackFired": "false",
+          "AttackMoment": "false",
+          "ReadyToEvolve": "false",
+          "JustDied": "false",
+          "CorpseAge": "0",
+          "CurrentAnim": "",
+          "DesiredAnim": "",
+          "CanCrossWalls": "No",
+          "FlyHeight": "0",
+          "MeleeRange": "0",
+          "SpawnerId": "0",
+          "WaypointX": "0",
+          "WaypointY": "0",
+          "CanAttack": "true",
+          "Health": "Health"
+        },
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "12",
+          "CurrentHealth": "0",
+          "MaxHealth": "12",
+          "DamageCooldown": "0",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -759,7 +983,83 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Enemy",
+          "type": "Amaze::Enemy",
+          "BodyType": "Blob",
+          "Role": "Swarm",
+          "Family": "Cactoro",
+          "Speed": "240",
+          "Damage": "5",
+          "XP": "1",
+          "AttackRange": "90",
+          "AttackCooldown": "1.5",
+          "AttackDuration": "0.8",
+          "AttackMomentTime": "0.4",
+          "AttackAnim": "Punch",
+          "MoveAnim": "Run",
+          "AggroRange": "3000",
+          "EvolvesTo": "Cactoro",
+          "EvolveTime": "25",
+          "SuperArmor": "No",
+          "HitCooldown": "0.5",
+          "DeathTimeout": "5",
+          "LeaveCorpse": "Yes",
+          "State": "Idle",
+          "StateTime": "0",
+          "TargetX": "0",
+          "TargetY": "0",
+          "HasTarget": "false",
+          "Aggro": "false",
+          "EvolveTimer": "0",
+          "AttackTimer": "0",
+          "HitTimer": "0",
+          "AttackFired": "false",
+          "AttackMoment": "false",
+          "ReadyToEvolve": "false",
+          "JustDied": "false",
+          "CorpseAge": "0",
+          "CurrentAnim": "",
+          "DesiredAnim": "",
+          "CanCrossWalls": "No",
+          "FlyHeight": "0",
+          "MeleeRange": "0",
+          "SpawnerId": "0",
+          "WaypointX": "0",
+          "WaypointY": "0",
+          "CanAttack": "true",
+          "Health": "Health"
+        },
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "12",
+          "CurrentHealth": "0",
+          "MaxHealth": "12",
+          "DamageCooldown": "0",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -826,7 +1126,83 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Enemy",
+          "type": "Amaze::Enemy",
+          "BodyType": "Standing",
+          "Role": "Ranged",
+          "Family": "Cactoro",
+          "Speed": "120",
+          "Damage": "8",
+          "XP": "4",
+          "AttackRange": "900",
+          "AttackCooldown": "2.5",
+          "AttackDuration": "1",
+          "AttackMomentTime": "0.5",
+          "AttackAnim": "Punch",
+          "MoveAnim": "Walk",
+          "AggroRange": "3000",
+          "EvolvesTo": "",
+          "EvolveTime": "25",
+          "SuperArmor": "No",
+          "HitCooldown": "0.5",
+          "DeathTimeout": "5",
+          "LeaveCorpse": "Yes",
+          "State": "Idle",
+          "StateTime": "0",
+          "TargetX": "0",
+          "TargetY": "0",
+          "HasTarget": "false",
+          "Aggro": "false",
+          "EvolveTimer": "0",
+          "AttackTimer": "0",
+          "HitTimer": "0",
+          "AttackFired": "false",
+          "AttackMoment": "false",
+          "ReadyToEvolve": "false",
+          "JustDied": "false",
+          "CorpseAge": "0",
+          "CurrentAnim": "",
+          "DesiredAnim": "",
+          "CanCrossWalls": "No",
+          "FlyHeight": "0",
+          "MeleeRange": "120",
+          "SpawnerId": "0",
+          "WaypointX": "0",
+          "WaypointY": "0",
+          "CanAttack": "true",
+          "Health": "Health"
+        },
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "30",
+          "CurrentHealth": "0",
+          "MaxHealth": "30",
+          "DamageCooldown": "0",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -923,7 +1299,83 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Enemy",
+          "type": "Amaze::Enemy",
+          "BodyType": "Standing",
+          "Role": "Chaser",
+          "Family": "Orc",
+          "Speed": "210",
+          "Damage": "10",
+          "XP": "3",
+          "AttackRange": "110",
+          "AttackCooldown": "1.5",
+          "AttackDuration": "0.8",
+          "AttackMomentTime": "0.4",
+          "AttackAnim": "Weapon",
+          "MoveAnim": "Run",
+          "AggroRange": "3000",
+          "EvolvesTo": "",
+          "EvolveTime": "25",
+          "SuperArmor": "No",
+          "HitCooldown": "0.5",
+          "DeathTimeout": "5",
+          "LeaveCorpse": "Yes",
+          "State": "Idle",
+          "StateTime": "0",
+          "TargetX": "0",
+          "TargetY": "0",
+          "HasTarget": "false",
+          "Aggro": "false",
+          "EvolveTimer": "0",
+          "AttackTimer": "0",
+          "HitTimer": "0",
+          "AttackFired": "false",
+          "AttackMoment": "false",
+          "ReadyToEvolve": "false",
+          "JustDied": "false",
+          "CorpseAge": "0",
+          "CurrentAnim": "",
+          "DesiredAnim": "",
+          "CanCrossWalls": "No",
+          "FlyHeight": "0",
+          "MeleeRange": "0",
+          "SpawnerId": "0",
+          "WaypointX": "0",
+          "WaypointY": "0",
+          "CanAttack": "true",
+          "Health": "Health"
+        },
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "40",
+          "CurrentHealth": "0",
+          "MaxHealth": "40",
+          "DamageCooldown": "0",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -1020,7 +1472,83 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Enemy",
+          "type": "Amaze::Enemy",
+          "BodyType": "Flying",
+          "Role": "Flying",
+          "Family": "Goleling",
+          "Speed": "240",
+          "Damage": "6",
+          "XP": "2",
+          "AttackRange": "100",
+          "AttackCooldown": "1.5",
+          "AttackDuration": "0.8",
+          "AttackMomentTime": "0.4",
+          "AttackAnim": "Punch",
+          "MoveAnim": "Run",
+          "AggroRange": "3000",
+          "EvolvesTo": "",
+          "EvolveTime": "25",
+          "SuperArmor": "No",
+          "HitCooldown": "0.5",
+          "DeathTimeout": "5",
+          "LeaveCorpse": "Yes",
+          "State": "Idle",
+          "StateTime": "0",
+          "TargetX": "0",
+          "TargetY": "0",
+          "HasTarget": "false",
+          "Aggro": "false",
+          "EvolveTimer": "0",
+          "AttackTimer": "0",
+          "HitTimer": "0",
+          "AttackFired": "false",
+          "AttackMoment": "false",
+          "ReadyToEvolve": "false",
+          "JustDied": "false",
+          "CorpseAge": "0",
+          "CurrentAnim": "",
+          "DesiredAnim": "",
+          "CanCrossWalls": "No",
+          "FlyHeight": "120",
+          "MeleeRange": "0",
+          "SpawnerId": "0",
+          "WaypointX": "0",
+          "WaypointY": "0",
+          "CanAttack": "true",
+          "Health": "Health"
+        },
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "20",
+          "CurrentHealth": "0",
+          "MaxHealth": "20",
+          "DamageCooldown": "0",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -1087,7 +1615,83 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Enemy",
+          "type": "Amaze::Enemy",
+          "BodyType": "Flying",
+          "Role": "Flying",
+          "Family": "Tribal",
+          "Speed": "200",
+          "Damage": "8",
+          "XP": "3",
+          "AttackRange": "100",
+          "AttackCooldown": "1.5",
+          "AttackDuration": "0.8",
+          "AttackMomentTime": "0.4",
+          "AttackAnim": "Punch",
+          "MoveAnim": "Run",
+          "AggroRange": "3000",
+          "EvolvesTo": "",
+          "EvolveTime": "25",
+          "SuperArmor": "No",
+          "HitCooldown": "0.5",
+          "DeathTimeout": "5",
+          "LeaveCorpse": "Yes",
+          "State": "Idle",
+          "StateTime": "0",
+          "TargetX": "0",
+          "TargetY": "0",
+          "HasTarget": "false",
+          "Aggro": "false",
+          "EvolveTimer": "0",
+          "AttackTimer": "0",
+          "HitTimer": "0",
+          "AttackFired": "false",
+          "AttackMoment": "false",
+          "ReadyToEvolve": "false",
+          "JustDied": "false",
+          "CorpseAge": "0",
+          "CurrentAnim": "",
+          "DesiredAnim": "",
+          "CanCrossWalls": "No",
+          "FlyHeight": "120",
+          "MeleeRange": "0",
+          "SpawnerId": "0",
+          "WaypointX": "0",
+          "WaypointY": "0",
+          "CanAttack": "true",
+          "Health": "Health"
+        },
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "25",
+          "CurrentHealth": "0",
+          "MaxHealth": "25",
+          "DamageCooldown": "0",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -1155,6 +1759,34 @@
       "variables": [],
       "effects": [],
       "behaviors": [
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "100",
+          "CurrentHealth": "0",
+          "MaxHealth": "100",
+          "DamageCooldown": "0.5",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        },
         {
           "isFolded": true,
           "name": "Physics3D",
@@ -1464,7 +2096,25 @@
         }
       ],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Spawning",
+          "type": "Amaze::Spawner",
+          "WaveSize": "3",
+          "Waves": "3",
+          "WaveCooldown": "4",
+          "SpawnInterval": "0.4",
+          "ActivationRange": "9999",
+          "Id": "0",
+          "State": "Waiting",
+          "Pending": "0",
+          "WavesDone": "0",
+          "AliveCount": "0",
+          "PathDistance": "9999",
+          "SpawnTimer": "0",
+          "WantsSpawn": "false"
+        }
+      ],
       "content": {
         "centerLocation": "ObjectCenter",
         "crossfadeDuration": 0.10000000149011612,
@@ -1498,7 +2148,7 @@
         "AreParticlesRelative": false,
         "GravityTop": "Z+",
         "Gravity": 0,
-        "ZoneRadius": 200,
+        "ZoneRadius": 180,
         "EndScale": 1.8,
         "RenderMode": "Billboard",
         "Blending": "Normal",
@@ -1551,6 +2201,46 @@
             }
           ]
         }
+      }
+    },
+    {
+      "assetStoreId": "ce38699e294f43b350ea51663814fd1bcc22717c7a461da50a57e7bacadab8cd",
+      "name": "EnemyProjectile",
+      "persistentUuid": "b3f1c2d4-5a6e-4f70-8c91-0d2e3f4a5b6c",
+      "type": "Scene3D::Cube3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "width": 30,
+        "height": 30,
+        "depth": 30,
+        "enableTextureTransparency": false,
+        "facesOrientation": "Y",
+        "frontFaceResourceName": "GDevelopInvalidTextureBlock.png",
+        "backFaceResourceName": "GDevelopInvalidTextureBlock.png",
+        "backFaceUpThroughWhichAxisRotation": "X",
+        "leftFaceResourceName": "GDevelopInvalidTextureBlock.png",
+        "rightFaceResourceName": "GDevelopInvalidTextureBlock.png",
+        "topFaceResourceName": "GDevelopInvalidTextureBlock.png",
+        "bottomFaceResourceName": "GDevelopInvalidTextureBlock.png",
+        "frontFaceVisible": true,
+        "backFaceVisible": true,
+        "leftFaceVisible": true,
+        "rightFaceVisible": true,
+        "topFaceVisible": true,
+        "bottomFaceVisible": true,
+        "frontFaceResourceRepeat": true,
+        "backFaceResourceRepeat": true,
+        "leftFaceResourceRepeat": true,
+        "rightFaceResourceRepeat": true,
+        "topFaceResourceRepeat": true,
+        "bottomFaceResourceRepeat": true,
+        "tileScale": 0.78,
+        "materialType": "StandardWithoutMetalness",
+        "isCastingShadow": false,
+        "isReceivingShadow": false,
+        "tint": "255;70;40"
       }
     }
   ],
@@ -1647,6 +2337,9 @@
       },
       {
         "objectName": "GroundMist"
+      },
+      {
+        "objectName": "EnemyProjectile"
       }
     ]
   },
@@ -1784,31 +2477,9 @@
           },
           "parameters": [
             "",
-            "0.5",
+            "1",
             "",
             ""
-          ]
-        },
-        {
-          "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::SetName"
-          },
-          "parameters": [
-            "Yeti",
-            "Animation",
-            "=",
-            "\"Walk\""
-          ]
-        },
-        {
-          "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::SetName"
-          },
-          "parameters": [
-            "Tribal",
-            "Animation",
-            "=",
-            "\"FastFlying\""
           ]
         },
         {
@@ -1829,8 +2500,139 @@
           },
           "parameters": [
             "",
+            "Level",
+            "Seed",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SetEnemySpawnInfo"
+          },
+          "parameters": [
+            "",
+            "\"GreenBlob\"",
+            "1",
+            "1",
+            "10",
+            "3",
+            "5",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SetEnemySpawnInfo"
+          },
+          "parameters": [
+            "",
+            "\"OrcBlob\"",
+            "3",
+            "2",
             "6",
-            "0",
+            "1",
+            "3",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SetEnemySpawnInfo"
+          },
+          "parameters": [
+            "",
+            "\"CactoroBlob\"",
+            "4",
+            "3",
+            "4",
+            "1",
+            "2",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SetEnemySpawnInfo"
+          },
+          "parameters": [
+            "",
+            "\"Orc\"",
+            "3",
+            "2",
+            "6",
+            "1",
+            "2",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SetEnemySpawnInfo"
+          },
+          "parameters": [
+            "",
+            "\"Cactoro\"",
+            "4",
+            "3",
+            "5",
+            "1",
+            "2",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SetEnemySpawnInfo"
+          },
+          "parameters": [
+            "",
+            "\"Yeti\"",
+            "8",
+            "5",
+            "3",
+            "1",
+            "1",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SetEnemySpawnInfo"
+          },
+          "parameters": [
+            "",
+            "\"Goleling\"",
+            "2",
+            "2",
+            "6",
+            "1",
+            "2",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::SetEnemySpawnInfo"
+          },
+          "parameters": [
+            "",
+            "\"Tribal\"",
+            "3",
+            "3",
+            "4",
+            "1",
+            "2",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::BuildEnemyQueue"
+          },
+          "parameters": [
+            "",
+            "Level",
+            "Seed",
             ""
           ]
         }
@@ -2027,7 +2829,7 @@
                         "value": "SetAngle"
                       },
                       "parameters": [
-                        "Chest",
+                        "Spawner",
                         "=",
                         "0"
                       ]
@@ -2436,6 +3238,475 @@
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [],
       "actions": []
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Enemies: flow-field, spawners, attacks"
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::UpdateFlowField"
+          },
+          "parameters": [
+            "",
+            "\"maze\"",
+            "Player.CenterX()",
+            "Player.CenterY()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::RunSpawners"
+          },
+          "parameters": [
+            "",
+            "Spawner",
+            "Spawning",
+            "Enemies",
+            "Enemy",
+            "Health",
+            "Object3D",
+            "\"maze\"",
+            "Level",
+            "12",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::ProcessEvolutions"
+          },
+          "parameters": [
+            "",
+            "Enemies",
+            "Enemy",
+            "Health",
+            "Object3D",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::LimitCorpses"
+          },
+          "parameters": [
+            "",
+            "Enemies",
+            "Enemy",
+            "15",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Every living enemy aims at the player; ground enemies follow the corridors, and may attack only with a clear line"
+    },
+    {
+      "type": "BuiltinCommonInstructions::ForEach",
+      "object": "Enemies",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Enemies",
+            "Health",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::Enemy::SetTarget"
+          },
+          "parameters": [
+            "Enemies",
+            "Enemy",
+            "Player.CenterX()",
+            "Player.CenterY()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::Enemy::SetCanAttack"
+          },
+          "parameters": [
+            "Enemies",
+            "Enemy",
+            "Amaze::MazeLineOfSight(\"maze\", Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "inverted": true,
+                "value": "Amaze::Enemy::CanCrossWalls"
+              },
+              "parameters": [
+                "Enemies",
+                "Enemy",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Amaze::Enemy::SetMoveTarget"
+              },
+              "parameters": [
+                "Enemies",
+                "Enemy",
+                "Amaze::FlowTargetX(\"maze\", Enemies.CenterX(), Enemies.CenterY())",
+                "Amaze::FlowTargetY(\"maze\", Enemies.CenterX(), Enemies.CenterY())"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Attack: close = melee hit, far = projectile (ranged role only)"
+    },
+    {
+      "type": "BuiltinCommonInstructions::ForEach",
+      "object": "Enemies",
+      "conditions": [
+        {
+          "type": {
+            "value": "Amaze::Enemy::AttackMoment"
+          },
+          "parameters": [
+            "Enemies",
+            "Enemy",
+            ""
+          ]
+        }
+      ],
+      "actions": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "DistanceBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())",
+                "<=",
+                "Enemies.Enemy::MeleeRange()"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Health::Health::Hit"
+              },
+              "parameters": [
+                "Player",
+                "Health",
+                "Enemies.Enemy::Damage()",
+                "yes",
+                "yes"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "DistanceBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())",
+                ">",
+                "Enemies.Enemy::MeleeRange()"
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareStrings"
+              },
+              "parameters": [
+                "Enemies.Enemy::RoleName()",
+                "=",
+                "\"Ranged\""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Create"
+              },
+              "parameters": [
+                "",
+                "EnemyProjectile",
+                "Enemies.CenterX() - 15",
+                "Enemies.CenterY() - 15",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "SetAngle"
+              },
+              "parameters": [
+                "EnemyProjectile",
+                "=",
+                "AngleBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())"
+              ]
+            },
+            {
+              "type": {
+                "value": "Scene3D::Base3DBehavior::SetZ"
+              },
+              "parameters": [
+                "EnemyProjectile",
+                "Object3D",
+                "=",
+                "80"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Enemy projectiles: slow, so the player can dodge them. They vanish on walls and on the player"
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "SetX"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "+",
+            "cos(ToRad(EnemyProjectile.Angle())) * 300 * TimeDelta()"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetY"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "+",
+            "sin(ToRad(EnemyProjectile.Angle())) * 300 * TimeDelta()"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+          },
+          "parameters": [
+            "DistanceBetweenPositions(EnemyProjectile.CenterX(), EnemyProjectile.CenterY(), Player.CenterX(), Player.CenterY())",
+            "<",
+            "60"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Health::Health::Hit"
+          },
+          "parameters": [
+            "Player",
+            "Health",
+            "8",
+            "yes",
+            "yes"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "Hedge_Large",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "Hedge_Large_Hor",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "Pillar_Stone",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Player died: the survivors celebrate"
+    },
+    {
+      "type": "BuiltinCommonInstructions::ForEach",
+      "object": "Enemies",
+      "conditions": [
+        {
+          "type": {
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Player",
+            "Health",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::Enemy::Celebrate"
+          },
+          "parameters": [
+            "Enemies",
+            "Enemy"
+          ]
+        }
+      ]
     }
   ],
   "layers": [
@@ -2512,8 +3783,16 @@
       "type": "AnimatableCapability::AnimatableBehavior"
     },
     {
+      "name": "Enemy",
+      "type": "Amaze::Enemy"
+    },
+    {
       "name": "Flippable",
       "type": "FlippableCapability::FlippableBehavior"
+    },
+    {
+      "name": "Health",
+      "type": "Health::Health"
     },
     {
       "name": "MazeObject",
@@ -2542,6 +3821,10 @@
     {
       "name": "Scale",
       "type": "ScalableCapability::ScalableBehavior"
+    },
+    {
+      "name": "Spawning",
+      "type": "Amaze::Spawner"
     }
   ]
 }

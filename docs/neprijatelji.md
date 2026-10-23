@@ -393,9 +393,23 @@ Fajl: `eventsFunctionsExtensions/amaze.json`. Zahteva ekstenziju "Health points 
 
 ---
 
-## 11. Odloženo (sledeći korak)
+## 11. Spawner i navigacija (implementirano)
+
+**Behavior `Amaze::Spawner`** (na objektu `Spawner`, ime behaviora `Spawning`): talasi. Spawner se budi kad je igrač na `ActivationRange` ćelija putanje (podrazumevano 9999 = uvek, pa prvi talas kreće odmah na početku; smanji vrednost da se budi tek kad igrač priđe), napravi `WaveSize` neprijatelja (jedan na `SpawnInterval`), a sledeći talas kreće tek kad su svi iz prethodnog mrtvi plus `WaveCooldown`. Posle `Waves` talasa (0 = dok ima reda) je `Exhausted`. Stanja: `Waiting`, `Spawning`, `Active`, `Cooldown`, `Exhausted`.
+
+**`Amaze::RunSpawners`** (jednom po frejmu, scena): broji žive neprijatelje (po `SpawnerId` i ukupno), pa spawneri koji žele da spawnuju uzimaju sledećeg iz reda (`PeekEnemyQueue`). **Globalni limit** živih je poslednji parametar (12). Novi neprijatelj dobija `ApplyLevelScaling`, `SpawnerId`, Z iz `FlyHeight` i `StartIntro`. `ProcessEvolutions` prenosi `SpawnerId` na evoluiranog.
+
+**Red i tabela:** `SetEnemySpawnInfo(ime, cena, minNivo, težina, grupaMin, grupaMax)` na startu scene, pa `BuildEnemyQueue(Level, Seed)` (budžet `12 + 4 × nivo`, PRNG `seed + 777`). Isti seed daje isti red (ispis u konzoli).
+
+**Navigacija:** `UpdateFlowField` (BFS od ćelije igrača, samo kad igrač promeni ćeliju), `FlowTargetX/Y` (tačka 0.75 ćelije iza vrata ka igraču, na sredini hodnika), `MazeLineOfSight` (1 ako su u istoj ćeliji ili u istom redu/koloni bez zida). Behavior `Enemy` dobija `SetMoveTarget` (kuda hoda) i `SetCanAttack` (napad samo sa linijom vidljivosti), a `SetTarget` ostaje igrač (aggro, napad). `CanCrossWalls` preskače flow-field (za Evolved letače).
+
+**Napad:** `AttackMoment` u sceni: unutar `MeleeRange` je udarac (`Health::Hit` na igraču), a van njega ranged uloga ispaljuje `EnemyProjectile` (300 px/s, 8 štete, nestaje na zidu ili igraču).
+
+---
+
+## 12. Odloženo (sledeći korak)
 
 - Sistem perkova i level-up **pre** podešavanja skaliranja težine: HP +12% i budžet +4 po nivou su samo početne vrednosti, a prava kriva se bira tek kad se zna koliko jak igrač postaje
 - Damage i health preko GDevelop ekstenzija ("Health points and damage" i "Fire bullets / 3D fire bullet")
 - Sistem perkova i level-up
-- Flow-field pathfinding u eventima
+- Ranged koji drži distancu, Evolved letači preko zidova (`CanCrossWalls`)

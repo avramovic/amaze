@@ -10,7 +10,7 @@
   "name": "Amaze",
   "previewIconUrl": "",
   "shortDescription": "Enemy and player behaviors for aMAZE.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Data-driven enemy behavior (stats, roles, state machine, evolution) and player run/meta progression for aMAZE. See docs/neprijatelji.md and docs/progresija.md.",
   "tags": [],
   "authorIds": [],
@@ -26,247 +26,40 @@
       "sentence": "Process evolutions of _PARAM1_",
       "events": [
         {
-          "type": "BuiltinCommonInstructions::ForEach",
-          "object": "Enemies",
-          "conditions": [
-            {
-              "type": {
-                "value": "Amaze::Enemy::IsReadyToEvolve"
-              },
-              "parameters": [
-                "Enemies",
-                "EnemyBehavior",
-                ""
-              ]
-            }
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const ctx = eventsFunctionContext;",
+            "const eName = ctx.getBehaviorName(\"EnemyBehavior\");",
+            "const hName = ctx.getBehaviorName(\"HealthBehavior\");",
+            "const list = ctx.getObjects(\"Enemies\").slice();",
+            "gdjs.amazeEvoWarned = gdjs.amazeEvoWarned || {};",
+            "for (let i = 0; i < list.length; i++) {",
+            "    const o = list[i];",
+            "    const eb = o.getBehavior(eName);",
+            "    if (!eb || !eb.IsReadyToEvolve(ctx)) continue;",
+            "    const name = eb.EvolutionTarget(ctx);",
+            "    const n = name ? runtimeScene.createObject(name) : null;",
+            "    if (!n) {",
+            "        if (!gdjs.amazeEvoWarned[name]) { gdjs.amazeEvoWarned[name] = true; console.warn('[Amaze] cannot evolve into \"' + name + '\"'); }",
+            "        continue;",
+            "    }",
+            "    const hb = o.getBehavior(hName);",
+            "    const pct = hb.MaxHealth(ctx) > 0 ? hb.Health(ctx) / hb.MaxHealth(ctx) : 1;",
+            "    n.setPosition(o.getCenterXInScene() - n.getWidth() / 2, o.getCenterYInScene() - n.getHeight() / 2);",
+            "    n.setAngle(o.getAngle());",
+            "    if (n.setZ && o.getZ) n.setZ(o.getZ());",
+            "    const nh = n.getBehavior(hName);",
+            "    nh.SetCurrentHealth(pct * nh.MaxHealth(ctx), ctx);",
+            "    const nb = n.getBehavior(eName);",
+            "    nb.SetSpawnerId(eb.SpawnerId(ctx), ctx);",
+            "    nb.ForceAggro(ctx);",
+            "    nb.StartIntro(ctx);",
+            "    o.deleteFromScene(runtimeScene);",
+            "}"
           ],
-          "actions": [
-            {
-              "type": {
-                "value": "SetStringVariable"
-              },
-              "parameters": [
-                "evo",
-                "=",
-                "Enemies.EnemyBehavior::EvolutionTarget()"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "px",
-                "=",
-                "Enemies.X()"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "py",
-                "=",
-                "Enemies.Y()"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "pz",
-                "=",
-                "Enemies.Object3D::Z()"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "pangle",
-                "=",
-                "Enemies.Angle()"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "hpPct",
-                "=",
-                "Enemies.HealthBehavior::Health() / Enemies.HealthBehavior::MaxHealth()"
-              ]
-            },
-            {
-              "type": {
-                "value": "CreateByName"
-              },
-              "parameters": [
-                "",
-                "Enemies",
-                "evo",
-                "px",
-                "py",
-                ""
-              ]
-            }
-          ],
-          "events": [
-            {
-              "type": "BuiltinCommonInstructions::Comment",
-              "color": {
-                "b": 109,
-                "g": 230,
-                "r": 255,
-                "textB": 0,
-                "textG": 0,
-                "textR": 0
-              },
-              "comment": "Only the new object is not marked ready to evolve"
-            },
-            {
-              "type": "BuiltinCommonInstructions::Standard",
-              "conditions": [
-                {
-                  "type": {
-                    "inverted": true,
-                    "value": "Amaze::Enemy::IsReadyToEvolve"
-                  },
-                  "parameters": [
-                    "Enemies",
-                    "EnemyBehavior",
-                    ""
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": {
-                    "value": "SetAngle"
-                  },
-                  "parameters": [
-                    "Enemies",
-                    "=",
-                    "pangle"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "Scene3D::Base3DBehavior::SetZ"
-                  },
-                  "parameters": [
-                    "Enemies",
-                    "Object3D",
-                    "=",
-                    "pz"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "Health::Health::SetCurrentHealth"
-                  },
-                  "parameters": [
-                    "Enemies",
-                    "HealthBehavior",
-                    "hpPct * Enemies.HealthBehavior::MaxHealth()",
-                    ""
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "Amaze::Enemy::ForceAggro"
-                  },
-                  "parameters": [
-                    "Enemies",
-                    "EnemyBehavior"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "Amaze::Enemy::StartIntro"
-                  },
-                  "parameters": [
-                    "Enemies",
-                    "EnemyBehavior"
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BuiltinCommonInstructions::Comment",
-              "color": {
-                "b": 109,
-                "g": 230,
-                "r": 255,
-                "textB": 0,
-                "textG": 0,
-                "textR": 0
-              },
-              "comment": "The old object is still marked ready to evolve"
-            },
-            {
-              "type": "BuiltinCommonInstructions::Standard",
-              "conditions": [
-                {
-                  "type": {
-                    "value": "Amaze::Enemy::IsReadyToEvolve"
-                  },
-                  "parameters": [
-                    "Enemies",
-                    "EnemyBehavior",
-                    ""
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": {
-                    "value": "Delete"
-                  },
-                  "parameters": [
-                    "Enemies",
-                    ""
-                  ]
-                }
-              ]
-            }
-          ],
-          "variables": [
-            {
-              "name": "evo",
-              "type": "string",
-              "value": ""
-            },
-            {
-              "name": "px",
-              "type": "number",
-              "value": 0
-            },
-            {
-              "name": "py",
-              "type": "number",
-              "value": 0
-            },
-            {
-              "name": "pz",
-              "type": "number",
-              "value": 0
-            },
-            {
-              "name": "pangle",
-              "type": "number",
-              "value": 0
-            },
-            {
-              "name": "hpPct",
-              "type": "number",
-              "value": 1
-            }
-          ]
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
         }
       ],
       "parameters": [
@@ -456,7 +249,7 @@
       "objectGroups": []
     },
     {
-      "description": "Run once when the first scene loads. Defines the maze culling helpers (BFS through open maze passages, hiding of objects outside the reached cells).",
+      "description": "Run once when the first scene loads. Defines the maze culling helpers (BFS through open maze passages, hiding of objects outside the reached cells) and the enemy helpers (flow-field, line of sight, spawn queue).",
       "fullName": "Amaze — on first scene loaded",
       "functionType": "Action",
       "name": "onFirstSceneLoaded",
@@ -634,6 +427,183 @@
             "    m.cellIndex = -1;",
             "    m.dirty = true;",
             "};"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        },
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "// aMAZE enemy helpers: flow-field towards the player, maze line of sight, seeded spawn queue.",
+            "if (gdjs.amazeSpawn) return;",
+            "const C = gdjs.amazeCull;",
+            "const S = (gdjs.amazeSpawn = {",
+            "    table: [],",
+            "    queue: [],",
+            "    aliveBy: {},",
+            "    globalAlive: 0,",
+            "    nextId: 1,",
+            "    rng: Math.random,",
+            "    ft: [0, 0],",
+            "});",
+            "",
+            "S.cellOf = function (m, x, y) {",
+            "    const col = Math.floor((x - m.x0) / m.fw);",
+            "    const row = Math.floor((y - m.y0) / m.fh);",
+            "    if (row < 0 || col < 0 || row >= m.rows || col >= m.cols) return -1;",
+            "    return row * m.cols + col;",
+            "};",
+            "",
+            "// Neighbour of cell c through an open passage. dir: 0 up, 1 down, 2 left, 3 right. -1 when blocked.",
+            "S.open = function (m, c, dir) {",
+            "    const cols = m.cols;",
+            "    const r = (c / cols) | 0;",
+            "    const k = c - r * cols;",
+            "    if (dir === 0) return r > 0 && !m.up[c] && !m.down[c - cols] ? c - cols : -1;",
+            "    if (dir === 1) return r < m.rows - 1 && !m.down[c] && !m.up[c + cols] ? c + cols : -1;",
+            "    if (dir === 2) return k > 0 && !m.left[c] && !m.right[c - 1] ? c - 1 : -1;",
+            "    return k < cols - 1 && !m.right[c] && !m.left[c + 1] ? c + 1 : -1;",
+            "};",
+            "S.dx = [0, 0, -1, 1];",
+            "S.dy = [-1, 1, 0, 0];",
+            "",
+            "// Full BFS from the player's cell: flow[c] = number of steps to the player (-1 = unreachable).",
+            "S.flood = function (m, start) {",
+            "    if (!m.flow || m.flow.length !== m.n) m.flow = new Int16Array(m.n);",
+            "    const flow = m.flow;",
+            "    flow.fill(-1);",
+            "    const q = new Int32Array(m.n);",
+            "    let head = 0;",
+            "    let tail = 0;",
+            "    flow[start] = 0;",
+            "    q[tail++] = start;",
+            "    while (head < tail) {",
+            "        const c = q[head++];",
+            "        for (let dir = 0; dir < 4; dir++) {",
+            "            const nb = S.open(m, c, dir);",
+            "            if (nb >= 0 && flow[nb] < 0) {",
+            "                flow[nb] = flow[c] + 1;",
+            "                q[tail++] = nb;",
+            "            }",
+            "        }",
+            "    }",
+            "};",
+            "",
+            "S.update = function (runtimeScene, mazeId, x, y) {",
+            "    const m = C ? C.getMaze(runtimeScene, mazeId) : null;",
+            "    if (!m) return;",
+            "    m.flowPX = x;",
+            "    m.flowPY = y;",
+            "    const c = S.cellOf(m, x, y);",
+            "    if (c < 0) return;",
+            "    if (c !== m.flowCell) {",
+            "        m.flowCell = c;",
+            "        S.flood(m, c);",
+            "    }",
+            "};",
+            "",
+            "// Point to walk to from (x, y): through the door that leads closer to the player.",
+            "S.target = function (runtimeScene, mazeId, x, y) {",
+            "    const m = C ? C.getMaze(runtimeScene, mazeId) : null;",
+            "    if (!m || !m.flow || m.flowCell === undefined) {",
+            "        S.ft = [x, y];",
+            "        return S.ft;",
+            "    }",
+            "    const px = m.flowPX;",
+            "    const py = m.flowPY;",
+            "    const c = S.cellOf(m, x, y);",
+            "    if (c < 0 || m.flow[c] < 0 || m.flow[c] === 0) {",
+            "        S.ft = [px, py];",
+            "        return S.ft;",
+            "    }",
+            "    const d = m.flow[c];",
+            "    for (let dir = 0; dir < 4; dir++) {",
+            "        const nb = S.open(m, c, dir);",
+            "        if (nb >= 0 && m.flow[nb] === d - 1) {",
+            "            const r = (c / m.cols) | 0;",
+            "            const k = c - r * m.cols;",
+            "            const cx = m.x0 + (k + 0.5) * m.fw;",
+            "            const cy = m.y0 + (r + 0.5) * m.fh;",
+            "            // 0.75 cell from the centre: past the door, on the middle line of the corridor.",
+            "            S.ft = [cx + S.dx[dir] * 0.75 * m.fw, cy + S.dy[dir] * 0.75 * m.fh];",
+            "            return S.ft;",
+            "        }",
+            "    }",
+            "    S.ft = [px, py];",
+            "    return S.ft;",
+            "};",
+            "",
+            "// 1 when nothing blocks the way between the two points: same cell, or same row/column with open passages.",
+            "S.los = function (runtimeScene, mazeId, x1, y1, x2, y2) {",
+            "    const m = C ? C.getMaze(runtimeScene, mazeId) : null;",
+            "    if (!m) return 1;",
+            "    const a = S.cellOf(m, x1, y1);",
+            "    const b = S.cellOf(m, x2, y2);",
+            "    if (a < 0 || b < 0) return 0;",
+            "    if (a === b) return 1;",
+            "    const ra = (a / m.cols) | 0;",
+            "    const rb = (b / m.cols) | 0;",
+            "    const ca = a - ra * m.cols;",
+            "    const cb = b - rb * m.cols;",
+            "    let dir;",
+            "    if (ra === rb) dir = cb > ca ? 3 : 2;",
+            "    else if (ca === cb) dir = rb > ra ? 1 : 0;",
+            "    else return 0;",
+            "    let c = a;",
+            "    while (c !== b) {",
+            "        c = S.open(m, c, dir);",
+            "        if (c < 0) return 0;",
+            "    }",
+            "    return 1;",
+            "};",
+            "",
+            "S.flowDistance = function (runtimeScene, mazeId, x, y) {",
+            "    const m = C ? C.getMaze(runtimeScene, mazeId) : null;",
+            "    if (!m || !m.flow) return 9999;",
+            "    const c = S.cellOf(m, x, y);",
+            "    if (c < 0 || m.flow[c] < 0) return 9999;",
+            "    return m.flow[c];",
+            "};",
+            "",
+            "// Seeded stream (seed + 777, like the dead-end roles). Seed 0 means random.",
+            "S.seedRng = function (seed) {",
+            "    if (!seed) {",
+            "        S.rng = Math.random;",
+            "        return;",
+            "    }",
+            "    let s = (seed + 777) | 0;",
+            "    S.rng = function () {",
+            "        let t = (s = (s + 0x6D2B79F5) | 0);",
+            "        t = Math.imul(t ^ (t >>> 15), t | 1);",
+            "        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);",
+            "        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;",
+            "    };",
+            "};",
+            "",
+            "S.buildQueue = function (level, seed) {",
+            "    S.seedRng(seed | 0);",
+            "    S.queue = [];",
+            "    let budget = 12 + 4 * level;",
+            "    const pool = S.table.filter(function (e) { return e.minLevel <= level; });",
+            "    for (let guard = 0; guard < 200; guard++) {",
+            "        const options = pool.filter(function (e) { return e.cost <= budget; });",
+            "        if (options.length === 0) break;",
+            "        const total = options.reduce(function (sum, e) { return sum + e.weight; }, 0);",
+            "        let r = S.rng() * total;",
+            "        let pick = options[options.length - 1];",
+            "        for (let i = 0; i < options.length; i++) {",
+            "            r -= options[i].weight;",
+            "            if (r < 0) { pick = options[i]; break; }",
+            "        }",
+            "        let n = pick.groupMin + Math.floor(S.rng() * (pick.groupMax - pick.groupMin + 1));",
+            "        n = Math.max(1, Math.min(n, Math.floor(budget / pick.cost)));",
+            "        for (let i = 0; i < n; i++) S.queue.push(pick.name);",
+            "        budget -= n * pick.cost;",
+            "    }",
+            "    console.log('[Amaze] enemy queue (level ' + level + ', seed ' + seed + '): ' + S.queue.join(', '));",
+            "};",
+            ""
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -1025,6 +995,819 @@
         }
       ],
       "objectGroups": []
+    },
+    {
+      "description": "Compute the path distance from every maze cell to the target (the player). Recomputed only when the target changes cell. Call once per frame before enemies read FlowTargetX/Y.",
+      "fullName": "Update flow-field",
+      "functionType": "Action",
+      "name": "UpdateFlowField",
+      "sentence": "Update flow-field of maze _PARAM1_ towards _PARAM2_;_PARAM3_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S) { console.warn('[Amaze] enemy helpers are not initialised'); return; }",
+            "S.update(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\"), eventsFunctionContext.getArgument(\"X\"), eventsFunctionContext.getArgument(\"Y\"));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Target X",
+          "name": "X",
+          "type": "expression"
+        },
+        {
+          "description": "Target Y",
+          "name": "Y",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "X of the point an enemy at (X, Y) should walk to so it follows the corridors towards the player.",
+      "fullName": "Flow-field target X",
+      "functionType": "Expression",
+      "name": "FlowTargetX",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S ? S.target(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\"), eventsFunctionContext.getArgument(\"X\"), eventsFunctionContext.getArgument(\"Y\"))[0] : eventsFunctionContext.getArgument(\"X\");"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Enemy X",
+          "name": "X",
+          "type": "expression"
+        },
+        {
+          "description": "Enemy Y",
+          "name": "Y",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Y of the point an enemy at (X, Y) should walk to so it follows the corridors towards the player.",
+      "fullName": "Flow-field target Y",
+      "functionType": "Expression",
+      "name": "FlowTargetY",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S ? S.target(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\"), eventsFunctionContext.getArgument(\"X\"), eventsFunctionContext.getArgument(\"Y\"))[1] : eventsFunctionContext.getArgument(\"Y\");"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Enemy X",
+          "name": "X",
+          "type": "expression"
+        },
+        {
+          "description": "Enemy Y",
+          "name": "Y",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of maze cells on the shortest path from (X, Y) to the target of the flow-field (9999 when unknown).",
+      "fullName": "Flow-field distance",
+      "functionType": "Expression",
+      "name": "FlowDistance",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S ? S.flowDistance(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\"), eventsFunctionContext.getArgument(\"X\"), eventsFunctionContext.getArgument(\"Y\")) : 9999;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "X",
+          "name": "X",
+          "type": "expression"
+        },
+        {
+          "description": "Y",
+          "name": "Y",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "1 when nothing blocks the way between two points: same cell, or same row or column with open passages in between. 0 otherwise.",
+      "fullName": "Maze line of sight",
+      "functionType": "Expression",
+      "name": "MazeLineOfSight",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S ? S.los(runtimeScene, eventsFunctionContext.getArgument(\"MazeID\"), eventsFunctionContext.getArgument(\"X1\"), eventsFunctionContext.getArgument(\"Y1\"), eventsFunctionContext.getArgument(\"X2\"), eventsFunctionContext.getArgument(\"Y2\")) : 1;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "X of point 1",
+          "name": "X1",
+          "type": "expression"
+        },
+        {
+          "description": "Y of point 1",
+          "name": "Y1",
+          "type": "expression"
+        },
+        {
+          "description": "X of point 2",
+          "name": "X2",
+          "type": "expression"
+        },
+        {
+          "description": "Y of point 2",
+          "name": "Y2",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Add (or replace) an enemy type in the spawn table: object name, cost, first level it can appear on, weight and group size.",
+      "fullName": "Set enemy spawn info",
+      "functionType": "Action",
+      "name": "SetEnemySpawnInfo",
+      "sentence": "Spawn table: _PARAM1_ (cost _PARAM2_, from level _PARAM3_, weight _PARAM4_, group _PARAM5_-_PARAM6_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S) { console.warn('[Amaze] enemy helpers are not initialised'); return; }",
+            "const name = eventsFunctionContext.getArgument(\"Name\");",
+            "const entry = { name: name, cost: Math.max(1, eventsFunctionContext.getArgument(\"Cost\")), minLevel: eventsFunctionContext.getArgument(\"MinLevel\"), weight: Math.max(0, eventsFunctionContext.getArgument(\"Weight\")), groupMin: Math.max(1, Math.floor(eventsFunctionContext.getArgument(\"GroupMin\"))), groupMax: 1 };",
+            "entry.groupMax = Math.max(entry.groupMin, Math.floor(eventsFunctionContext.getArgument(\"GroupMax\")));",
+            "const i = S.table.findIndex(function (e) { return e.name === name; });",
+            "if (i >= 0) S.table[i] = entry; else S.table.push(entry);"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Object name",
+          "name": "Name",
+          "type": "string"
+        },
+        {
+          "description": "Cost",
+          "name": "Cost",
+          "type": "expression"
+        },
+        {
+          "description": "First level",
+          "name": "MinLevel",
+          "type": "expression"
+        },
+        {
+          "description": "Weight",
+          "name": "Weight",
+          "type": "expression"
+        },
+        {
+          "description": "Smallest group",
+          "name": "GroupMin",
+          "type": "expression"
+        },
+        {
+          "description": "Largest group",
+          "name": "GroupMax",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Fill the spawn queue for a level: enemies are bought from the spawn table until the budget (12 + 4 x level) is spent. The same seed gives the same queue (seed 0 = random).",
+      "fullName": "Build enemy queue",
+      "functionType": "Action",
+      "name": "BuildEnemyQueue",
+      "sentence": "Build the enemy queue of level _PARAM1_ (seed _PARAM2_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S) { console.warn('[Amaze] enemy helpers are not initialised'); return; }",
+            "S.buildQueue(eventsFunctionContext.getArgument(\"Level\"), eventsFunctionContext.getArgument(\"Seed\"));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Level",
+          "name": "Level",
+          "type": "expression"
+        },
+        {
+          "description": "Seed",
+          "name": "Seed",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of enemies still waiting in the spawn queue.",
+      "fullName": "Enemy queue length",
+      "functionType": "Expression",
+      "name": "EnemyQueueLength",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S ? S.queue.length : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Object name of the next enemy in the spawn queue (empty when the queue is empty).",
+      "fullName": "Next enemy in queue",
+      "functionType": "StringExpression",
+      "name": "PeekEnemyQueue",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S && S.queue.length > 0 ? S.queue[0] : '';"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "string"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Remove the first enemy from the spawn queue.",
+      "fullName": "Remove next enemy from queue",
+      "functionType": "Action",
+      "name": "PopEnemyQueue",
+      "sentence": "Remove the next enemy from the spawn queue",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S) { console.warn('[Amaze] enemy helpers are not initialised'); return; }",
+            "S.queue.shift();"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Forget the number of living enemies. RunSpawners calls this every frame.",
+      "fullName": "Reset enemy counts",
+      "functionType": "Action",
+      "name": "ResetEnemyCounts",
+      "sentence": "Reset the enemy counts",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S) { console.warn('[Amaze] enemy helpers are not initialised'); return; }",
+            "S.aliveBy = {};",
+            "S.globalAlive = 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Count one living enemy of the given spawner (0 = not spawned by a spawner).",
+      "fullName": "Register living enemy",
+      "functionType": "Action",
+      "name": "RegisterAliveEnemy",
+      "sentence": "Count a living enemy of spawner _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S) { console.warn('[Amaze] enemy helpers are not initialised'); return; }",
+            "const id = eventsFunctionContext.getArgument(\"SpawnerId\");",
+            "S.aliveBy[id] = (S.aliveBy[id] || 0) + 1;",
+            "S.globalAlive++;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Spawner id",
+          "name": "SpawnerId",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of living enemies counted for the given spawner this frame.",
+      "fullName": "Living enemies of a spawner",
+      "functionType": "Expression",
+      "name": "AliveEnemiesOf",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S ? (S.aliveBy[eventsFunctionContext.getArgument(\"SpawnerId\")] || 0) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Spawner id",
+          "name": "SpawnerId",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of living enemies counted this frame, over all spawners.",
+      "fullName": "Living enemies (all)",
+      "functionType": "Expression",
+      "name": "GlobalAliveEnemies",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S ? S.globalAlive : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "A new unique spawner id (used by the Spawner behavior).",
+      "fullName": "Next spawner id",
+      "functionType": "Expression",
+      "name": "NextSpawnerId",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "eventsFunctionContext.returnValue = S ? S.nextId++ : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Run all spawners once per frame: count the living enemies, let each spawner create enemies from the spawn queue (BuildEnemyQueue) and respect the global cap. Enemies are created at the spawner, scaled to the level and marked with the id of their spawner.",
+      "fullName": "Run spawners",
+      "functionType": "Action",
+      "name": "RunSpawners",
+      "sentence": "Run spawners _PARAM1_ (enemies: _PARAM3_, level _PARAM8_, at most _PARAM9_ alive)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [],
+          "actions": [
+            {
+              "type": {
+                "value": "Amaze::ResetEnemyCounts"
+              },
+              "parameters": []
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::ForEach",
+          "object": "Enemies",
+          "conditions": [
+            {
+              "type": {
+                "inverted": true,
+                "value": "Health::Health::IsDead"
+              },
+              "parameters": [
+                "Enemies",
+                "HealthBehavior",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Amaze::RegisterAliveEnemy"
+              },
+              "parameters": [
+                "",
+                "Enemies.EnemyBehavior::SpawnerId()"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::ForEach",
+          "object": "Spawners",
+          "conditions": [],
+          "actions": [
+            {
+              "type": {
+                "value": "Amaze::Spawner::SetAliveCount"
+              },
+              "parameters": [
+                "Spawners",
+                "SpawnerBehavior",
+                "Amaze::AliveEnemiesOf(Spawners.SpawnerBehavior::Id())"
+              ]
+            },
+            {
+              "type": {
+                "value": "Amaze::Spawner::SetPathDistance"
+              },
+              "parameters": [
+                "Spawners",
+                "SpawnerBehavior",
+                "Amaze::FlowDistance(MazeID, Spawners.CenterX(), Spawners.CenterY())"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "A spawner that wants to spawn creates the next enemy of the queue, if the global cap allows it"
+        },
+        {
+          "type": "BuiltinCommonInstructions::ForEach",
+          "object": "Spawners",
+          "conditions": [
+            {
+              "type": {
+                "value": "Amaze::Spawner::WantsToSpawn"
+              },
+              "parameters": [
+                "Spawners",
+                "SpawnerBehavior",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "Amaze::GlobalAliveEnemies()",
+                "<",
+                "GlobalCap"
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "Amaze::EnemyQueueLength()",
+                ">",
+                "0"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Amaze::SpawnEnemy"
+              },
+              "parameters": [
+                "",
+                "Enemies",
+                "EnemyBehavior",
+                "Object3D",
+                "Level",
+                "Spawners.SpawnerBehavior::Id()",
+                "Spawners.CenterX() + Random(80) - 40",
+                "Spawners.CenterY() + Random(80) - 40",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "Amaze::Spawner::NotifySpawned"
+              },
+              "parameters": [
+                "Spawners",
+                "SpawnerBehavior"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::ForEach",
+          "object": "Spawners",
+          "conditions": [
+            {
+              "type": {
+                "value": "Amaze::Spawner::WantsToSpawn"
+              },
+              "parameters": [
+                "Spawners",
+                "SpawnerBehavior",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "Amaze::EnemyQueueLength()",
+                "<=",
+                "0"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Amaze::Spawner::MarkExhausted"
+              },
+              "parameters": [
+                "Spawners",
+                "SpawnerBehavior"
+              ]
+            }
+          ]
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Spawner objects",
+          "name": "Spawners",
+          "type": "objectList"
+        },
+        {
+          "description": "Spawner behavior",
+          "name": "SpawnerBehavior",
+          "supplementaryInformation": "Amaze::Spawner",
+          "type": "behavior"
+        },
+        {
+          "description": "Enemies (group with the Enemy behavior)",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemy behavior",
+          "name": "EnemyBehavior",
+          "supplementaryInformation": "Amaze::Enemy",
+          "type": "behavior"
+        },
+        {
+          "description": "Health behavior",
+          "name": "HealthBehavior",
+          "supplementaryInformation": "Health::Health",
+          "type": "behavior"
+        },
+        {
+          "description": "3D capability",
+          "name": "Object3D",
+          "supplementaryInformation": "Scene3D::Base3DBehavior",
+          "type": "behavior"
+        },
+        {
+          "description": "Maze ID (as used in GenerateMaze)",
+          "name": "MazeID",
+          "type": "string"
+        },
+        {
+          "description": "Level number",
+          "name": "Level",
+          "type": "expression"
+        },
+        {
+          "description": "Most living enemies at once, over all spawners",
+          "name": "GlobalCap",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Create the next enemy of the spawn queue at the given centre position, scale it to the level and mark it with the id of its spawner. (Creating by name is done in JavaScript because the group of an extension function does not know its member objects.)",
+      "fullName": "Spawn next enemy",
+      "functionType": "Action",
+      "name": "SpawnEnemy",
+      "sentence": "Spawn the next queued enemy of spawner _PARAM5_ at _PARAM6_;_PARAM7_ (level _PARAM4_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S) { console.warn('[Amaze] enemy helpers are not initialised'); return; }",
+            "const ctx = eventsFunctionContext;",
+            "const name = S.queue.length > 0 ? S.queue[0] : '';",
+            "if (!name) return;",
+            "S.queue.shift();",
+            "const obj = runtimeScene.createObject(name);",
+            "if (!obj) { console.warn('[Amaze] cannot create enemy \"' + name + '\" (is it in the scene?)'); return; }",
+            "obj.setPosition(ctx.getArgument(\"X\") - obj.getWidth() / 2, ctx.getArgument(\"Y\") - obj.getHeight() / 2);",
+            "const enemy = obj.getBehavior(ctx.getBehaviorName(\"EnemyBehavior\"));",
+            "const id = ctx.getArgument(\"SpawnerId\");",
+            "enemy.ApplyLevelScaling(ctx.getArgument(\"Level\"), ctx);",
+            "enemy.SetSpawnerId(id, ctx);",
+            "enemy.StartIntro(ctx);",
+            "if (obj.setZ) obj.setZ(enemy.FlyHeight(ctx));",
+            "S.aliveBy[id] = (S.aliveBy[id] || 0) + 1;",
+            "S.globalAlive++;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enemies (group with the Enemy behavior)",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemy behavior",
+          "name": "EnemyBehavior",
+          "supplementaryInformation": "Amaze::Enemy",
+          "type": "behavior"
+        },
+        {
+          "description": "3D capability",
+          "name": "Object3D",
+          "supplementaryInformation": "Scene3D::Base3DBehavior",
+          "type": "behavior"
+        },
+        {
+          "description": "Level number",
+          "name": "Level",
+          "type": "expression"
+        },
+        {
+          "description": "Spawner id",
+          "name": "SpawnerId",
+          "type": "expression"
+        },
+        {
+          "description": "Centre X",
+          "name": "X",
+          "type": "expression"
+        },
+        {
+          "description": "Centre Y",
+          "name": "Y",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
     }
   ],
   "eventsFunctionsFolderStructure": {
@@ -1065,6 +1848,57 @@
       },
       {
         "functionName": "DeadEndRole"
+      },
+      {
+        "functionName": "UpdateFlowField"
+      },
+      {
+        "functionName": "FlowTargetX"
+      },
+      {
+        "functionName": "FlowTargetY"
+      },
+      {
+        "functionName": "FlowDistance"
+      },
+      {
+        "functionName": "MazeLineOfSight"
+      },
+      {
+        "functionName": "SetEnemySpawnInfo"
+      },
+      {
+        "functionName": "BuildEnemyQueue"
+      },
+      {
+        "functionName": "EnemyQueueLength"
+      },
+      {
+        "functionName": "PeekEnemyQueue"
+      },
+      {
+        "functionName": "PopEnemyQueue"
+      },
+      {
+        "functionName": "ResetEnemyCounts"
+      },
+      {
+        "functionName": "RegisterAliveEnemy"
+      },
+      {
+        "functionName": "AliveEnemiesOf"
+      },
+      {
+        "functionName": "GlobalAliveEnemies"
+      },
+      {
+        "functionName": "NextSpawnerId"
+      },
+      {
+        "functionName": "RunSpawners"
+      },
+      {
+        "functionName": "SpawnEnemy"
       }
     ]
   },
@@ -1325,7 +2159,7 @@
                         "value": "BuiltinCommonInstructions::CompareNumbers"
                       },
                       "parameters": [
-                        "DistanceBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)",
                         "<=",
                         "AggroRange"
                       ]
@@ -1556,12 +2390,12 @@
                     },
                     {
                       "type": {
-                        "value": "BooleanVariable"
+                        "value": "BuiltinCommonInstructions::CompareStrings"
                       },
                       "parameters": [
                         "SuperArmor",
-                        "False",
-                        ""
+                        "=",
+                        "\"No\""
                       ]
                     },
                     {
@@ -1812,9 +2646,19 @@
                         "value": "BuiltinCommonInstructions::CompareNumbers"
                       },
                       "parameters": [
-                        "DistanceBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)",
                         "<=",
                         "AttackRange"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "CanAttack",
+                        "True",
+                        ""
                       ]
                     }
                   ],
@@ -1866,7 +2710,7 @@
                       "parameters": [
                         "Object",
                         "=",
-                        "AngleBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)"
+                        "AngleBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
                       ]
                     }
                   ]
@@ -2102,9 +2946,19 @@
                         "value": "BuiltinCommonInstructions::CompareNumbers"
                       },
                       "parameters": [
-                        "DistanceBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)",
                         ">",
                         "AttackRange * 0.9"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "CanAttack",
+                        "True",
+                        ""
                       ]
                     }
                   ],
@@ -2126,7 +2980,7 @@
                       "parameters": [
                         "Object",
                         "=",
-                        "AngleBetweenPositions(Object.X(), Object.Y(), TargetX, TargetY)"
+                        "AngleBetweenPositions(Object.CenterX(), Object.CenterY(), WaypointX, WaypointY)"
                       ]
                     },
                     {
@@ -2136,7 +2990,7 @@
                       "parameters": [
                         "Object",
                         "+",
-                        "cos(toRad(Object.Angle())) * Speed * TimeDelta()"
+                        "cos(ToRad(Object.Angle())) * Speed * TimeDelta()"
                       ]
                     },
                     {
@@ -2146,7 +3000,154 @@
                       "parameters": [
                         "Object",
                         "+",
-                        "sin(toRad(Object.Angle())) * Speed * TimeDelta()"
+                        "sin(ToRad(Object.Angle())) * Speed * TimeDelta()"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Death\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "HasTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "Role",
+                        "!=",
+                        "\"Stationary\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "CanAttack",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Object",
+                        "=",
+                        "AngleBetweenPositions(Object.CenterX(), Object.CenterY(), WaypointX, WaypointY)"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetX"
+                      },
+                      "parameters": [
+                        "Object",
+                        "+",
+                        "cos(ToRad(Object.Angle())) * Speed * TimeDelta()"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetY"
+                      },
+                      "parameters": [
+                        "Object",
+                        "+",
+                        "sin(ToRad(Object.Angle())) * Speed * TimeDelta()"
                       ]
                     }
                   ]
@@ -2775,12 +3776,12 @@
                 },
                 {
                   "type": {
-                    "value": "BooleanVariable"
+                    "value": "BuiltinCommonInstructions::CompareStrings"
                   },
                   "parameters": [
                     "LeaveCorpse",
-                    "False",
-                    ""
+                    "=",
+                    "\"No\""
                   ]
                 }
               ],
@@ -2871,12 +3872,12 @@
                 },
                 {
                   "type": {
-                    "value": "BooleanVariable"
+                    "value": "BuiltinCommonInstructions::CompareStrings"
                   },
                   "parameters": [
                     "LeaveCorpse",
-                    "True",
-                    ""
+                    "=",
+                    "\"Yes\""
                   ]
                 }
               ],
@@ -3045,6 +4046,26 @@
                     "HasTarget",
                     "True",
                     ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "WaypointX",
+                    "=",
+                    "TargetPosX"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "WaypointY",
+                    "=",
+                    "TargetPosY"
                   ]
                 }
               ]
@@ -3693,6 +4714,518 @@
             }
           ],
           "objectGroups": []
+        },
+        {
+          "description": "Walk towards this point (e.g. the next flow-field cell) instead of straight at the target. Call after SetTarget, every frame.",
+          "fullName": "Set move target",
+          "functionType": "Action",
+          "name": "SetMoveTarget",
+          "sentence": "Walk _PARAM0_ towards _PARAM2_;_PARAM3_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "WaypointX",
+                    "=",
+                    "WaypointPosX"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "WaypointY",
+                    "=",
+                    "WaypointPosY"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "Waypoint X",
+              "name": "WaypointPosX",
+              "type": "expression"
+            },
+            {
+              "description": "Waypoint Y",
+              "name": "WaypointPosY",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Allow or forbid attacking (use the maze line of sight). An enemy that cannot attack keeps moving towards its waypoint even inside its attack range.",
+          "fullName": "Set can attack",
+          "functionType": "Action",
+          "name": "SetCanAttack",
+          "sentence": "Set can attack of _PARAM0_ to _PARAM2_ (1 = yes, 0 = no)",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "CanAttackValue",
+                    "!=",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "CanAttack",
+                    "True",
+                    ""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "CanAttackValue",
+                    "=",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "CanAttack",
+                    "False",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "Can attack (1 = yes, 0 = no)",
+              "name": "CanAttackValue",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Remember which spawner created this enemy.",
+          "fullName": "Set spawner id",
+          "functionType": "Action",
+          "name": "SetSpawnerId",
+          "sentence": "Set spawner of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "SpawnerId",
+                    "=",
+                    "NewSpawnerId"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "Spawner id",
+              "name": "NewSpawnerId",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "True when the enemy ignores the maze walls.",
+          "fullName": "Can cross walls",
+          "functionType": "Condition",
+          "name": "CanCrossWalls",
+          "sentence": "_PARAM0_ ignores maze walls",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "CanCrossWalls",
+                    "=",
+                    "\"Yes\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Damage of one hit (after level scaling).",
+          "fullName": "Damage",
+          "functionType": "Expression",
+          "name": "Damage",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "Damage"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Attack range in pixels.",
+          "fullName": "Attack range",
+          "functionType": "Expression",
+          "name": "AttackRange",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "AttackRange"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Melee range in pixels (attack range when 0).",
+          "fullName": "Melee range",
+          "functionType": "Expression",
+          "name": "MeleeRange",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "AttackRange"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "MeleeRange",
+                    ">",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "MeleeRange"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Height (Z) the enemy is created at.",
+          "fullName": "Fly height",
+          "functionType": "Expression",
+          "name": "FlyHeight",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "FlyHeight"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Id of the spawner that created the enemy (0 = none).",
+          "fullName": "Spawner id",
+          "functionType": "Expression",
+          "name": "SpawnerId",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "SpawnerId"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Role of the enemy (Swarm, Chaser, Ranged...).",
+          "fullName": "Role name",
+          "functionType": "StringExpression",
+          "name": "RoleName",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnString"
+                  },
+                  "parameters": [
+                    "Role"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "string"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
         }
       ],
       "eventsFunctionsFolderStructure": {
@@ -3736,6 +5269,36 @@
           },
           {
             "functionName": "EvolutionTarget"
+          },
+          {
+            "functionName": "SetMoveTarget"
+          },
+          {
+            "functionName": "SetCanAttack"
+          },
+          {
+            "functionName": "SetSpawnerId"
+          },
+          {
+            "functionName": "CanCrossWalls"
+          },
+          {
+            "functionName": "Damage"
+          },
+          {
+            "functionName": "AttackRange"
+          },
+          {
+            "functionName": "MeleeRange"
+          },
+          {
+            "functionName": "FlyHeight"
+          },
+          {
+            "functionName": "SpawnerId"
+          },
+          {
+            "functionName": "RoleName"
           }
         ]
       },
@@ -3937,10 +5500,24 @@
           "name": "EvolveTime"
         },
         {
-          "value": "false",
-          "type": "Boolean",
+          "value": "No",
+          "type": "Choice",
           "label": "Super armor (ignores hit reaction)",
           "group": "Hit",
+          "extraInformation": [
+            "No",
+            "Yes"
+          ],
+          "choices": [
+            {
+              "label": "No",
+              "value": "No"
+            },
+            {
+              "label": "Yes",
+              "value": "Yes"
+            }
+          ],
           "name": "SuperArmor"
         },
         {
@@ -3958,10 +5535,24 @@
           "name": "DeathTimeout"
         },
         {
-          "value": "true",
-          "type": "Boolean",
+          "value": "Yes",
+          "type": "Choice",
           "label": "Leave a corpse after death (frozen, marks where the player has been)",
           "group": "Hit",
+          "extraInformation": [
+            "No",
+            "Yes"
+          ],
+          "choices": [
+            {
+              "label": "No",
+              "value": "No"
+            },
+            {
+              "label": "Yes",
+              "value": "Yes"
+            }
+          ],
           "name": "LeaveCorpse"
         },
         {
@@ -4085,6 +5676,69 @@
           "label": "Desired animation",
           "hidden": true,
           "name": "DesiredAnim"
+        },
+        {
+          "value": "No",
+          "type": "Choice",
+          "label": "Ignores maze walls (flies straight at the player)",
+          "group": "Movement",
+          "extraInformation": [
+            "No",
+            "Yes"
+          ],
+          "choices": [
+            {
+              "label": "No",
+              "value": "No"
+            },
+            {
+              "label": "Yes",
+              "value": "Yes"
+            }
+          ],
+          "name": "CanCrossWalls"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Height (Z) at spawn",
+          "group": "Movement",
+          "name": "FlyHeight"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Melee range (pixels, 0 = same as attack range). Ranged enemies hit in melee inside it.",
+          "group": "Attack",
+          "name": "MeleeRange"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Id of the spawner that created the enemy",
+          "hidden": true,
+          "name": "SpawnerId"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Waypoint X",
+          "hidden": true,
+          "name": "WaypointX"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Waypoint Y",
+          "hidden": true,
+          "name": "WaypointY"
+        },
+        {
+          "value": "true",
+          "type": "Boolean",
+          "label": "Allowed to attack (line of sight)",
+          "hidden": true,
+          "name": "CanAttack"
         }
       ],
       "propertiesFolderStructure": {
@@ -4135,6 +5789,9 @@
               },
               {
                 "propertyName": "AttackAnim"
+              },
+              {
+                "propertyName": "MeleeRange"
               }
             ]
           },
@@ -4146,6 +5803,12 @@
               },
               {
                 "propertyName": "AggroRange"
+              },
+              {
+                "propertyName": "CanCrossWalls"
+              },
+              {
+                "propertyName": "FlyHeight"
               }
             ]
           },
@@ -4227,6 +5890,18 @@
           },
           {
             "propertyName": "DesiredAnim"
+          },
+          {
+            "propertyName": "SpawnerId"
+          },
+          {
+            "propertyName": "WaypointX"
+          },
+          {
+            "propertyName": "WaypointY"
+          },
+          {
+            "propertyName": "CanAttack"
           }
         ]
       }
@@ -5064,6 +6739,939 @@
           },
           {
             "propertyName": "MetaDamageBonus"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Spawns enemies in waves from the enemy queue (BuildEnemyQueue). A new wave starts when the player is near and every enemy of the previous wave is dead. RunSpawners must be called every frame.",
+      "fullName": "Spawner",
+      "helpPath": "",
+      "iconUrl": "",
+      "name": "Spawner",
+      "objectType": "",
+      "previewIconUrl": "",
+      "eventsFunctions": [
+        {
+          "fullName": "",
+          "functionType": "Action",
+          "name": "onCreated",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "Id",
+                    "=",
+                    "Amaze::NextSpawnerId()"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "fullName": "",
+          "functionType": "Action",
+          "name": "doStepPostEvents",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "WantsSpawn is true for the frame after it is set; RunSpawners reads it in the scene events and creates the enemy"
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "WantsSpawn",
+                    "False",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "SpawnTimer",
+                    "-",
+                    "TimeDelta()"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Waiting\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "PathDistance",
+                    "<=",
+                    "ActivationRange"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Spawning\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "Pending",
+                    "=",
+                    "WaveSize"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "WavesDone",
+                    "+",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "SpawnTimer",
+                    "=",
+                    "0"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Spawning\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "Pending",
+                    "<=",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Active\""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Spawning\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "Pending",
+                    ">",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "SpawnTimer",
+                    "<=",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "WantsSpawn",
+                    "True",
+                    ""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Active\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "AliveCount",
+                    "<=",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "Waves",
+                    ">",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "WavesDone",
+                    ">=",
+                    "Waves"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Exhausted\""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Active\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "AliveCount",
+                    "<=",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Cooldown\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "SpawnTimer",
+                    "=",
+                    "WaveCooldown"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Cooldown\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "SpawnTimer",
+                    "<=",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Waiting\""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "True for the frames in which the spawner wants to create an enemy.",
+          "fullName": "Wants to spawn",
+          "functionType": "Condition",
+          "name": "WantsToSpawn",
+          "sentence": "_PARAM0_ wants to spawn an enemy",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "WantsSpawn",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Tell the spawner that its enemy was created.",
+          "fullName": "Enemy spawned",
+          "functionType": "Action",
+          "name": "NotifySpawned",
+          "sentence": "_PARAM0_ created an enemy",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "Pending",
+                    "-",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "AliveCount",
+                    "+",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "SpawnTimer",
+                    "=",
+                    "SpawnInterval"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "WantsSpawn",
+                    "False",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "The spawn queue is empty: the spawner stops for good.",
+          "fullName": "Mark exhausted",
+          "functionType": "Action",
+          "name": "MarkExhausted",
+          "sentence": "_PARAM0_ has nothing left to spawn",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Exhausted\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "Pending",
+                    "=",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "WantsSpawn",
+                    "False",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Number of living enemies of this spawner (RunSpawners sets it).",
+          "fullName": "Set living enemies",
+          "functionType": "Action",
+          "name": "SetAliveCount",
+          "sentence": "Set living enemies of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "AliveCount",
+                    "=",
+                    "Count"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            },
+            {
+              "description": "Count",
+              "name": "Count",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Distance to the player in maze cells (RunSpawners sets it).",
+          "fullName": "Set path distance",
+          "functionType": "Action",
+          "name": "SetPathDistance",
+          "sentence": "Set path distance of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "PathDistance",
+                    "=",
+                    "Distance"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            },
+            {
+              "description": "Distance in cells",
+              "name": "Distance",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Unique id of the spawner.",
+          "fullName": "Id",
+          "functionType": "Expression",
+          "name": "Id",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "Id"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Waiting, Spawning, Active, Cooldown or Exhausted.",
+          "fullName": "State",
+          "functionType": "StringExpression",
+          "name": "State",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnString"
+                  },
+                  "parameters": [
+                    "State"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "string"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Spawner",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        }
+      ],
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "onCreated"
+          },
+          {
+            "functionName": "doStepPostEvents"
+          },
+          {
+            "functionName": "WantsToSpawn"
+          },
+          {
+            "functionName": "NotifySpawned"
+          },
+          {
+            "functionName": "MarkExhausted"
+          },
+          {
+            "functionName": "SetAliveCount"
+          },
+          {
+            "functionName": "SetPathDistance"
+          },
+          {
+            "functionName": "Id"
+          },
+          {
+            "functionName": "State"
+          }
+        ]
+      },
+      "propertyDescriptors": [
+        {
+          "value": "3",
+          "type": "Number",
+          "label": "Enemies per wave",
+          "group": "Waves",
+          "name": "WaveSize"
+        },
+        {
+          "value": "3",
+          "type": "Number",
+          "label": "Number of waves (0 = until the spawn queue is empty)",
+          "group": "Waves",
+          "name": "Waves"
+        },
+        {
+          "value": "4",
+          "type": "Number",
+          "label": "Pause after a wave was killed (seconds)",
+          "group": "Waves",
+          "name": "WaveCooldown"
+        },
+        {
+          "value": "0.4",
+          "type": "Number",
+          "label": "Time between enemies of one wave (seconds)",
+          "group": "Waves",
+          "name": "SpawnInterval"
+        },
+        {
+          "value": "9999",
+          "type": "Number",
+          "label": "Wakes up when the player is at most this many maze cells away (9999 = always: waves start right away)",
+          "group": "Waves",
+          "name": "ActivationRange"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Spawner id",
+          "hidden": true,
+          "name": "Id"
+        },
+        {
+          "value": "Waiting",
+          "type": "String",
+          "label": "State (Waiting, Spawning, Active, Cooldown, Exhausted)",
+          "hidden": true,
+          "name": "State"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Enemies of the current wave still to spawn",
+          "hidden": true,
+          "name": "Pending"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Waves started",
+          "hidden": true,
+          "name": "WavesDone"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Living enemies of this spawner",
+          "hidden": true,
+          "name": "AliveCount"
+        },
+        {
+          "value": "9999",
+          "type": "Number",
+          "label": "Path distance to the player in cells",
+          "hidden": true,
+          "name": "PathDistance"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Spawn timer",
+          "hidden": true,
+          "name": "SpawnTimer"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Wants to spawn an enemy this frame",
+          "hidden": true,
+          "name": "WantsSpawn"
+        }
+      ],
+      "propertiesFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "folderName": "Waves",
+            "children": [
+              {
+                "propertyName": "WaveSize"
+              },
+              {
+                "propertyName": "Waves"
+              },
+              {
+                "propertyName": "WaveCooldown"
+              },
+              {
+                "propertyName": "SpawnInterval"
+              },
+              {
+                "propertyName": "ActivationRange"
+              }
+            ]
+          },
+          {
+            "propertyName": "Id"
+          },
+          {
+            "propertyName": "State"
+          },
+          {
+            "propertyName": "Pending"
+          },
+          {
+            "propertyName": "WavesDone"
+          },
+          {
+            "propertyName": "AliveCount"
+          },
+          {
+            "propertyName": "PathDistance"
+          },
+          {
+            "propertyName": "SpawnTimer"
+          },
+          {
+            "propertyName": "WantsSpawn"
           }
         ]
       }
