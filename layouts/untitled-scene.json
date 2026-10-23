@@ -2022,7 +2022,6 @@
           "masks": 17
         },
         {
-          "isFolded": true,
           "name": "PhysicsCharacter3D",
           "type": "Physics3D::PhysicsCharacter3D",
           "physics3D": "Physics3D",
@@ -2032,7 +2031,7 @@
           "fallingSpeedMax": 700,
           "forwardAcceleration": 1200,
           "forwardDeceleration": 1200,
-          "forwardSpeedMax": 600,
+          "forwardSpeedMax": 400,
           "sidewaysAcceleration": 800,
           "sidewaysDeceleration": 800,
           "sidewaysSpeedMax": 400,
@@ -3416,7 +3415,7 @@
           "Speed": "0",
           "Damage": "8",
           "XP": "4",
-          "AttackRange": "200",
+          "AttackRange": 100,
           "AttackCooldown": "1.2",
           "AttackDuration": "2",
           "AttackMomentTime": "0.4",
@@ -3881,9 +3880,9 @@
           "Speed": "0",
           "Damage": "6",
           "XP": "2",
-          "AttackRange": "200",
-          "AttackCooldown": "1.2",
-          "AttackDuration": "2",
+          "AttackRange": 100,
+          "AttackCooldown": 1.2,
+          "AttackDuration": 2,
           "AttackMomentTime": "0.4",
           "AttackAnim": "Weapon",
           "MoveAnim": "Run",
@@ -12281,6 +12280,57 @@
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Distance"
+          },
+          "parameters": [
+            "Player",
+            "BlueMist",
+            "200",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Physics3D::PhysicsCharacter3D::SetForwardSpeedMax"
+          },
+          "parameters": [
+            "Player",
+            "PhysicsCharacter3D",
+            "=",
+            "200"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Else",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "Physics3D::PhysicsCharacter3D::SetForwardSpeedMax"
+          },
+          "parameters": [
+            "Player",
+            "PhysicsCharacter3D",
+            "=",
+            "400"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": []
     }
   ],
   "layers": [

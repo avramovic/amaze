@@ -805,7 +805,7 @@
       "name": "Level",
       "persistentUuid": "11efaaa5-d7e0-445b-aa79-860f04fdec7f",
       "type": "number",
-      "value": 5
+      "value": 1
     },
     {
       "name": "RunSeed",
