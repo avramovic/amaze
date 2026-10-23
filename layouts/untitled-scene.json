@@ -384,7 +384,8 @@
           "Health": "Health",
           "RangedAnim": "Punch",
           "SlotAngle": "0",
-          "ActiveAttackAnim": "Weapon"
+          "ActiveAttackAnim": "Weapon",
+          "CelebrateIndex": "0"
         },
         {
           "name": "Health",
@@ -729,7 +730,8 @@
           "Health": "Health",
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
-          "ActiveAttackAnim": "Punch"
+          "ActiveAttackAnim": "Punch",
+          "CelebrateIndex": "0"
         },
         {
           "isFolded": true,
@@ -876,7 +878,8 @@
           "Health": "Health",
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
-          "ActiveAttackAnim": "Punch"
+          "ActiveAttackAnim": "Punch",
+          "CelebrateIndex": "0"
         },
         {
           "name": "Health",
@@ -1022,7 +1025,8 @@
           "Health": "Health",
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
-          "ActiveAttackAnim": "Punch"
+          "ActiveAttackAnim": "Punch",
+          "CelebrateIndex": "0"
         },
         {
           "name": "Health",
@@ -1168,7 +1172,8 @@
           "Health": "Health",
           "RangedAnim": "Punch",
           "SlotAngle": "0",
-          "ActiveAttackAnim": "Weapon"
+          "ActiveAttackAnim": "Weapon",
+          "CelebrateIndex": "0"
         },
         {
           "name": "Health",
@@ -1344,7 +1349,8 @@
           "Health": "Health",
           "RangedAnim": "Punch",
           "SlotAngle": "0",
-          "ActiveAttackAnim": "Weapon"
+          "ActiveAttackAnim": "Weapon",
+          "CelebrateIndex": "0"
         },
         {
           "name": "Health",
@@ -1520,7 +1526,8 @@
           "Health": "Health",
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
-          "ActiveAttackAnim": "Punch"
+          "ActiveAttackAnim": "Punch",
+          "CelebrateIndex": "0"
         },
         {
           "name": "Health",
@@ -1666,7 +1673,8 @@
           "Health": "Health",
           "RangedAnim": "Weapon",
           "SlotAngle": "0",
-          "ActiveAttackAnim": "Punch"
+          "ActiveAttackAnim": "Punch",
+          "CelebrateIndex": "0"
         },
         {
           "name": "Health",
@@ -2697,6 +2705,17 @@
                 },
                 {
                   "type": {
+                    "value": "Scene3D::Base3DBehavior::SetZ"
+                  },
+                  "parameters": [
+                    "PortalVortex",
+                    "Object3D",
+                    "=",
+                    "100"
+                  ]
+                },
+                {
+                  "type": {
                     "value": "Create"
                   },
                   "parameters": [
@@ -2705,6 +2724,17 @@
                     "0",
                     "0",
                     ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Scene3D::Base3DBehavior::SetZ"
+                  },
+                  "parameters": [
+                    "PortalSparkles",
+                    "Object3D",
+                    "=",
+                    "100"
                   ]
                 },
                 {
@@ -3744,105 +3774,121 @@
       "conditions": [
         {
           "type": {
-            "value": "KeyFromTextPressed"
-          },
-          "parameters": [
-            "",
-            "\"w\""
-          ]
-        }
-      ],
-      "actions": [
-        {
-          "type": {
-            "value": "Physics3D::PhysicsCharacter3D::SimulateForwardKey"
+            "inverted": true,
+            "value": "Health::Health::IsDead"
           },
           "parameters": [
             "Player",
-            "PhysicsCharacter3D"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "value": "KeyFromTextPressed"
-          },
-          "parameters": [
-            "",
-            "\"a\""
+            "Health",
+            ""
           ]
         }
       ],
-      "actions": [
+      "actions": [],
+      "events": [
         {
-          "type": {
-            "value": "Physics3D::PhysicsCharacter3D::SimulateLeftKey"
-          },
-          "parameters": [
-            "Player",
-            "PhysicsCharacter3D"
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "KeyFromTextPressed"
+              },
+              "parameters": [
+                "",
+                "\"w\""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Physics3D::PhysicsCharacter3D::SimulateForwardKey"
+              },
+              "parameters": [
+                "Player",
+                "PhysicsCharacter3D"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "KeyFromTextPressed"
+              },
+              "parameters": [
+                "",
+                "\"a\""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Scene3D::Base3DBehavior::TurnAroundZ"
+              },
+              "parameters": [
+                "Player",
+                "Object3D",
+                "-1"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "KeyFromTextPressed"
+              },
+              "parameters": [
+                "",
+                "\"s\""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Physics3D::PhysicsCharacter3D::SimulateBackwardKey"
+              },
+              "parameters": [
+                "Player",
+                "PhysicsCharacter3D"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "KeyFromTextPressed"
+              },
+              "parameters": [
+                "",
+                "\"d\""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Scene3D::Base3DBehavior::TurnAroundZ"
+              },
+              "parameters": [
+                "Player",
+                "Object3D",
+                "1"
+              ]
+            }
           ]
         }
       ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "value": "KeyFromTextPressed"
-          },
-          "parameters": [
-            "",
-            "\"s\""
-          ]
-        }
-      ],
-      "actions": [
-        {
-          "type": {
-            "value": "Physics3D::PhysicsCharacter3D::SimulateBackwardKey"
-          },
-          "parameters": [
-            "Player",
-            "PhysicsCharacter3D"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "value": "KeyFromTextPressed"
-          },
-          "parameters": [
-            "",
-            "\"d\""
-          ]
-        }
-      ],
-      "actions": [
-        {
-          "type": {
-            "value": "Physics3D::PhysicsCharacter3D::SimulateRightKey"
-          },
-          "parameters": [
-            "Player",
-            "PhysicsCharacter3D"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [],
-      "actions": []
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -3857,6 +3903,23 @@
             "200",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::Name"
+          },
+          "parameters": [
+            "Chest",
+            "Animation",
+            "=",
+            "\"Chest_Close\""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::Once"
+          },
+          "parameters": []
         }
       ],
       "actions": [
@@ -3869,6 +3932,72 @@
             "Animation",
             "=",
             "\"Chest_Open\""
+          ]
+        },
+        {
+          "type": {
+            "value": "PickNearest"
+          },
+          "parameters": [
+            "Enemies",
+            "Player.X()",
+            "Player.Y()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "Enemies",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "Distance"
+          },
+          "parameters": [
+            "Player",
+            "Chest",
+            "200",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::Name"
+          },
+          "parameters": [
+            "Chest",
+            "Animation",
+            "=",
+            "\"Chest_Open\""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::Once"
+          },
+          "parameters": []
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+          },
+          "parameters": [
+            "Chest",
+            "Animation",
+            "=",
+            "\"Chest_Close\""
           ]
         }
       ]

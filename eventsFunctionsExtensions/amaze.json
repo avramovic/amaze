@@ -4287,6 +4287,140 @@
                         "=",
                         "\"Celebrate\""
                       ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "0.3"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "CurrentAnim",
+                        "=",
+                        "DesiredAnim"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::AnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "CelebrateIndex",
+                        "=",
+                        "1 - CelebrateIndex"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Blob\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "CelebrateIndex",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Dance\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Blob\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "CelebrateIndex",
+                        "=",
+                        "1"
+                      ]
                     }
                   ],
                   "actions": [
@@ -4298,6 +4432,194 @@
                         "DesiredAnim",
                         "=",
                         "\"Yes\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Standing\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "CelebrateIndex",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Wave\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Standing\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "CelebrateIndex",
+                        "=",
+                        "1"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Yes\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Flying\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "CelebrateIndex",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Yes\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Flying\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "CelebrateIndex",
+                        "=",
+                        "1"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"No\""
                       ]
                     }
                   ]
@@ -4778,7 +5100,7 @@
           "objectGroups": []
         },
         {
-          "description": "Play the celebration animation (e.g. when the player dies).",
+          "description": "Play the celebration animations (e.g. when the player dies). They alternate until the enemy is destroyed. Safe to call every frame.",
           "fullName": "Celebrate",
           "functionType": "Action",
           "name": "Celebrate",
@@ -4806,6 +5128,16 @@
                     "!=",
                     "\"Dead\""
                   ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Celebrate\""
+                  ]
                 }
               ],
               "actions": [
@@ -4826,7 +5158,17 @@
                   "parameters": [
                     "StateTime",
                     "=",
-                    "0"
+                    "0 - Random(60) / 100"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "CelebrateIndex",
+                    "=",
+                    "Random(1)"
                   ]
                 }
               ]
@@ -6542,6 +6884,13 @@
           "label": "Attack animation of the current attack",
           "hidden": true,
           "name": "ActiveAttackAnim"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Celebration step (0 or 1)",
+          "hidden": true,
+          "name": "CelebrateIndex"
         }
       ],
       "propertiesFolderStructure": {
@@ -6714,6 +7063,9 @@
           },
           {
             "propertyName": "ActiveAttackAnim"
+          },
+          {
+            "propertyName": "CelebrateIndex"
           }
         ]
       }
