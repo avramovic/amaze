@@ -2598,12 +2598,240 @@
                     },
                     {
                       "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Blob\""
+                      ]
+                    },
+                    {
+                      "type": {
                         "value": "BuiltinCommonInstructions::CompareNumbers"
                       },
                       "parameters": [
                         "StateTime",
                         ">=",
                         "0.4"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "!=",
+                        "\"Blob\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "0.1"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "CurrentAnim",
+                        "=",
+                        "\"HitReact\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::AnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "1.5"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "!=",
+                        "\"Standing\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "1"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Standing\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "0.1"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "CurrentAnim",
+                        "=",
+                        "\"Wave\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::AnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        ""
                       ]
                     }
                   ],
@@ -2640,7 +2868,7 @@
                       "parameters": [
                         "StateTime",
                         ">=",
-                        "1"
+                        "2.5"
                       ]
                     }
                   ],
@@ -2956,6 +3184,63 @@
                         "AttackMoment",
                         "True",
                         ""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "0.1"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "CurrentAnim",
+                        "=",
+                        "DesiredAnim"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::AnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
                       ]
                     }
                   ]
@@ -4109,11 +4394,11 @@
                   "subInstructions": [
                     {
                       "type": {
-                        "value": "AnimatableCapability::AnimatableBehavior::HasAnimationEnded"
+                        "value": "Amaze::Enemy::AnimationEnded"
                       },
                       "parameters": [
                         "Object",
-                        "Animation",
+                        "Behavior",
                         ""
                       ]
                     },
@@ -4205,11 +4490,11 @@
                   "subInstructions": [
                     {
                       "type": {
-                        "value": "AnimatableCapability::AnimatableBehavior::HasAnimationEnded"
+                        "value": "Amaze::Enemy::AnimationEnded"
                       },
                       "parameters": [
                         "Object",
-                        "Animation",
+                        "Behavior",
                         ""
                       ]
                     },
@@ -4325,17 +4610,6 @@
               "actions": [
                 {
                   "type": {
-                    "value": "AnimatableCapability::AnimatableBehavior::SetName"
-                  },
-                  "parameters": [
-                    "Object",
-                    "Animation",
-                    "=",
-                    "DesiredAnim"
-                  ]
-                },
-                {
-                  "type": {
                     "value": "SetStringVariable"
                   },
                   "parameters": [
@@ -4343,6 +4617,19 @@
                     "=",
                     "DesiredAnim"
                   ]
+                }
+              ],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::JsCode",
+                  "inlineCode": [
+                    "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                    "const b = o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                    "o.setAnimationName(b._getDesiredAnim());"
+                  ],
+                  "parameterObjects": "",
+                  "useStrict": true,
+                  "eventsSheetExpanded": false
                 }
               ]
             }
@@ -5665,6 +5952,39 @@
             }
           ],
           "objectGroups": []
+        },
+        {
+          "description": "True when the current animation (not looping) has finished playing.",
+          "fullName": "Animation ended",
+          "functionType": "Condition",
+          "name": "AnimationEnded",
+          "sentence": "The animation of _PARAM0_ has ended",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "eventsFunctionContext.returnValue = !!(o && o.hasAnimationEnded && o.hasAnimationEnded());"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
         }
       ],
       "eventsFunctionsFolderStructure": {
@@ -5744,6 +6064,9 @@
           },
           {
             "functionName": "SlotAngle"
+          },
+          {
+            "functionName": "AnimationEnded"
           }
         ]
       },
@@ -5870,19 +6193,19 @@
         {
           "value": "0.8",
           "type": "Number",
-          "label": "Attack duration (seconds)",
+          "label": "Longest attack (seconds). The attack normally ends when its animation ends; this is only the safety limit",
           "group": "Attack",
           "name": "AttackDuration"
         },
         {
           "value": "0.4",
           "type": "Number",
-          "label": "Time into the attack when it lands or fires (seconds)",
+          "label": "Time into the attack animation when it lands or fires (seconds)",
           "group": "Attack",
           "name": "AttackMomentTime"
         },
         {
-          "value": "Punch",
+          "value": "Weapon",
           "type": "Choice",
           "label": "Standing melee attack animation",
           "group": "Attack",
@@ -6186,7 +6509,7 @@
           "name": "CanAttack"
         },
         {
-          "value": "Weapon",
+          "value": "Punch",
           "type": "Choice",
           "label": "Standing ranged attack animation (used when the player is outside the melee range)",
           "group": "Attack",
@@ -6214,7 +6537,7 @@
           "name": "SlotAngle"
         },
         {
-          "value": "Punch",
+          "value": "Weapon",
           "type": "String",
           "label": "Attack animation of the current attack",
           "hidden": true,
