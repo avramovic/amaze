@@ -2027,6 +2027,42 @@
       "effects": [],
       "behaviors": [
         {
+          "name": "FireBullet",
+          "type": "FireBullet::FireBullet",
+          "FireCooldown": 0.1,
+          "HasJustFired": false,
+          "RotateBullet": true,
+          "FiringArc": 45,
+          "BulletQuantity": 1,
+          "AngleVariance": 0,
+          "BulletSpeedVariance": 0,
+          "AmmoQuantity": 0,
+          "ShotsPerReload": 0,
+          "ReloadDuration": 1,
+          "MaxAmmo": 0,
+          "ShotsBeforeNextReload": 0,
+          "TotalShotsFired": 0,
+          "TotalBulletsCreated": 0,
+          "StartingAmmo": 0,
+          "TotalReloadsCompleted": 0,
+          "UnlimitedAmmo": true,
+          "ReloadInProgress": false,
+          "HeatIncreasePerShot": 0,
+          "HeatLevel": 0,
+          "AutomaticReloading": true,
+          "OverheatDuration": 0,
+          "LinearCoolingRate": 0.1,
+          "ExponentialCoolingRate": 0.3,
+          "BulletLayer": "",
+          "RandomizedAngle": 0
+        },
+        {
+          "name": "FireBullet3D",
+          "type": "FireBullet::FireBullet3D",
+          "Object3D": "Object3D",
+          "FireBullet": "FireBullet"
+        },
+        {
           "isFolded": true,
           "name": "Health",
           "type": "Health::Health",
@@ -2086,6 +2122,7 @@
           "masks": 17
         },
         {
+          "isFolded": true,
           "name": "PhysicsCharacter3D",
           "type": "Physics3D::PhysicsCharacter3D",
           "physics3D": "Physics3D",
@@ -2105,6 +2142,7 @@
           "canBePushed": true
         },
         {
+          "isFolded": true,
           "name": "Player",
           "type": "Amaze::Player",
           "MoveSpeed": 300,
@@ -2165,7 +2203,37 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
       "content": {
         "centerLocation": "BottomCenterZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -2352,7 +2420,37 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -9860,6 +9958,169 @@
           ]
         }
       }
+    },
+    {
+      "assetStoreId": "e165e0b29a08e96c92c440e7c516baeef1575225811353890b7f198eef28d327",
+      "name": "PlayerProjectile",
+      "persistentUuid": "434630e5-e425-4e1b-b13e-7ad33e7c4571",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Dynamic",
+          "bullet": true,
+          "fixedRotation": false,
+          "shape": "Sphere",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 20,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 0,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
+      "content": {
+        "EndColor": "64;0;128",
+        "StartColor": "40;80;160",
+        "StartOpacity": 255,
+        "SpayConeAngle": 1,
+        "StartSizeMin": 128,
+        "StartSizeMax": 128,
+        "EndScale": 0.375,
+        "Flow": 100,
+        "LifespanMin": 0.5,
+        "LifespanMax": 0.5,
+        "Duration": 123456,
+        "StartSpeedMin": 300,
+        "StartSpeedMax": 600,
+        "ShouldAutodestruct": true
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "LightGlow.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assetStoreId": "d288d8eb0c14a8fdff4a27a9a2f70bf1e04e27002b18214e809bd5245791ac75",
+      "name": "BigExplosion",
+      "persistentUuid": "f1e6ca37-91ec-42af-b4b0-39f9a5a124ac",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "ShouldAutodestruct": true,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": 0,
+        "ZoneRadius": 0,
+        "EndScale": 3,
+        "RenderMode": "Billboard",
+        "Blending": "Additive",
+        "StartColor": "255;200;90",
+        "EndColor": "200;30;0",
+        "StartOpacity": 150,
+        "EndOpacity": 0,
+        "StartSizeMin": 50,
+        "StartSizeMax": 80,
+        "Flow": 900,
+        "Duration": 0.1,
+        "LifespanMin": 0.5,
+        "LifespanMax": 1,
+        "StartSpeedMin": 200,
+        "StartSpeedMax": 450,
+        "SpayConeAngle": 0
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "LightGlow.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -10084,6 +10345,12 @@
       },
       {
         "objectName": "EnemyProjectile"
+      },
+      {
+        "objectName": "PlayerProjectile"
+      },
+      {
+        "objectName": "BigExplosion"
       },
       {
         "objectName": "BlueMist"
@@ -12322,6 +12589,29 @@
         },
         {
           "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "EnemyProjectile.X()",
+            "EnemyProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "EnemyProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
             "value": "Delete"
           },
           "parameters": [
@@ -12346,6 +12636,29 @@
         }
       ],
       "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "EnemyProjectile.X()",
+            "EnemyProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "EnemyProjectile.Object3D::CenterZ()"
+          ]
+        },
         {
           "type": {
             "value": "Delete"
@@ -12374,6 +12687,29 @@
       "actions": [
         {
           "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "EnemyProjectile.X()",
+            "EnemyProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "EnemyProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
             "value": "Delete"
           },
           "parameters": [
@@ -12398,6 +12734,29 @@
         }
       ],
       "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "EnemyProjectile.X()",
+            "EnemyProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "EnemyProjectile.Object3D::CenterZ()"
+          ]
+        },
         {
           "type": {
             "value": "Delete"
@@ -12803,6 +13162,334 @@
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [],
       "actions": []
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "KeyFromTextReleased"
+          },
+          "parameters": [
+            "",
+            "\"Space\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "FireBullet::FireBullet3D::FireForwardObject3D"
+          },
+          "parameters": [
+            "Player",
+            "FireBullet3D",
+            "30",
+            "0",
+            "0",
+            "PlayerProjectile",
+            "Object3D",
+            "Physics3D",
+            "1000",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetRotationY"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Object3D",
+            "=",
+            "-90"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Physics3D::Collision"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Physics3D",
+            "Hedge_Large",
+            "Physics3D",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "PlayerProjectile.X()",
+            "PlayerProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Physics3D::Collision"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Physics3D",
+            "Hedge_Large_Hor",
+            "Physics3D",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "PlayerProjectile.X()",
+            "PlayerProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Physics3D::Collision"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Physics3D",
+            "Pillar_Stone",
+            "Physics3D",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "PlayerProjectile.X()",
+            "PlayerProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Physics3D::Collision"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Physics3D",
+            "Ground_Path_Open",
+            "Physics3D",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "PlayerProjectile.X()",
+            "PlayerProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Enemies",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Enemies",
+            "Health",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "PlayerProjectile.X()",
+            "PlayerProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Health::Health::Hit"
+          },
+          "parameters": [
+            "Enemies",
+            "Health",
+            "Player.Player::TotalDamageMultiplier()*10",
+            "",
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": []
     }
   ],
   "layers": [
@@ -12881,6 +13568,14 @@
     {
       "name": "Enemy",
       "type": "Amaze::Enemy"
+    },
+    {
+      "name": "FireBullet",
+      "type": "FireBullet::FireBullet"
+    },
+    {
+      "name": "FireBullet3D",
+      "type": "FireBullet::FireBullet3D"
     },
     {
       "name": "Flippable",
