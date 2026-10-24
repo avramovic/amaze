@@ -441,7 +441,7 @@ Stacionarni tipovi (Mushnub) ne izlaze iz spawnera, jer su spawneri u slepim uli
 
 Neprijatelji više ne jure igrača bezuslovno. Dok ga nisu primetili, **patroliraju**:
 
-- Svaki bira random slepu ulicu (svoju), ide do nje najkraćim putem i staje u susednom polju, 0.3 polja od centra ka slepoj ulici. Ne ulazi u nju. Tu se okrene ka njoj, malo zastane (`LookTime`, 0.6 s), odmahne glavom (`No`) i bira sledeću. Kandidati su slepe ulice sa ulogom `None` i `Chest`, osim one koju su upravo pogledali. Samo ako takve nema (npr. postoji jedan kovčeg), idu do izlaza (vortex) pa se vraćaju, da ne bi stajali u mestu; ako nema ni izlaza, do spawnera.
+- Svaki bira random slepu ulicu (svoju), ide do nje najkraćim putem i staje u susednom polju, 0.3 polja od centra ka slepoj ulici. Ne ulazi u nju. Tu se okrene ka njoj, malo zastane (`LookTime`, 0.6 s), odmahne glavom (`No`) i bira sledeću. Kandidati su slepe ulice sa ulogom `None`, `Chest` i `Exit` (vortex), osim one koju su upravo pogledali, pa patrole obilaze i delove oko izlaza. Spawneri su tek poslednja rezerva, da neprijatelji nikad ne stoje u mestu.
 - Hodaju sporo (`PatrolSpeed`, 0.5 brzine) i animacijom `Walk` (letači `Idle`, jer nemaju `Walk`). Jurnjava je kao pre.
 - **Roj ide zajedno:** svi `Swarm` neprijatelji istog spawnera dele cilj. Ko prvi završi gledanje bira sledeći cilj, ostali ga preuzimaju kad završe svoje.
 - **Aggro po vidu:** neprijatelj primećuje igrača kad je linija čista (`MazeLineOfSight`, isto polje ili prav otvoren hodnik) i bliže je od `AggroRange`, ili ako ga igrač pogodi. Ne primećuje ga kroz zidove. Slepa ulica u koju se igrač sakrije se vidi sa tačke gledanja. Kad jedan član roja primeti igrača, ostali iz grupe u krugu od 800 px jure sa njim.
