@@ -438,11 +438,11 @@
         {
           "type": "BuiltinCommonInstructions::JsCode",
           "inlineCode": [
-            "// aMAZE enemy helpers: flow-field towards the player, maze line of sight, seeded spawn queue.",
-            "if (gdjs.amazeSpawn && gdjs.amazeSpawn.version === 4) return;",
+            "// aMAZE enemy helpers: flow-field towards the player, maze line of sight, seeded spawn queue, patrol.",
+            "if (gdjs.amazeSpawn && gdjs.amazeSpawn.version === 5) return;",
             "const C = gdjs.amazeCull;",
             "const S = (gdjs.amazeSpawn = {",
-            "    version: 4,",
+            "    version: 5,",
             "    table: [],",
             "    queue: [],",
             "    routeList: [],",
@@ -800,6 +800,150 @@
             "        p.mist.deleteFromScene(runtimeScene);",
             "        return false;",
             "    });",
+            "};",
+            "",
+            "// Patrol: enemies that have not noticed the player walk to a random empty or chest dead-end (other than the one they",
+            "// just looked into), stop in its only neighbour cell, look into the dead-end, shake the head and pick the next one.",
+            "// Only when there is no such dead-end they go to the exit, and only without an exit to a spawner, so they never",
+            "// stand still. Swarm enemies of one spawner share the goal and walk together.",
+            "S.patrolState = new WeakMap();",
+            "S.groups = new Map();",
+            "S.groupsMaze = null;",
+            "S.alertRadius = 800;",
+            "",
+            "S.cellCenter = function (m, c) {",
+            "    const r = (c / m.cols) | 0;",
+            "    return [m.x0 + (c - r * m.cols + 0.5) * m.fw, m.y0 + (r + 0.5) * m.fh];",
+            "};",
+            "",
+            "// One look-out point per dead-end: in the neighbour cell, a bit towards the dead-end, facing into it.",
+            "S.patrolPoints = function (m) {",
+            "    const src = gdjs.__mazeDeadEnds || [];",
+            "    if (m.patrol && m.patrolSrc === src) return m.patrol;",
+            "    const all = [];",
+            "    for (let i = 0; i < src.length; i++) {",
+            "        const d = src[i];",
+            "        const cell = (d.row - 1) * m.cols + (d.column - 1);",
+            "        if (cell < 0 || cell >= m.n) continue;",
+            "        let nb = -1;",
+            "        for (let dir = 0; dir < 4 && nb < 0; dir++) nb = S.open(m, cell, dir);",
+            "        if (nb < 0) continue;",
+            "        const dc = S.cellCenter(m, cell);",
+            "        const nc = S.cellCenter(m, nb);",
+            "        const lx = nc[0] + (dc[0] - nc[0]) * 0.3;",
+            "        const ly = nc[1] + (dc[1] - nc[1]) * 0.3;",
+            "        all.push({ cell: cell, look: nb, lx: lx, ly: ly, angle: Math.atan2(dc[1] - ly, dc[0] - lx) * 180 / Math.PI, d: d });",
+            "    }",
+            "    const byCell = new Map();",
+            "    all.forEach(function (p) { byCell.set(p.cell, p); });",
+            "    m.patrol = { all: all, byCell: byCell };",
+            "    m.patrolSrc = src;",
+            "    return m.patrol;",
+            "};",
+            "",
+            "// A swarm follows the goal its group chose last; otherwise a random dead-end other than the previous one.",
+            "S.patrolPick = function (pts, st, groupId) {",
+            "    if (pts.all.length === 0) return;",
+            "    // Roles are read now, not when the points were built, in case they were assigned later.",
+            "    const role = function (r) { return pts.all.filter(function (p) { return p.d.role === r; }); };",
+            "    const empty = pts.all.filter(function (p) { return p.d.role === 'None' || p.d.role === 'Chest'; });",
+            "    const grp = groupId >= 0 ? S.groups.get(groupId) : null;",
+            "    if (grp && grp.goal !== st.goal && pts.byCell.has(grp.goal)) {",
+            "        st.goal = grp.goal;",
+            "        st.path = null;",
+            "        return;",
+            "    }",
+            "    // Empty / chest dead-ends first; the exit only if there is none other than the one just visited, then spawners.",
+            "    const other = function (p) { return p.cell !== st.goal; };",
+            "    let pool = empty.filter(other);",
+            "    if (pool.length === 0) pool = role('Exit').filter(other);",
+            "    if (pool.length === 0) pool = role('Enemy').filter(other);",
+            "    if (pool.length === 0) pool = pts.all;",
+            "    const pick = pool[Math.floor(Math.random() * pool.length)];",
+            "    console.log('[Amaze] patrol goal: cell ' + pick.cell + ' (' + pick.d.role + '), previous ' + st.goal + ', ' + pts.all.length + ' dead-ends: ' + pts.all.map(function (p) { return p.cell + ':' + p.d.role; }).join(' '));",
+            "    st.goal = pick.cell;",
+            "    st.path = null;",
+            "    if (groupId >= 0) S.groups.set(groupId, { goal: pick.cell });",
+            "};",
+            "",
+            "// Where to walk from `cell` towards the look-out point p: through the next door, like S.target.",
+            "S.patrolWaypoint = function (m, st, p, cell) {",
+            "    if (cell === p.look) return [p.lx, p.ly];",
+            "    let idx = st.path ? st.path.indexOf(cell) : -1;",
+            "    if (idx < 0) {",
+            "        st.path = S.path(m, cell, p.look);",
+            "        if (!st.path) return null;",
+            "        idx = 0;",
+            "    }",
+            "    const next = st.path[idx + 1];",
+            "    let dir = 0;",
+            "    while (dir < 4 && S.open(m, cell, dir) !== next) dir++;",
+            "    if (dir > 3) { st.path = null; return null; }",
+            "    const cc = S.cellCenter(m, cell);",
+            "    return [cc[0] + S.dx[dir] * 0.75 * m.fw, cc[1] + S.dy[dir] * 0.75 * m.fh];",
+            "};",
+            "",
+            "S.updatePatrol = function (runtimeScene, ctx, mazeId) {",
+            "    const m = C ? C.getMaze(runtimeScene, mazeId) : null;",
+            "    if (!m) return;",
+            "    if (S.groupsMaze !== m) {",
+            "        S.groups = new Map();",
+            "        S.groupsMaze = m;",
+            "    }",
+            "    const pts = S.patrolPoints(m);",
+            "    const hName = ctx.getBehaviorName(\"HealthBehavior\");",
+            "    const eName = ctx.getBehaviorName(\"EnemyBehavior\");",
+            "    const dt = gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene);",
+            "    const living = [];",
+            "    ctx.getObjects(\"Enemies\").forEach(function (o) {",
+            "        const h = o.getBehavior(hName);",
+            "        if (!h || h.IsDead(ctx)) return;",
+            "        const eb = o.getBehavior(eName);",
+            "        living.push({ o: o, eb: eb, role: eb.RoleName(ctx), sid: eb.SpawnerId(ctx) });",
+            "    });",
+            "    // A swarm member that sees the player alerts (and keeps alerting) its group mates that are close.",
+            "    for (let i = 0; i < living.length; i++) {",
+            "        const a = living[i];",
+            "        if (a.role !== \"Swarm\" || !a.eb.SeesTarget(ctx)) continue;",
+            "        for (let j = 0; j < living.length; j++) {",
+            "            const b = living[j];",
+            "            if (b === a || b.role !== \"Swarm\" || b.sid !== a.sid) continue;",
+            "            if (Math.hypot(a.o.getCenterXInScene() - b.o.getCenterXInScene(), a.o.getCenterYInScene() - b.o.getCenterYInScene()) < S.alertRadius) b.eb.ForceAggro(ctx);",
+            "        }",
+            "    }",
+            "    for (let i = 0; i < living.length; i++) {",
+            "        const e = living[i];",
+            "        const eb = e.eb;",
+            "        if (e.role === \"Stationary\" || eb.IsAggro(ctx) || eb.IsInState(\"Look\", ctx)) continue;",
+            "        let st = S.patrolState.get(e.o);",
+            "        if (!st) {",
+            "            st = { goal: -1, path: null, inCell: 0 };",
+            "            S.patrolState.set(e.o, st);",
+            "        }",
+            "        if (eb.NeedsPatrolTarget(ctx) || !eb.HasPatrolTarget(ctx) || st.goal < 0) {",
+            "            S.patrolPick(pts, st, e.role === \"Swarm\" ? e.sid : -1);",
+            "        }",
+            "        const p = pts.byCell.get(st.goal);",
+            "        if (!p) { st.goal = -1; continue; }",
+            "        const cx = e.o.getCenterXInScene();",
+            "        const cy = e.o.getCenterYInScene();",
+            "        const cell = S.cellOf(m, cx, cy);",
+            "        if (cell < 0) continue;",
+            "        if (cell === p.look) {",
+            "            // Crowded swarms push each other off the exact spot, so being close (or waiting long enough) is enough.",
+            "            st.inCell += dt;",
+            "            if (Math.hypot(cx - p.lx, cy - p.ly) < 60 || st.inCell > 2) {",
+            "                st.inCell = 0;",
+            "                eb.StartLook(p.angle, ctx);",
+            "                continue;",
+            "            }",
+            "        } else {",
+            "            st.inCell = 0;",
+            "        }",
+            "        const wp = S.patrolWaypoint(m, st, p, cell);",
+            "        if (!wp) { console.warn('[Amaze] patrol: no path from cell ' + cell + ' to ' + p.look); st.goal = -1; continue; }",
+            "        eb.SetPatrolWaypoint(wp[0], wp[1], ctx);",
+            "    }",
             "};",
             ""
           ],
@@ -2132,6 +2276,51 @@
       "objectGroups": []
     },
     {
+      "description": "Make enemies that have not noticed the player patrol: walk to a random dead-end (never the exit or a spawner), look into it, shake the head and go on. Swarms walk together. Call once per frame, before the enemies are moved.",
+      "fullName": "Update patrol",
+      "functionType": "Action",
+      "name": "UpdatePatrol",
+      "sentence": "Update patrol of _PARAM1_ in maze _PARAM4_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const S = gdjs.amazeSpawn;",
+            "if (!S || !S.updatePatrol) return;",
+            "S.updatePatrol(runtimeScene, eventsFunctionContext, eventsFunctionContext.getArgument(\"MazeId\"));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enemies (group with the Enemy behavior)",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemy behavior",
+          "name": "EnemyBehavior",
+          "supplementaryInformation": "Amaze::Enemy",
+          "type": "behavior"
+        },
+        {
+          "description": "Health behavior",
+          "name": "HealthBehavior",
+          "supplementaryInformation": "Health::Health",
+          "type": "behavior"
+        },
+        {
+          "description": "Maze id",
+          "name": "MazeId",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
       "description": "Play a sound of an enemy. The volume falls off with the distance to the player: full inside 300 px, silent beyond 1800 px. An empty file name plays nothing.",
       "fullName": "Play enemy sound",
       "functionType": "Action",
@@ -2309,6 +2498,9 @@
       },
       {
         "functionName": "SeparateEnemies"
+      },
+      {
+        "functionName": "UpdatePatrol"
       },
       {
         "functionName": "PlayEnemySound"
@@ -2555,7 +2747,23 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Aggro: starts when the target gets within range, never stops"
+                  "comment": "Sight: the player is seen when the line is clear (CanAttack) and within AggroRange. Aggro starts when the player is seen and ends MemoryTime seconds after the last sighting (then the enemy shakes its head and goes back to patrol)"
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "Sees",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ]
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -2575,8 +2783,8 @@
                         "value": "BooleanVariable"
                       },
                       "parameters": [
-                        "Aggro",
-                        "False",
+                        "CanAttack",
+                        "True",
                         ""
                       ]
                     },
@@ -2597,7 +2805,54 @@
                         "value": "SetBooleanVariable"
                       },
                       "parameters": [
+                        "Sees",
+                        "True",
+                        ""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Sees",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
                         "Aggro",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "Alerted",
                         "True",
                         ""
                       ]
@@ -2610,6 +2865,348 @@
                         "",
                         "SoundAggro",
                         "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Sees",
+                        "True",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "LostTimer",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Sees",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Look\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Sees",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"GiveUp\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "Health::Health::IsJustDamaged"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Health",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "Alerted",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "LostTimer",
+                        "=",
+                        "0"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::PlayEnemySound"
+                      },
+                      "parameters": [
+                        "",
+                        "SoundAggro",
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), TargetX, TargetY)"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Sees",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "LostTimer",
+                        "+",
+                        "TimeDelta()"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Sees",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "LostTimer",
+                        ">=",
+                        "MemoryTime"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Death\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"GiveUp\""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"GiveUp\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "=",
+                        "0"
                       ]
                     }
                   ]
@@ -2634,7 +3231,7 @@
                         "value": "BooleanVariable"
                       },
                       "parameters": [
-                        "Aggro",
+                        "Alerted",
                         "True",
                         ""
                       ]
@@ -2693,7 +3290,7 @@
                         "value": "BooleanVariable"
                       },
                       "parameters": [
-                        "Aggro",
+                        "Alerted",
                         "True",
                         ""
                       ]
@@ -3529,6 +4126,326 @@
                     "textG": 0,
                     "textR": 0
                   },
+                  "comment": "Looking into a dead-end (patrol) or giving up a chase: stand still, shake the head (No), then back to patrol"
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime - 0.15",
+                        ">=",
+                        "LookTime"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "CurrentAnim",
+                        "=",
+                        "\"No\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::AnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "NeedsPatrolTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "HasPatrolTarget",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime - 2.5",
+                        ">=",
+                        "LookTime"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "NeedsPatrolTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "HasPatrolTarget",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"GiveUp\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime - 0.15",
+                        ">=",
+                        "LookTime"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "CurrentAnim",
+                        "=",
+                        "\"No\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Amaze::Enemy::AnimationEnded"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "NeedsPatrolTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "HasPatrolTarget",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "LostTimer",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"GiveUp\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime - 2.5",
+                        ">=",
+                        "LookTime"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "NeedsPatrolTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "HasPatrolTarget",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetBooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetNumberVariable"
+                      },
+                      "parameters": [
+                        "LostTimer",
+                        "=",
+                        "0"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Comment",
+                  "color": {
+                    "b": 109,
+                    "g": 230,
+                    "r": 255,
+                    "textB": 0,
+                    "textG": 0,
+                    "textR": 0
+                  },
                   "comment": "Attack"
                 },
                 {
@@ -3592,6 +4509,26 @@
                         "State",
                         "!=",
                         "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"GiveUp\""
                       ]
                     },
                     {
@@ -3936,7 +4873,7 @@
                     "textG": 0,
                     "textR": 0
                   },
-                  "comment": "Movement: straight towards the target (flow-field can replace SetTarget later)"
+                  "comment": "Movement: straight towards the target (flow-field can replace SetTarget later). Chasing is fast; patrolling (no aggro) walks slowly to the patrol waypoint"
                 },
                 {
                   "type": "BuiltinCommonInstructions::Standard",
@@ -4026,6 +4963,26 @@
                         "State",
                         "!=",
                         "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"GiveUp\""
                       ]
                     },
                     {
@@ -4183,6 +5140,26 @@
                         "State",
                         "!=",
                         "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"GiveUp\""
                       ]
                     },
                     {
@@ -4354,6 +5331,26 @@
                     },
                     {
                       "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"GiveUp\""
+                      ]
+                    },
+                    {
+                      "type": {
                         "value": "BooleanVariable"
                       },
                       "parameters": [
@@ -4432,6 +5429,173 @@
                         "Object",
                         "+",
                         "sin(ToRad(Object.Angle())) * Speed * TimeDelta()"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Death\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Hit\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Attack\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Evolving\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Intro\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Celebrate\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "!=",
+                        "\"GiveUp\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "False",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "HasPatrolTarget",
+                        "True",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "Role",
+                        "!=",
+                        "\"Stationary\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "DistanceBetweenPositions(Object.CenterX(), Object.CenterY(), WaypointX, WaypointY)",
+                        ">",
+                        "15"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Object",
+                        "=",
+                        "AngleBetweenPositions(Object.CenterX(), Object.CenterY(), WaypointX, WaypointY)"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetX"
+                      },
+                      "parameters": [
+                        "Object",
+                        "+",
+                        "cos(ToRad(Object.Angle())) * Speed * PatrolSpeed * TimeDelta()"
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "SetY"
+                      },
+                      "parameters": [
+                        "Object",
+                        "+",
+                        "sin(ToRad(Object.Angle())) * Speed * PatrolSpeed * TimeDelta()"
                       ]
                     }
                   ]
@@ -4534,6 +5698,16 @@
                         "=",
                         "\"Flying\""
                       ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
                     }
                   ],
                   "actions": [
@@ -4571,6 +5745,16 @@
                         "=",
                         "\"Standing\""
                       ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "True",
+                        ""
+                      ]
                     }
                   ],
                   "actions": [
@@ -4582,6 +5766,248 @@
                         "DesiredAnim",
                         "=",
                         "MoveAnim"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Standing\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Walk\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Move\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "BodyType",
+                        "=",
+                        "\"Flying\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BooleanVariable"
+                      },
+                      "parameters": [
+                        "Aggro",
+                        "False",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "<",
+                        "LookTime"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Look\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "LookTime"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"No\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"GiveUp\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        "<",
+                        "LookTime"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"Idle\""
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"GiveUp\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareNumbers"
+                      },
+                      "parameters": [
+                        "StateTime",
+                        ">=",
+                        "LookTime"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "SetStringVariable"
+                      },
+                      "parameters": [
+                        "DesiredAnim",
+                        "=",
+                        "\"No\""
                       ]
                     }
                   ]
@@ -5616,7 +7042,7 @@
           "objectGroups": []
         },
         {
-          "description": "Set the position the enemy moves towards (the player, or the next flow-field cell).",
+          "description": "Set the position of the player the enemy looks for (aggro and line of sight use it). The waypoint it walks to is set separately.",
           "fullName": "Set target position",
           "functionType": "Action",
           "name": "SetTarget",
@@ -5654,26 +7080,6 @@
                     "HasTarget",
                     "True",
                     ""
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "SetNumberVariable"
-                  },
-                  "parameters": [
-                    "WaypointX",
-                    "=",
-                    "TargetPosX"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "SetNumberVariable"
-                  },
-                  "parameters": [
-                    "WaypointY",
-                    "=",
-                    "TargetPosY"
                   ]
                 }
               ]
@@ -5723,6 +7129,80 @@
                     "Aggro",
                     "True",
                     ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "Alerted",
+                    "True",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "LostTimer",
+                    "=",
+                    "0"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Look\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Idle\""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"GiveUp\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Idle\""
                   ]
                 }
               ]
@@ -5959,7 +7439,7 @@
           "objectGroups": []
         },
         {
-          "description": "Check the state: Idle, Move, Attack, Hit, Evolving, Intro, Celebrate or Death.",
+          "description": "Check the state: Idle, Move, Attack, Hit, Evolving, Intro, Celebrate, Look, GiveUp or Death.",
           "fullName": "Is in state",
           "functionType": "Condition",
           "name": "IsInState",
@@ -7016,6 +8496,407 @@
             }
           ],
           "objectGroups": []
+        },
+        {
+          "description": "True while the enemy chases the player (from the first sighting until MemoryTime seconds after the last one).",
+          "fullName": "Is aggressive",
+          "functionType": "Condition",
+          "name": "IsAggro",
+          "sentence": "_PARAM0_ is aggressive",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "Aggro",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "True when the enemy sees the player right now (clear line within the aggro range).",
+          "fullName": "Sees the player",
+          "functionType": "Condition",
+          "name": "SeesTarget",
+          "sentence": "_PARAM0_ sees the player",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "Sees",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "True when the enemy has finished looking and needs the next dead-end to walk to.",
+          "fullName": "Needs a patrol goal",
+          "functionType": "Condition",
+          "name": "NeedsPatrolTarget",
+          "sentence": "_PARAM0_ needs a new patrol goal",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "NeedsPatrolTarget",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "True when a patrol waypoint is set.",
+          "fullName": "Has a patrol waypoint",
+          "functionType": "Condition",
+          "name": "HasPatrolTarget",
+          "sentence": "_PARAM0_ has a patrol waypoint",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "HasPatrolTarget",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Walk (slowly) towards this point while patrolling. Called every frame by Update patrol.",
+          "fullName": "Set patrol waypoint",
+          "functionType": "Action",
+          "name": "SetPatrolWaypoint",
+          "sentence": "Patrol _PARAM0_ towards _PARAM2_;_PARAM3_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "WaypointX",
+                    "=",
+                    "PatrolPosX"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "WaypointY",
+                    "=",
+                    "PatrolPosY"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "HasPatrolTarget",
+                    "True",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "NeedsPatrolTarget",
+                    "False",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "Waypoint X",
+              "name": "PatrolPosX",
+              "type": "expression"
+            },
+            {
+              "description": "Waypoint Y",
+              "name": "PatrolPosY",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Stand still facing the given angle, look, shake the head (No) and then ask for the next patrol goal.",
+          "fullName": "Start looking",
+          "functionType": "Action",
+          "name": "StartLook",
+          "sentence": "Make _PARAM0_ look at angle _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Look\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    "=",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "HasPatrolTarget",
+                    "False",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetAngle"
+                  },
+                  "parameters": [
+                    "Object",
+                    "=",
+                    "LookAngle"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "Angle (degrees)",
+              "name": "LookAngle",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
         }
       ],
       "eventsFunctionsFolderStructure": {
@@ -7101,6 +8982,24 @@
           },
           {
             "functionName": "RestartAnimation"
+          },
+          {
+            "functionName": "IsAggro"
+          },
+          {
+            "functionName": "SeesTarget"
+          },
+          {
+            "functionName": "NeedsPatrolTarget"
+          },
+          {
+            "functionName": "HasPatrolTarget"
+          },
+          {
+            "functionName": "SetPatrolWaypoint"
+          },
+          {
+            "functionName": "StartLook"
           }
         ]
       },
@@ -7663,6 +9562,62 @@
           ],
           "choices": [],
           "name": "SoundAggro"
+        },
+        {
+          "value": "10",
+          "type": "Number",
+          "label": "Seconds the enemy keeps chasing after it loses sight of the player",
+          "group": "Movement",
+          "name": "MemoryTime"
+        },
+        {
+          "value": "0.5",
+          "type": "Number",
+          "label": "Patrol speed (fraction of Speed)",
+          "group": "Movement",
+          "name": "PatrolSpeed"
+        },
+        {
+          "value": "0.6",
+          "type": "Number",
+          "label": "Seconds spent looking before the enemy shakes its head",
+          "group": "Movement",
+          "name": "LookTime"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Time since the player was last seen",
+          "hidden": true,
+          "name": "LostTimer"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Has been aggressive at least once",
+          "hidden": true,
+          "name": "Alerted"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Sees the player now",
+          "hidden": true,
+          "name": "Sees"
+        },
+        {
+          "value": "true",
+          "type": "Boolean",
+          "label": "Needs a new patrol goal",
+          "hidden": true,
+          "name": "NeedsPatrolTarget"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Has a patrol waypoint",
+          "hidden": true,
+          "name": "HasPatrolTarget"
         }
       ],
       "propertiesFolderStructure": {
@@ -7736,6 +9691,15 @@
               },
               {
                 "propertyName": "FlyHeight"
+              },
+              {
+                "propertyName": "MemoryTime"
+              },
+              {
+                "propertyName": "PatrolSpeed"
+              },
+              {
+                "propertyName": "LookTime"
               }
             ]
           },
@@ -7867,6 +9831,21 @@
           },
           {
             "propertyName": "EvolveDances"
+          },
+          {
+            "propertyName": "LostTimer"
+          },
+          {
+            "propertyName": "Alerted"
+          },
+          {
+            "propertyName": "Sees"
+          },
+          {
+            "propertyName": "NeedsPatrolTarget"
+          },
+          {
+            "propertyName": "HasPatrolTarget"
           }
         ]
       }

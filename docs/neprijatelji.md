@@ -36,7 +36,7 @@ Neki likovi postoje i kao Blob i kao Standing (ili Flying) verzija:
 ## 2. Mehanika "evolucija"
 
 1. Nivo počinje blob verzijom porodice (roj).
-2. Tajmer kreće kad neprijatelj **prvi put primeti igrača** (aggro) i teče dalje i ako igrač pobegne. Ako ga igrač ne ubije u roku od X sekundi (npr. 25 s), on **evoluira** u standing verziju (zameni se objekat, zadrži se procenat HP-a). Sistem tako gura igrača da bude agresivan.
+2. Tajmer kreće kad neprijatelj **prvi put primeti igrača** (aggro, vidi 11e) i teče dalje i ako igrač pobegne. Ako ga igrač ne ubije u roku od X sekundi (npr. 25 s), on **evoluira** u standing verziju (zameni se objekat, zadrži se procenat HP-a). Sistem tako gura igrača da bude agresivan.
 3. Blob koji može da evoluira **košta punu cenu Standing verzije** (npr. Orc blob = 3, ne 1), iako se pojavi kao blob. Budžet se rezerviše pri generisanju reda, pa evolucija ne donosi težinu preko budžeta, a "kazna" za sporo igranje je prava pretnja. Blob tipovi koji ne evoluiraju (Cat, Dog, Chicken, GreenBlob) koštaju 1.
 4. Leteći *Evolved* modeli su elite varijante (brži, jači, ili sa modifikatorom).
 5. "Kraljevi porodica" (MushroomKing, Orc Skull...) su mini-bossevi ili elite sa blob slugama. Glavni bosevi (astronaut → mech) su u poglavlju 8.
@@ -434,6 +434,21 @@ Napomena: pool je "od nivoa naviše", stariji tipovi ostaju. Ako blobovi na viso
 ## 11d. Stražari na putu (implementirano)
 
 Stacionarni tipovi (Mushnub) ne izlaze iz spawnera, jer su spawneri u slepim ulicama gde igrač ne dolazi. Spawn tabela ima osmi parametar `OnRoute` (1 = stražar). `BuildEnemyQueue` takve tipove ne stavlja u red nego u posebnu listu (isti budžet, težine i `FadeAfter`, pa je učestalost kao pre), a `PlaceRouteEnemies` ih postavlja na polja najkraćeg puta od starta do izlaza (ne na prva dva polja i ne na izlaz), ravnomerno raspoređene. Ispod svakog stoji `BlueMist` (plavi mist, radijus 200) koji nestaje kad stražar umre. Domet napada Mushnub-a (200) odgovara mistu. Stražari se ne pomeraju: `SeparateEnemies` ih ne odgurava, a ostali neprijatelji ih zaobilaze. Igrač ne može da prođe kroz neprijatelje (izguran je iz njih, radijus 35 + 40% širine neprijatelja). Stražari se ne računaju u limit živih neprijatelja i ne vezuju spawner za talas. Postavljaju se samo od nivoa 2.
+
+---
+
+## 11e. Patrola i aggro (implementirano)
+
+Neprijatelji više ne jure igrača bezuslovno. Dok ga nisu primetili, **patroliraju**:
+
+- Svaki bira random slepu ulicu (svoju), ide do nje najkraćim putem i staje u susednom polju, 0.3 polja od centra ka slepoj ulici. Ne ulazi u nju. Tu se okrene ka njoj, malo zastane (`LookTime`, 0.6 s), odmahne glavom (`No`) i bira sledeću. Kandidati su slepe ulice sa ulogom `None` i `Chest`, osim one koju su upravo pogledali. Samo ako takve nema (npr. postoji jedan kovčeg), idu do izlaza (vortex) pa se vraćaju, da ne bi stajali u mestu; ako nema ni izlaza, do spawnera.
+- Hodaju sporo (`PatrolSpeed`, 0.5 brzine) i animacijom `Walk` (letači `Idle`, jer nemaju `Walk`). Jurnjava je kao pre.
+- **Roj ide zajedno:** svi `Swarm` neprijatelji istog spawnera dele cilj. Ko prvi završi gledanje bira sledeći cilj, ostali ga preuzimaju kad završe svoje.
+- **Aggro po vidu:** neprijatelj primećuje igrača kad je linija čista (`MazeLineOfSight`, isto polje ili prav otvoren hodnik) i bliže je od `AggroRange`, ili ako ga igrač pogodi. Ne primećuje ga kroz zidove. Slepa ulica u koju se igrač sakrije se vidi sa tačke gledanja. Kad jedan član roja primeti igrača, ostali iz grupe u krugu od 800 px jure sa njim.
+- **Pamćenje:** dok ga vidi, `LostTimer` je 0. Kad ga izgubi iz vida, juri ga (flow-field) još `MemoryTime` sekundi (10), zatim stane (`GiveUp`), odmahne glavom i vraća se na patrolu sa novim ciljem.
+- Tajmer evolucije teče od prvog aggroa (`Alerted`), kao i pre.
+
+Implementacija: stanja `Look` i `GiveUp` u behavior-u `Enemy`, akcije `StartLook`, `SetPatrolWaypoint`, uslovi `IsAggro`, `SeesTarget`, `NeedsPatrolTarget`, `HasPatrolTarget`. Izbor ciljeva i putanje radi `UpdatePatrol` (helper `S.updatePatrol`), jednom po frejmu pre kretanja. `SetTarget` više ne postavlja waypoint: leteći neprijatelji u aggrou dobijaju `SetMoveTarget(igrač)` iz scene, kopneni flow-field. Stražari (Stationary) ne patroliraju. Sluh (aggro na zvuk) je za sledeću iteraciju.
 
 ---
 
