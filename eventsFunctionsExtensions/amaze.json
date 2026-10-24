@@ -10,7 +10,7 @@
   "name": "Amaze",
   "previewIconUrl": "",
   "shortDescription": "Enemy and player behaviors for aMAZE.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Data-driven enemy behavior (stats, roles, state machine, evolution) and player run/meta progression for aMAZE. See docs/neprijatelji.md and docs/progresija.md.",
   "tags": [],
   "authorIds": [],
@@ -6959,6 +6959,67 @@
                     "+",
                     "TimeDelta()"
                   ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Dying and dead flying enemies fall to the ground instead of floating where they were killed"
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::Or"
+                  },
+                  "parameters": [],
+                  "subInstructions": [
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Death\""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "BuiltinCommonInstructions::CompareStrings"
+                      },
+                      "parameters": [
+                        "State",
+                        "=",
+                        "\"Dead\""
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "actions": [],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::JsCode",
+                  "inlineCode": [
+                    "const o = objects[0];",
+                    "if (!o.getZ || !o.setZ || o.getZ() <= 0) { o.__amazeFall = 0; return; }",
+                    "const dt = o.getElapsedTime() / 1000;",
+                    "o.__amazeFall = (o.__amazeFall || 0) + 2000 * dt;",
+                    "o.setZ(Math.max(0, o.getZ() - o.__amazeFall * dt));"
+                  ],
+                  "parameterObjects": "Object",
+                  "useStrict": true,
+                  "eventsSheetExpanded": false
                 }
               ]
             },

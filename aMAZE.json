@@ -792,6 +792,18 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Colorful Monsters/Flying/3042abbeda56de6842d5ce9e5a0f5ff229ec1b17115c0d8b2f96a8cbb02c84b5_Squidle.glb",
           "name": "Squidle.glb"
         }
+      },
+      {
+        "file": "assets/LightGlow.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "LightGlow.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/c17e2d500015e598624b763f4942b26e3aac96efca094cd20257a61e15b27fcb_LightGlow.png",
+          "name": "LightGlow.png"
+        }
       }
     ]
   },
@@ -805,7 +817,7 @@
       "name": "Level",
       "persistentUuid": "11efaaa5-d7e0-445b-aa79-860f04fdec7f",
       "type": "number",
-      "value": 2
+      "value": 10
     },
     {
       "name": "RunSeed",

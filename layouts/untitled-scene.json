@@ -2493,46 +2493,6 @@
       }
     },
     {
-      "assetStoreId": "ce38699e294f43b350ea51663814fd1bcc22717c7a461da50a57e7bacadab8cd",
-      "name": "EnemyProjectile",
-      "persistentUuid": "b3f1c2d4-5a6e-4f70-8c91-0d2e3f4a5b6c",
-      "type": "Scene3D::Cube3DObject",
-      "variables": [],
-      "effects": [],
-      "behaviors": [],
-      "content": {
-        "width": 30,
-        "height": 30,
-        "depth": 30,
-        "enableTextureTransparency": false,
-        "facesOrientation": "Y",
-        "frontFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "backFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "backFaceUpThroughWhichAxisRotation": "X",
-        "leftFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "rightFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "topFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "bottomFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "frontFaceVisible": true,
-        "backFaceVisible": true,
-        "leftFaceVisible": true,
-        "rightFaceVisible": true,
-        "topFaceVisible": true,
-        "bottomFaceVisible": true,
-        "frontFaceResourceRepeat": true,
-        "backFaceResourceRepeat": true,
-        "leftFaceResourceRepeat": true,
-        "rightFaceResourceRepeat": true,
-        "topFaceResourceRepeat": true,
-        "bottomFaceResourceRepeat": true,
-        "tileScale": 0.78,
-        "materialType": "StandardWithoutMetalness",
-        "isCastingShadow": false,
-        "isReceivingShadow": false,
-        "tint": "255;70;40"
-      }
-    },
-    {
       "assetStoreId": "bb257dd80e2113f80fddf43506a5a66a05467d1521e89b432fdfaf3fe4133e80",
       "name": "AlienBlob",
       "persistentUuid": "90d623da-5acf-4a8f-9aa8-613d6c07c9df",
@@ -9837,6 +9797,69 @@
           ]
         }
       }
+    },
+    {
+      "assetStoreId": "351f05a136c91ee1d9d6ff4f9cfbc4d40b3744d7c7ea74212b4853862d52d974",
+      "name": "EnemyProjectile",
+      "persistentUuid": "adbb467d-4045-4534-868f-35c361520a1a",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "EndColor": "128;0;0",
+        "StartColor": "160;80;40",
+        "StartOpacity": 204,
+        "SpayConeAngle": 1,
+        "StartSizeMin": 128,
+        "StartSizeMax": 128,
+        "EndScale": 0.375,
+        "Flow": 100,
+        "LifespanMin": 0.5,
+        "LifespanMax": 0.5,
+        "Duration": 123456,
+        "StartSpeedMin": 300,
+        "StartSpeedMax": 600,
+        "ShouldAutodestruct": true
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "LightGlow.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -10247,33 +10270,9 @@
             "Resizable",
             "\"\"",
             "0",
-            "80",
-            "80",
+            "90",
+            "90",
             "250",
-            ""
-          ]
-        },
-        {
-          "type": {
-            "value": "EdgeScrollCamera::EnableEdgeScrollCamera"
-          },
-          "parameters": [
-            "",
-            "",
-            ""
-          ]
-        },
-        {
-          "type": {
-            "value": "EdgeScrollCamera::ConfigureEdgeScrollCamera"
-          },
-          "parameters": [
-            "",
-            "100",
-            "200",
-            "",
-            "0",
-            "\"Progressive speed\"",
             ""
           ]
         },
@@ -12215,8 +12214,8 @@
               "parameters": [
                 "",
                 "EnemyProjectile",
-                "Enemies.CenterX() - 15",
-                "Enemies.CenterY() - 15",
+                "Enemies.CenterX()",
+                "Enemies.CenterY()",
                 ""
               ]
             },
@@ -12228,6 +12227,17 @@
                 "EnemyProjectile",
                 "=",
                 "AngleBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())"
+              ]
+            },
+            {
+              "type": {
+                "value": "Scene3D::Base3DBehavior::SetRotationY"
+              },
+              "parameters": [
+                "EnemyProjectile",
+                "Object3D",
+                "=",
+                "-90"
               ]
             },
             {
@@ -12452,7 +12462,7 @@
             "Object3D",
             "1000",
             "Player.Angle()+90",
-            "45",
+            "30",
             "",
             ""
           ]
@@ -12641,10 +12651,12 @@
         },
         {
           "type": {
-            "value": "Delete"
+            "value": "Health::Health::SetHealth"
           },
           "parameters": [
             "Enemies",
+            "Health",
+            "0",
             ""
           ]
         }
