@@ -2485,6 +2485,58 @@
       "effects": [],
       "behaviors": [
         {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": 1000,
+          "CurrentHealth": 0,
+          "MaxHealth": 1000,
+          "DamageCooldown": 0,
+          "AllowOverHealing": false,
+          "IsHealthJustDamaged": false,
+          "DamageToBeApplied": 0,
+          "HitAtLeastOnce": false,
+          "ChanceToDodge": 0,
+          "IsJustDodged": false,
+          "HealToBeApplied": 0,
+          "HealthRegenRate": 0,
+          "HealthRegenDelay": 0,
+          "IsJustHealed": false,
+          "CurrentShieldPoints": 0,
+          "MaxShieldPoints": 0,
+          "ShieldDuration": 5,
+          "ShieldRegenRate": 0,
+          "BlockExcessDamage": false,
+          "ShieldRegenDelay": 0,
+          "IsShieldJustDamaged": false,
+          "ShieldDamageTaken": 0,
+          "FlatDamageReduction": 0,
+          "PercentDamageReduction": 0
+        },
+        {
+          "name": "ShakeModel3D",
+          "type": "ShakeObject3D::ShakeModel3D",
+          "TranslationAmplitudeX": 10,
+          "TranslationAmplitudeY": 10,
+          "TranslationAmplitudeZ": 10,
+          "RotationAmplitudeX": 5,
+          "RotationAmplitudeY": 5,
+          "RotationAmplitudeZ": 5,
+          "Time": 0,
+          "Duration": 0,
+          "StartEasingDuration": 0,
+          "StopEasingDuration": 0,
+          "Frequency": 0,
+          "DeltaX": 0,
+          "DeltaY": 0,
+          "DeltaZ": 0,
+          "DeltaAngleX": 0,
+          "DeltaAngleY": 0,
+          "DeltaAngleZ": 0,
+          "NoiseTime": 0,
+          "Object3D": "Object3D",
+          "IsStartingAtCreation": false
+        },
+        {
           "name": "Spawning",
           "type": "Amaze::Spawner",
           "WaveSize": "1",
@@ -10121,6 +10173,219 @@
           ]
         }
       }
+    },
+    {
+      "assetStoreId": "20e7916c3b89f0642baf38138bb4361bbc7342f30c57ddde01f279d30cb3bdef",
+      "name": "ExplosionFireball",
+      "persistentUuid": "78c5f2af-4ece-4fec-be0c-b2ca71c92edd",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0.08,
+        "ShouldAutodestruct": true,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": 0,
+        "ZoneRadius": 0,
+        "EndScale": 2.2,
+        "RenderMode": "Billboard",
+        "Blending": "Additive",
+        "StartColor": "255;210;120",
+        "EndColor": "230;60;0",
+        "StartOpacity": 255,
+        "EndOpacity": 0,
+        "StartSizeMin": 80,
+        "StartSizeMax": 130,
+        "Flow": 1500,
+        "LifespanMin": 0.5,
+        "LifespanMax": 0.9,
+        "StartSpeedMin": 100,
+        "StartSpeedMax": 320,
+        "SpayConeAngle": 0
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "Fireball.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assetStoreId": "20e7916c3b89f0642baf38138bb4361bbc7342f30c57ddde01f279d30cb3bdef",
+      "name": "ExplosionSmoke",
+      "persistentUuid": "a252c2ec-ce3d-45a0-af23-36a900dc9933",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0.15,
+        "ShouldAutodestruct": true,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": -20,
+        "ZoneRadius": 0,
+        "EndScale": 4,
+        "RenderMode": "Billboard",
+        "Blending": "Normal",
+        "StartColor": "75;70;65",
+        "EndColor": "150;145;140",
+        "StartOpacity": 140,
+        "EndOpacity": 0,
+        "StartSizeMin": 40,
+        "StartSizeMax": 70,
+        "Flow": 400,
+        "LifespanMin": 2,
+        "LifespanMax": 3,
+        "StartSpeedMin": 180,
+        "StartSpeedMax": 300,
+        "SpayConeAngle": 30
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "Smoke.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assetStoreId": "20e7916c3b89f0642baf38138bb4361bbc7342f30c57ddde01f279d30cb3bdef",
+      "name": "ExplosionSparks",
+      "persistentUuid": "04dc541d-1d8b-4b61-8c09-983058ae6002",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0.04,
+        "ShouldAutodestruct": true,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": 700,
+        "ZoneRadius": 0,
+        "EndScale": 1,
+        "RenderMode": "Trail",
+        "Blending": "Additive",
+        "StartColor": "255;230;150",
+        "EndColor": "255;100;20",
+        "StartOpacity": 255,
+        "EndOpacity": 0,
+        "StartSizeMin": 6,
+        "StartSizeMax": 9,
+        "Flow": 4000,
+        "LifespanMin": 0.5,
+        "LifespanMax": 1,
+        "StartSpeedMin": 400,
+        "StartSpeedMax": 800,
+        "SpayConeAngle": 80,
+        "TrailStartLengthMin": 4,
+        "TrailStartLengthMax": 6,
+        "TrailEndWidthRatio": 0
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "SoftDot.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -10354,6 +10619,15 @@
       },
       {
         "objectName": "BlueMist"
+      },
+      {
+        "objectName": "ExplosionFireball"
+      },
+      {
+        "objectName": "ExplosionSmoke"
+      },
+      {
+        "objectName": "ExplosionSparks"
       }
     ]
   },
@@ -13142,6 +13416,37 @@
       ]
     },
     {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Distance"
+          },
+          "parameters": [
+            "Player",
+            "RedMist",
+            "200",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Health::Health::Hit"
+          },
+          "parameters": [
+            "Player",
+            "Health",
+            "50",
+            "200",
+            "no",
+            ""
+          ]
+        }
+      ]
+    },
+    {
       "type": "BuiltinCommonInstructions::Else",
       "conditions": [],
       "actions": [
@@ -13488,6 +13793,160 @@
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Spawner",
+            "",
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "PlayerProjectile.X()",
+            "PlayerProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Health::Health::Hit"
+          },
+          "parameters": [
+            "Spawner",
+            "Health",
+            "Player.Player::TotalDamageMultiplier()*10",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "ShakeObject3D::ShakeModel3D::Shake"
+          },
+          "parameters": [
+            "Spawner",
+            "ShakeModel3D",
+            "1",
+            "0.1",
+            "0.1",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Chest",
+            "",
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "PlayerProjectile.X()",
+            "PlayerProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Health::Health::Hit"
+          },
+          "parameters": [
+            "Spawner",
+            "Health",
+            "Player.Player::TotalDamageMultiplier()*10",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "ShakeObject3D::ShakeModel3D::Shake"
+          },
+          "parameters": [
+            "Spawner",
+            "ShakeModel3D",
+            "1",
+            "0.1",
+            "0.1",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
       "conditions": [],
       "actions": []
     }
@@ -13616,6 +14075,11 @@
     {
       "name": "Scale",
       "type": "ScalableCapability::ScalableBehavior"
+    },
+    {
+      "name": "ShakeModel3D",
+      "type": "ShakeObject3D::ShakeModel3D",
+      "EasingFactor": 0
     },
     {
       "name": "Spawning",

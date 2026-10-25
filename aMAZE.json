@@ -804,6 +804,42 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/c17e2d500015e598624b763f4942b26e3aac96efca094cd20257a61e15b27fcb_LightGlow.png",
           "name": "LightGlow.png"
         }
+      },
+      {
+        "file": "assets/Fireball.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Fireball.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/3f0bfe8948f6b8fa1f240fcbd50c095d9c827f5e14b6ad92397b6d0d9bef8f71_Fireball.png",
+          "name": "Fireball.png"
+        }
+      },
+      {
+        "file": "assets/Smoke.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Smoke.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/c6479e049d43b93766abc853f4d7949f533e9b0b6a1b3394fc8a62f4dbca6caf_Smoke.png",
+          "name": "Smoke.png"
+        }
+      },
+      {
+        "file": "assets/SoftDot.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "SoftDot.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/256d43039af1b47a15b811d4eb84219335f35f7b7e9c69a59c7e4365e1a26bf0_SoftDot.png",
+          "name": "SoftDot.png"
+        }
       }
     ]
   },
@@ -861,6 +897,10 @@
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/eventsFunctionsExtensions/thirdpersoncamera"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/shakeobject3d"
     }
   ],
   "externalLayouts": []
