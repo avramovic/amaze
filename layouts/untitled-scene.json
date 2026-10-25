@@ -2513,6 +2513,35 @@
           "PercentDamageReduction": 0
         },
         {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Sphere",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        },
+        {
           "name": "ShakeModel3D",
           "type": "ShakeObject3D::ShakeModel3D",
           "TranslationAmplitudeX": 10,
@@ -2525,7 +2554,7 @@
           "Duration": 0,
           "StartEasingDuration": 0,
           "StopEasingDuration": 0,
-          "Frequency": 0,
+          "Frequency": 10,
           "DeltaX": 0,
           "DeltaY": 0,
           "DeltaZ": 0,
@@ -12316,17 +12345,6 @@
             "yes",
             ""
           ]
-        },
-        {
-          "type": {
-            "value": "Scene3D::Base3DBehavior::SetRotationX"
-          },
-          "parameters": [
-            "Spawner",
-            "Object3D",
-            "+",
-            "1"
-          ]
         }
       ]
     },
@@ -13796,13 +13814,13 @@
       "conditions": [
         {
           "type": {
-            "value": "CollisionNP"
+            "value": "Physics3D::Collision"
           },
           "parameters": [
             "PlayerProjectile",
+            "Physics3D",
             "Spawner",
-            "",
-            "",
+            "Physics3D",
             ""
           ]
         }
@@ -13852,18 +13870,37 @@
             "",
             ""
           ]
-        },
+        }
+      ],
+      "events": [
         {
-          "type": {
-            "value": "ShakeObject3D::ShakeModel3D::Shake"
-          },
-          "parameters": [
-            "Spawner",
-            "ShakeModel3D",
-            "1",
-            "0.1",
-            "0.1",
-            ""
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "mod(Spawner.Health::Health(), 100)",
+                "=",
+                "0"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ShakeObject3D::ShakeModel3D::Shake"
+              },
+              "parameters": [
+                "Spawner",
+                "ShakeModel3D",
+                "0.5",
+                "0",
+                "0",
+                ""
+              ]
+            }
           ]
         }
       ]
@@ -13929,26 +13966,89 @@
             "",
             ""
           ]
-        },
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
         {
           "type": {
-            "value": "ShakeObject3D::ShakeModel3D::Shake"
+            "inverted": true,
+            "value": "Health::Health::IsDead"
           },
           "parameters": [
             "Spawner",
-            "ShakeModel3D",
-            "1",
-            "0.1",
-            "0.1",
+            "Health",
             ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetRotationX"
+          },
+          "parameters": [
+            "Spawner",
+            "Object3D",
+            "+",
+            "1"
           ]
         }
       ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [],
-      "actions": []
+      "conditions": [
+        {
+          "type": {
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Spawner",
+            "Health",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::Once"
+          },
+          "parameters": []
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "ActivateBehavior"
+          },
+          "parameters": [
+            "Spawner",
+            "Spawning",
+            "no"
+          ]
+        },
+        {
+          "type": {
+            "value": "PickNearest"
+          },
+          "parameters": [
+            "RedMist",
+            "Spawner.CenterX()",
+            "Spawner.CenterY()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "RedMist",
+            ""
+          ]
+        }
+      ]
     }
   ],
   "layers": [
