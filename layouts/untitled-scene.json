@@ -2027,6 +2027,7 @@
       "effects": [],
       "behaviors": [
         {
+          "isFolded": true,
           "name": "FireBullet",
           "type": "FireBullet::FireBullet",
           "FireCooldown": 0.1,
@@ -2057,6 +2058,7 @@
           "RandomizedAngle": 0
         },
         {
+          "isFolded": true,
           "name": "FireBullet3D",
           "type": "FireBullet::FireBullet3D",
           "Object3D": "Object3D",
@@ -2150,7 +2152,7 @@
           "PickupRange": 150,
           "InvulnerabilityTime": 0.5,
           "XPBase": 5,
-          "XPGrowth": -41,
+          "XPGrowth": 10,
           "MetaBonusesEnabled": true,
           "MetaDamagePerLevel": 0.02,
           "MetaHPPerLevel": 0.03,

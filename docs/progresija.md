@@ -181,7 +181,98 @@ Lightweight nosač podataka runa. Kači se na objekat koji predstavlja telo igra
 
 ---
 
-## 6. Otvorena pitanja
+## 6. Chest kartice (izbor 1 od 3)
+
+Kad igrač priđe chestu, dobija 3 kartice i bira jednu. Svaka nosi buff ili buff+debuff. Kartice menjaju properties iz `Player`, `Health` i `FireBullet` behaviora, plus nova melee mehanika.
+
+Oznake: ✅ property/akcija već postoji, 🔧 treba mali `Set…` setter (Player properties nemaju akcije za promenu), 🆕 nova mehanika.
+
+### Zdravlje
+1. **Thick Skin**: +20 max HP ✅
+2. **Vitality**: +15% max HP ✅
+3. **Medkit**: odmah vrati 50% HP ✅
+4. **Second Wind**: +1 HP/s regen ✅
+5. **Quick Recovery**: regen delay −50% ✅
+6. **Overflow**: dozvoljava over-healing i odmah daje +10 HP ✅
+7. **Glass Cannon** (buff+debuff): +50% damage, −30% max HP ✅
+8. **Blood Pact** (buff+debuff): +3 HP/s regen, −20% move speed 🔧
+
+### Odbrana
+9. **Plating**: +2 flat damage reduction ✅
+10. **Reinforced Armor**: +10% damage reduction ✅
+11. **Nimble**: +10% dodge ✅
+12. **Phantom Step**: +20% dodge, −10% max HP ✅
+13. **Grace Period**: invulnerability posle hita +0.3s 🔧
+14. **Heavy Armor** (buff+debuff): +25% damage reduction, −15% move speed 🔧
+15. **Thorns**: napadač dobija 30% primljenog damage-a 🆕
+
+### Štit
+16. **Barrier**: +20 max shield ✅
+17. **Barrier+**: +50% max shield ✅
+18. **Shield Charger**: shield regen +2/s ✅
+19. **Fast Charge**: shield regen delay −50% ✅
+20. **Lasting Shield**: trajanje štita +3s ✅
+21. **Unbreakable**: štit blokira višak damage-a ✅
+22. **Emergency Shield**: aktivira štit pri svakom level-upu ✅ (`ActivateShield`)
+
+### Ranged (FireBullet)
+23. **Rapid Fire**: cooldown −20% ✅
+24. **Overclock** (buff+debuff): cooldown −40%, heat po hitcu +50% ✅
+25. **Double Barrel**: +1 metak, širi arc ✅
+26. **Shotgun** (buff+debuff): +3 metka, veća varijansa ugla, cooldown +30% ✅
+27. **Sniper** (buff+debuff): −1 metak, +60% damage ✅
+28. **Steady Aim**: angle variance −50% ✅
+29. **Wide Arc**: firing arc +30° ✅
+30. **Extended Mag**: +10 max ammo ✅
+31. **Quick Reload**: reload duration −30% ✅
+32. **Heatsink**: cooling rate +50% ✅
+33. **Cool Head**: overheat duration −40% ✅
+34. **Ammo Pouch**: odmah +15 ammo ✅
+35. **Fast Bullets**: brzina metka +20% ✅
+
+### Melee (nova mehanika, vidi sekciju 1)
+36. **Sharpened Blade**: +25% melee damage 🆕
+37. **Long Reach**: +20% melee range 🆕
+38. **Berserker**: melee attack speed +25% 🆕
+39. **Cleave**: melee pogađa sve u luku 🆕
+40. **Knockback**: melee odbacuje neprijatelje 🆕
+41. **Vampiric Edge**: melee heal 2% od damage-a 🆕
+42. **Brawler** (buff+debuff): +50% melee damage, −20% ranged damage 🆕
+
+### Kretanje i korisnost
+43. **Swift Boots**: +10% move speed 🔧
+44. **Sprinter** (buff+debuff): +25% move speed, −10% max HP 🔧
+45. **Magnet**: +30% pickup range 🔧
+46. **Vacuum** (buff+debuff): +100% pickup range, −10% move speed 🔧
+47. **Quick Learner**: +20% XP dobijenog 🔧
+48. **Lucky Chest**: sledeći chest ima veću šansu za rare kartice 🆕
+
+### Globalni damage
+49. **Power Up**: +10% damage multiplier ✅ (`DamageMultiplier`)
+50. **Crit Chance**: +10% šansa za kritični pogodak 🆕
+51. **Crit Damage**: kritični pogoci +50% 🆕
+52. **Executioner**: +30% damage neprijateljima ispod 30% HP 🆕
+
+### Dizajn
+- **Duplikati flat/%:** namerno postoje obe varijante (npr. +20 HP i +15% HP), da izbor zavisi od trenutnog stanja runa.
+- **Retkost (common / rare / epic):** ista kartica skalira, npr. Thick Skin +10 / +20 / +40 HP. Tako se dobijaju varijante bez dodatnih kartica.
+- **Debuff kartice:** "rizične" kartice. Mogu da imaju veću retkost ili da se pojave tek posle nekog levela, da novi igrač ne pokupi loš trade.
+- **Cap-ovi:** dodge (npr. 75%), damage reduction (npr. 80%) i minimalni cooldown moraju imati gornju granicu, inače se igra slomi.
+- **Seed:** ponuda kartica iz chest-a ide iz `lootSeed`, a ne iz `random()` (vidi sekciju 4).
+
+### Implementacija
+- Kartice ✅ su tabela podataka (property, operator, vrednost, retkost) plus jedna generička funkcija "primeni karticu".
+- Kartice 🔧 traže samo `Set…` akcije za `MoveSpeed`, `PickupRange`, `InvulnerabilityTime` i slično.
+- Kartice 🆕 su prave nove mehanike, bolje u drugom talasu.
+- Ne postoje akcije za `StartingAmmo` i `HeatLevel` (FireBullet); ako zatrebaju, dodati.
+
+---
+
+## 7. Otvorena pitanja
+
+- Chest kartice: retkosti i skaliranje, ili fiksne vrednosti po kartici?
+- Da li se pokupljena kartica može ponovo pojaviti, ili nestaje iz poola?
+- Postoji li melee napad igrača, ili je to nova mehanika (vidi sekciju 1: zamah kontrolerom)?
 
 - Da li igrač od starta ima fiksan broj zona, ili počinje samo sa lukom i ostalo nalazi usput? (Menja izgled prvog nivoa.)
 - Koja tačno oružja idu u prvu verziju (predlog: luk, munja, mač)?
