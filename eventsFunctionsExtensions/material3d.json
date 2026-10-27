@@ -43,8 +43,11 @@
     {
       "description": "Manipulate 3D material properties of 3D objects in GDevelop like transparency and color.",
       "fullName": "3D Material",
+      "helpPath": "",
+      "iconUrl": "",
       "name": "Material3D",
       "objectType": "Scene3D::Model3DObject",
+      "previewIconUrl": "",
       "eventsFunctions": [
         {
           "description": "Set 3D material opacity",

@@ -217,30 +217,6 @@
       "value": 0
     },
     {
-      "name": "camElev",
-      "persistentUuid": "64cb6945-2724-43d1-b3b9-ad335d0f6c05",
-      "type": "number",
-      "value": 15
-    },
-    {
-      "name": "camElevTarget",
-      "persistentUuid": "1f94e372-c202-4db9-b4f1-8a62e8f8e91a",
-      "type": "number",
-      "value": 15
-    },
-    {
-      "name": "camZoom",
-      "persistentUuid": "ec128d96-6141-411e-9daf-46267969994f",
-      "type": "number",
-      "value": 1000
-    },
-    {
-      "name": "camZoomTarget",
-      "persistentUuid": "810414bb-86cb-40ab-b55a-0ef9fd643529",
-      "type": "number",
-      "value": 1000
-    },
-    {
       "name": "LockClick",
       "persistentUuid": "c9df2254-a8a7-4fb9-af93-1a7d60226071",
       "type": "boolean",
@@ -347,6 +323,10 @@
       "effects": [],
       "behaviors": [
         {
+          "name": "Material3D",
+          "type": "Material3D::Material3D"
+        },
+        {
           "name": "MazeObject",
           "type": "MazeGenerator::MazeObject"
         },
@@ -378,10 +358,6 @@
           "gravityScale": 1,
           "layers": 17,
           "masks": 17
-        },
-        {
-          "name": "Material3D",
-          "type": "Material3D::Material3D"
         }
       ],
       "content": {
@@ -422,6 +398,10 @@
       "effects": [],
       "behaviors": [
         {
+          "name": "Material3D",
+          "type": "Material3D::Material3D"
+        },
+        {
           "name": "MazeObject",
           "type": "MazeGenerator::MazeObject"
         },
@@ -454,10 +434,6 @@
           "gravityScale": 1,
           "layers": 17,
           "masks": 17
-        },
-        {
-          "name": "Material3D",
-          "type": "Material3D::Material3D"
         }
       ],
       "content": {
@@ -498,6 +474,10 @@
       "effects": [],
       "behaviors": [
         {
+          "name": "Material3D",
+          "type": "Material3D::Material3D"
+        },
+        {
           "name": "Physics3D",
           "type": "Physics3D::Physics3DBehavior",
           "object3D": "Object3D",
@@ -525,10 +505,6 @@
           "gravityScale": 1,
           "layers": 17,
           "masks": 17
-        },
-        {
-          "name": "Material3D",
-          "type": "Material3D::Material3D"
         }
       ],
       "content": {
@@ -2223,7 +2199,7 @@
           "name": "PhysicsCharacter3D",
           "type": "Physics3D::PhysicsCharacter3D",
           "physics3D": "Physics3D",
-          "jumpHeight": 200,
+          "jumpHeight": 100,
           "jumpSustainTime": 0.2,
           "gravity": 1000,
           "fallingSpeedMax": 700,
@@ -10143,13 +10119,7 @@
       "persistentUuid": "434630e5-e425-4e1b-b13e-7ad33e7c4571",
       "type": "ParticleEmitter3D::ParticleEmitter3D",
       "variant": "",
-      "variables": [
-        {
-          "name": "Shot",
-          "type": "number",
-          "value": 0
-        }
-      ],
+      "variables": [],
       "effects": [],
       "behaviors": [
         {
@@ -13304,47 +13274,7 @@
           "parameters": [
             "camRot",
             "=",
-            "CameraAngle() + AngleDifference(Player.Angle()+90, CameraAngle()) * TimeDelta()*2"
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberVariable"
-          },
-          "parameters": [
-            "camElevTarget",
-            "=",
-            "clamp(camElevTarget+MousePointerLock::MovementY(), -20, 60)"
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberVariable"
-          },
-          "parameters": [
-            "camElev",
-            "=",
-            "lerp(camElev, camElevTarget, TimeDelta()*2)"
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberVariable"
-          },
-          "parameters": [
-            "camZoomTarget",
-            "=",
-            "clamp(camZoomTarget-MouseWheelDelta()*5, 500, 1500)"
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberVariable"
-          },
-          "parameters": [
-            "camZoom",
-            "=",
-            "lerp(camZoom, camZoomTarget, TimeDelta()*4)"
+            "Player.Angle()+90"
           ]
         }
       ]
@@ -13361,9 +13291,9 @@
             "",
             "Player",
             "Object3D",
-            "camZoom",
+            "1000",
             "camRot",
-            "camElev",
+            "30",
             "",
             ""
           ]
@@ -14164,80 +14094,16 @@
                 "1000",
                 ""
               ]
-            }
-          ],
-          "events": [
+            },
             {
-              "type": "BuiltinCommonInstructions::Standard",
-              "conditions": [
-                {
-                  "type": {
-                    "value": "NumberObjectVariable"
-                  },
-                  "parameters": [
-                    "PlayerProjectile",
-                    "Shot",
-                    "=",
-                    "0"
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": {
-                    "value": "Physics3D::Physics3DBehavior::SetLinearVelocityX"
-                  },
-                  "parameters": [
-                    "PlayerProjectile",
-                    "Physics3D",
-                    "=",
-                    "1000 * cos(ToRad(Player.Angle())) * cos(ToRad((camElev - 15)))"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "Physics3D::Physics3DBehavior::SetLinearVelocityY"
-                  },
-                  "parameters": [
-                    "PlayerProjectile",
-                    "Physics3D",
-                    "=",
-                    "1000 * sin(ToRad(Player.Angle())) * cos(ToRad((camElev - 15)))"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "Physics3D::Physics3DBehavior::SetLinearVelocityZ"
-                  },
-                  "parameters": [
-                    "PlayerProjectile",
-                    "Physics3D",
-                    "=",
-                    "-1000 * sin(ToRad((camElev - 15)))"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "Scene3D::Base3DBehavior::SetRotationY"
-                  },
-                  "parameters": [
-                    "PlayerProjectile",
-                    "Object3D",
-                    "=",
-                    "-90 + (camElev - 15)"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "SetNumberObjectVariable"
-                  },
-                  "parameters": [
-                    "PlayerProjectile",
-                    "Shot",
-                    "=",
-                    "1"
-                  ]
-                }
+              "type": {
+                "value": "Scene3D::Base3DBehavior::SetRotationY"
+              },
+              "parameters": [
+                "PlayerProjectile",
+                "Object3D",
+                "=",
+                "-90"
               ]
             }
           ]
