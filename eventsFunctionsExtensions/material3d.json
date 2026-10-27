@@ -1,0 +1,1139 @@
+{
+  "author": "",
+  "category": "Visual effect",
+  "dimension": "",
+  "extensionNamespace": "",
+  "fullName": "Material 3D",
+  "gdevelopVersion": "",
+  "helpPath": "https://avram.itch.io/material3d-gdevelop-extension",
+  "iconUrl": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMy4wLjMsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iSWNvbnMiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMzIgMzIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyIDMyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgk8cGF0aCBkPSJNMTYuMywwLjFjLTAuMi0wLjEtMC41LTAuMS0wLjcsMEMxNS44LDAsMTUuOSwwLDE2LDBTMTYuMiwwLDE2LjMsMC4xeiIvPg0KCTxwYXRoIGQ9Ik0zMS44LDIzLjVDMzEuOSwyMy41LDMxLjksMjMuNSwzMS44LDIzLjVjMC4xLTAuMSwwLjEtMC4xLDAuMS0wLjJDMzEuOSwyMy40LDMxLjksMjMuNSwzMS44LDIzLjV6Ii8+DQoJPHBhdGggZD0iTTMxLjUsOC4xbC0xNS04YzAsMCwwLDAtMC4xLDBDMTYuOCwwLjMsMTcsMC42LDE3LDF2MTEuMmwzLjItMy45QzIwLjQsOC4xLDIwLjgsOCwyMS4xLDhjMC4zLDAsMC42LDAuMiwwLjgsMC41bDIuNCw0LjgNCgkJbDEtMWMwLjItMC4yLDAuNS0wLjMsMC45LTAuM2MwLjMsMC4xLDAuNiwwLjMsMC43LDAuNWw1LDEwYzAuMSwwLjIsMC4xLDAuNCwwLjEsMC42YzAsMCwwLTAuMSwwLTAuMVY5QzMyLDguNiwzMS44LDguMywzMS41LDguMXoiDQoJCS8+DQo8L2c+DQo8Zz4NCgk8cGF0aCBkPSJNMTUsMTQuNFYxVjAuNEwwLjUsOC4xQzAuMiw4LjMsMCw4LjYsMCw5djEzLjNMMTUsMTQuNHogTTUuMywxMi44TDYsMTIuNHYtMWMwLTEuMiwwLjctMi40LDEuNy0zYzEuMS0wLjcsMi40LTAuNywzLjUsMA0KCQljMS4xLDAuNiwxLjgsMS44LDEuOCwzdjAuMWMwLDEuMy0wLjcsMi40LTEuOCwzbC0zLjgsMi4yYy0wLjQsMC4yLTAuNywwLjMtMS4xLDAuM2MtMC40LDAtMC44LTAuMS0xLjEtMC4zYy0wLjctMC40LTEuMS0xLjItMS4xLTINCgkJQzQsMTMuOSw0LjUsMTMuMSw1LjMsMTIuOHoiLz4NCgk8cGF0aCBkPSJNMjguNiwyMC41bC0yLjktNS44bC0xLDFjLTAuMiwwLjItMC41LDAuMy0wLjksMC4zYy0wLjMtMC4xLTAuNi0wLjMtMC43LTAuNWwtMi4zLTQuNmwtMy4yLDMuOUwyOC42LDIwLjV6Ii8+DQoJPHBhdGggZD0iTTMwLjksMjRjLTAuMywwLTAuNS0wLjItMC43LTAuNEwxNiwxNi4xTDAuOSwyNC4xbDE0LjYsNy44QzE1LjcsMzIsMTUuOCwzMiwxNiwzMnMwLjMsMCwwLjUtMC4xbDE0LjYtNy44TDMwLjksMjR6Ii8+DQo8L2c+DQo8L3N2Zz4NCg==",
+  "name": "Material3D",
+  "previewIconUrl": "https://asset-resources.gdevelop.io/public-resources/Icons/Glyphster Pack/Master/SVG/Virtual Reality/7af49db0443fcbaaaef4397edf958af97026d1ba902e1aadcffbb21169081035_Virtual Reality_3d_room_vr_scene.svg",
+  "shortDescription": "Manipulate 3D material properties of 3D objects",
+  "version": "1.2.1",
+  "description": [
+    "Manipulate 3D material properties of 3D objects in GDevelop like transparency and color.  You can also load textures from resources or URLs, and manipulate texture repeating and offset, as well as horizontal and vertical wrapping.",
+    "",
+    "NEW IN 1.2.1:",
+    "- fixed video textures not working in GDevelop 5.6+",
+    "",
+    "NEW IN 1.2:",
+    "- separate material handling (you can change material properties on different instances of the same object)",
+    "- added support for video textures"
+  ],
+  "tags": [
+    "3d",
+    "material",
+    "color",
+    "transparency",
+    "opacity",
+    "textures"
+  ],
+  "authorIds": [
+    "1mr0GDQIt2dmrfi5P2OIqu6lIyA2"
+  ],
+  "dependencies": [],
+  "globalVariables": [],
+  "sceneVariables": [],
+  "eventsFunctions": [],
+  "eventsFunctionsFolderStructure": {
+    "folderName": "__ROOT"
+  },
+  "eventsBasedBehaviors": [
+    {
+      "description": "Manipulate 3D material properties of 3D objects in GDevelop like transparency and color.",
+      "fullName": "3D Material",
+      "name": "Material3D",
+      "objectType": "Scene3D::Model3DObject",
+      "eventsFunctions": [
+        {
+          "description": "Set 3D material opacity",
+          "fullName": "Set material opacity",
+          "functionType": "Action",
+          "name": "opacity",
+          "sentence": "Set opacity of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let paramValue = eventsFunctionContext.getArgument(\"opacityValue\");",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.transparent = true;",
+                "        newMaterial.opacity = paramValue;",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            let newMaterial = threeObject.materials[j].clone();",
+                "            newMaterial.transparent = true;",
+                "            newMaterial.opacity = paramValue;",
+                "            threeObject.materials[j] = newMaterial;",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.transparent = true;",
+                "            newMaterial.opacity = paramValue;",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Opacity (0-1)",
+              "name": "opacityValue",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set 3D material roughness",
+          "fullName": "Set material roughness",
+          "functionType": "Action",
+          "name": "roughness",
+          "private": true,
+          "sentence": "Set roughness of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let paramValue = eventsFunctionContext.getArgument(\"roughnessValue\");",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.roughness = paramValue;",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            let newMaterial = threeObject.materials[j].clone();",
+                "            newMaterial.roughness = paramValue;",
+                "            threeObject.materials[j] = newMaterial;",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.roughness = paramValue;",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Roughness (0-1)",
+              "name": "roughnessValue",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set 3D material metalness",
+          "fullName": "Set material metalness",
+          "functionType": "Action",
+          "name": "metalness",
+          "private": true,
+          "sentence": "Set metalness of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let paramValue = eventsFunctionContext.getArgument(\"metalnessValue\");",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.metalness = paramValue;",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            let newMaterial = threeObject.materials[j].clone();",
+                "            newMaterial.metalness = paramValue;",
+                "            threeObject.materials[j] = newMaterial;",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.metalness = paramValue;",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Metalness (0-1)",
+              "name": "metalnessValue",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set 3D material emissive color",
+          "fullName": "Set material emissive color",
+          "functionType": "Action",
+          "name": "emissive",
+          "private": true,
+          "sentence": "Set emissive color of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let rgbString = eventsFunctionContext.getArgument(\"colorValue\");",
+                "let [r, g, b] = rgbString.split(';').map(Number);",
+                "let hexColor = (r << 16) | (g << 8) | b;",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.emissive.set(hexColor);",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            let newMaterial = threeObject.materials[j].clone();",
+                "            newMaterial.emissive.set(hexColor);",
+                "            threeObject.materials[j] = newMaterial;",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.emissive.set(hexColor);",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Color",
+              "name": "colorValue",
+              "type": "color"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set 3D material color",
+          "fullName": "Set material color",
+          "functionType": "Action",
+          "name": "color",
+          "sentence": "Set color of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let rgbString = eventsFunctionContext.getArgument(\"colorValue\");",
+                "let [r, g, b] = rgbString.split(';').map(Number);",
+                "let hexColor = (r << 16) | (g << 8) | b;",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.color.set(hexColor);",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            let newMaterial = threeObject.materials[j].clone();",
+                "            newMaterial.color.set(hexColor);",
+                "            threeObject.materials[j] = newMaterial;",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.color.set(hexColor);",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Color",
+              "name": "colorValue",
+              "type": "color"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set texture repeat",
+          "fullName": "Set texture repeat",
+          "functionType": "Action",
+          "name": "repeat",
+          "sentence": "Set texture repeat of _PARAM0_ on X _PARAM2_ times and on Y _PARAM3_ times",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let valueX = eventsFunctionContext.getArgument(\"x\");",
+                "let valueY = eventsFunctionContext.getArgument(\"y\");",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material && threeObject.material.map) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.map.repeat.set(valueX, valueY);",
+                "        newMaterial.map.needsUpdate = true;",
+                "        newMaterial.needsUpdate = true;",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            if (threeObject.materials[j].map) {",
+                "                let newMaterial = threeObject.materials[j].clone();",
+                "                newMaterial.map.repeat.set(valueX, valueY);",
+                "                newMaterial.map.needsUpdate = true;",
+                "                newMaterial.needsUpdate = true;",
+                "                threeObject.materials[j] = newMaterial;",
+                "            }",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material && node.material.map) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.map.repeat.set(valueX, valueY);",
+                "            newMaterial.map.needsUpdate = true;",
+                "            newMaterial.needsUpdate = true;",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": true
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "X",
+              "name": "x",
+              "type": "expression"
+            },
+            {
+              "description": "Y",
+              "name": "y",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set texture offset",
+          "fullName": "Set texture offset",
+          "functionType": "Action",
+          "name": "offset",
+          "sentence": "Set texture offset of _PARAM0_ on X to _PARAM2_ and on Y to _PARAM3_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let valueX = eventsFunctionContext.getArgument(\"x\");",
+                "let valueY = eventsFunctionContext.getArgument(\"y\");",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material && threeObject.material.map) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.map.offset.set(valueX, valueY);",
+                "        newMaterial.map.needsUpdate = true;",
+                "        newMaterial.needsUpdate = true;",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            if (threeObject.materials[j].map) {",
+                "                let newMaterial = threeObject.materials[j].clone();",
+                "                newMaterial.map.offset.set(valueX, valueY);",
+                "                newMaterial.map.needsUpdate = true;",
+                "                newMaterial.needsUpdate = true;",
+                "                threeObject.materials[j] = newMaterial;",
+                "            }",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material && node.material.map) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.map.offset.set(valueX, valueY);",
+                "            newMaterial.map.needsUpdate = true;",
+                "            newMaterial.needsUpdate = true;",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": true
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "X (0-1)",
+              "name": "x",
+              "type": "expression"
+            },
+            {
+              "description": "Y (0-1)",
+              "name": "y",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set texture wrapS",
+          "fullName": "Set texture wrapS",
+          "functionType": "Action",
+          "name": "wrapS",
+          "sentence": "Set texture horizontal wrapping (wrapS) of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let wrap = eventsFunctionContext.getArgument(\"wrap\");",
+                "",
+                "let wrapValue = THREE.RepeatWrapping;",
+                "if (wrap === \"MirroredRepeatWrapping\") {",
+                "    wrapValue = THREE.MirroredRepeatWrapping;",
+                "} else if (wrap === \"ClampToEdgeWrapping\") {",
+                "    wrapValue = THREE.ClampToEdgeWrapping;",
+                "}",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material && threeObject.material.map) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.map.wrapS = wrapValue;",
+                "        newMaterial.map.needsUpdate = true;",
+                "        newMaterial.needsUpdate = true;",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            if (threeObject.materials[j].map) {",
+                "                let newMaterial = threeObject.materials[j].clone();",
+                "                newMaterial.map.wrapS = wrapValue;",
+                "                newMaterial.map.needsUpdate = true;",
+                "                newMaterial.needsUpdate = true;",
+                "                threeObject.materials[j] = newMaterial;",
+                "            }",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material && node.material.map) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.map.wrapS = wrapValue;",
+                "            newMaterial.map.needsUpdate = true;",
+                "            newMaterial.needsUpdate = true;",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": true
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "WrapS",
+              "name": "wrap",
+              "supplementaryInformation": "[\"RepeatWrapping\",\"ClampToEdgeWrapping\",\"MirroredRepeatWrapping\"]",
+              "type": "stringWithSelector"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Set texture vertical wrapping (wrapT) ",
+          "fullName": "Set texture wrapT",
+          "functionType": "Action",
+          "name": "wrapT",
+          "sentence": "Set texture vertical wrapping (wrapT) of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let wrap = eventsFunctionContext.getArgument(\"wrap\");",
+                "",
+                "let wrapValue = THREE.RepeatWrapping;",
+                "if (wrap === \"MirroredRepeatWrapping\") {",
+                "    wrapValue = THREE.MirroredRepeatWrapping;",
+                "} else if (wrap === \"ClampToEdgeWrapping\") {",
+                "    wrapValue = THREE.ClampToEdgeWrapping;",
+                "}",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material && threeObject.material.map) {",
+                "        let newMaterial = threeObject.material.clone();",
+                "        newMaterial.map.wrapT = wrapValue;",
+                "        newMaterial.map.needsUpdate = true;",
+                "        newMaterial.needsUpdate = true;",
+                "        threeObject.material = newMaterial;",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            if (threeObject.materials[j].map) {",
+                "                let newMaterial = threeObject.materials[j].clone();",
+                "                newMaterial.map.wrapT = wrapValue;",
+                "                newMaterial.map.needsUpdate = true;",
+                "                newMaterial.needsUpdate = true;",
+                "                threeObject.materials[j] = newMaterial;",
+                "            }",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material && node.material.map) {",
+                "            let newMaterial = node.material.clone();",
+                "            newMaterial.map.wrapT = wrapValue;",
+                "            newMaterial.map.needsUpdate = true;",
+                "            newMaterial.needsUpdate = true;",
+                "            node.material = newMaterial;",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": true
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "WrapT",
+              "name": "wrap",
+              "supplementaryInformation": "[\"RepeatWrapping\",\"ClampToEdgeWrapping\",\"MirroredRepeatWrapping\"]",
+              "type": "stringWithSelector"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Load texture from resource",
+          "fullName": "Load texture from resource",
+          "functionType": "Action",
+          "name": "textureResource",
+          "sentence": "Load texture of _PARAM0_ from resource _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let texturePath = eventsFunctionContext.getArgument(\"texture\");",
+                "",
+                "const loader = new THREE.TextureLoader();",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material) {",
+                "        loader.load(texturePath, (texture) => {",
+                "            let newMaterial = threeObject.material.clone();",
+                "            newMaterial.map = texture;",
+                "            newMaterial.needsUpdate = true;",
+                "            threeObject.material = newMaterial;",
+                "        }, undefined, (error) => {",
+                "            console.log(\"Error loading texture: \"+texturePath);",
+                "        });",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            loader.load(texturePath, (texture) => {",
+                "                let newMaterial = threeObject.materials[j].clone();",
+                "                newMaterial.map = texture;",
+                "                newMaterial.needsUpdate = true;",
+                "                threeObject.materials[j] = newMaterial;",
+                "            }, undefined, (error) => {",
+                "                console.log(\"Error loading texture: \"+texturePath);",
+                "            });",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material) {",
+                "            loader.load(texturePath, (texture) => {",
+                "                let newMaterial = node.material.clone();",
+                "                newMaterial.map = texture;",
+                "                newMaterial.needsUpdate = true;",
+                "                node.material = newMaterial;",
+                "            }, undefined, (error) => {",
+                "                console.log(\"Error loading texture: \"+texturePath);",
+                "            });",
+                "        }",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Texture resource",
+              "name": "texture",
+              "type": "imageResource"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Load texture from URL",
+          "fullName": "Load texture from URL",
+          "functionType": "Action",
+          "name": "textureURL",
+          "sentence": "Load texture of _PARAM0_ from URL _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "let texturePath = eventsFunctionContext.getArgument(\"texture\");",
+                "",
+                "const loader = new THREE.TextureLoader();",
+                "",
+                "for (let i in objects) {",
+                "    let threeObject = objects[i].get3DRendererObject();",
+                "",
+                "    if (threeObject.isMesh && threeObject.material) {",
+                "        loader.load(texturePath, (texture) => {",
+                "            let newMaterial = threeObject.material.clone();",
+                "            newMaterial.map = texture;",
+                "            newMaterial.needsUpdate = true;",
+                "            threeObject.material = newMaterial;",
+                "        }, undefined, (error) => {",
+                "            console.log(\"Error loading texture: \"+texturePath);",
+                "        });",
+                "    }",
+                "",
+                "    if (threeObject.materials) {",
+                "        for (let j in threeObject.materials) {",
+                "            loader.load(texturePath, (texture) => {",
+                "                let newMaterial = threeObject.materials[j].clone();",
+                "                newMaterial.map = texture;",
+                "                newMaterial.needsUpdate = true;",
+                "                threeObject.materials[j] = newMaterial;",
+                "            }, undefined, (error) => {",
+                "                console.log(\"Error loading texture: \"+texturePath);",
+                "            });",
+                "        }",
+                "    }",
+                "",
+                "    threeObject.traverse((node) => {",
+                "        if (node.isMesh && node.material) {",
+                "            loader.load(texturePath, (texture) => {",
+                "                let newMaterial = node.material.clone();",
+                "                newMaterial.map = texture;",
+                "                newMaterial.needsUpdate = true;",
+                "                node.material = newMaterial;",
+                "            }, undefined, (error) => {",
+                "                console.log(\"Error loading texture: \"+texturePath);",
+                "            });",
+                "        }   ",
+                "    });",
+                "",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Texture URL",
+              "name": "texture",
+              "type": "string"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Load video texture from resource",
+          "fullName": "Load video texture from resource",
+          "functionType": "Action",
+          "name": "videoTextureResource",
+          "sentence": "Load video texture of _PARAM0_ from resource _PARAM2_ (loop: _PARAM3_)",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const texturePath = eventsFunctionContext.getArgument(\"texture\");",
+                "const shouldLoop = eventsFunctionContext.getArgument(\"loop\");",
+                "",
+                "const video = document.createElement('video');",
+                "video.style.display = 'none';",
+                "document.body.appendChild(video);",
+                "video.muted = true;",
+                "video.playsInline = true;",
+                "video.autoplay = true;",
+                "video.loop = shouldLoop;",
+                "video.src = texturePath;",
+                "",
+                "video.addEventListener('error', (e) => {",
+                "    console.error('[Material3D] Video error:', video.error ? video.error.message : e);",
+                "});",
+                "",
+                "const objRefs = [];",
+                "for (let i in objects) {",
+                "    objRefs.push(objects[i]);",
+                "}",
+                "",
+                "const startVideo = () => {",
+                "    const canvas = document.createElement('canvas');",
+                "    canvas.width = video.videoWidth || 256;",
+                "    canvas.height = video.videoHeight || 256;",
+                "    const ctx = canvas.getContext('2d');",
+                "    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);",
+                "",
+                "    const loader = new THREE.TextureLoader();",
+                "    loader.load(canvas.toDataURL(), (texture) => {",
+                "        texture.minFilter = THREE.LinearFilter;",
+                "        texture.magFilter = THREE.LinearFilter;",
+                "        texture.generateMipmaps = false;",
+                "",
+                "        for (const obj of objRefs) {",
+                "            const threeObject = obj.get3DRendererObject();",
+                "            threeObject.traverse((node) => {",
+                "                if (node.isMesh && node.material) {",
+                "                    const newMaterial = node.material.clone();",
+                "                    newMaterial.map = texture;",
+                "                    newMaterial.needsUpdate = true;",
+                "                    node.material = newMaterial;",
+                "                }",
+                "            });",
+                "        }",
+                "",
+                "        texture.image = canvas;",
+                "        video.play().catch(() => {});",
+                "",
+                "        const updateLoop = () => {",
+                "            if (video.readyState >= video.HAVE_CURRENT_DATA) {",
+                "                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);",
+                "                texture.needsUpdate = true;",
+                "            }",
+                "            requestAnimationFrame(updateLoop);",
+                "        };",
+                "        updateLoop();",
+                "    });",
+                "};",
+                "",
+                "if (video.readyState >= 3) {",
+                "    startVideo();",
+                "} else {",
+                "    video.addEventListener('canplay', startVideo, { once: true });",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Texture resource",
+              "name": "texture",
+              "type": "videoResource"
+            },
+            {
+              "defaultValue": "yes",
+              "description": "Loop video",
+              "name": "loop",
+              "optional": true,
+              "type": "yesorno"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Load video texture from URL",
+          "fullName": "Load video texture from URL",
+          "functionType": "Action",
+          "name": "videoTextureURL",
+          "sentence": "Load video texture of _PARAM0_ from URL _PARAM2_ (loop: _PARAM3_)",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const texturePath = eventsFunctionContext.getArgument(\"texture\");",
+                "const shouldLoop = eventsFunctionContext.getArgument(\"loop\");",
+                "",
+                "const video = document.createElement('video');",
+                "video.style.display = 'none';",
+                "document.body.appendChild(video);",
+                "video.crossOrigin = 'anonymous';",
+                "video.muted = true;",
+                "video.playsInline = true;",
+                "video.autoplay = true;",
+                "video.loop = shouldLoop;",
+                "video.src = texturePath;",
+                "",
+                "video.addEventListener('error', (e) => {",
+                "    console.error('[Material3D] Video error:', video.error ? video.error.message : e);",
+                "});",
+                "",
+                "const objRefs = [];",
+                "for (let i in objects) {",
+                "    objRefs.push(objects[i]);",
+                "}",
+                "",
+                "const startVideo = () => {",
+                "    const canvas = document.createElement('canvas');",
+                "    canvas.width = video.videoWidth || 256;",
+                "    canvas.height = video.videoHeight || 256;",
+                "    const ctx = canvas.getContext('2d');",
+                "    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);",
+                "",
+                "    const loader = new THREE.TextureLoader();",
+                "    loader.load(canvas.toDataURL(), (texture) => {",
+                "        texture.minFilter = THREE.LinearFilter;",
+                "        texture.magFilter = THREE.LinearFilter;",
+                "        texture.generateMipmaps = false;",
+                "",
+                "        for (const obj of objRefs) {",
+                "            const threeObject = obj.get3DRendererObject();",
+                "            threeObject.traverse((node) => {",
+                "                if (node.isMesh && node.material) {",
+                "                    const newMaterial = node.material.clone();",
+                "                    newMaterial.map = texture;",
+                "                    newMaterial.needsUpdate = true;",
+                "                    node.material = newMaterial;",
+                "                }",
+                "            });",
+                "        }",
+                "",
+                "        texture.image = canvas;",
+                "        video.play().catch(() => {});",
+                "",
+                "        const updateLoop = () => {",
+                "            if (video.readyState >= video.HAVE_CURRENT_DATA) {",
+                "                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);",
+                "                texture.needsUpdate = true;",
+                "            }",
+                "            requestAnimationFrame(updateLoop);",
+                "        };",
+                "        updateLoop();",
+                "    });",
+                "};",
+                "",
+                "if (video.readyState >= 3) {",
+                "    startVideo();",
+                "} else {",
+                "    video.addEventListener('canplay', startVideo, { once: true });",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "supplementaryInformation": "Scene3D::Model3DObject",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Material3D::Material3D",
+              "type": "behavior"
+            },
+            {
+              "description": "Video texture URL",
+              "name": "texture",
+              "type": "string"
+            },
+            {
+              "defaultValue": "yes",
+              "description": "Loop video",
+              "name": "loop",
+              "optional": true,
+              "type": "yesorno"
+            }
+          ],
+          "objectGroups": []
+        }
+      ],
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "opacity"
+          },
+          {
+            "functionName": "roughness"
+          },
+          {
+            "functionName": "metalness"
+          },
+          {
+            "functionName": "emissive"
+          },
+          {
+            "functionName": "color"
+          },
+          {
+            "functionName": "repeat"
+          },
+          {
+            "functionName": "offset"
+          },
+          {
+            "functionName": "wrapS"
+          },
+          {
+            "functionName": "wrapT"
+          },
+          {
+            "functionName": "textureResource"
+          },
+          {
+            "functionName": "textureURL"
+          },
+          {
+            "functionName": "videoTextureResource"
+          },
+          {
+            "functionName": "videoTextureURL"
+          }
+        ]
+      },
+      "propertyDescriptors": [],
+      "propertiesFolderStructure": {
+        "folderName": "__ROOT"
+      }
+    }
+  ],
+  "eventsBasedObjects": []
+}

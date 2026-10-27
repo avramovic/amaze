@@ -10,7 +10,7 @@
   "name": "Amaze",
   "previewIconUrl": "",
   "shortDescription": "Enemy and player behaviors for aMAZE.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Data-driven enemy behavior (stats, roles, state machine, evolution) and player run/meta progression for aMAZE. See docs/neprijatelji.md and docs/progresija.md.",
   "tags": [],
   "authorIds": [],
@@ -2403,6 +2403,94 @@
         }
       ],
       "objectGroups": []
+    },
+    {
+      "description": "Casts a ray from the camera to the center of the target and flags the walls it hits (object variable Hit = 1, otherwise 0). Walls need a number variable named Hit. Use it to fade the walls that hide the player.",
+      "fullName": "Update walls blocking the view",
+      "functionType": "Action",
+      "name": "UpdateWallFade",
+      "sentence": "Flag the walls of _PARAM1_ that block the camera view of the object named _PARAM2_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "try {",
+            "    const walls = eventsFunctionContext.getObjects(\"Walls\");",
+            "    const targetName = eventsFunctionContext.getArgument(\"TargetName\");",
+            "    const target = runtimeScene.getObjects(targetName)[0];",
+            "    const cam = runtimeScene.getLayer(\"\").getRenderer().getThreeCamera();",
+            "",
+            "    const now = Date.now();",
+            "    const shouldLog = !gdjs.amazeFadeLog || now - gdjs.amazeFadeLog > 1000;",
+            "    if (shouldLog) gdjs.amazeFadeLog = now;",
+            "    if (!target || !cam || walls.length === 0) {",
+            "        if (shouldLog) console.log(\"[UpdateWallFade] skipped: walls=\" + walls.length + \" target=\" + !!target + \" camera=\" + !!cam);",
+            "        return;",
+            "    }",
+            "",
+            "    // Cast a ray from the camera to the center of the target. Walls it hits are flagged with Hit = 1.",
+            "    const origin = new THREE.Vector3();",
+            "    cam.getWorldPosition(origin);",
+            "    const center = new THREE.Box3().setFromObject(target.get3DRendererObject()).getCenter(new THREE.Vector3());",
+            "    const dir = center.clone().sub(origin);",
+            "    const dist = dir.length();",
+            "    dir.normalize();",
+            "    // The Three.js scene is scaled by the world scale, so the distance is relative and not in scene units",
+            "    const raycaster = new THREE.Raycaster(origin, dir, 0, dist * 0.97);",
+            "    raycaster.layers.enableAll();",
+            "",
+            "    const roots = [];",
+            "    const owner = new Map();",
+            "    for (const wall of walls) {",
+            "        if (wall.isHidden()) continue;",
+            "        const root = wall.get3DRendererObject();",
+            "        if (!root || !root.visible) continue;",
+            "        roots.push(root);",
+            "        owner.set(root, wall);",
+            "    }",
+            "",
+            "    const hit = new Set();",
+            "    for (const h of raycaster.intersectObjects(roots, true)) {",
+            "        let node = h.object;",
+            "        while (node && !owner.has(node)) node = node.parent;",
+            "        if (node) hit.add(owner.get(node));",
+            "    }",
+            "",
+            "    if (shouldLog) {",
+            "        console.log(\"[UpdateWallFade] walls=\" + walls.length + \" candidates=\" + roots.length + \" hits=\" + hit.size + \" dist=\" + Math.round(dist) +",
+            "            \" camera=\" + origin.toArray().map(Math.round) + \" target=\" + center.toArray().map(Math.round));",
+            "    }",
+            "",
+            "    for (const wall of walls) {",
+            "        const value = hit.has(wall) ? 1 : 0;",
+            "        if (wall.__amazeHit === value) continue;",
+            "        wall.__amazeHit = value;",
+            "        const variables = wall.getVariables();",
+            "        if (variables.has(\"Hit\")) variables.get(\"Hit\").setNumber(value);",
+            "        else console.warn(\"[UpdateWallFade] \" + wall.getName() + \" has no Hit variable\");",
+            "    }",
+            "} catch (error) {",
+            "    console.error(\"[UpdateWallFade] \" + error);",
+            "}"
+          ],
+          "parameterObjects": "Walls",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Walls (group of 3D objects with a Hit variable)",
+          "name": "Walls",
+          "type": "objectList"
+        },
+        {
+          "description": "Name of the object the camera looks at (for example Player)",
+          "name": "TargetName",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
     }
   ],
   "eventsFunctionsFolderStructure": {
@@ -2506,6 +2594,9 @@
       },
       {
         "functionName": "PlaceRouteEnemies"
+      },
+      {
+        "functionName": "UpdateWallFade"
       }
     ]
   },

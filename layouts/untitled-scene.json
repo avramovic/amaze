@@ -181,6 +181,20 @@
           "name": "Squidle"
         }
       ]
+    },
+    {
+      "name": "Walls",
+      "objects": [
+        {
+          "name": "Hedge_Large"
+        },
+        {
+          "name": "Hedge_Large_Hor"
+        },
+        {
+          "name": "Pillar_Stone"
+        }
+      ]
     }
   ],
   "variables": [
@@ -318,7 +332,18 @@
       "name": "Hedge_Large",
       "persistentUuid": "1e846067-cf33-432d-a95c-6fd9b02d7fe1",
       "type": "Scene3D::Model3DObject",
-      "variables": [],
+      "variables": [
+        {
+          "name": "Faded",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "Hit",
+          "type": "number",
+          "value": 0
+        }
+      ],
       "effects": [],
       "behaviors": [
         {
@@ -353,6 +378,10 @@
           "gravityScale": 1,
           "layers": 17,
           "masks": 17
+        },
+        {
+          "name": "Material3D",
+          "type": "Material3D::Material3D"
         }
       ],
       "content": {
@@ -378,7 +407,18 @@
       "name": "Hedge_Large_Hor",
       "persistentUuid": "a2ea36ee-2700-44db-af9d-e236b01fd6e3",
       "type": "Scene3D::Model3DObject",
-      "variables": [],
+      "variables": [
+        {
+          "name": "Faded",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "Hit",
+          "type": "number",
+          "value": 0
+        }
+      ],
       "effects": [],
       "behaviors": [
         {
@@ -414,6 +454,10 @@
           "gravityScale": 1,
           "layers": 17,
           "masks": 17
+        },
+        {
+          "name": "Material3D",
+          "type": "Material3D::Material3D"
         }
       ],
       "content": {
@@ -439,7 +483,18 @@
       "name": "Pillar_Stone",
       "persistentUuid": "74a43a39-61db-4052-92b3-904632968ceb",
       "type": "Scene3D::Model3DObject",
-      "variables": [],
+      "variables": [
+        {
+          "name": "Faded",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "Hit",
+          "type": "number",
+          "value": 0
+        }
+      ],
       "effects": [],
       "behaviors": [
         {
@@ -470,6 +525,10 @@
           "gravityScale": 1,
           "layers": 17,
           "masks": 17
+        },
+        {
+          "name": "Material3D",
+          "type": "Material3D::Material3D"
         }
       ],
       "content": {
@@ -10084,7 +10143,13 @@
       "persistentUuid": "434630e5-e425-4e1b-b13e-7ad33e7c4571",
       "type": "ParticleEmitter3D::ParticleEmitter3D",
       "variant": "",
-      "variables": [],
+      "variables": [
+        {
+          "name": "Shot",
+          "type": "number",
+          "value": 0
+        }
+      ],
       "effects": [],
       "behaviors": [
         {
@@ -13249,7 +13314,7 @@
           "parameters": [
             "camElevTarget",
             "=",
-            "clamp(camElevTarget+MousePointerLock::MovementY(), 5, 30)"
+            "clamp(camElevTarget+MousePointerLock::MovementY(), -20, 60)"
           ]
         },
         {
@@ -13301,6 +13366,329 @@
             "camElev",
             "",
             ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::UpdateWallFade"
+          },
+          "parameters": [
+            "",
+            "Walls",
+            "\"Player\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large",
+            "Faded",
+            "=",
+            "0"
+          ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large",
+            "Hit",
+            "=",
+            "1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Material3D::Material3D::opacity"
+          },
+          "parameters": [
+            "Hedge_Large",
+            "Material3D",
+            "0.25",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large",
+            "Faded",
+            "=",
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large",
+            "Faded",
+            "=",
+            "1"
+          ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large",
+            "Hit",
+            "=",
+            "0"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Material3D::Material3D::opacity"
+          },
+          "parameters": [
+            "Hedge_Large",
+            "Material3D",
+            "1",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large",
+            "Faded",
+            "=",
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large_Hor",
+            "Faded",
+            "=",
+            "0"
+          ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large_Hor",
+            "Hit",
+            "=",
+            "1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Material3D::Material3D::opacity"
+          },
+          "parameters": [
+            "Hedge_Large_Hor",
+            "Material3D",
+            "0.25",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large_Hor",
+            "Faded",
+            "=",
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large_Hor",
+            "Faded",
+            "=",
+            "1"
+          ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large_Hor",
+            "Hit",
+            "=",
+            "0"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Material3D::Material3D::opacity"
+          },
+          "parameters": [
+            "Hedge_Large_Hor",
+            "Material3D",
+            "1",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "Hedge_Large_Hor",
+            "Faded",
+            "=",
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Faded",
+            "=",
+            "0"
+          ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Hit",
+            "=",
+            "1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Material3D::Material3D::opacity"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Material3D",
+            "0.25",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Faded",
+            "=",
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Faded",
+            "=",
+            "1"
+          ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Hit",
+            "=",
+            "0"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Material3D::Material3D::opacity"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Material3D",
+            "1",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Faded",
+            "=",
+            "0"
           ]
         }
       ]
@@ -13776,16 +14164,80 @@
                 "1000",
                 ""
               ]
-            },
+            }
+          ],
+          "events": [
             {
-              "type": {
-                "value": "Scene3D::Base3DBehavior::SetRotationY"
-              },
-              "parameters": [
-                "PlayerProjectile",
-                "Object3D",
-                "=",
-                "-90"
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "NumberObjectVariable"
+                  },
+                  "parameters": [
+                    "PlayerProjectile",
+                    "Shot",
+                    "=",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Physics3D::Physics3DBehavior::SetLinearVelocityX"
+                  },
+                  "parameters": [
+                    "PlayerProjectile",
+                    "Physics3D",
+                    "=",
+                    "1000 * cos(ToRad(Player.Angle())) * cos(ToRad((camElev - 15)))"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Physics3D::Physics3DBehavior::SetLinearVelocityY"
+                  },
+                  "parameters": [
+                    "PlayerProjectile",
+                    "Physics3D",
+                    "=",
+                    "1000 * sin(ToRad(Player.Angle())) * cos(ToRad((camElev - 15)))"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Physics3D::Physics3DBehavior::SetLinearVelocityZ"
+                  },
+                  "parameters": [
+                    "PlayerProjectile",
+                    "Physics3D",
+                    "=",
+                    "-1000 * sin(ToRad((camElev - 15)))"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Scene3D::Base3DBehavior::SetRotationY"
+                  },
+                  "parameters": [
+                    "PlayerProjectile",
+                    "Object3D",
+                    "=",
+                    "-90 + (camElev - 15)"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberObjectVariable"
+                  },
+                  "parameters": [
+                    "PlayerProjectile",
+                    "Shot",
+                    "=",
+                    "1"
+                  ]
+                }
               ]
             }
           ]
