@@ -14117,6 +14117,24 @@
           "booleanParameters": {
             "isCastingShadow": true
           }
+        },
+        {
+          "effectType": "Scene3D::Skybox",
+          "name": "Skybox",
+          "doubleParameters": {
+            "environmentIntensity": 0,
+            "backgroundIntensity": 1
+          },
+          "stringParameters": {
+            "top": "Z+",
+            "frontFaceResourceName": "skybox-front.jpg",
+            "backFaceResourceName": "skybox-back.png",
+            "leftFaceResourceName": "skybox-left.jpg",
+            "rightFaceResourceName": "skybox-right.jpg",
+            "topFaceResourceName": "skybox-top.jpg",
+            "bottomFaceResourceName": "skybox-bottom.jpg"
+          },
+          "booleanParameters": {}
         }
       ]
     }

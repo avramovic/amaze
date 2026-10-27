@@ -840,6 +840,54 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Particles/256d43039af1b47a15b811d4eb84219335f35f7b7e9c69a59c7e4365e1a26bf0_SoftDot.png",
           "name": "SoftDot.png"
         }
+      },
+      {
+        "file": "assets/skybox/skybox-back.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "skybox-back.png",
+        "smoothed": true,
+        "userAdded": false
+      },
+      {
+        "file": "assets/skybox/skybox-bottom.jpg",
+        "kind": "image",
+        "metadata": "",
+        "name": "skybox-bottom.jpg",
+        "smoothed": true,
+        "userAdded": false
+      },
+      {
+        "file": "assets/skybox/skybox-front.jpg",
+        "kind": "image",
+        "metadata": "",
+        "name": "skybox-front.jpg",
+        "smoothed": true,
+        "userAdded": false
+      },
+      {
+        "file": "assets/skybox/skybox-left.jpg",
+        "kind": "image",
+        "metadata": "",
+        "name": "skybox-left.jpg",
+        "smoothed": true,
+        "userAdded": false
+      },
+      {
+        "file": "assets/skybox/skybox-right.jpg",
+        "kind": "image",
+        "metadata": "",
+        "name": "skybox-right.jpg",
+        "smoothed": true,
+        "userAdded": false
+      },
+      {
+        "file": "assets/skybox/skybox-top.jpg",
+        "kind": "image",
+        "metadata": "",
+        "name": "skybox-top.jpg",
+        "smoothed": true,
+        "userAdded": false
       }
     ]
   },
