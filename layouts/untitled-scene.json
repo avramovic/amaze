@@ -195,6 +195,42 @@
       "persistentUuid": "01487de3-4d3d-47a3-913d-71469f3ed668",
       "type": "number",
       "value": 5
+    },
+    {
+      "name": "camRot",
+      "persistentUuid": "cbd2037a-a9c7-4d0a-aef3-cb6f168b5f93",
+      "type": "number",
+      "value": 0
+    },
+    {
+      "name": "camElev",
+      "persistentUuid": "64cb6945-2724-43d1-b3b9-ad335d0f6c05",
+      "type": "number",
+      "value": 15
+    },
+    {
+      "name": "camElevTarget",
+      "persistentUuid": "1f94e372-c202-4db9-b4f1-8a62e8f8e91a",
+      "type": "number",
+      "value": 15
+    },
+    {
+      "name": "camZoom",
+      "persistentUuid": "ec128d96-6141-411e-9daf-46267969994f",
+      "type": "number",
+      "value": 1000
+    },
+    {
+      "name": "camZoomTarget",
+      "persistentUuid": "810414bb-86cb-40ab-b55a-0ef9fd643529",
+      "type": "number",
+      "value": 1000
+    },
+    {
+      "name": "LockClick",
+      "persistentUuid": "c9df2254-a8a7-4fb9-af93-1a7d60226071",
+      "type": "boolean",
+      "value": false
     }
   ],
   "instances": [
@@ -10742,6 +10778,16 @@
             "=",
             "min(50, 4 + ceil(Level / 2))"
           ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "camRot",
+            "=",
+            "Player.Angle()+90"
+          ]
         }
       ]
     },
@@ -13103,6 +13149,143 @@
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "MouseButtonFromTextPressed"
+          },
+          "parameters": [
+            "",
+            "\"Left\""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "MousePointerLock::isPointerLocked"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::Once"
+          },
+          "parameters": []
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "MousePointerLock::RequestPointerLock"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetBooleanVariable"
+          },
+          "parameters": [
+            "LockClick",
+            "True"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "MousePointerLock::isPointerLocked"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Player",
+            "Health",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetAngle"
+          },
+          "parameters": [
+            "Player",
+            "+",
+            "(MousePointerLock::MovementX() / 10)"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "camRot",
+            "=",
+            "CameraAngle() + AngleDifference(Player.Angle()+90, CameraAngle()) * TimeDelta()*2"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "camElevTarget",
+            "=",
+            "clamp(camElevTarget+MousePointerLock::MovementY(), 5, 30)"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "camElev",
+            "=",
+            "lerp(camElev, camElevTarget, TimeDelta()*2)"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "camZoomTarget",
+            "=",
+            "clamp(camZoomTarget-MouseWheelDelta()*5, 500, 1500)"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "camZoom",
+            "=",
+            "lerp(camZoom, camZoomTarget, TimeDelta()*4)"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
       "conditions": [],
       "actions": [
         {
@@ -13113,9 +13296,9 @@
             "",
             "Player",
             "Object3D",
-            "1000",
-            "Player.Angle()+90",
-            "30",
+            "camZoom",
+            "camRot",
+            "camElev",
             "",
             ""
           ]
@@ -13178,32 +13361,6 @@
               },
               "parameters": [
                 "",
-                "\"a\""
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": {
-                "value": "Scene3D::Base3DBehavior::TurnAroundZ"
-              },
-              "parameters": [
-                "Player",
-                "Object3D",
-                "-2"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [
-            {
-              "type": {
-                "value": "KeyFromTextPressed"
-              },
-              "parameters": [
-                "",
                 "\"s\""
               ]
             }
@@ -13229,6 +13386,31 @@
               },
               "parameters": [
                 "",
+                "\"a\""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Physics3D::PhysicsCharacter3D::SimulateLeftKey"
+              },
+              "parameters": [
+                "Player",
+                "PhysicsCharacter3D"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "KeyFromTextPressed"
+              },
+              "parameters": [
+                "",
                 "\"d\""
               ]
             }
@@ -13236,12 +13418,36 @@
           "actions": [
             {
               "type": {
-                "value": "Scene3D::Base3DBehavior::TurnAroundZ"
+                "value": "Physics3D::PhysicsCharacter3D::SimulateRightKey"
               },
               "parameters": [
                 "Player",
-                "Object3D",
-                "2"
+                "PhysicsCharacter3D"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "KeyFromTextPressed"
+              },
+              "parameters": [
+                "",
+                "\"Space\""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Physics3D::PhysicsCharacter3D::SimulateJumpKey"
+              },
+              "parameters": [
+                "Player",
+                "PhysicsCharacter3D"
               ]
             }
           ]
@@ -13493,41 +13699,95 @@
       "conditions": [
         {
           "type": {
-            "value": "KeyFromTextReleased"
+            "value": "MouseButtonFromTextReleased"
           },
           "parameters": [
             "",
-            "\"Space\""
+            "\"Left\""
           ]
         }
       ],
-      "actions": [
+      "actions": [],
+      "events": [
         {
-          "type": {
-            "value": "FireBullet::FireBullet3D::FireForwardObject3D"
-          },
-          "parameters": [
-            "Player",
-            "FireBullet3D",
-            "30",
-            "0",
-            "0",
-            "PlayerProjectile",
-            "Object3D",
-            "Physics3D",
-            "1000",
-            ""
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "BooleanVariable"
+              },
+              "parameters": [
+                "LockClick",
+                "True",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "SetBooleanVariable"
+              },
+              "parameters": [
+                "LockClick",
+                "False"
+              ]
+            }
           ]
         },
         {
-          "type": {
-            "value": "Scene3D::Base3DBehavior::SetRotationY"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            "Object3D",
-            "=",
-            "-90"
+          "type": "BuiltinCommonInstructions::Else",
+          "conditions": [
+            {
+              "type": {
+                "value": "MousePointerLock::isPointerLocked"
+              },
+              "parameters": [
+                "",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "Health::Health::IsDead"
+              },
+              "parameters": [
+                "Player",
+                "Health",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "FireBullet::FireBullet3D::FireForwardObject3D"
+              },
+              "parameters": [
+                "Player",
+                "FireBullet3D",
+                "30",
+                "0",
+                "0",
+                "PlayerProjectile",
+                "Object3D",
+                "Physics3D",
+                "1000",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "Scene3D::Base3DBehavior::SetRotationY"
+              },
+              "parameters": [
+                "PlayerProjectile",
+                "Object3D",
+                "=",
+                "-90"
+              ]
+            }
           ]
         }
       ]
@@ -14122,17 +14382,17 @@
           "effectType": "Scene3D::Skybox",
           "name": "Skybox",
           "doubleParameters": {
-            "environmentIntensity": 0,
-            "backgroundIntensity": 1
+            "backgroundIntensity": 1,
+            "environmentIntensity": 0
           },
           "stringParameters": {
-            "top": "Z+",
-            "frontFaceResourceName": "skybox-front.jpg",
             "backFaceResourceName": "skybox-back.png",
+            "bottomFaceResourceName": "skybox-bottom.jpg",
+            "frontFaceResourceName": "skybox-front.jpg",
             "leftFaceResourceName": "skybox-left.jpg",
             "rightFaceResourceName": "skybox-right.jpg",
-            "topFaceResourceName": "skybox-top.jpg",
-            "bottomFaceResourceName": "skybox-bottom.jpg"
+            "top": "Z+",
+            "topFaceResourceName": "skybox-top.jpg"
           },
           "booleanParameters": {}
         }
