@@ -13415,35 +13415,6 @@
           },
           "parameters": [
             "Player",
-            "BlueMist",
-            "200",
-            ""
-          ]
-        }
-      ],
-      "actions": [
-        {
-          "type": {
-            "value": "Physics3D::PhysicsCharacter3D::SetForwardSpeedMax"
-          },
-          "parameters": [
-            "Player",
-            "PhysicsCharacter3D",
-            "=",
-            "200"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "value": "Distance"
-          },
-          "parameters": [
-            "Player",
             "RedMist",
             "200",
             ""
@@ -13462,6 +13433,35 @@
             "200",
             "no",
             ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Distance"
+          },
+          "parameters": [
+            "Player",
+            "BlueMist",
+            "200",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Physics3D::PhysicsCharacter3D::SetForwardSpeedMax"
+          },
+          "parameters": [
+            "Player",
+            "PhysicsCharacter3D",
+            "=",
+            "200"
           ]
         }
       ]
