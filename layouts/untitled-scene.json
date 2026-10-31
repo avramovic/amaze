@@ -799,7 +799,6 @@
           "PercentDamageReduction": "0"
         },
         {
-          "isFolded": true,
           "name": "Physics3D",
           "type": "Physics3D::Physics3DBehavior",
           "object3D": "Object3D",
@@ -883,12 +882,15 @@
           "GunVisible": false,
           "State": "Idle",
           "StateTime": "0",
-          "CurrentAnim": ""
+          "CurrentAnim": "",
+          "FireMoment": "0.4",
+          "FirePending": "false",
+          "FireReady": "false"
         }
       ],
       "content": {
         "centerLocation": "CenteredOnZ",
-        "crossfadeDuration": 0.10000000149011612,
+        "crossfadeDuration": 0.5,
         "depth": 157,
         "height": 157,
         "isCastingShadow": true,
@@ -10109,8 +10111,8 @@
           "linearDamping": 0,
           "angularDamping": 1,
           "gravityScale": 0,
-          "layers": 17,
-          "masks": 17
+          "layers": 32,
+          "masks": 1
         }
       ],
       "content": {
@@ -13950,62 +13952,68 @@
           "actions": [
             {
               "type": {
-                "value": "FireBullet::FireBullet3D::FireForwardObject3D"
-              },
-              "parameters": [
-                "Players",
-                "FireBullet3D",
-                "30",
-                "0",
-                "0",
-                "PlayerProjectile",
-                "Object3D",
-                "Physics3D",
-                "1000",
-                ""
-              ]
-            },
-            {
-              "type": {
                 "value": "Amaze::PlayerFSM::Shoot"
               },
               "parameters": [
                 "Players",
                 "PlayerFSM"
               ]
-            },
-            {
-              "type": {
-                "value": "Scene3D::Base3DBehavior::SetRotationY"
-              },
-              "parameters": [
-                "PlayerProjectile",
-                "Object3D",
-                "=",
-                "-90"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberObjectVariable"
-              },
-              "parameters": [
-                "PlayerProjectile",
-                "bouncesLeft",
-                "=",
-                "2"
-              ]
-            },
-            {
-              "type": {
-                "value": "Amaze::PlayerFSM::MoveToHand"
-              },
-              "parameters": [
-                "Players",
-                "PlayerFSM",
-                "PlayerProjectile"
-              ]
             }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Amaze::PlayerFSM::FireMomentReached"
+          },
+          "parameters": [
+            "Players",
+            "PlayerFSM"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "FireBullet::FireBullet3D::FireForwardObject3D"
+          },
+          "parameters": [
+            "Players",
+            "FireBullet3D",
+            "30",
+            "0",
+            "0",
+            "PlayerProjectile",
+            "Object3D",
+            "Physics3D",
+            "1000",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetRotationY"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "Object3D",
+            "=",
+            "-90"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "bouncesLeft",
+            "=",
+            "2"
           ]
         }
       ]

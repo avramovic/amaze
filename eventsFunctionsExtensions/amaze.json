@@ -12051,6 +12051,9 @@
                 "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
                 "  return found;",
                 "};",
+                "// The model is cloned again when the object is rebuilt, so a cached node can belong to a discarded copy: check it is still attached.",
+                "const isAttached = (n) => { const root = o.get3DRendererObject(); for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+                "const cachedNode = (n, name) => (n && isAttached(n) ? n : findNode(name));",
                 "if (!o || !b) return;",
                 "const ch = o.getBehavior(b._getCharacter());",
                 "let state = b._getState();",
@@ -12061,12 +12064,21 @@
                 "const spd = Math.hypot(ch.getCurrentForwardSpeed(), ch.getCurrentSidewaysSpeed());",
                 "const moving = spd > 20;",
                 "const set = (s) => { state = s; t = 0; };",
+                "b._setFireReady(false); // one-frame flag, the scene events read it in the next frame",
+                "",
+                "// The projectile is fired when the arm is extended, not on click",
+                "if (state === 'Shoot' && b._getFirePending() && t >= b._getFireMoment()) {",
+                "  b._setFirePending(false);",
+                "  b._setFireReady(true);",
+                "}",
                 "",
                 "// Timed exits (Death never ends, the finished animation holds its last pose)",
                 "if (state === 'Hit' && t >= b._getHitDuration()) set('Idle');",
                 "if (state === 'Shoot' && t >= b._getShootDuration()) set('Idle');",
                 "if (state === 'Jump' && t >= 0.37) set('Air');",
                 "if (state === 'Land' && t >= (moving ? 0.15 : 0.37)) set('Idle');",
+                "",
+                "if (state !== 'Shoot' && b._getFirePending()) b._setFirePending(false); // interrupted (death)",
                 "",
                 "// Locomotion: Hit, Shoot and Death keep the animation until they end",
                 "if (state !== 'Death' && state !== 'Hit' && state !== 'Shoot') {",
@@ -12102,7 +12114,7 @@
                 "}",
                 "",
                 "// Gun model: shown or hidden. The node is looked up until the model has loaded.",
-                "if (!b.__gunNode) b.__gunNode = findNode(b._getGunNode());",
+                "b.__gunNode = cachedNode(b.__gunNode, b._getGunNode());",
                 "if (b.__gunNode && b.__gunNode.visible !== gun) b.__gunNode.visible = gun;"
               ],
               "parameterObjects": "",
@@ -12126,7 +12138,7 @@
           "objectGroups": []
         },
         {
-          "description": "Play the shooting animation (Punch). The projectile is fired by the scene events.",
+          "description": "Play the shooting animation (Punch). The projectile is fired later, when the arm is extended: use the condition 'Fire moment reached'. A click during the wind-up is ignored.",
           "fullName": "Shoot",
           "functionType": "Action",
           "name": "Shoot",
@@ -12145,10 +12157,16 @@
                 "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
                 "  return found;",
                 "};",
+                "// The model is cloned again when the object is rebuilt, so a cached node can belong to a discarded copy: check it is still attached.",
+                "const isAttached = (n) => { const root = o.get3DRendererObject(); for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+                "const cachedNode = (n, name) => (n && isAttached(n) ? n : findNode(name));",
                 "if (!o || !b) return;",
                 "if (b._getState() === 'Death') return;",
+                "if (b._getState() === 'Shoot' && b._getFirePending()) return; // still winding up",
                 "b._setState('Shoot');",
                 "b._setStateTime(0);",
+                "b._setFirePending(true);",
+                "b._setFireReady(false);",
                 "// Restart Punch from its start even when it is already playing",
                 "if (o.getAnimationName() === 'Punch') o.setAnimationName('Idle');",
                 "o.setAnimationName('Punch');",
@@ -12272,64 +12290,6 @@
               "name": "Behavior",
               "supplementaryInformation": "Amaze::PlayerFSM",
               "type": "behavior"
-            }
-          ],
-          "objectGroups": []
-        },
-        {
-          "description": "Move a freshly fired projectile to the hand bone (right hand) so it leaves the hand, not the body centre.",
-          "fullName": "Move projectile to the hand",
-          "functionType": "Action",
-          "name": "MoveToHand",
-          "sentence": "Move _PARAM2_ to the hand of _PARAM0_",
-          "events": [
-            {
-              "type": "BuiltinCommonInstructions::JsCode",
-              "inlineCode": [
-                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
-                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
-                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
-                "// three.js removes characters such as '.' from node names, so names are compared without them.",
-                "const findNode = (name) => {",
-                "  let found = null;",
-                "  const root = o.get3DRendererObject();",
-                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
-                "  return found;",
-                "};",
-                "const bullets = eventsFunctionContext.getObjects(\"Bullet\");",
-                "if (!o || !b || !bullets.length) return;",
-                "if (!b.__handNode) b.__handNode = findNode(b._getHandBone());",
-                "const hand = b.__handNode;",
-                "if (!hand) return; // model not loaded or bone missing: the projectile stays where it was fired",
-                "const p = hand.position.clone();",
-                "hand.getWorldPosition(p); // three.js world position equals the game position (x, y, z)",
-                "for (const bullet of bullets) {",
-                "  bullet.setX(p.x - (bullet.getCenterX() - bullet.getX()));",
-                "  bullet.setY(p.y - (bullet.getCenterY() - bullet.getY()));",
-                "  if (bullet.setZ) bullet.setZ(p.z - (bullet.getCenterZ() - bullet.getZ()));",
-                "}"
-              ],
-              "parameterObjects": "Bullet",
-              "useStrict": true,
-              "eventsSheetExpanded": false
-            }
-          ],
-          "parameters": [
-            {
-              "description": "Object",
-              "name": "Object",
-              "type": "object"
-            },
-            {
-              "description": "Behavior",
-              "name": "Behavior",
-              "supplementaryInformation": "Amaze::PlayerFSM",
-              "type": "behavior"
-            },
-            {
-              "description": "Projectile",
-              "name": "Bullet",
-              "type": "objectList"
             }
           ],
           "objectGroups": []
@@ -12461,8 +12421,11 @@
                 "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
                 "  return found;",
                 "};",
+                "// The model is cloned again when the object is rebuilt, so a cached node can belong to a discarded copy: check it is still attached.",
+                "const isAttached = (n) => { const root = o.get3DRendererObject(); for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+                "const cachedNode = (n, name) => (n && isAttached(n) ? n : findNode(name));",
                 "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
-                "if (!b.__handNode) b.__handNode = findNode(b._getHandBone());",
+                "b.__handNode = cachedNode(b.__handNode, b._getHandBone());",
                 "const hand = b.__handNode;",
                 "if (!hand) { eventsFunctionContext.returnValue = 0; return; }",
                 "const p = hand.position.clone();",
@@ -12512,8 +12475,11 @@
                 "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
                 "  return found;",
                 "};",
+                "// The model is cloned again when the object is rebuilt, so a cached node can belong to a discarded copy: check it is still attached.",
+                "const isAttached = (n) => { const root = o.get3DRendererObject(); for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+                "const cachedNode = (n, name) => (n && isAttached(n) ? n : findNode(name));",
                 "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
-                "if (!b.__handNode) b.__handNode = findNode(b._getHandBone());",
+                "b.__handNode = cachedNode(b.__handNode, b._getHandBone());",
                 "const hand = b.__handNode;",
                 "if (!hand) { eventsFunctionContext.returnValue = 0; return; }",
                 "const p = hand.position.clone();",
@@ -12563,13 +12529,255 @@
                 "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
                 "  return found;",
                 "};",
+                "// The model is cloned again when the object is rebuilt, so a cached node can belong to a discarded copy: check it is still attached.",
+                "const isAttached = (n) => { const root = o.get3DRendererObject(); for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+                "const cachedNode = (n, name) => (n && isAttached(n) ? n : findNode(name));",
                 "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
-                "if (!b.__handNode) b.__handNode = findNode(b._getHandBone());",
+                "b.__handNode = cachedNode(b.__handNode, b._getHandBone());",
                 "const hand = b.__handNode;",
                 "if (!hand) { eventsFunctionContext.returnValue = 0; return; }",
                 "const p = hand.position.clone();",
                 "hand.getWorldPosition(p);",
                 "eventsFunctionContext.returnValue = p.z;"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "True for one frame when the arm is extended during the shoot animation: fire the projectile now.",
+          "fullName": "Fire moment reached",
+          "functionType": "Condition",
+          "name": "FireMomentReached",
+          "sentence": "The arm of _PARAM0_ is extended: fire now",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "FireReady",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Hand forward offset of the hand bone from the centre of the object, to use as the offset of the fire action.",
+          "fullName": "Hand forward offset",
+          "functionType": "Expression",
+          "name": "HandForward",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "// The model is cloned again when the object is rebuilt, so a cached node can belong to a discarded copy: check it is still attached.",
+                "const isAttached = (n) => { const root = o.get3DRendererObject(); for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+                "const cachedNode = (n, name) => (n && isAttached(n) ? n : findNode(name));",
+                "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
+                "b.__handNode = cachedNode(b.__handNode, b._getHandBone());",
+                "const hand = b.__handNode;",
+                "if (!hand) {",
+                "  if (!b.__handWarned) { b.__handWarned = true; console.warn('[PlayerFSM] hand bone not found: ' + b._getHandBone()); }",
+                "  eventsFunctionContext.returnValue = 0;",
+                "  return;",
+                "}",
+                "const p = hand.position.clone();",
+                "hand.getWorldPosition(p); // three.js world position equals the game position (x, y, z)",
+                "const dx = p.x - o.getCenterX(), dy = p.y - o.getCenterY(), dz = p.z - o.getCenterZ();",
+                "eventsFunctionContext.returnValue = dx * o.getForwardX() + dy * o.getForwardY() + dz * o.getForwardZ();"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Hand right offset of the hand bone from the centre of the object, to use as the offset of the fire action.",
+          "fullName": "Hand right offset",
+          "functionType": "Expression",
+          "name": "HandRight",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "// The model is cloned again when the object is rebuilt, so a cached node can belong to a discarded copy: check it is still attached.",
+                "const isAttached = (n) => { const root = o.get3DRendererObject(); for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+                "const cachedNode = (n, name) => (n && isAttached(n) ? n : findNode(name));",
+                "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
+                "b.__handNode = cachedNode(b.__handNode, b._getHandBone());",
+                "const hand = b.__handNode;",
+                "if (!hand) {",
+                "  if (!b.__handWarned) { b.__handWarned = true; console.warn('[PlayerFSM] hand bone not found: ' + b._getHandBone()); }",
+                "  eventsFunctionContext.returnValue = 0;",
+                "  return;",
+                "}",
+                "const p = hand.position.clone();",
+                "hand.getWorldPosition(p); // three.js world position equals the game position (x, y, z)",
+                "const dx = p.x - o.getCenterX(), dy = p.y - o.getCenterY(), dz = p.z - o.getCenterZ();",
+                "eventsFunctionContext.returnValue = dx * o.getRightX() + dy * o.getRightY() + dz * o.getRightZ();"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Hand up offset of the hand bone from the centre of the object, to use as the offset of the fire action.",
+          "fullName": "Hand up offset",
+          "functionType": "Expression",
+          "name": "HandUp",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "// The model is cloned again when the object is rebuilt, so a cached node can belong to a discarded copy: check it is still attached.",
+                "const isAttached = (n) => { const root = o.get3DRendererObject(); for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+                "const cachedNode = (n, name) => (n && isAttached(n) ? n : findNode(name));",
+                "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
+                "b.__handNode = cachedNode(b.__handNode, b._getHandBone());",
+                "const hand = b.__handNode;",
+                "if (!hand) {",
+                "  if (!b.__handWarned) { b.__handWarned = true; console.warn('[PlayerFSM] hand bone not found: ' + b._getHandBone()); }",
+                "  eventsFunctionContext.returnValue = 0;",
+                "  return;",
+                "}",
+                "const p = hand.position.clone();",
+                "hand.getWorldPosition(p); // three.js world position equals the game position (x, y, z)",
+                "const dx = p.x - o.getCenterX(), dy = p.y - o.getCenterY(), dz = p.z - o.getCenterZ();",
+                "eventsFunctionContext.returnValue = dx * o.getUpX() + dy * o.getUpY() + dz * o.getUpZ();"
               ],
               "parameterObjects": "",
               "useStrict": true,
@@ -12611,9 +12819,6 @@
             "functionName": "IsGunVisible"
           },
           {
-            "functionName": "MoveToHand"
-          },
-          {
             "functionName": "IsInState"
           },
           {
@@ -12627,6 +12832,18 @@
           },
           {
             "functionName": "HandZ"
+          },
+          {
+            "functionName": "FireMomentReached"
+          },
+          {
+            "functionName": "HandForward"
+          },
+          {
+            "functionName": "HandRight"
+          },
+          {
+            "functionName": "HandUp"
           }
         ]
       },
@@ -12715,6 +12932,29 @@
           "label": "Current animation",
           "group": "Runtime",
           "name": "CurrentAnim"
+        },
+        {
+          "value": "0.4",
+          "type": "Number",
+          "label": "Time in the Punch when the arm is extended and the projectile is fired (seconds)",
+          "group": "Weapon",
+          "name": "FireMoment"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Waiting for the fire moment",
+          "group": "Runtime",
+          "hidden": true,
+          "name": "FirePending"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Fire moment reached (one frame)",
+          "group": "Runtime",
+          "hidden": true,
+          "name": "FireReady"
         }
       ],
       "propertiesFolderStructure": {
@@ -12756,6 +12996,9 @@
               },
               {
                 "propertyName": "GunVisible"
+              },
+              {
+                "propertyName": "FireMoment"
               }
             ]
           },
@@ -12770,6 +13013,12 @@
               },
               {
                 "propertyName": "CurrentAnim"
+              },
+              {
+                "propertyName": "FirePending"
+              },
+              {
+                "propertyName": "FireReady"
               }
             ]
           }
