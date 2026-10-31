@@ -710,10 +710,13 @@
             "",
             "// The player cannot walk through enemies: it is pushed out of them (enemies and guards stay where they are),",
             "// but never into a wall, so enemies cannot pin the player against it.",
-            "S.blockPlayer = function (player, list, radius, m) {",
+            "S.blockPlayer = function (player, list, radius, m, ctx, eName) {",
             "    if (!player) return;",
             "    for (let i = 0; i < list.length; i++) {",
             "        const e = list[i];",
+            "        // Flying enemies never block (the player walks under them); ground enemies only block while the player is not above them (jumping over).",
+            "        if (e.getBehavior(eName).FlyHeight(ctx) > 0) continue;",
+            "        if (player.getCenterZInScene() - player.getDepth() / 2 >= e.getCenterZInScene() + e.getDepth() / 2) continue;",
             "        const r = radius + Math.min(Math.max(e.getWidth() * 0.4, 25), 65);",
             "        let dx = player.getCenterXInScene() - e.getCenterXInScene();",
             "        let dy = player.getCenterYInScene() - e.getCenterYInScene();",
@@ -2226,7 +2229,7 @@
             "const C = gdjs.amazeCull;",
             "const m = C ? C.getMaze(runtimeScene, ctx.getArgument(\"MazeId\")) : null;",
             "S.separate(living, ctx.getArgument(\"Scale\"), gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene), fixed, m);",
-            "for (const player of ctx.getObjects(\"Player\")) S.blockPlayer(player, living, ctx.getArgument(\"PlayerRadius\"), m);"
+            "for (const player of ctx.getObjects(\"Player\")) S.blockPlayer(player, living, ctx.getArgument(\"PlayerRadius\"), m, ctx, eName);"
           ],
           "parameterObjects": "",
           "useStrict": true,
