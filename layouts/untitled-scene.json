@@ -201,6 +201,17 @@
           "name": "wall_vertical"
         }
       ]
+    },
+    {
+      "name": "Floors",
+      "objects": [
+        {
+          "name": "Floor_Tiles"
+        },
+        {
+          "name": "Ground_Path_Open"
+        }
+      ]
     }
   ],
   "variables": [
@@ -10080,7 +10091,14 @@
       "persistentUuid": "434630e5-e425-4e1b-b13e-7ad33e7c4571",
       "type": "ParticleEmitter3D::ParticleEmitter3D",
       "variant": "",
-      "variables": [],
+      "variables": [
+        {
+          "name": "bouncesLeft",
+          "persistentUuid": "291488dc-e057-4b7a-8603-9ad8d2412bc6",
+          "type": "number",
+          "value": 0
+        }
+      ],
       "effects": [],
       "behaviors": [
         {
@@ -10459,6 +10477,10 @@
       "effects": [],
       "behaviors": [
         {
+          "name": "MazeObject",
+          "type": "MazeGenerator::MazeObject"
+        },
+        {
           "name": "Physics3D",
           "type": "Physics3D::Physics3DBehavior",
           "object3D": "Object3D",
@@ -10524,6 +10546,10 @@
       "effects": [],
       "behaviors": [
         {
+          "name": "MazeObject",
+          "type": "MazeGenerator::MazeObject"
+        },
+        {
           "name": "Physics3D",
           "type": "Physics3D::Physics3DBehavior",
           "object3D": "Object3D",
@@ -10579,6 +10605,66 @@
         "width": 100,
         "animations": []
       }
+    },
+    {
+      "assetStoreId": "4da3e07e25901642408ae96095d826c70af421f03ceab510d00ea9ce98a9c690",
+      "name": "Floor_Tiles",
+      "persistentUuid": "6fe3495e-c5d6-4b09-b641-343142b41760",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "MazeObject",
+          "type": "MazeGenerator::MazeObject"
+        },
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 120,
+        "height": 120,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Floor Tiles.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 120,
+        "animations": []
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -10588,25 +10674,38 @@
         "folderName": "Maze",
         "children": [
           {
+            "folderName": "Space",
+            "children": [
+              {
+                "objectName": "wall_vertical"
+              },
+              {
+                "objectName": "wall_horizontal"
+              },
+              {
+                "objectName": "Floor_Tiles"
+              }
+            ]
+          },
+          {
+            "folderName": "Green",
+            "children": [
+              {
+                "objectName": "Ground_Path_Open"
+              },
+              {
+                "objectName": "Hedge_Large"
+              },
+              {
+                "objectName": "Hedge_Large_Hor"
+              }
+            ]
+          },
+          {
             "objectName": "Pillar_Stone"
           },
           {
-            "objectName": "Hedge_Large_Hor"
-          },
-          {
-            "objectName": "Hedge_Large"
-          },
-          {
-            "objectName": "Ground_Path_Open"
-          },
-          {
             "objectName": "Tree_High_Round"
-          },
-          {
-            "objectName": "wall_horizontal"
-          },
-          {
-            "objectName": "wall_vertical"
           }
         ]
       },
@@ -10973,7 +11072,7 @@
           "parameters": [
             "",
             "\"maze\"",
-            "Ground_Path_Open",
+            "Floor_Tiles",
             "Object3D",
             "Resizable",
             "\"\"",
@@ -11961,14 +12060,14 @@
         },
         {
           "type": "BuiltinCommonInstructions::ForEach",
-          "object": "Ground_Path_Open",
+          "object": "Floors",
           "conditions": [
             {
               "type": {
                 "value": "MazeGenerator::MazeObject::CheckMazeObjectMazeID"
               },
               "parameters": [
-                "Ground_Path_Open",
+                "Floors",
                 "MazeObject",
                 "\"maze\"",
                 ""
@@ -11985,7 +12084,7 @@
                     "value": "BuiltinCommonInstructions::CompareStrings"
                   },
                   "parameters": [
-                    "Amaze::DeadEndRole(Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
+                    "Amaze::DeadEndRole(Floors.MazeObject::MazeObjectRow(),Floors.MazeObject::MazeObjectColumn())",
                     "=",
                     "\"Exit\""
                   ]
@@ -12045,9 +12144,9 @@
                   "parameters": [
                     "PortalVortex",
                     "=",
-                    "Ground_Path_Open.CenterX()",
+                    "Floors.CenterX()",
                     "=",
-                    "Ground_Path_Open.CenterY()"
+                    "Floors.CenterY()"
                   ]
                 },
                 {
@@ -12057,9 +12156,9 @@
                   "parameters": [
                     "PortalSparkles",
                     "=",
-                    "Ground_Path_Open.CenterX()",
+                    "Floors.CenterX()",
                     "=",
-                    "Ground_Path_Open.CenterY()"
+                    "Floors.CenterY()"
                   ]
                 }
               ]
@@ -12072,7 +12171,7 @@
                     "value": "BuiltinCommonInstructions::CompareStrings"
                   },
                   "parameters": [
-                    "Amaze::DeadEndRole(Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
+                    "Amaze::DeadEndRole(Floors.MazeObject::MazeObjectRow(),Floors.MazeObject::MazeObjectColumn())",
                     "=",
                     "\"Enemy\""
                   ]
@@ -12110,9 +12209,9 @@
                   "parameters": [
                     "Spawner",
                     "=",
-                    "Ground_Path_Open.CenterX()",
+                    "Floors.CenterX()",
                     "=",
-                    "Ground_Path_Open.CenterY()"
+                    "Floors.CenterY()"
                   ]
                 },
                 {
@@ -12122,9 +12221,9 @@
                   "parameters": [
                     "RedMist",
                     "=",
-                    "Ground_Path_Open.CenterX()",
+                    "Floors.CenterX()",
                     "=",
-                    "Ground_Path_Open.CenterY()"
+                    "Floors.CenterY()"
                   ]
                 }
               ],
@@ -12139,9 +12238,9 @@
                       },
                       "parameters": [
                         "",
-                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
-                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
-                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "Floors.MazeObject::MazeObjectMazeID()",
+                        "Floors.MazeObject::MazeObjectRow()",
+                        "Floors.MazeObject::MazeObjectColumn()",
                         "\"RightWall\"",
                         ""
                       ]
@@ -12170,9 +12269,9 @@
                       },
                       "parameters": [
                         "",
-                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
-                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
-                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "Floors.MazeObject::MazeObjectMazeID()",
+                        "Floors.MazeObject::MazeObjectRow()",
+                        "Floors.MazeObject::MazeObjectColumn()",
                         "\"DownWall\"",
                         ""
                       ]
@@ -12201,9 +12300,9 @@
                       },
                       "parameters": [
                         "",
-                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
-                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
-                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "Floors.MazeObject::MazeObjectMazeID()",
+                        "Floors.MazeObject::MazeObjectRow()",
+                        "Floors.MazeObject::MazeObjectColumn()",
                         "\"LeftWall\"",
                         ""
                       ]
@@ -12232,9 +12331,9 @@
                       },
                       "parameters": [
                         "",
-                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
-                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
-                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "Floors.MazeObject::MazeObjectMazeID()",
+                        "Floors.MazeObject::MazeObjectRow()",
+                        "Floors.MazeObject::MazeObjectColumn()",
                         "\"UpWall\"",
                         ""
                       ]
@@ -12263,7 +12362,7 @@
                     "value": "BuiltinCommonInstructions::CompareStrings"
                   },
                   "parameters": [
-                    "Amaze::DeadEndRole(Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
+                    "Amaze::DeadEndRole(Floors.MazeObject::MazeObjectRow(),Floors.MazeObject::MazeObjectColumn())",
                     "=",
                     "\"Chest\""
                   ]
@@ -12289,9 +12388,9 @@
                   "parameters": [
                     "Chest",
                     "=",
-                    "Ground_Path_Open.CenterX()",
+                    "Floors.CenterX()",
                     "=",
-                    "Ground_Path_Open.CenterY()"
+                    "Floors.CenterY()"
                   ]
                 }
               ],
@@ -12324,9 +12423,9 @@
                       },
                       "parameters": [
                         "",
-                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
-                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
-                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "Floors.MazeObject::MazeObjectMazeID()",
+                        "Floors.MazeObject::MazeObjectRow()",
+                        "Floors.MazeObject::MazeObjectColumn()",
                         "\"RightWall\"",
                         ""
                       ]
@@ -12355,9 +12454,9 @@
                       },
                       "parameters": [
                         "",
-                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
-                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
-                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "Floors.MazeObject::MazeObjectMazeID()",
+                        "Floors.MazeObject::MazeObjectRow()",
+                        "Floors.MazeObject::MazeObjectColumn()",
                         "\"DownWall\"",
                         ""
                       ]
@@ -12386,9 +12485,9 @@
                       },
                       "parameters": [
                         "",
-                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
-                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
-                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "Floors.MazeObject::MazeObjectMazeID()",
+                        "Floors.MazeObject::MazeObjectRow()",
+                        "Floors.MazeObject::MazeObjectColumn()",
                         "\"LeftWall\"",
                         ""
                       ]
@@ -12417,9 +12516,9 @@
                       },
                       "parameters": [
                         "",
-                        "Ground_Path_Open.MazeObject::MazeObjectMazeID()",
-                        "Ground_Path_Open.MazeObject::MazeObjectRow()",
-                        "Ground_Path_Open.MazeObject::MazeObjectColumn()",
+                        "Floors.MazeObject::MazeObjectMazeID()",
+                        "Floors.MazeObject::MazeObjectRow()",
+                        "Floors.MazeObject::MazeObjectColumn()",
                         "\"UpWall\"",
                         ""
                       ]
@@ -12504,7 +12603,7 @@
             "value": "Egal"
           },
           "parameters": [
-            "MazeGenerator::MazeCellDepth(Ground_Path_Open.MazeObject::MazeObjectMazeID(),Ground_Path_Open.MazeObject::MazeObjectRow(),Ground_Path_Open.MazeObject::MazeObjectColumn())",
+            "MazeGenerator::MazeCellDepth(Floors.MazeObject::MazeObjectMazeID(),Floors.MazeObject::MazeObjectRow(),Floors.MazeObject::MazeObjectColumn())",
             ">=",
             "5"
           ]
@@ -13897,12 +13996,24 @@
                 "=",
                 "-90"
               ]
+            },
+            {
+              "type": {
+                "value": "SetNumberObjectVariable"
+              },
+              "parameters": [
+                "PlayerProjectile",
+                "bouncesLeft",
+                "=",
+                "2"
+              ]
             }
           ]
         }
       ]
     },
     {
+      "disabled": true,
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
         {
@@ -13963,48 +14074,91 @@
           "parameters": [
             "PlayerProjectile",
             "Physics3D",
-            "Hedge_Large_Hor",
+            "Walls",
             "Physics3D",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::Once"
+          },
+          "parameters": []
         }
       ],
-      "actions": [
+      "actions": [],
+      "events": [
         {
-          "type": {
-            "value": "Create"
-          },
-          "parameters": [
-            "oo",
-            "BigExplosion",
-            "PlayerProjectile.X()",
-            "PlayerProjectile.Y()",
-            ""
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberObjectVariable"
+              },
+              "parameters": [
+                "PlayerProjectile",
+                "bouncesLeft",
+                "=",
+                "0"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Create"
+              },
+              "parameters": [
+                "oo",
+                "BigExplosion",
+                "PlayerProjectile.X()",
+                "PlayerProjectile.Y()",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "Scene3D::Base3DBehavior::SetZ"
+              },
+              "parameters": [
+                "BigExplosion",
+                "Object3D",
+                "=",
+                "PlayerProjectile.Object3D::CenterZ()"
+              ]
+            },
+            {
+              "type": {
+                "value": "Delete"
+              },
+              "parameters": [
+                "PlayerProjectile",
+                ""
+              ]
+            }
           ]
         },
         {
-          "type": {
-            "value": "Scene3D::Base3DBehavior::SetZ"
-          },
-          "parameters": [
-            "BigExplosion",
-            "Object3D",
-            "=",
-            "PlayerProjectile.Object3D::CenterZ()"
-          ]
-        },
-        {
-          "type": {
-            "value": "Delete"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            ""
+          "type": "BuiltinCommonInstructions::Else",
+          "conditions": [],
+          "actions": [
+            {
+              "type": {
+                "value": "SetNumberObjectVariable"
+              },
+              "parameters": [
+                "PlayerProjectile",
+                "bouncesLeft",
+                "-",
+                "1"
+              ]
+            }
           ]
         }
       ]
     },
     {
+      "disabled": true,
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
         {
@@ -14065,7 +14219,7 @@
           "parameters": [
             "PlayerProjectile",
             "Physics3D",
-            "Ground_Path_Open",
+            "Floors",
             "Physics3D",
             ""
           ]

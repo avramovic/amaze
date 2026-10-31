@@ -902,6 +902,17 @@
         "metadata": "",
         "name": "space_ship_w_window_closed.glb",
         "userAdded": false
+      },
+      {
+        "file": "assets/Floor Tiles.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Floor Tiles.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Sushi Restaurant/Ground/917c27180c1463876aab56f60582aed11a941f07f30a0ece00e30b85dd067e95_Floor Tiles.glb",
+          "name": "Floor Tiles.glb"
+        }
       }
     ]
   },
