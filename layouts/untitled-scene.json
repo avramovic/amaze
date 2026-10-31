@@ -212,6 +212,14 @@
           "name": "Ground_Path_Open"
         }
       ]
+    },
+    {
+      "name": "Players",
+      "objects": [
+        {
+          "name": "Astronaut_Fernando_The_Flamingo"
+        }
+      ]
     }
   ],
   "variables": [
@@ -243,16 +251,15 @@
   "instances": [
     {
       "angle": 0,
-      "customSize": true,
-      "depth": 170,
-      "height": 60,
+      "customSize": false,
+      "height": 157,
       "layer": "",
-      "name": "Player",
-      "persistentUuid": "ff1c2c1e-bfb5-4b6a-931e-e9f3f7689eaf",
-      "width": 60,
+      "name": "Astronaut_Fernando_The_Flamingo",
+      "persistentUuid": "eef27f2c-8bb1-455c-b8db-c9dd7f7ca969",
+      "width": 33.28118759292817,
       "x": 200,
       "y": 200,
-      "zOrder": 4,
+      "zOrder": 0,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -723,7 +730,162 @@
       "type": "Scene3D::Model3DObject",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "isFolded": true,
+          "name": "FireBullet",
+          "type": "FireBullet::FireBullet",
+          "FireCooldown": 0.1,
+          "HasJustFired": false,
+          "RotateBullet": true,
+          "FiringArc": 45,
+          "BulletQuantity": 1,
+          "AngleVariance": 0,
+          "BulletSpeedVariance": 0,
+          "AmmoQuantity": 0,
+          "ShotsPerReload": 0,
+          "ReloadDuration": 1,
+          "MaxAmmo": 0,
+          "ShotsBeforeNextReload": 0,
+          "TotalShotsFired": 0,
+          "TotalBulletsCreated": 0,
+          "StartingAmmo": 0,
+          "TotalReloadsCompleted": 0,
+          "UnlimitedAmmo": true,
+          "ReloadInProgress": false,
+          "HeatIncreasePerShot": 0,
+          "HeatLevel": 0,
+          "AutomaticReloading": true,
+          "OverheatDuration": 0,
+          "LinearCoolingRate": 0.1,
+          "ExponentialCoolingRate": 0.3,
+          "BulletLayer": "",
+          "RandomizedAngle": 0
+        },
+        {
+          "isFolded": true,
+          "name": "FireBullet3D",
+          "type": "FireBullet::FireBullet3D",
+          "Object3D": "Object3D",
+          "FireBullet": "FireBullet"
+        },
+        {
+          "isFolded": true,
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "100",
+          "CurrentHealth": "0",
+          "MaxHealth": "100",
+          "DamageCooldown": "0.5",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        },
+        {
+          "isFolded": true,
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Dynamic",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Capsule",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 22,
+          "shapeDimensionB": 150,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        },
+        {
+          "isFolded": true,
+          "name": "PhysicsCharacter3D",
+          "type": "Physics3D::PhysicsCharacter3D",
+          "physics3D": "Physics3D",
+          "jumpHeight": 100,
+          "jumpSustainTime": 0.2,
+          "gravity": 1000,
+          "fallingSpeedMax": 700,
+          "forwardAcceleration": 1200,
+          "forwardDeceleration": 1200,
+          "forwardSpeedMax": 400,
+          "sidewaysAcceleration": 800,
+          "sidewaysDeceleration": 800,
+          "sidewaysSpeedMax": 400,
+          "slopeMaxAngle": 50,
+          "stairHeightMax": 20,
+          "shouldBindObjectAndForwardAngle": true,
+          "canBePushed": true
+        },
+        {
+          "isFolded": true,
+          "name": "Player",
+          "type": "Amaze::Player",
+          "MoveSpeed": 300,
+          "DamageMultiplier": 1,
+          "PickupRange": 150,
+          "InvulnerabilityTime": 0.5,
+          "XPBase": 5,
+          "XPGrowth": 10,
+          "MetaBonusesEnabled": true,
+          "MetaDamagePerLevel": 0.02,
+          "MetaHPPerLevel": 0.03,
+          "MetaBonusCap": 10,
+          "Health": "Health",
+          "RunXP": 0,
+          "RunLevel": 1,
+          "PendingLevelUps": 0,
+          "JustLeveledUp": false,
+          "MetaLevel": 0,
+          "MetaDamageBonus": 0
+        },
+        {
+          "name": "PlayerFSM",
+          "type": "Amaze::PlayerFSM",
+          "Character": "PhysicsCharacter3D",
+          "Health": "Health",
+          "RunSpeed": "250",
+          "ShootDuration": "0.87",
+          "HitDuration": "0.6",
+          "HandBone": "Middle1.R",
+          "GunNode": "Pistol",
+          "GunVisible": false,
+          "State": "Idle",
+          "StateTime": "0",
+          "CurrentAnim": ""
+        }
+      ],
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
@@ -2059,186 +2221,6 @@
             "source": "Yes"
           }
         ]
-      }
-    },
-    {
-      "assetStoreId": "ce38699e294f43b350ea51663814fd1bcc22717c7a461da50a57e7bacadab8cd",
-      "name": "Player",
-      "persistentUuid": "227a193b-a90b-445b-8730-1e196d4d9757",
-      "type": "Scene3D::Cube3DObject",
-      "variables": [],
-      "effects": [],
-      "behaviors": [
-        {
-          "isFolded": true,
-          "name": "FireBullet",
-          "type": "FireBullet::FireBullet",
-          "FireCooldown": 0.1,
-          "HasJustFired": false,
-          "RotateBullet": true,
-          "FiringArc": 45,
-          "BulletQuantity": 1,
-          "AngleVariance": 0,
-          "BulletSpeedVariance": 0,
-          "AmmoQuantity": 0,
-          "ShotsPerReload": 0,
-          "ReloadDuration": 1,
-          "MaxAmmo": 0,
-          "ShotsBeforeNextReload": 0,
-          "TotalShotsFired": 0,
-          "TotalBulletsCreated": 0,
-          "StartingAmmo": 0,
-          "TotalReloadsCompleted": 0,
-          "UnlimitedAmmo": true,
-          "ReloadInProgress": false,
-          "HeatIncreasePerShot": 0,
-          "HeatLevel": 0,
-          "AutomaticReloading": true,
-          "OverheatDuration": 0,
-          "LinearCoolingRate": 0.1,
-          "ExponentialCoolingRate": 0.3,
-          "BulletLayer": "",
-          "RandomizedAngle": 0
-        },
-        {
-          "isFolded": true,
-          "name": "FireBullet3D",
-          "type": "FireBullet::FireBullet3D",
-          "Object3D": "Object3D",
-          "FireBullet": "FireBullet"
-        },
-        {
-          "isFolded": true,
-          "name": "Health",
-          "type": "Health::Health",
-          "Health": "100",
-          "CurrentHealth": "0",
-          "MaxHealth": "100",
-          "DamageCooldown": "0.5",
-          "AllowOverHealing": "",
-          "IsHealthJustDamaged": "",
-          "DamageToBeApplied": "0",
-          "HitAtLeastOnce": "",
-          "ChanceToDodge": "0",
-          "IsJustDodged": "",
-          "HealToBeApplied": "0",
-          "HealthRegenRate": "0",
-          "HealthRegenDelay": "0",
-          "IsJustHealed": "",
-          "CurrentShieldPoints": "",
-          "MaxShieldPoints": "0",
-          "ShieldDuration": "5",
-          "ShieldRegenRate": "0",
-          "BlockExcessDamage": "",
-          "ShieldRegenDelay": "0",
-          "IsShieldJustDamaged": "",
-          "ShieldDamageTaken": "",
-          "FlatDamageReduction": "0",
-          "PercentDamageReduction": "0"
-        },
-        {
-          "isFolded": true,
-          "name": "Physics3D",
-          "type": "Physics3D::Physics3DBehavior",
-          "object3D": "Object3D",
-          "bodyType": "Dynamic",
-          "bullet": false,
-          "fixedRotation": false,
-          "shape": "Capsule",
-          "meshShapeResourceName": "",
-          "shapeOrientation": "Z",
-          "shapeDimensionA": 0,
-          "shapeDimensionB": 0,
-          "shapeDimensionC": 0,
-          "shapeOffsetX": 0,
-          "shapeOffsetY": 0,
-          "shapeOffsetZ": 0,
-          "massCenterOffsetX": 0,
-          "massCenterOffsetY": 0,
-          "massCenterOffsetZ": 0,
-          "massOverride": 0,
-          "density": 1,
-          "friction": 0.3,
-          "restitution": 0.1,
-          "linearDamping": 0.1,
-          "angularDamping": 0.1,
-          "gravityScale": 1,
-          "layers": 17,
-          "masks": 17
-        },
-        {
-          "isFolded": true,
-          "name": "PhysicsCharacter3D",
-          "type": "Physics3D::PhysicsCharacter3D",
-          "physics3D": "Physics3D",
-          "jumpHeight": 100,
-          "jumpSustainTime": 0.2,
-          "gravity": 1000,
-          "fallingSpeedMax": 700,
-          "forwardAcceleration": 1200,
-          "forwardDeceleration": 1200,
-          "forwardSpeedMax": 400,
-          "sidewaysAcceleration": 800,
-          "sidewaysDeceleration": 800,
-          "sidewaysSpeedMax": 400,
-          "slopeMaxAngle": 50,
-          "stairHeightMax": 20,
-          "shouldBindObjectAndForwardAngle": true,
-          "canBePushed": true
-        },
-        {
-          "isFolded": true,
-          "name": "Player",
-          "type": "Amaze::Player",
-          "MoveSpeed": 300,
-          "DamageMultiplier": 1,
-          "PickupRange": 150,
-          "InvulnerabilityTime": 0.5,
-          "XPBase": 5,
-          "XPGrowth": 10,
-          "MetaBonusesEnabled": true,
-          "MetaDamagePerLevel": 0.02,
-          "MetaHPPerLevel": 0.03,
-          "MetaBonusCap": 10,
-          "Health": "Health",
-          "RunXP": 0,
-          "RunLevel": 1,
-          "PendingLevelUps": 0,
-          "JustLeveledUp": false,
-          "MetaLevel": 0,
-          "MetaDamageBonus": 0
-        }
-      ],
-      "content": {
-        "width": 100,
-        "height": 100,
-        "depth": 100,
-        "enableTextureTransparency": false,
-        "facesOrientation": "Y",
-        "frontFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "backFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "backFaceUpThroughWhichAxisRotation": "X",
-        "leftFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "rightFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "topFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "bottomFaceResourceName": "GDevelopInvalidTextureBlock.png",
-        "frontFaceVisible": true,
-        "backFaceVisible": true,
-        "leftFaceVisible": true,
-        "rightFaceVisible": true,
-        "topFaceVisible": true,
-        "bottomFaceVisible": true,
-        "frontFaceResourceRepeat": true,
-        "backFaceResourceRepeat": true,
-        "leftFaceResourceRepeat": true,
-        "rightFaceResourceRepeat": true,
-        "topFaceResourceRepeat": true,
-        "bottomFaceResourceRepeat": true,
-        "tileScale": 0.78,
-        "materialType": "StandardWithoutMetalness",
-        "isCastingShadow": true,
-        "isReceivingShadow": true,
-        "tint": "255;255;255"
       }
     },
     {
@@ -10889,9 +10871,6 @@
         "objectName": "Spaceship_Fernando_The_Flamingo"
       },
       {
-        "objectName": "Player"
-      },
-      {
         "objectName": "Chest"
       },
       {
@@ -11017,7 +10996,7 @@
           "parameters": [
             "camRot",
             "=",
-            "Player.Angle()+90"
+            "Players.Angle()+90"
           ]
         }
       ]
@@ -11131,7 +11110,7 @@
           },
           "parameters": [
             "",
-            "1",
+            "2",
             "",
             ""
           ]
@@ -12726,8 +12705,8 @@
           "parameters": [
             "",
             "\"maze\"",
-            "Player.CenterX()",
-            "Player.CenterY()",
+            "Players.CenterX()",
+            "Players.CenterY()",
             ""
           ]
         },
@@ -12766,7 +12745,7 @@
             "Enemy",
             "Health",
             "0.7",
-            "Player",
+            "Players",
             "35",
             "\"maze\""
           ]
@@ -12868,8 +12847,8 @@
           "parameters": [
             "Enemies",
             "Enemy",
-            "Player.CenterX()",
-            "Player.CenterY()"
+            "Players.CenterX()",
+            "Players.CenterY()"
           ]
         },
         {
@@ -12879,7 +12858,7 @@
           "parameters": [
             "Enemies",
             "Enemy",
-            "Amaze::MazeLineOfSight(\"maze\", Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())"
+            "Amaze::MazeLineOfSight(\"maze\", Enemies.CenterX(), Enemies.CenterY(), Players.CenterX(), Players.CenterY())"
           ]
         }
       ],
@@ -12955,8 +12934,8 @@
               "parameters": [
                 "Enemies",
                 "Enemy",
-                "Player.CenterX()",
-                "Player.CenterY()"
+                "Players.CenterX()",
+                "Players.CenterY()"
               ]
             }
           ]
@@ -13000,7 +12979,7 @@
                 "value": "BuiltinCommonInstructions::CompareNumbers"
               },
               "parameters": [
-                "DistanceBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())",
+                "DistanceBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Players.CenterX(), Players.CenterY())",
                 "<=",
                 "Enemies.Enemy::MeleeRange()"
               ]
@@ -13012,7 +12991,7 @@
                 "value": "Health::Health::Hit"
               },
               "parameters": [
-                "Player",
+                "Players",
                 "Health",
                 "Enemies.Enemy::Damage()",
                 "yes",
@@ -13029,7 +13008,7 @@
                 "value": "BuiltinCommonInstructions::CompareNumbers"
               },
               "parameters": [
-                "DistanceBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())",
+                "DistanceBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Players.CenterX(), Players.CenterY())",
                 ">",
                 "Enemies.Enemy::MeleeRange()"
               ]
@@ -13065,7 +13044,7 @@
               "parameters": [
                 "EnemyProjectile",
                 "=",
-                "AngleBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Player.CenterX(), Player.CenterY())"
+                "AngleBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Players.CenterX(), Players.CenterY())"
               ]
             },
             {
@@ -13140,7 +13119,7 @@
             "value": "BuiltinCommonInstructions::CompareNumbers"
           },
           "parameters": [
-            "DistanceBetweenPositions(EnemyProjectile.CenterX(), EnemyProjectile.CenterY(), Player.CenterX(), Player.CenterY())",
+            "DistanceBetweenPositions(EnemyProjectile.CenterX(), EnemyProjectile.CenterY(), Players.CenterX(), Players.CenterY())",
             "<",
             "60"
           ]
@@ -13152,7 +13131,7 @@
             "value": "Health::Health::Hit"
           },
           "parameters": [
-            "Player",
+            "Players",
             "Health",
             "8",
             "yes",
@@ -13361,7 +13340,7 @@
             "value": "Health::Health::IsDead"
           },
           "parameters": [
-            "Player",
+            "Players",
             "Health",
             ""
           ]
@@ -13447,7 +13426,7 @@
             "value": "Health::Health::IsDead"
           },
           "parameters": [
-            "Player",
+            "Players",
             "Health",
             ""
           ]
@@ -13459,7 +13438,7 @@
             "value": "SetAngle"
           },
           "parameters": [
-            "Player",
+            "Players",
             "+",
             "(MousePointerLock::MovementX() / 10)"
           ]
@@ -13471,7 +13450,7 @@
           "parameters": [
             "camRot",
             "=",
-            "Player.Angle()+90"
+            "Players.Angle()+90"
           ]
         }
       ]
@@ -13486,9 +13465,9 @@
           },
           "parameters": [
             "",
-            "Player",
+            "Players",
             "Object3D",
-            "1000",
+            "500",
             "camRot",
             "30",
             "",
@@ -13508,7 +13487,7 @@
           "parameters": [
             "",
             "Walls",
-            "\"Player\"",
+            "Players",
             ""
           ]
         }
@@ -13528,7 +13507,7 @@
             "value": "Health::Health::IsDead"
           },
           "parameters": [
-            "Player",
+            "Players",
             "Health",
             ""
           ]
@@ -13555,7 +13534,7 @@
                 "value": "Physics3D::PhysicsCharacter3D::SimulateForwardKey"
               },
               "parameters": [
-                "Player",
+                "Players",
                 "PhysicsCharacter3D"
               ]
             }
@@ -13580,7 +13559,7 @@
                 "value": "Physics3D::PhysicsCharacter3D::SimulateBackwardKey"
               },
               "parameters": [
-                "Player",
+                "Players",
                 "PhysicsCharacter3D"
               ]
             }
@@ -13605,7 +13584,7 @@
                 "value": "Physics3D::PhysicsCharacter3D::SimulateLeftKey"
               },
               "parameters": [
-                "Player",
+                "Players",
                 "PhysicsCharacter3D"
               ]
             }
@@ -13630,7 +13609,7 @@
                 "value": "Physics3D::PhysicsCharacter3D::SimulateRightKey"
               },
               "parameters": [
-                "Player",
+                "Players",
                 "PhysicsCharacter3D"
               ]
             }
@@ -13655,7 +13634,7 @@
                 "value": "Physics3D::PhysicsCharacter3D::SimulateJumpKey"
               },
               "parameters": [
-                "Player",
+                "Players",
                 "PhysicsCharacter3D"
               ]
             }
@@ -13671,7 +13650,7 @@
             "value": "Distance"
           },
           "parameters": [
-            "Player",
+            "Players",
             "Chest",
             "200",
             ""
@@ -13713,8 +13692,8 @@
           },
           "parameters": [
             "Enemies",
-            "Player.X()",
-            "Player.Y()"
+            "Players.X()",
+            "Players.Y()"
           ]
         },
         {
@@ -13739,7 +13718,7 @@
             "value": "Distance"
           },
           "parameters": [
-            "Player",
+            "Players",
             "Chest",
             "200",
             ""
@@ -13785,7 +13764,7 @@
             "value": "Distance"
           },
           "parameters": [
-            "Player",
+            "Players",
             "PortalVortex",
             "100",
             ""
@@ -13829,7 +13808,7 @@
             "value": "Distance"
           },
           "parameters": [
-            "Player",
+            "Players",
             "RedMist",
             "200",
             ""
@@ -13842,7 +13821,7 @@
             "value": "Health::Health::Hit"
           },
           "parameters": [
-            "Player",
+            "Players",
             "Health",
             "50",
             "200",
@@ -13860,7 +13839,7 @@
             "value": "Distance"
           },
           "parameters": [
-            "Player",
+            "Players",
             "BlueMist",
             "200",
             ""
@@ -13873,7 +13852,7 @@
             "value": "Physics3D::PhysicsCharacter3D::SetForwardSpeedMax"
           },
           "parameters": [
-            "Player",
+            "Players",
             "PhysicsCharacter3D",
             "=",
             "200"
@@ -13890,7 +13869,7 @@
             "value": "Physics3D::PhysicsCharacter3D::SetForwardSpeedMax"
           },
           "parameters": [
-            "Player",
+            "Players",
             "PhysicsCharacter3D",
             "=",
             "400"
@@ -13962,7 +13941,7 @@
                 "value": "Health::Health::IsDead"
               },
               "parameters": [
-                "Player",
+                "Players",
                 "Health",
                 ""
               ]
@@ -13974,7 +13953,7 @@
                 "value": "FireBullet::FireBullet3D::FireForwardObject3D"
               },
               "parameters": [
-                "Player",
+                "Players",
                 "FireBullet3D",
                 "30",
                 "0",
@@ -13984,6 +13963,15 @@
                 "Physics3D",
                 "1000",
                 ""
+              ]
+            },
+            {
+              "type": {
+                "value": "Amaze::PlayerFSM::Shoot"
+              },
+              "parameters": [
+                "Players",
+                "PlayerFSM"
               ]
             },
             {
@@ -14006,6 +13994,16 @@
                 "bouncesLeft",
                 "=",
                 "2"
+              ]
+            },
+            {
+              "type": {
+                "value": "Amaze::PlayerFSM::MoveToHand"
+              },
+              "parameters": [
+                "Players",
+                "PlayerFSM",
+                "PlayerProjectile"
               ]
             }
           ]
@@ -14327,7 +14325,7 @@
           "parameters": [
             "Enemies",
             "Health",
-            "Player.Player::TotalDamageMultiplier()*10",
+            "Players.Player::TotalDamageMultiplier()*10",
             "",
             "",
             ""
@@ -14391,7 +14389,7 @@
           "parameters": [
             "Spawner",
             "Health",
-            "Player.Player::TotalDamageMultiplier()*10",
+            "Players.Player::TotalDamageMultiplier()*10",
             "",
             "",
             ""
@@ -14487,7 +14485,7 @@
           "parameters": [
             "Spawner",
             "Health",
-            "Player.Player::TotalDamageMultiplier()*10",
+            "Players.Player::TotalDamageMultiplier()*10",
             "",
             "",
             ""
@@ -14711,6 +14709,10 @@
     {
       "name": "Player",
       "type": "Amaze::Player"
+    },
+    {
+      "name": "PlayerFSM",
+      "type": "Amaze::PlayerFSM"
     },
     {
       "name": "Resizable",

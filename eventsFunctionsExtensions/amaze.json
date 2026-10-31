@@ -2226,7 +2226,7 @@
             "const C = gdjs.amazeCull;",
             "const m = C ? C.getMaze(runtimeScene, ctx.getArgument(\"MazeId\")) : null;",
             "S.separate(living, ctx.getArgument(\"Scale\"), gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene), fixed, m);",
-            "S.blockPlayer(ctx.getObjects(\"Player\")[0], living, ctx.getArgument(\"PlayerRadius\"), m);"
+            "for (const player of ctx.getObjects(\"Player\")) S.blockPlayer(player, living, ctx.getArgument(\"PlayerRadius\"), m);"
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -2416,7 +2416,7 @@
           "inlineCode": [
             "try {",
             "    const walls = eventsFunctionContext.getObjects(\"Walls\");",
-            "    const target = runtimeScene.getObjects(eventsFunctionContext.getArgument(\"TargetName\"))[0];",
+            "    const target = eventsFunctionContext.getObjects(\"Target\")[0];",
             "    const cam = runtimeScene.getLayer(\"\").getRenderer().getThreeCamera();",
             "    if (!target || !cam || walls.length === 0) return;",
             "",
@@ -2502,9 +2502,9 @@
           "type": "objectList"
         },
         {
-          "description": "Name of the object the camera looks at (for example Player)",
-          "name": "TargetName",
-          "type": "string"
+          "description": "Object the camera looks at (for example the Players group)",
+          "name": "Target",
+          "type": "objectList"
         }
       ],
       "objectGroups": []
@@ -11841,6 +11841,937 @@
           },
           {
             "propertyName": "SpawnLevel"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Player animation state machine for the Fernando models (same animation set): idle, walk/run, jump, shoot, hit and death. Movement stays with the physics character.",
+      "fullName": "Player animations (FSM)",
+      "helpPath": "",
+      "iconUrl": "",
+      "name": "PlayerFSM",
+      "objectType": "",
+      "previewIconUrl": "",
+      "eventsFunctions": [
+        {
+          "fullName": "",
+          "functionType": "Action",
+          "name": "doStepPostEvents",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Time in state"
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    "+",
+                    "TimeDelta()"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Death has the highest priority"
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Health::Health::IsDead"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Health",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    "=",
+                    "0"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Hit reaction (not while dying or shooting). CurrentAnim is cleared so the animation restarts on a repeated hit"
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "Health::Health::IsJustDamaged"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Health",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Shoot\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "\"Hit\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "StateTime",
+                    "=",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "CurrentAnim",
+                    "=",
+                    "\"\""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Locomotion states (Idle, Move, Jump, Air, Land), exits of timed states and the state -> animation mapping"
+            },
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "if (!o || !b) return;",
+                "const ch = o.getBehavior(b._getCharacter());",
+                "let state = b._getState();",
+                "let t = b._getStateTime();",
+                "let force = b._getCurrentAnim() === '';",
+                "const gun = !!b._getGunVisible();",
+                "const air = !ch.isOnFloor();",
+                "const spd = Math.hypot(ch.getCurrentForwardSpeed(), ch.getCurrentSidewaysSpeed());",
+                "const moving = spd > 20;",
+                "const set = (s) => { state = s; t = 0; };",
+                "",
+                "// Timed exits (Death never ends, the finished animation holds its last pose)",
+                "if (state === 'Hit' && t >= b._getHitDuration()) set('Idle');",
+                "if (state === 'Shoot' && t >= b._getShootDuration()) set('Idle');",
+                "if (state === 'Jump' && t >= 0.37) set('Air');",
+                "if (state === 'Land' && t >= (moving ? 0.15 : 0.37)) set('Idle');",
+                "",
+                "// Locomotion: Hit, Shoot and Death keep the animation until they end",
+                "if (state !== 'Death' && state !== 'Hit' && state !== 'Shoot') {",
+                "  if (air) {",
+                "    if (state !== 'Jump' && state !== 'Air') set(ch.isJumping() ? 'Jump' : 'Air');",
+                "  } else if (state === 'Jump' || state === 'Air') {",
+                "    set('Land');",
+                "  } else if (state !== 'Land') {",
+                "    const s = moving ? 'Move' : 'Idle';",
+                "    if (state !== s) set(s);",
+                "  }",
+                "}",
+                "",
+                "// State -> animation (names are the model animations)",
+                "let anim;",
+                "switch (state) {",
+                "  case 'Death': anim = 'Death'; break;",
+                "  case 'Hit': anim = 'HitReact'; break;",
+                "  case 'Shoot': anim = 'Punch'; break;",
+                "  case 'Jump': anim = 'Jump'; break;",
+                "  case 'Air': anim = 'Jump_Idle'; break;",
+                "  case 'Land': anim = 'Jump_Land'; break;",
+                "  case 'Move': anim = (spd >= b._getRunSpeed() ? 'Run' : 'Walk') + (gun ? '_Gun' : ''); break;",
+                "  default: anim = gun ? 'Idle_Gun' : 'Idle';",
+                "}",
+                "b._setState(state);",
+                "b._setStateTime(t);",
+                "if (force || anim !== b._getCurrentAnim()) {",
+                "  // Same name again (a second hit) must play from its start",
+                "  if (o.getAnimationName() === anim) o.setAnimationName('Idle');",
+                "  o.setAnimationName(anim);",
+                "  b._setCurrentAnim(anim);",
+                "}",
+                "",
+                "// Gun model: shown or hidden. The node is looked up until the model has loaded.",
+                "if (!b.__gunNode) b.__gunNode = findNode(b._getGunNode());",
+                "if (b.__gunNode && b.__gunNode.visible !== gun) b.__gunNode.visible = gun;"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Play the shooting animation (Punch). The projectile is fired by the scene events.",
+          "fullName": "Shoot",
+          "functionType": "Action",
+          "name": "Shoot",
+          "sentence": "Play the shoot animation of _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "if (!o || !b) return;",
+                "if (b._getState() === 'Death') return;",
+                "b._setState('Shoot');",
+                "b._setStateTime(0);",
+                "// Restart Punch from its start even when it is already playing",
+                "if (o.getAnimationName() === 'Punch') o.setAnimationName('Idle');",
+                "o.setAnimationName('Punch');",
+                "b._setCurrentAnim('Punch');"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Show or hide the gun model. The Idle/Walk/Run animations switch to their _Gun variants.",
+          "fullName": "Show or hide the gun",
+          "functionType": "Action",
+          "name": "SetGunVisible",
+          "sentence": "Set the gun of _PARAM0_ visible: _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "if (b) b._setGunVisible(!!eventsFunctionContext.getArgument(\"Visible\"));"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            },
+            {
+              "defaultValue": "false",
+              "description": "Visible",
+              "name": "Visible",
+              "type": "yesorno"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "True when the gun model is shown.",
+          "fullName": "Gun is visible",
+          "functionType": "Condition",
+          "name": "IsGunVisible",
+          "sentence": "The gun of _PARAM0_ is visible",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "GunVisible",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Move a freshly fired projectile to the hand bone (right hand) so it leaves the hand, not the body centre.",
+          "fullName": "Move projectile to the hand",
+          "functionType": "Action",
+          "name": "MoveToHand",
+          "sentence": "Move _PARAM2_ to the hand of _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "const bullets = eventsFunctionContext.getObjects(\"Bullet\");",
+                "if (!o || !b || !bullets.length) return;",
+                "if (!b.__handNode) b.__handNode = findNode(b._getHandBone());",
+                "const hand = b.__handNode;",
+                "if (!hand) return; // model not loaded or bone missing: the projectile stays where it was fired",
+                "const p = hand.position.clone();",
+                "hand.getWorldPosition(p); // three.js world position equals the game position (x, y, z)",
+                "for (const bullet of bullets) {",
+                "  bullet.setX(p.x - (bullet.getCenterX() - bullet.getX()));",
+                "  bullet.setY(p.y - (bullet.getCenterY() - bullet.getY()));",
+                "  if (bullet.setZ) bullet.setZ(p.z - (bullet.getCenterZ() - bullet.getZ()));",
+                "}"
+              ],
+              "parameterObjects": "Bullet",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            },
+            {
+              "description": "Projectile",
+              "name": "Bullet",
+              "type": "objectList"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Check the state: Idle, Move, Jump, Air, Land, Shoot, Hit or Death.",
+          "fullName": "Is in state",
+          "functionType": "Condition",
+          "name": "IsInState",
+          "sentence": "_PARAM0_ is in state _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "=",
+                    "StateName"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            },
+            {
+              "description": "State name",
+              "name": "StateName",
+              "type": "string"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Current state: Idle, Move, Jump, Air, Land, Shoot, Hit or Death.",
+          "fullName": "State",
+          "functionType": "StringExpression",
+          "name": "State",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnString"
+                  },
+                  "parameters": [
+                    "State"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "string"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "World X of the hand bone.",
+          "fullName": "Hand X",
+          "functionType": "Expression",
+          "name": "HandX",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
+                "if (!b.__handNode) b.__handNode = findNode(b._getHandBone());",
+                "const hand = b.__handNode;",
+                "if (!hand) { eventsFunctionContext.returnValue = 0; return; }",
+                "const p = hand.position.clone();",
+                "hand.getWorldPosition(p);",
+                "eventsFunctionContext.returnValue = p.x;"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "World Y of the hand bone.",
+          "fullName": "Hand Y",
+          "functionType": "Expression",
+          "name": "HandY",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
+                "if (!b.__handNode) b.__handNode = findNode(b._getHandBone());",
+                "const hand = b.__handNode;",
+                "if (!hand) { eventsFunctionContext.returnValue = 0; return; }",
+                "const p = hand.position.clone();",
+                "hand.getWorldPosition(p);",
+                "eventsFunctionContext.returnValue = p.y;"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "World Z of the hand bone.",
+          "fullName": "Hand Z",
+          "functionType": "Expression",
+          "name": "HandZ",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                "const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');",
+                "// three.js removes characters such as '.' from node names, so names are compared without them.",
+                "const findNode = (name) => {",
+                "  let found = null;",
+                "  const root = o.get3DRendererObject();",
+                "  if (root && root.traverse) root.traverse((n) => { if (!found && norm(n.name) === norm(name)) found = n; });",
+                "  return found;",
+                "};",
+                "if (!o || !b) { eventsFunctionContext.returnValue = 0; return; }",
+                "if (!b.__handNode) b.__handNode = findNode(b._getHandBone());",
+                "const hand = b.__handNode;",
+                "if (!hand) { eventsFunctionContext.returnValue = 0; return; }",
+                "const p = hand.position.clone();",
+                "hand.getWorldPosition(p);",
+                "eventsFunctionContext.returnValue = p.z;"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        }
+      ],
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "doStepPostEvents"
+          },
+          {
+            "functionName": "Shoot"
+          },
+          {
+            "functionName": "SetGunVisible"
+          },
+          {
+            "functionName": "IsGunVisible"
+          },
+          {
+            "functionName": "MoveToHand"
+          },
+          {
+            "functionName": "IsInState"
+          },
+          {
+            "functionName": "State"
+          },
+          {
+            "functionName": "HandX"
+          },
+          {
+            "functionName": "HandY"
+          },
+          {
+            "functionName": "HandZ"
+          }
+        ]
+      },
+      "propertyDescriptors": [
+        {
+          "value": "",
+          "type": "Behavior",
+          "label": "Platformer/physics character",
+          "group": "Required",
+          "extraInformation": [
+            "Physics3D::PhysicsCharacter3D"
+          ],
+          "choices": [],
+          "name": "Character"
+        },
+        {
+          "value": "",
+          "type": "Behavior",
+          "label": "Health",
+          "group": "Required",
+          "extraInformation": [
+            "Health::Health"
+          ],
+          "choices": [],
+          "name": "Health"
+        },
+        {
+          "value": "250",
+          "type": "Number",
+          "label": "Speed at which Walk turns into Run (pixels/s)",
+          "group": "Animation",
+          "name": "RunSpeed"
+        },
+        {
+          "value": "0.87",
+          "type": "Number",
+          "label": "Shoot animation duration (seconds)",
+          "group": "Animation",
+          "name": "ShootDuration"
+        },
+        {
+          "value": "0.6",
+          "type": "Number",
+          "label": "Hit reaction duration (seconds)",
+          "group": "Animation",
+          "name": "HitDuration"
+        },
+        {
+          "value": "Middle1.R",
+          "type": "String",
+          "label": "Bone the projectile starts from (right hand)",
+          "group": "Weapon",
+          "name": "HandBone"
+        },
+        {
+          "value": "Pistol",
+          "type": "String",
+          "label": "Node name of the gun model",
+          "group": "Weapon",
+          "name": "GunNode"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Gun visible (also switches to the _Gun animations)",
+          "group": "Weapon",
+          "name": "GunVisible"
+        },
+        {
+          "value": "Idle",
+          "type": "String",
+          "label": "State",
+          "group": "Runtime",
+          "name": "State"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Time in state (seconds)",
+          "group": "Runtime",
+          "name": "StateTime"
+        },
+        {
+          "value": "",
+          "type": "String",
+          "label": "Current animation",
+          "group": "Runtime",
+          "name": "CurrentAnim"
+        }
+      ],
+      "propertiesFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "folderName": "Required",
+            "children": [
+              {
+                "propertyName": "Character"
+              },
+              {
+                "propertyName": "Health"
+              }
+            ]
+          },
+          {
+            "folderName": "Animation",
+            "children": [
+              {
+                "propertyName": "RunSpeed"
+              },
+              {
+                "propertyName": "ShootDuration"
+              },
+              {
+                "propertyName": "HitDuration"
+              }
+            ]
+          },
+          {
+            "folderName": "Weapon",
+            "children": [
+              {
+                "propertyName": "HandBone"
+              },
+              {
+                "propertyName": "GunNode"
+              },
+              {
+                "propertyName": "GunVisible"
+              }
+            ]
+          },
+          {
+            "folderName": "Runtime",
+            "children": [
+              {
+                "propertyName": "State"
+              },
+              {
+                "propertyName": "StateTime"
+              },
+              {
+                "propertyName": "CurrentAnim"
+              }
+            ]
           }
         ]
       }
