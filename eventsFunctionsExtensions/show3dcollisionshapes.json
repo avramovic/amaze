@@ -1,0 +1,1049 @@
+{
+  "author": "",
+  "category": "Dev Tools",
+  "dimension": "3D",
+  "extensionNamespace": "",
+  "fullName": "Show 3D Collision Shapes",
+  "gdevelopVersion": "",
+  "helpPath": "https://eldarduil.itch.io/show-3d-collision-shapes-for-gdevelop",
+  "iconUrl": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMy4wLjMsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iSWNvbnMiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMzIgMzIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyIDMyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDpub25lO3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9DQo8L3N0eWxlPg0KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSI3LDEwIDEsMTMgNywxNiAxMywxMyAiLz4NCjxwb2x5bGluZSBjbGFzcz0ic3QwIiBwb2ludHM9IjEsMTMgMSwyMCA3LDIzIDEzLDIwIDEzLDEzICIvPg0KPGxpbmUgY2xhc3M9InN0MCIgeDE9IjciIHkxPSIxNiIgeDI9IjciIHkyPSIyMyIvPg0KPGxpbmUgY2xhc3M9InN0MCIgeDE9IjMxIiB5MT0iMTYiIHgyPSIyMSIgeTI9IjgiLz4NCjxsaW5lIGNsYXNzPSJzdDAiIHgxPSIyMSIgeTE9IjI0IiB4Mj0iMzEiIHkyPSIxNiIvPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTIyLjcsMjIuNkMyMCwyMS43LDE4LDE5LjEsMTgsMTZjMC0zLjEsMi01LjcsNC43LTYuNiIvPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTE5LjgsMTEuM2MxLjQsMS4xLDIuMiwyLjgsMi4yLDQuN2MwLDEuOS0wLjksMy42LTIuMiw0LjciLz4NCjwvc3ZnPg0K",
+  "name": "Show3DCollisionShapes",
+  "previewIconUrl": "https://asset-resources.gdevelop.io/public-resources/Icons/Line Hero Pack/Master/SVG/Virtual Reality/94e95d2c318e1f3dc7151a351024e13c574e1e44669c6696aa107d60230073f6_Virtual Reality_3d_vision_eye_vr.svg",
+  "shortDescription": "Shows 3D collision shapes for built-in Physics3D objects.",
+  "version": "0.1.0",
+  "description": [
+    "When you add this **Behavior** to any object that has Physics 3D behavior. It show visual representation of Physics 3D collision shapes. Even in 3D editor",
+    "",
+    "You can customize the color, visibility in the behavior properties. Also Visibility of the collision shapes can be change on runtime by two action that comes with the extension."
+  ],
+  "tags": [
+    "collision",
+    "physics",
+    "wireframe",
+    "dev",
+    "tool",
+    "editor",
+    "3d"
+  ],
+  "authorIds": [
+    "m8kleQHonagHWsvILDhyJhgVhuF2"
+  ],
+  "dependencies": [],
+  "globalVariables": [],
+  "sceneVariables": [],
+  "eventsFunctions": [
+    {
+      "description": "Check if the events are running for the editor.",
+      "fullName": "Editor is running",
+      "functionType": "Condition",
+      "name": "IsInGameEdition",
+      "private": true,
+      "sentence": "Events are running for the editor",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const game = runtimeScene.getGame();\r",
+            "eventsFunctionContext.returnValue = game.isInGameEdition && game.isInGameEdition();"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    }
+  ],
+  "eventsFunctionsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+      {
+        "functionName": "IsInGameEdition"
+      }
+    ]
+  },
+  "eventsBasedBehaviors": [
+    {
+      "description": "Shows 3D collision shapes for built-in Physic3D objects.",
+      "fullName": "Show 3D Collision Shapes",
+      "helpPath": "",
+      "iconUrl": "",
+      "name": "Show3DCollisionShapes",
+      "objectType": "",
+      "previewIconUrl": "",
+      "eventsFunctions": [
+        {
+          "fullName": "",
+          "functionType": "Action",
+          "name": "onCreated",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::And"
+                  },
+                  "parameters": [],
+                  "subInstructions": [
+                    {
+                      "type": {
+                        "value": "Show3DCollisionShapes::IsInGameEdition"
+                      },
+                      "parameters": [
+                        "",
+                        ""
+                      ]
+                    },
+                    {
+                      "type": {
+                        "value": "Show3DCollisionShapes::Show3DCollisionShapes::ShowInEditor"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        ""
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Show3DCollisionShapes::Show3DCollisionShapes::CreateUpdateCollisionShapes"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Behavior",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Toggles 3D collision shape visibility.",
+          "fullName": "Toggle 3D collision shape visibility of the object",
+          "functionType": "Action",
+          "name": "ToggleVisibility",
+          "sentence": "Toggle 3D collision shape visibility of _PARAM0_  ",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "Show3DCollisionShapes::Show3DCollisionShapes::ShowCollisionShape"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Behavior",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Show3DCollisionShapes::Show3DCollisionShapes::SetShowCollisionShape"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Behavior",
+                    "no",
+                    ""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Else",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Show3DCollisionShapes::Show3DCollisionShapes::SetShowCollisionShape"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Behavior",
+                    "yes",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Toggles 3D collision shape DepthTest.",
+          "fullName": "Toggle 3D collision shape depthTest of the object",
+          "functionType": "Action",
+          "name": "ToggleDepthTest",
+          "sentence": "Toggle 3D collision shape depthTest of _PARAM0_  ",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "Show3DCollisionShapes::Show3DCollisionShapes::DepthTest"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Behavior",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Show3DCollisionShapes::Show3DCollisionShapes::SetDepthTest"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Behavior",
+                    "no",
+                    ""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Else",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Show3DCollisionShapes::Show3DCollisionShapes::SetDepthTest"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Behavior",
+                    "yes",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Check if show Collision Shape. Toggle whether collision shape is visible or not.",
+          "fullName": "Show Collision Shape",
+          "functionType": "Condition",
+          "group": "Show3DCollisionShapes configuration",
+          "name": "ShowCollisionShape",
+          "private": true,
+          "sentence": "_PARAM0_ show Collision Shape",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "ShowCollisionShape",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Change if show Collision Shape. Toggle whether collision shape is visible or not.",
+          "fullName": "Show Collision Shape",
+          "functionType": "Action",
+          "group": "Show3DCollisionShapes configuration",
+          "name": "SetShowCollisionShape",
+          "private": true,
+          "sentence": "_PARAM0_ show Collision Shape: _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "Value",
+                    "False",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "ShowCollisionShape",
+                    "False",
+                    ""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "Value",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "ShowCollisionShape",
+                    "True",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            },
+            {
+              "defaultValue": "yes",
+              "description": "ShowCollisionShape",
+              "name": "Value",
+              "optional": true,
+              "type": "yesorno"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Check if apply Depth Test. Toggle whether collision shape appears on top of everything or not.",
+          "fullName": "Apply Depth Test",
+          "functionType": "Condition",
+          "group": "Show3DCollisionShapes configuration",
+          "name": "DepthTest",
+          "private": true,
+          "sentence": "_PARAM0_ apply Depth Test",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "DepthTest",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Change if apply Depth Test. Toggle whether collision shape appears on top of everything or not.",
+          "fullName": "Apply Depth Test",
+          "functionType": "Action",
+          "group": "Show3DCollisionShapes configuration",
+          "name": "SetDepthTest",
+          "private": true,
+          "sentence": "_PARAM0_ apply Depth Test: _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "Value",
+                    "False",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "DepthTest",
+                    "False",
+                    ""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "Value",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "DepthTest",
+                    "True",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            },
+            {
+              "defaultValue": "yes",
+              "description": "DepthTest",
+              "name": "Value",
+              "optional": true,
+              "type": "yesorno"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "fullName": "",
+          "functionType": "Action",
+          "name": "doStepPostEvents",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Show3DCollisionShapes::Show3DCollisionShapes::CreateUpdateCollisionShapes"
+                  },
+                  "parameters": [
+                    "Object",
+                    "Behavior",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Main Setup for Collision Meshes.",
+          "fullName": "Create and Update Collision Shapes",
+          "functionType": "Action",
+          "name": "CreateUpdateCollisionShapes",
+          "private": true,
+          "sentence": "Create and Update Collision Shapes",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const currentObjectInstance = objects[0];",
+                "const physics3DBehavior = currentObjectInstance.getBehavior(\"Physics3D\");",
+                "const character3DBehavior = currentObjectInstance.getBehavior(\"PhysicsCharacter3D\");",
+                "const showCollisionShapesBehavior = currentObjectInstance.getBehavior(\"Show3DCollisionShapes\");",
+                "",
+                "if (currentObjectInstance && physics3DBehavior && showCollisionShapesBehavior) {",
+                "    const objectThreeRendererObject = currentObjectInstance.get3DRendererObject();",
+                "    if (!objectThreeRendererObject) return;",
+                "",
+                "    // DYNAMIC PROPERTY FETCHING ",
+                "    const isCollisionShapeVisible = showCollisionShapesBehavior._getShowCollisionShape();",
+                "    const isDepthTestEnabled = showCollisionShapesBehavior._getDepthTest();",
+                "",
+                "    // Fetch current world-space dimensions",
+                "    const currentObjectWorldWidth = currentObjectInstance.getWidth();",
+                "    const currentObjectWorldHeight = currentObjectInstance.getHeight();",
+                "    const currentObjectWorldDepth = (currentObjectInstance.getDepth) ? currentObjectInstance.getDepth() : currentObjectWorldWidth;",
+                "",
+                "    // Check if dimensions have changed since the last frame update",
+                "    const haveObjectDimensionsChanged = (",
+                "        currentObjectWorldWidth !== currentObjectInstance._lastKnownWorldWidth ||",
+                "        currentObjectWorldHeight !== currentObjectInstance._lastKnownWorldHeight ||",
+                "        currentObjectWorldDepth !== currentObjectInstance._lastKnownWorldDepth",
+                "    );",
+                "",
+                "    // THE CREATION & SYNC",
+                "    // This block executes only during the first initialization or when dimensions are modified",
+                "    if (!currentObjectInstance._debugWireframeMesh || haveObjectDimensionsChanged) {",
+                "        ",
+                "        // Update the cached state to track changes in the next frame",
+                "        currentObjectInstance._lastKnownWorldWidth = currentObjectWorldWidth;",
+                "        currentObjectInstance._lastKnownWorldHeight = currentObjectWorldHeight;",
+                "        currentObjectInstance._lastKnownWorldDepth = currentObjectWorldDepth;",
+                "",
+                "        // Clean up existing geometry from GPU memory to prevent performance degradation",
+                "        if (currentObjectInstance._debugWireframeMesh) {",
+                "            currentObjectInstance._debugWireframeMesh.geometry.dispose();",
+                "        }",
+                "",
+                "        // Convert the \"R;G;B\" color string into a numeric Hex format",
+                "        const gdevelopColorString = showCollisionShapesBehavior._getColor();",
+                "        const colorRgbComponents = gdevelopColorString.split(\";\");",
+                "        const wireframeHexColor = gdjs.rgbToHexNumber(",
+                "            parseInt(colorRgbComponents[0] || 0, 10), ",
+                "            parseInt(colorRgbComponents[1] || 0, 10), ",
+                "            parseInt(colorRgbComponents[2] || 0, 10)",
+                "        );",
+                "",
+                "        const collisionShapeType = physics3DBehavior._shape;",
+                "        const collisionShapeOrientation = physics3DBehavior.shapeOrientation;",
+                "        ",
+                "        let targetShapeWidth = 0;",
+                "        let targetShapeHeight = 0;",
+                "        let targetShapeDepth = 0;",
+                "        let targetShapeRadius = 0;",
+                "        let targetShapeTotalHeight = 0;",
+                "",
+                "        const calculateAutoRadiusFromDimensions = (dimensionA, dimensionB) => Math.sqrt(dimensionA * dimensionB) / 2;",
+                "",
+                "        // CALCULATION LOGIC",
+                "        if (collisionShapeType === \"Box\") {",
+                "            targetShapeWidth = (physics3DBehavior.shapeDimensionA === 0) ? currentObjectWorldWidth : physics3DBehavior.shapeDimensionA;",
+                "            targetShapeHeight = (physics3DBehavior.shapeDimensionB === 0) ? currentObjectWorldHeight : physics3DBehavior.shapeDimensionB;",
+                "            targetShapeDepth = (physics3DBehavior.shapeDimensionC === 0) ? currentObjectWorldDepth : physics3DBehavior.shapeDimensionC;",
+                "            targetShapeTotalHeight = targetShapeDepth;",
+                "        } ",
+                "        else if (collisionShapeType === \"Sphere\") {",
+                "            const calculatedVolumeRadius = Math.pow(currentObjectWorldWidth * currentObjectWorldHeight * currentObjectWorldDepth, 1/3) / 2;",
+                "            targetShapeRadius = (physics3DBehavior.shapeDimensionA === 0) ? calculatedVolumeRadius : physics3DBehavior.shapeDimensionA;",
+                "            targetShapeWidth = targetShapeHeight = targetShapeDepth = targetShapeRadius * 2;",
+                "            targetShapeTotalHeight = targetShapeRadius * 2; ",
+                "        } ",
+                "        else {",
+                "            let radiusReferenceA, radiusReferenceB, heightReference;",
+                "            if (collisionShapeOrientation === \"X\") { ",
+                "                radiusReferenceA = currentObjectWorldHeight; radiusReferenceB = currentObjectWorldDepth; heightReference = currentObjectWorldWidth; ",
+                "            }",
+                "            else if (collisionShapeOrientation === \"Y\") { ",
+                "                radiusReferenceA = currentObjectWorldWidth; radiusReferenceB = currentObjectWorldDepth; heightReference = currentObjectWorldHeight; ",
+                "            }",
+                "            else { ",
+                "                radiusReferenceA = currentObjectWorldWidth; radiusReferenceB = currentObjectWorldHeight; heightReference = currentObjectWorldDepth; ",
+                "            }",
+                "",
+                "            targetShapeRadius = (physics3DBehavior.shapeDimensionA === 0) ? calculateAutoRadiusFromDimensions(radiusReferenceA, radiusReferenceB) : physics3DBehavior.shapeDimensionA;",
+                "            targetShapeTotalHeight = (physics3DBehavior.shapeDimensionB === 0) ? heightReference : physics3DBehavior.shapeDimensionB;",
+                "",
+                "            if (collisionShapeOrientation === \"X\") { ",
+                "                targetShapeWidth = targetShapeTotalHeight; targetShapeHeight = targetShapeDepth = targetShapeRadius * 2; ",
+                "            }",
+                "            else if (collisionShapeOrientation === \"Y\") { ",
+                "                targetShapeHeight = targetShapeTotalHeight; targetShapeWidth = targetShapeDepth = targetShapeRadius * 2; ",
+                "            }",
+                "            else { ",
+                "                targetShapeDepth = targetShapeTotalHeight; targetShapeWidth = targetShapeHeight = targetShapeRadius * 2; ",
+                "            }",
+                "        }",
+                "",
+                "        // GEOMETRY RE-CONSTRUCTION",
+                "        let collisionWireframeGeometry;",
+                "        if (collisionShapeType === \"Box\") {",
+                "            collisionWireframeGeometry = new THREE.BoxGeometry(targetShapeWidth, targetShapeHeight, targetShapeDepth);",
+                "        } else if (collisionShapeType === \"Sphere\") {",
+                "            collisionWireframeGeometry = new THREE.SphereGeometry(targetShapeRadius, 12, 12);",
+                "        } else if (collisionShapeType === \"Capsule\") {",
+                "            const internalCylinderHeight = Math.max(0, targetShapeTotalHeight - (targetShapeRadius * 2));",
+                "            collisionWireframeGeometry = new THREE.CapsuleGeometry(targetShapeRadius, internalCylinderHeight, 2, 12);",
+                "        } else {",
+                "            collisionWireframeGeometry = new THREE.CylinderGeometry(targetShapeRadius, targetShapeRadius, targetShapeTotalHeight, 12);",
+                "        }",
+                "",
+                "        // Apply Rotation for Capsule/Cylinder orientation",
+                "        if (collisionShapeType !== \"Box\" && collisionShapeType !== \"Sphere\") {",
+                "            if (collisionShapeOrientation === \"Z\") collisionWireframeGeometry.rotateX(Math.PI / 2);",
+                "            if (collisionShapeOrientation === \"X\") collisionWireframeGeometry.rotateZ(Math.PI / 2);",
+                "        }",
+                "",
+                "        // Reuse existing mesh material or create new if first run",
+                "        if (currentObjectInstance._debugWireframeMesh) {",
+                "            currentObjectInstance._debugWireframeMesh.geometry = collisionWireframeGeometry;",
+                "        } else {",
+                "            const collisionWireframeMaterial = new THREE.MeshBasicMaterial({ ",
+                "                color: wireframeHexColor, ",
+                "                wireframe: true, ",
+                "                depthTest: isDepthTestEnabled ",
+                "            });",
+                "            const newCollisionDebugMesh = new THREE.Mesh(collisionWireframeGeometry, collisionWireframeMaterial);",
+                "            currentObjectInstance._debugWireframeMesh = newCollisionDebugMesh;",
+                "            objectThreeRendererObject.add(newCollisionDebugMesh);",
+                "        }",
+                "",
+                "        // CHARACTER 3D SPECIFIC CENTERING & OFFSET",
+                "        const activeCollisionDebugMesh = currentObjectInstance._debugWireframeMesh;",
+                "        const parentInverseScaleX = 1 / objectThreeRendererObject.scale.x;",
+                "        const parentInverseScaleY = 1 / objectThreeRendererObject.scale.y;",
+                "        const parentInverseScaleZ = 1 / objectThreeRendererObject.scale.z;",
+                "        ",
+                "        activeCollisionDebugMesh.scale.set(parentInverseScaleX, parentInverseScaleY, parentInverseScaleZ);",
+                "",
+                "        let finalWorldOffsetX = (physics3DBehavior.shapeOffsetX || 0);",
+                "        let finalWorldOffsetY = (physics3DBehavior.shapeOffsetY || 0);",
+                "        let finalWorldOffsetZ = (physics3DBehavior.shapeOffsetZ || 0);",
+                "",
+                "        if (character3DBehavior) {",
+                "            const halfShapeTotalHeight = targetShapeTotalHeight / 2;",
+                "",
+                "            if (collisionShapeType === \"Box\") {",
+                "                // Boxes shift strictly up on Z to sit on bottom origin",
+                "                finalWorldOffsetZ += halfShapeTotalHeight;",
+                "            } ",
+                "            else if (collisionShapeType === \"Sphere\") {",
+                "                // Spheres shift strictly up on Z by radius to sit on bottom origin",
+                "                finalWorldOffsetZ += targetShapeRadius;",
+                "            } ",
+                "            else { ",
+                "                // Capsule or Cylinder centering logic",
+                "                if (collisionShapeOrientation === \"Z\") {",
+                "                    // Move up on Z",
+                "                    finalWorldOffsetZ += halfShapeTotalHeight;",
+                "                } else if (collisionShapeOrientation === \"Y\") {",
+                "                    // Move up on Z by radius",
+                "                    finalWorldOffsetZ += targetShapeRadius;",
+                "                } else if (collisionShapeOrientation === \"X\") {",
+                "                    // Move up on Z by radius",
+                "                    finalWorldOffsetZ += targetShapeRadius;",
+                "                }",
+                "            }",
+                "        }",
+                "",
+                "        // Final local coordinate assignment",
+                "        activeCollisionDebugMesh.position.set(",
+                "            finalWorldOffsetX * parentInverseScaleX, ",
+                "            finalWorldOffsetY * parentInverseScaleY, ",
+                "            finalWorldOffsetZ * parentInverseScaleZ",
+                "        );",
+                "    }",
+                "",
+                "    // THE UPDATE CHUNK PER-FRAME",
+                "    const activeDebugMeshInstance = currentObjectInstance._debugWireframeMesh;",
+                "    ",
+                "    activeDebugMeshInstance.visible = isCollisionShapeVisible;",
+                "",
+                "    if (activeDebugMeshInstance.material.depthTest !== isDepthTestEnabled) {",
+                "        activeDebugMeshInstance.material.depthTest = isDepthTestEnabled;",
+                "        activeDebugMeshInstance.material.needsUpdate = true;",
+                "    }",
+                "}"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": true
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Check if show In 3D Editor. Because of some limitations in the engine,\n\n1- Collision shape might be shown wrong for the Instances that has different dimension from the original 3D model.\n2- Property changes in Physics3D and this behavior will not instantly visible in the 3D editor unless you swap scene tabs or swap between 2D/3D editor.",
+          "fullName": "Show In 3D Editor",
+          "functionType": "Condition",
+          "group": "Show3DCollisionShapes configuration",
+          "name": "ShowInEditor",
+          "private": true,
+          "sentence": "_PARAM0_ show In 3D Editor",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "ShowInEditor",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Change if show In 3D Editor. Because of some limitations in the engine,\n\n1- Collision shape might be shown wrong for the Instances that has different dimension from the original 3D model.\n2- Property changes in Physics3D and this behavior will not instantly visible in the 3D editor unless you swap scene tabs or swap between 2D/3D editor.",
+          "fullName": "Show In 3D Editor",
+          "functionType": "Action",
+          "group": "Show3DCollisionShapes configuration",
+          "name": "SetShowInEditor",
+          "private": true,
+          "sentence": "_PARAM0_ show In 3D Editor: _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "Value",
+                    "False",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "ShowInEditor",
+                    "False",
+                    ""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "Value",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "ShowInEditor",
+                    "True",
+                    ""
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Show3DCollisionShapes::Show3DCollisionShapes",
+              "type": "behavior"
+            },
+            {
+              "defaultValue": "yes",
+              "description": "ShowInEditor",
+              "name": "Value",
+              "optional": true,
+              "type": "yesorno"
+            }
+          ],
+          "objectGroups": []
+        }
+      ],
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "onCreated"
+          },
+          {
+            "functionName": "doStepPostEvents"
+          },
+          {
+            "folderName": "Show3DCollisionShapes configuration",
+            "children": [
+              {
+                "functionName": "ShowCollisionShape"
+              },
+              {
+                "functionName": "SetShowCollisionShape"
+              },
+              {
+                "functionName": "DepthTest"
+              },
+              {
+                "functionName": "SetDepthTest"
+              },
+              {
+                "functionName": "ShowInEditor"
+              },
+              {
+                "functionName": "SetShowInEditor"
+              }
+            ]
+          },
+          {
+            "functionName": "ToggleVisibility"
+          },
+          {
+            "functionName": "ToggleDepthTest"
+          },
+          {
+            "functionName": "CreateUpdateCollisionShapes"
+          }
+        ]
+      },
+      "propertyDescriptors": [
+        {
+          "value": "",
+          "type": "Behavior",
+          "label": "3D physics engine",
+          "extraInformation": [
+            "Physics3D::Physics3DBehavior"
+          ],
+          "choices": [],
+          "name": "Physics3D"
+        },
+        {
+          "value": "true",
+          "type": "Boolean",
+          "label": "Show Collision Shape",
+          "description": "Toggle whether collision shape is visible or not.\n",
+          "name": "ShowCollisionShape"
+        },
+        {
+          "value": "",
+          "type": "Boolean",
+          "label": "Apply Depth Test",
+          "description": "Toggle whether collision shape appears on top of everything or not.\n",
+          "name": "DepthTest"
+        },
+        {
+          "value": "0;255;0",
+          "type": "Color",
+          "label": "Collision Shape Color",
+          "name": "Color"
+        },
+        {
+          "value": "true",
+          "type": "Boolean",
+          "label": "Show In 3D Editor",
+          "description": "Because of some limitations in the engine,\n\n1- Collision shape might be shown wrong for the Instances that has different dimension from the original 3D model.\n2- Property changes in Physics3D and this behavior will not instantly visible in the 3D editor unless you swap scene tabs or swap between 2D/3D editor.",
+          "name": "ShowInEditor"
+        }
+      ],
+      "propertiesFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "propertyName": "Physics3D"
+          },
+          {
+            "propertyName": "Color"
+          },
+          {
+            "propertyName": "ShowCollisionShape"
+          },
+          {
+            "propertyName": "DepthTest"
+          },
+          {
+            "propertyName": "ShowInEditor"
+          }
+        ]
+      }
+    }
+  ],
+  "eventsBasedObjects": []
+}

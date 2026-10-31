@@ -888,6 +888,20 @@
         "name": "skybox-top.jpg",
         "smoothed": true,
         "userAdded": false
+      },
+      {
+        "file": "space_ship_wall_no_window.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "space_ship_wall_no_window.glb",
+        "userAdded": false
+      },
+      {
+        "file": "space_ship_w_window_closed.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "space_ship_w_window_closed.glb",
+        "userAdded": false
       }
     ]
   },
@@ -901,7 +915,7 @@
       "name": "Level",
       "persistentUuid": "11efaaa5-d7e0-445b-aa79-860f04fdec7f",
       "type": "number",
-      "value": 1
+      "value": 10
     },
     {
       "name": "RunSeed",
@@ -953,6 +967,10 @@
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/eventsFunctionsExtensions/mousepointerlock"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/show3dcollisionshapes"
     }
   ],
   "externalLayouts": []

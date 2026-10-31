@@ -21,7 +21,7 @@
     "gridColor": 10401023,
     "gridAlpha": 0.8,
     "snap": false,
-    "zoomFactor": 0.546875,
+    "zoomFactor": 0.9296875000000001,
     "windowMask": false,
     "selectedLayer": "",
     "gameEditorMode": "embedded-game"
@@ -193,6 +193,12 @@
         },
         {
           "name": "Pillar_Stone"
+        },
+        {
+          "name": "wall_horizontal"
+        },
+        {
+          "name": "wall_vertical"
         }
       ]
     }
@@ -10098,10 +10104,10 @@
           "massCenterOffsetZ": 0,
           "massOverride": 0,
           "density": 1,
-          "friction": 0.3,
-          "restitution": 0.1,
-          "linearDamping": 0.1,
-          "angularDamping": 0.1,
+          "friction": 0,
+          "restitution": 1,
+          "linearDamping": 0,
+          "angularDamping": 1,
           "gravityScale": 0,
           "layers": 17,
           "masks": 17
@@ -10443,6 +10449,136 @@
           ]
         }
       }
+    },
+    {
+      "assetStoreId": "",
+      "name": "wall_horizontal",
+      "persistentUuid": "0e7e5c7a-1f07-40a2-a6bd-0fd5519f0341",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0,
+          "restitution": 1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        },
+        {
+          "name": "Show3DCollisionShapes",
+          "type": "Show3DCollisionShapes::Show3DCollisionShapes",
+          "Physics3D": "Physics3D",
+          "ShowCollisionShape": false,
+          "DepthTest": false,
+          "Color": "0;255;0",
+          "ShowInEditor": false
+        }
+      ],
+      "content": {
+        "centerLocation": "BottomCenterZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 100,
+        "height": 100,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "space_ship_wall_no_window.glb",
+        "originLocation": "BottomCenterZ",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "width": 100,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "",
+      "name": "wall_vertical",
+      "persistentUuid": "a9389e05-bf58-4e7a-a8c1-6ae7053b4e9e",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0,
+          "restitution": 1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        },
+        {
+          "name": "Show3DCollisionShapes",
+          "type": "Show3DCollisionShapes::Show3DCollisionShapes",
+          "Physics3D": "Physics3D",
+          "ShowCollisionShape": false,
+          "DepthTest": false,
+          "Color": "0;255;0",
+          "ShowInEditor": false
+        }
+      ],
+      "content": {
+        "centerLocation": "BottomCenterZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 100,
+        "height": 100,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "space_ship_w_window_closed.glb",
+        "originLocation": "BottomCenterZ",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 100,
+        "animations": []
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -10465,6 +10601,12 @@
           },
           {
             "objectName": "Tree_High_Round"
+          },
+          {
+            "objectName": "wall_horizontal"
+          },
+          {
+            "objectName": "wall_vertical"
           }
         ]
       },
@@ -10849,10 +10991,10 @@
           "parameters": [
             "",
             "\"maze\"",
-            "Hedge_Large_Hor",
+            "wall_horizontal",
             "Object3D",
             "Resizable",
-            "Hedge_Large",
+            "wall_vertical",
             "Object3D",
             "Resizable",
             "\"\"",
@@ -12392,6 +12534,7 @@
       "actions": []
     },
     {
+      "disabled": true,
       "type": "BuiltinCommonInstructions::ForEach",
       "object": "Pillar_Stone",
       "conditions": [
@@ -14427,6 +14570,10 @@
       "name": "ShakeModel3D",
       "type": "ShakeObject3D::ShakeModel3D",
       "EasingFactor": 0
+    },
+    {
+      "name": "Show3DCollisionShapes",
+      "type": "Show3DCollisionShapes::Show3DCollisionShapes"
     },
     {
       "name": "Spawning",
