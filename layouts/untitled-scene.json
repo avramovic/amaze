@@ -12985,6 +12985,16 @@
                 "<=",
                 "Enemies.Enemy::MeleeRange()"
               ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "Abs(Players.Object3D::CenterZ() - Enemies.Object3D::CenterZ())",
+                "<=",
+                "87 + Enemies.Enemy::FlyHeight()"
+              ]
             }
           ],
           "actions": [
