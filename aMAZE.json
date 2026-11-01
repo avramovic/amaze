@@ -1133,14 +1133,6 @@
         }
       },
       {
-        "file": "assets/cards/shield-time.png",
-        "kind": "image",
-        "metadata": "",
-        "name": "card_shield-time.png",
-        "smoothed": true,
-        "userAdded": true
-      },
-      {
         "file": "assets/cards/orbital-time.png",
         "kind": "image",
         "metadata": "",

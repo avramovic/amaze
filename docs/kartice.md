@@ -45,12 +45,11 @@ Vrednosti su po retkosti: Common / Uncommon / Rare / Epic / Mythic.
 
 | Kartica (slika) | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `shield` | Shield | +shield i odmah puni; ako je preko maksimuma, diže i maksimum. **Pokreće tajmer** (30 s, vidi „Tajmeri“) | 10 / 15 / 22 / 35 / 50 |
-| `healing-shield` | Shield+ | +max shield **i isto toliko shield poena odmah** (10/100 + 25 → 35/125). Ako je shield bio istekao, ponovo ga pali i pokreće tajmer | 5 / 8 / 11 / 18 / 25 |
-| `shield-time` | Shield Time | trajno produžava trajanje shield-a za 5 s, **puni shield do maksimuma i restartuje tajmer** (kao novi shield). Nudi se tek kad imaš max shield > 0, **cap 120 s** | **+5 s** za svaku retkost |
+| `shield` | Shield | +shield i odmah puni; ako je preko maksimuma, diže i maksimum | 10 / 15 / 22 / 35 / 50 |
+| `healing-shield` | Shield+ | +max shield **i isto toliko shield poena odmah** (10/100 + 25 → 35/125) | 5 / 8 / 11 / 18 / 25 |
 | `shield-reflect` | Reflect | šansa da se neprijateljski projektil vrati nazad (samo dok je shield > 0); vraćen projektil nanosi 8 neprijatelju u koga uleti | 5 / 8 / 11 / 18 / 25 %, **cap 75%** |
 
-Shield ide preko Health ekstenzije (`MaxShield`, `ShieldPoints`). Native trajanje Health-a je 0 (ne ističe), a isticanje radi naš tajmer (vidi „Tajmeri“). Prikaz: plava providna sfera oko igrača, providnost = `0.5 · shield / maxShield`, i plava traka (`BlueFlatBar`, UI sloj) iznad crvene, skrivena dok nema shield-a.
+Shield ide preko Health ekstenzije (`MaxShield`, `ShieldPoints`). Nema tajmer: Health-ovo trajanje je 0 (ne ističe), shield se troši samo udarcima. Prikaz: plava providna sfera oko igrača, providnost = `0.5 · shield / maxShield`, i plava traka (`BlueFlatBar`, UI sloj) iznad crvene, skrivena dok nema shield-a.
 
 ### Narandžasta, kretanje
 
@@ -89,17 +88,16 @@ Kartica brzine se ne nudi kad je brzina na 700.
 
 Šteta orbitala je `6 · (1 + šteta%) · TotalDamageMultiplier`. Objekat je `PlayerOrbital` (žuta kopija `EnemyProjectile`).
 
-## Tajmeri (shield i orbovi)
+## Tajmer orbova
 
-Shield i orbovi nisu trajni, jer bi bili prejaki.
+Orbovi nisu trajni, jer bi bili prejaki. Shield nema tajmer, troši se samo udarcima.
 
-- **Početno trajanje je 30 s** za svaki (`shieldDur`, `orbDur`).
-- **Shield:** kartica `shield` ga puni i pokreće tajmer. Kad tajmer istekne, shield se spušta na 0 (health ostaje). Ako shield potrošiš pre toga, tajmer staje. Poslednje 2 sekunde sfera treperi.
+- **Početno trajanje je 30 s** (`orbDur`).
 - **Orbovi:** kartica `orbital` dodaje orbove i vraća tajmer na pun. Kad istekne, orbovi nestaju, a broj orbova ostaje zapamćen, pa nova `orbital` kartica vraća sve.
-- **Kartice za vreme** (`shield-time`, `orbital-time`) trajno povećavaju trajanje za 5 s (30 → 35 → 40…, cap 120 s) i **pale efekat ponovo**: shield se puni do maksimuma, a orbovi se vraćaju u broju koji si do sada skupio (ne dobijaju novi), i oba tajmera kreću od pune (novog) trajanja.
+- **Kartica za vreme** (`orbital-time`) trajno povećava trajanje za 5 s (30 → 35 → 40…, cap 120 s) i **pali efekat ponovo**: orbovi se vraćaju u broju koji si do sada skupio (ne dobijaju novi), a tajmer kreće od pune (novog) trajanja.
 - Tajmeri se računaju sa vremenom igre, pa stoje dok su kartice otvorene (0.1× brzina) i **prelaze u sledeći level**.
-- **Odbrojavanje iznad igrača:** sekunde do isteka, **plavo** za shield i **žuto** za orbove. Ako teku oba, stoje jedno iznad drugog (orbovi niže).
-- Vrednosti su `shieldDur`, `shieldT`, `orbDur`, `orbT` u `gdjs.amazeUpg.U`.
+- **Odbrojavanje iznad igrača:** sekunde do isteka, **žuto**.
+- Vrednosti su `orbDur` i `orbT` u `gdjs.amazeUpg.U`.
 
 ## Početne vrednosti i borba
 
@@ -134,19 +132,19 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 4. U `G.apply` dodaj `case` koji menja `G.U`.
 5. Ako kartica ima cap ili ne smije uvek da se nudi, dodaj uslov u `G.available`.
 6. Ako treba novi stat, dodaj ga u `G.defaults`, pa ga primeni tamo gde se koristi (`G.push` za Health i fiziku, `UpgradesStep` za ostalo, ili izraz kao `UpgradeMaxSpeed`).
-7. Svaka nova kartica treba i red u tabeli `UNLOCK` (od kog meta nivoa se nudi). Bez reda je dostupna od nivoa 0.
+7. Svaka nova kartica treba i red u tabeli `UNLOCK` (od kog ranka se nudi). Bez reda je dostupna od ranka 1.
 8. Da se stat vidi u panelu: dodaj `case` u `G.stat` (vrati formatiran tekst) i jednu `BBText::SetBBText` akciju u događaju panela, sa bojom kategorije.
 
-## XP i meta nivo
+## XP i rank
 
-Meta nivo je trajan (preživljava smrt i novi run) i **otključava kartice i retkosti**, ne daje snagu.
+**Rank** je nivo igrača od XP-a (da se ne meša sa **Level**, nivoom lavirinta). Počinje od **1**, preživljava smrt i novi level, i **otključava kartice i retkosti**, ne daje snagu.
 
 - **XP po ubistvu** = `EnemyLevel × Enemy.XP` (polje `XP` na tipu neprijatelja je množilac, podrazumevano 1). Računaju se sva ubistva: hitac, melee, orbovi, lanac. Događaj u sceni: `Amaze::Enemy::JustDied` → `Amaze::AwardKillXP`.
-- **XP se čuva tek kad se level pobedi**: dodir vortexa poziva `Amaze::BankXP` (prvi korak događaja sa vortexom). Ako igrač umre ili ponovo učita level, XP tog levela se gubi, a sačuvani meta XP ostaje.
-- **Čuvanje:** `localStorage` ključ `aMAZE.meta` (`{ "xp": N }`). Ako storage nije dostupan, radi u memoriji i piše upozorenje u konzoli.
-- **Kriva** (polinomijalna): meta nivo L košta `50 · L²` XP.
+- **XP se upisuje tek kad se level pobedi**: dodir vortexa poziva `Amaze::BankXP` (prvi korak događaja sa vortexom). Ako igrač umre ili ponovo učita level, XP tog levela se gubi, a već upisani XP ostaje.
+- **Čuvanje:** za sada **nigde**. XP živi samo u memoriji (`gdjs.amazeUpg.rank`) i posle ponovnog učitavanja projekta kreće od 0, tj. rank 1. Čuvanje po runu dolazi kasnije.
+- **Kriva** (polinomijalna): za prelazak sa ranka R na R+1 treba `50 · R²` XP.
 
-| Nivo | Cena nivoa | Ukupno XP |
+| Rank | XP do sledećeg | Ukupno XP za sledeći |
 |---|---|---|
 | 1 | 50 | 50 |
 | 2 | 200 | 250 |
@@ -155,22 +153,31 @@ Meta nivo je trajan (preživljava smrt i novi run) i **otključava kartice i ret
 | 5 | 1250 | 2750 |
 | 6 | 1800 | 4550 |
 
-- **Otključavanja** (tabela `UNLOCK` u biblioteci; kartica koja nije u tabeli je otključana od nivoa 0):
+- **Otključavanja** (tabela `UNLOCK` u biblioteci; kartica koja nije u tabeli je otključana od ranka 1):
 
-| Meta nivo | Otključava |
+| Rank | Otključava |
 |---|---|
-| 0 | arm-bandage, health-increase, running-shoe, shield, falling-blob |
-| 1 | healing, punch-blast |
-| 2 | jump-across, healing-shield |
-| 3 | ricochet, orbital, retkost **Epic** |
-| 4 | shield-reflect, fire-tail |
-| 5 | shield-time, orbital-time, retkost **Mythic** |
+| 1 | arm-bandage, health-increase, running-shoe, shield, falling-blob |
+| 2 | healing, punch-blast |
+| 3 | jump-across, healing-shield |
+| 4 | ricochet, orbital, retkost **Epic** |
+| 5 | shield-reflect, fire-tail |
+| 6 | orbital-time, retkost **Mythic** |
 
-Zaključana retkost se ne bira (težine ostalih se preraspodeljuju). Pošto se skup kartica menja sa meta nivoom, isti `RunSeed` daje drugačiju ponudu na različitom meta nivou.
+Zaključana retkost se ne bira (težine ostalih se preraspodeljuju). Pošto se skup kartica menja sa rankom, isti `RunSeed` daje drugačiju ponudu na različitom ranku.
 
-**Izrazi** (za progress bar i tekst): `Amaze::MetaLevel()`, `Amaze::MetaXP()` (XP unutar trenutnog meta nivoa), `Amaze::MetaGoal()` (cilj tog nivoa, to je maksimum bara), `Amaze::MetaTotalXP()` (sav sačuvani XP) i `Amaze::PendingXP()` (XP levela koji se igra, čeka vortex). Progress bar: `SetMaxValue = Amaze::MetaGoal()`, `SetValue = Amaze::MetaXP()`.
+**Izrazi** (za progress bar i tekst). `Rank`, `RankXP` i `RankGoal` su **živi**: broje i XP skupljen na levelu koji se igra, pa se traka puni odmah posle svakog ubistva. Ako igrač umre, XP tog levela nestaje i traka se vraća na upisanu vrednost. Kartice se otključavaju samo **upisanim** rankom.
 
-Resetovanje napretka tokom testiranja: u konzoli browsera `localStorage.removeItem('aMAZE.meta')`.
+| Izraz | Šta vraća |
+|---|---|
+| `Amaze::RankXP()` | XP unutar trenutnog ranka, sa XP-om ovog levela (vrednost trake) |
+| `Amaze::RankGoal()` | cilj tog ranka (maksimum trake) |
+| `Amaze::Rank()` | rank, sa XP-om ovog levela (može da poraste i pre vortexa) |
+| `Amaze::PendingXP()` | XP skupljen na ovom levelu, još nije upisan |
+| `Amaze::SavedRank()`, `Amaze::SavedRankXP()` | isto, ali samo upisano (bez XP-a ovog levela) |
+| `Amaze::TotalXP()` | sav upisani XP |
+
+Resetovanje napretka tokom testiranja: ponovo učitaj projekat (preview).
 
 ## Panel statistika (`NewStatsText`)
 
@@ -178,9 +185,9 @@ BBText objekat na `UI` sloju (gore desno). Puni ga događaj u sceni odmah posle 
 
 | Boja | Linije (ključ) |
 |---|---|
-| ljubičasta (iznad statova) | `meta` (nivo i XP do sledećeg), `xpLevel` (XP ovog levela, čeka vortex) |
+| ljubičasta (iznad statova) | `rank` (rank i XP do sledećeg), `xpLevel` (XP ovog levela, čeka vortex) |
 | zelena | `health`, `regen` |
-| plava | `shield`, `shieldTime`, `reflect` |
+| plava | `shield`, `reflect` |
 | narandžasta | `speed`, `jump` |
 | crvena | `shooting`, `shotDamage`, `shotRange`, `bounces`, `chain`, `melee`, `reach` |
 | žuta | `orbs`, `orbTime`, `orbDamage` |

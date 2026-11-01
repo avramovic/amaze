@@ -11505,35 +11505,6 @@
           ]
         },
         {
-          "name": "shield-time",
-          "useMultipleDirections": false,
-          "directions": [
-            {
-              "looping": false,
-              "timeBetweenFrames": 0.08,
-              "sprites": [
-                {
-                  "hasCustomCollisionMask": false,
-                  "image": "card_shield-time.png",
-                  "points": [],
-                  "originPoint": {
-                    "name": "origine",
-                    "x": 0,
-                    "y": 0
-                  },
-                  "centerPoint": {
-                    "automatic": true,
-                    "name": "centre",
-                    "x": 0,
-                    "y": 0
-                  },
-                  "customCollisionMask": []
-                }
-              ]
-            }
-          ]
-        },
-        {
           "name": "orbital-time",
           "useMultipleDirections": false,
           "directions": [
@@ -11571,7 +11542,18 @@
       "type": "BBText::BBText",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Anchor",
+          "type": "AnchorBehavior::AnchorBehavior",
+          "bottomEdgeAnchor": 2,
+          "leftEdgeAnchor": 2,
+          "relativeToOriginalWindowSize": true,
+          "rightEdgeAnchor": 2,
+          "topEdgeAnchor": 1,
+          "useLegacyBottomAndRightAnchors": false
+        }
+      ],
       "content": {
         "text": "Stats",
         "opacity": 255,
@@ -11591,7 +11573,18 @@
       "variant": "Rounded Square Grey Bar",
       "variables": [],
       "effects": [],
-      "behaviors": [],
+      "behaviors": [
+        {
+          "name": "Anchor",
+          "type": "AnchorBehavior::AnchorBehavior",
+          "bottomEdgeAnchor": 2,
+          "leftEdgeAnchor": 3,
+          "relativeToOriginalWindowSize": true,
+          "rightEdgeAnchor": 3,
+          "topEdgeAnchor": 2,
+          "useLegacyBottomAndRightAnchors": false
+        }
+      ],
       "content": {
         "InitialValue": 12,
         "MaxValue": 16,
@@ -15961,7 +15954,7 @@
           "parameters": [
             "NewStatsText",
             "+",
-            "NewLine() + \"[color=#c9a0ff]Meta level:[/color] \" + ToString(Amaze::MetaLevel())"
+            "NewLine() + \"[color=#c9a0ff]Rank:[/color] \" + ToString(Amaze::Rank())"
           ]
         },
         {
@@ -15971,7 +15964,7 @@
           "parameters": [
             "NewStatsText",
             "+",
-            "NewLine() + \"[color=#c9a0ff]XP:[/color] \" + ToString(Amaze::MetaXP()) + \" / \" + ToString(Amaze::MetaGoal()) + \"  (+\" + ToString(Amaze::PendingXP()) + \" this level)\""
+            "NewLine() + \"[color=#c9a0ff]XP:[/color] \" + ToString(Amaze::RankXP()) + \" / \" + ToString(Amaze::RankGoal()) + \"  (+\" + ToString(Amaze::PendingXP()) + \" at vortex)\""
           ]
         },
         {
@@ -16002,16 +15995,6 @@
             "NewStatsText",
             "+",
             "NewLine() + \"[color=#4aa8ff]Shield[/color] \" + Amaze::Stat(\"shield\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#4aa8ff]Shield time[/color] \" + Amaze::Stat(\"shieldTime\")"
           ]
         },
         {
@@ -16171,7 +16154,7 @@
           "parameters": [
             "XPBar",
             "=",
-            "Amaze::MetaGoal()",
+            "Amaze::RankGoal()",
             ""
           ]
         },
@@ -16182,7 +16165,7 @@
           "parameters": [
             "XPBar",
             "=",
-            "Amaze::MetaXP()",
+            "Amaze::RankXP()",
             ""
           ]
         }
@@ -16333,6 +16316,10 @@
   ],
   "behaviorsSharedData": [
     {
+      "name": "Anchor",
+      "type": "AnchorBehavior::AnchorBehavior"
+    },
+    {
       "name": "Animation",
       "type": "AnimatableCapability::AnimatableBehavior"
     },
@@ -16412,10 +16399,6 @@
     {
       "name": "Spawning",
       "type": "Amaze::Spawner"
-    },
-    {
-      "name": "Text",
-      "type": "TextContainerCapability::TextContainerBehavior"
     }
   ]
 }

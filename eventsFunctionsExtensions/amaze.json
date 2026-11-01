@@ -1255,7 +1255,7 @@
             "// v = value per rarity (Common, Uncommon, Rare, Epic, Mythic). icon = image name when it differs from the id.",
             "// range = a second value per rarity (seconds of shot range for Heavy Shot).",
             "const CARDS = [",
-            "    { id: 'shield', title: 'Shield', cat: 'shield', v: [10, 15, 22, 35, 50], text: (v, U) => '+' + v + ' shield, refilled, lasts ' + U.shieldDur + 's' },",
+            "    { id: 'shield', title: 'Shield', cat: 'shield', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + ' shield, refilled' },",
             "    { id: 'healing-shield', title: 'Shield Core', cat: 'shield', v: [5, 8, 11, 18, 25], text: (v) => '+' + v + ' max shield and +' + v + ' shield now' },",
             "    { id: 'shield-reflect', title: 'Reflect', cat: 'shield', v: [5, 8, 11, 18, 25], text: (v) => v + '% to reflect ranged attacks while shielded' },",
             "    { id: 'running-shoe', title: 'Running Shoes', cat: 'movement', v: [12, 18, 27, 42, 60], text: (v) => '+' + v + ' max speed' },",
@@ -1267,39 +1267,33 @@
             "    { id: 'falling-blob', title: 'Heavy Shot', cat: 'attack', v: [8, 12, 18, 28, 40], range: [0.15, 0.2, 0.3, 0.4, 0.5], text: (v, U, ri) => (U.shotUnlocked ? '' : 'Unlocks shooting (right click). ') + '+' + v + '% shot damage, +' + CARDS_RANGE(ri) + 's range' },",
             "    { id: 'fire-tail', title: 'Chain Shot', cat: 'attack', v: [1, 1, 1, 2, 3], text: (v) => 'Shots jump to ' + v + ' more enem' + (v > 1 ? 'ies' : 'y') },",
             "    { id: 'punch-blast', title: 'Punch Blast', cat: 'attack', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + '% melee damage, +' + Math.round(v * 0.6) + ' reach' },",
-            "    { id: 'shield-time', title: 'Shield Time', cat: 'shield', v: [5, 5, 5, 5, 5], text: (v) => '+' + v + 's duration, shield refilled' },",
             "    { id: 'orbital', title: 'Orbital', cat: 'passive', v: [1, 1, 1, 2, 3], text: (v, U) => '+' + v + ' orbiting orb' + (v > 1 ? 's' : '') + ', lasts ' + U.orbDur + 's' },",
             "    { id: 'orbital-time', title: 'Orbital Time', cat: 'passive', v: [5, 5, 5, 5, 5], text: (v, U) => '+' + v + 's duration, respawns ' + U.orbitals + ' orb' + (U.orbitals > 1 ? 's' : '') },",
             "];",
             "G.CARDS = CARDS;",
             "",
-            "// ---- meta level: XP from kills, banked when the level is won (the vortex), saved in localStorage.",
+            "// ---- rank (player level from XP): XP from kills, banked when the level is won (the vortex), kept only in memory (a page reload starts again from 0; saving per run comes later).",
             "// It never resets with a run. It unlocks cards (UNLOCK) and the Epic / Mythic rarities (RARITY_UNLOCK).",
             "const UNLOCK = {",
-            "    'arm-bandage': 0, 'health-increase': 0, 'running-shoe': 0, 'shield': 0, 'falling-blob': 0,",
-            "    'healing': 1, 'punch-blast': 1,",
-            "    'jump-across': 2, 'healing-shield': 2,",
-            "    'ricochet': 3, 'orbital': 3,",
-            "    'shield-reflect': 4, 'fire-tail': 4,",
-            "    'shield-time': 5, 'orbital-time': 5,",
+            "    'arm-bandage': 1, 'health-increase': 1, 'running-shoe': 1, 'shield': 1, 'falling-blob': 1,",
+            "    'healing': 2, 'punch-blast': 2,",
+            "    'jump-across': 3, 'healing-shield': 3,",
+            "    'ricochet': 4, 'orbital': 4,",
+            "    'shield-reflect': 5, 'fire-tail': 5,",
+            "    'orbital-time': 6,",
             "};",
-            "const RARITY_UNLOCK = [0, 0, 0, 3, 5]; // meta level needed for Common, Uncommon, Rare, Epic, Mythic",
+            "const RARITY_UNLOCK = [1, 1, 1, 4, 6]; // rank needed for Common, Uncommon, Rare, Epic, Mythic",
             "G.UNLOCK = UNLOCK;",
-            "G.metaCost = function (level) { return 50 * level * level; }; // XP to go from level-1 to level: 50, 200, 450, 800...",
-            "G.meta = { xp: 0 };",
-            "try {",
-            "    const raw = window.localStorage.getItem('aMAZE.meta');",
-            "    if (raw) G.meta.xp = Math.max(0, Number(JSON.parse(raw).xp) || 0);",
-            "} catch (e) { console.warn('[Meta] storage not available, the progress will not be saved'); }",
-            "G.saveMeta = function () {",
-            "    try { window.localStorage.setItem('aMAZE.meta', JSON.stringify({ xp: G.meta.xp })); } catch (e) { /* no storage */ }",
+            "G.rankCost = function (rank) { return 50 * rank * rank; }; // XP to go from rank to rank+1: 50, 200, 450, 800...",
+            "G.rank = { xp: 0 }; // not saved anywhere yet",
+            "// live = true also counts the XP collected on this level (not saved yet): that is what the XP bar shows.",
+            "// Without it only the saved XP counts: that is what unlocks the cards.",
+            "G.rankInfo = function (live) {",
+            "    let xp = G.rank.xp + (live && G.R ? G.R.xpPending : 0), level = 1;",
+            "    while (xp >= G.rankCost(level)) { xp -= G.rankCost(level); level++; }",
+            "    return { level, into: xp, toNext: G.rankCost(level) };",
             "};",
-            "G.metaInfo = function () {",
-            "    let xp = G.meta.xp, level = 0;",
-            "    while (xp >= G.metaCost(level + 1)) { xp -= G.metaCost(level + 1); level++; }",
-            "    return { level, into: xp, toNext: G.metaCost(level + 1) };",
-            "};",
-            "G.metaLevel = function () { return G.metaInfo().level; };",
+            "G.rankLevel = function () { return G.rankInfo().level; };",
             "function CARDS_RANGE(ri) { return CARDS.find((c) => c.id === 'falling-blob').range[ri]; }",
             "",
             "G.defaults = function () {",
@@ -1307,7 +1301,7 @@
             "        maxSpeed: G.BASE.speed, jumpUnlocked: false, jumpPct: 0,",
             "        shotUnlocked: false, dmgPct: 0, rangeSec: 0, bounces: 0, chain: 0,",
             "        reflect: 0, meleePct: 0, meleeReach: G.BASE.reach, orbitals: 0,",
-            "        shieldDur: G.BASE.effectTime, shieldT: 0, orbDur: G.BASE.effectTime, orbT: 0,",
+            "        orbDur: G.BASE.effectTime, orbT: 0,",
             "        picks: {},",
             "        hp: null, maxHp: 100, shield: 0, maxShield: 0, regen: 0,",
             "        lastLevel: 0, runSeed: 0,",
@@ -1341,12 +1335,11 @@
             "// ---- offers",
             "G.available = function (c) {",
             "    const U = G.U;",
-            "    if ((UNLOCK[c.id] || 0) > G.metaLevel()) return false;",
+            "    if ((UNLOCK[c.id] || 1) > G.rankLevel()) return false;",
             "    switch (c.id) {",
             "        case 'running-shoe': return U.maxSpeed < G.BASE.speedCap;",
             "        case 'shield-reflect': return U.reflect < G.BASE.reflectCap;",
             "        case 'orbital': return U.orbitals < G.BASE.orbitalCap;",
-            "        case 'shield-time': return U.maxShield > 0 && U.shieldDur < G.BASE.effectTimeMax;",
             "        case 'orbital-time': return U.orbitals > 0 && U.orbDur < G.BASE.effectTimeMax; // needs orbs to bring back",
             "        case 'ricochet':",
             "        case 'fire-tail': return U.shotUnlocked; // useless before the player can shoot",
@@ -1361,8 +1354,8 @@
             "G.roll = function (seed, level) {",
             "    const r = G.rng(seed);",
             "    const pool = CARDS.filter(G.available);",
-            "    const meta = G.metaLevel();",
-            "    const w = G.weights(level).map((x, i) => (meta >= RARITY_UNLOCK[i] ? x : 0)); // locked rarities never roll",
+            "    const rank = G.rankLevel();",
+            "    const w = G.weights(level).map((x, i) => (rank >= RARITY_UNLOCK[i] ? x : 0)); // locked rarities never roll",
             "    const total = w.reduce((a, b) => a + b, 0);",
             "    const out = [];",
             "    for (let k = 0; k < 3 && pool.length; k++) {",
@@ -1377,8 +1370,8 @@
             "    const U = G.U;",
             "    U.picks[id] = (U.picks[id] || 0) + 1;",
             "    switch (id) {",
-            "        case 'shield': U.maxShield = Math.max(U.maxShield, U.shield + v); U.shield = Math.min(U.maxShield, U.shield + v); U.shieldT = U.shieldDur; break;",
-            "        case 'healing-shield': U.maxShield += v; U.shield += v; if (U.shieldT <= 0) U.shieldT = U.shieldDur; break;",
+            "        case 'shield': U.maxShield = Math.max(U.maxShield, U.shield + v); U.shield = Math.min(U.maxShield, U.shield + v); break;",
+            "        case 'healing-shield': U.maxShield += v; U.shield += v; break;",
             "        case 'shield-reflect': U.reflect = Math.min(G.BASE.reflectCap, U.reflect + v); break;",
             "        case 'running-shoe': U.maxSpeed = Math.min(G.BASE.speedCap, U.maxSpeed + v); break;",
             "        case 'jump-across': U.jumpUnlocked = true; U.jumpPct += v; break;",
@@ -1390,7 +1383,6 @@
             "        case 'fire-tail': U.chain += v; break;",
             "        case 'punch-blast': U.meleePct += v; U.meleeReach = Math.min(G.BASE.reachMax, U.meleeReach + v * 0.6); break;",
             "        case 'orbital': U.orbitals = Math.min(G.BASE.orbitalCap, U.orbitals + v); U.orbT = U.orbDur; break;",
-            "        case 'shield-time': U.shieldDur = Math.min(G.BASE.effectTimeMax, U.shieldDur + v); U.shield = U.maxShield; U.shieldT = U.shieldDur; break; // longer, and switched on again",
             "        case 'orbital-time': U.orbDur = Math.min(G.BASE.effectTimeMax, U.orbDur + v); U.orbT = U.orbDur; break; // longer, and all the orbs collected so far are back (the count is kept)",
             "    }",
             "};",
@@ -1725,13 +1717,12 @@
             "    spawners.forEach((o) => test(o, false));",
             "};",
             "",
-            "// ---- countdown above the player: yellow for the orbitals, blue for the shield, stacked when both run",
+            "// ---- countdown above the player for the orbitals (yellow)",
             "G.updateTimers = function (p, show) {",
             "    const R = G.R, U = G.U;",
             "    R.hud = R.hud || {};",
             "    const items = [];",
             "    if (show && U.orbitals > 0 && U.orbT > 0) items.push({ key: 'orb', t: U.orbT, color: '#ffd23c' });",
-            "    if (show && U.maxShield > 0 && U.shield > 0 && U.shieldT > 0) items.push({ key: 'shield', t: U.shieldT, color: '#4aa8ff' });",
             "    Object.keys(R.hud).forEach((k) => { R.hud[k].sprite.visible = false; });",
             "    items.forEach((it, i) => {",
             "        let e = R.hud[it.key];",
@@ -1772,7 +1763,6 @@
             "        case 'health': return fmt(U.hp === null ? 0 : U.hp, 0) + ' / ' + fmt(U.maxHp, 0);",
             "        case 'regen': return fmt(U.regen, 2) + '/s';",
             "        case 'shield': return fmt(U.shield, 0) + ' / ' + fmt(U.maxShield, 0);",
-            "        case 'shieldTime': return U.maxShield <= 0 ? '-' : U.shieldT > 0 ? secs(U.shieldT) + ' / ' + secs(U.shieldDur) : 'off (' + secs(U.shieldDur) + ')';",
             "        case 'reflect': return fmt(U.reflect, 0) + '%';",
             "        case 'speed': return fmt(U.maxSpeed, 0) + ' / ' + G.BASE.speedCap;",
             "        case 'jump': return U.jumpUnlocked ? '+' + fmt(U.jumpPct, 0) + '%' : 'locked';",
@@ -1786,7 +1776,7 @@
             "        case 'orbs': return U.orbitals + ' / ' + G.BASE.orbitalCap;",
             "        case 'orbTime': return U.orbitals <= 0 ? '-' : U.orbT > 0 ? secs(U.orbT) + ' / ' + secs(U.orbDur) : 'off (' + secs(U.orbDur) + ')';",
             "        case 'orbDamage': return fmt(G.BASE.orbDamage * (1 + U.dmgPct / 100) * mult, 1);",
-            "        case 'meta': { const m = G.metaInfo(); return 'Lv ' + m.level + ' (' + fmt(m.into, 0) + ' / ' + m.toNext + ')'; }",
+            "        case 'rank': { const m = G.rankInfo(true); return 'Rank ' + m.level + ' (' + fmt(m.into, 0) + ' / ' + m.toNext + ')'; }",
             "        case 'xpLevel': return '+' + fmt(R ? R.xpPending : 0, 0);",
             "        case 'picked': {",
             "            const list = CARDS.filter((c) => U.picks[c.id] > 0)",
@@ -1811,10 +1801,9 @@
             "G.bankXP = function () {",
             "    const R = G.R;",
             "    if (!R || R.xpPending <= 0) return;",
-            "    const before = G.metaLevel();",
-            "    G.meta.xp += R.xpPending;",
-            "    G.saveMeta();",
-            "    console.log('[Meta] +' + R.xpPending + ' xp, total ' + G.meta.xp + ', level ' + G.metaLevel() + (G.metaLevel() > before ? ' (new level!)' : ''));",
+            "    const before = G.rankLevel();",
+            "    G.rank.xp += R.xpPending;",
+            "    console.log('[Rank] +' + R.xpPending + ' xp, total ' + G.rank.xp + ', level ' + G.rankLevel() + (G.rankLevel() > before ? ' (new rank!)' : ''));",
             "    R.xpPending = 0;",
             "};",
             "",
@@ -1831,11 +1820,6 @@
             "    const p = players[0];",
             "    R.mult = p ? G.mult(p) : 1; // for the damage numbers of the stats panel",
             "    G.pull(players);",
-            "    if (U.shield <= 0) U.shieldT = 0;",
-            "    if (U.shieldT > 0) {",
-            "        U.shieldT -= dt;",
-            "        if (U.shieldT <= 0) { U.shieldT = 0; U.shield = 0; G.push(players); } // the shield runs out, health stays",
-            "    }",
             "    if (U.orbT > 0) U.orbT = Math.max(0, U.orbT - dt);",
             "    R.enemies = ctx.getObjects('Enemies').slice();",
             "    R.spawners = ctx.getObjects('Spawner').slice();",
@@ -1898,8 +1882,7 @@
             "    if (show) {",
             "        R.bubble.position.set(G.cx(p), G.cy(p), G.cz(p));",
             "        R.bubble.scale.setScalar(Math.max(80, p.getDepth() * 0.6));",
-            "        const blink = U.shieldT > 0 && U.shieldT < 2 ? 0.5 + 0.5 * Math.sin(R.t * 18) : 1; // flickers in the last 2 seconds",
-            "        R.bubble.material.opacity = 0.5 * Math.min(1, U.shield / U.maxShield) * blink;",
+            "        R.bubble.material.opacity = 0.5 * Math.min(1, U.shield / U.maxShield);",
             "    }",
             "};",
             ""
@@ -3875,7 +3858,7 @@
       "objectGroups": []
     },
     {
-      "description": "Formatted value of a player stat for the stats panel (e.g. \"85 / 125\", \"locked\", \"24s / 35s\"). Keys: health, regen, shield, shieldTime, reflect, speed, jump, shooting, shotDamage, shotRange, bounces, chain, melee, reach, orbs, orbTime, orbDamage, picked (BBCode list of the picked cards).",
+      "description": "Formatted value of a player stat for the stats panel (e.g. \"85 / 125\", \"locked\", \"24s / 35s\"). Keys: health, regen, shield, reflect, speed, jump, shooting, shotDamage, shotRange, bounces, chain, melee, reach, orbs, orbTime, orbDamage, picked (BBCode list of the picked cards).",
       "fullName": "Player stat (text)",
       "functionType": "StringExpression",
       "name": "Stat",
@@ -3933,7 +3916,7 @@
       "objectGroups": []
     },
     {
-      "description": "Adds the XP collected on this level to the meta level and saves it. Call it when the level is won (the vortex). The XP of a level that is lost (death, restart) is never banked.",
+      "description": "Adds the XP collected on this level to the rank XP. Call it when the level is won (the vortex). The XP of a level that is lost (death, restart) is never banked.",
       "fullName": "Bank XP",
       "functionType": "Action",
       "name": "BankXP",
@@ -3955,17 +3938,17 @@
       "objectGroups": []
     },
     {
-      "description": "Current meta level of the player (0 at the start).",
-      "fullName": "Meta level",
+      "description": "Rank including the XP collected on this level (live, what the XP bar shows). It can go up before the vortex. Cards unlock by the banked rank (SavedRank).",
+      "fullName": "Rank",
       "functionType": "Expression",
-      "name": "MetaLevel",
+      "name": "Rank",
       "sentence": "",
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
           "inlineCode": [
             "const G = gdjs.amazeUpg;",
-            "eventsFunctionContext.returnValue = G ? G.metaInfo().level : 0;"
+            "eventsFunctionContext.returnValue = G ? G.rankInfo(true).level : 1;"
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -3979,17 +3962,17 @@
       "objectGroups": []
     },
     {
-      "description": "XP collected inside the current meta level (0 up to MetaGoal). Does not include the XP of the level being played (see PendingXP).",
-      "fullName": "Meta XP in this level",
+      "description": "XP inside the current rank, including the XP collected on this level (live). Use it as the value of the XP bar. It falls back to the saved value if the player dies.",
+      "fullName": "Rank XP",
       "functionType": "Expression",
-      "name": "MetaXP",
+      "name": "RankXP",
       "sentence": "",
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
           "inlineCode": [
             "const G = gdjs.amazeUpg;",
-            "eventsFunctionContext.returnValue = G ? Math.floor(G.metaInfo().into) : 0;"
+            "eventsFunctionContext.returnValue = G ? Math.floor(G.rankInfo(true).into) : 0;"
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -4003,17 +3986,17 @@
       "objectGroups": []
     },
     {
-      "description": "XP needed to finish the current meta level (the goal of the progress bar).",
-      "fullName": "Meta XP goal",
+      "description": "XP needed to finish the current rank (live): the maximum of the XP bar.",
+      "fullName": "Rank XP goal",
       "functionType": "Expression",
-      "name": "MetaGoal",
+      "name": "RankGoal",
       "sentence": "",
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
           "inlineCode": [
             "const G = gdjs.amazeUpg;",
-            "eventsFunctionContext.returnValue = G ? G.metaInfo().toNext : 50;"
+            "eventsFunctionContext.returnValue = G ? G.rankInfo(true).toNext : 50;"
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -4027,17 +4010,17 @@
       "objectGroups": []
     },
     {
-      "description": "All XP banked so far, over all meta levels.",
-      "fullName": "Meta XP total",
+      "description": "All XP banked so far, over all ranks.",
+      "fullName": "Total XP",
       "functionType": "Expression",
-      "name": "MetaTotalXP",
+      "name": "TotalXP",
       "sentence": "",
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
           "inlineCode": [
             "const G = gdjs.amazeUpg;",
-            "eventsFunctionContext.returnValue = G ? Math.floor(G.meta.xp) : 0;"
+            "eventsFunctionContext.returnValue = G ? Math.floor(G.rank.xp) : 0;"
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -4062,6 +4045,54 @@
           "inlineCode": [
             "const G = gdjs.amazeUpg;",
             "eventsFunctionContext.returnValue = G && G.R ? Math.floor(G.R.xpPending) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "number"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Rank of the XP that is already banked (at a vortex). Cards unlock by this rank.",
+      "fullName": "Saved rank",
+      "functionType": "Expression",
+      "name": "SavedRank",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.rankInfo(false).level : 1;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "number"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "XP inside the banked rank, without the XP of the level being played.",
+      "fullName": "Saved rank XP",
+      "functionType": "Expression",
+      "name": "SavedRankXP",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? Math.floor(G.rankInfo(false).into) : 0;"
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -4235,19 +4266,25 @@
         "functionName": "BankXP"
       },
       {
-        "functionName": "MetaLevel"
+        "functionName": "Rank"
       },
       {
-        "functionName": "MetaXP"
+        "functionName": "RankXP"
       },
       {
-        "functionName": "MetaGoal"
+        "functionName": "RankGoal"
       },
       {
-        "functionName": "MetaTotalXP"
+        "functionName": "TotalXP"
       },
       {
         "functionName": "PendingXP"
+      },
+      {
+        "functionName": "SavedRank"
+      },
+      {
+        "functionName": "SavedRankXP"
       }
     ]
   },
