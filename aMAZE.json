@@ -1131,6 +1131,22 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/pixel art/f270f84b907c4d653ca7fad99ab890b31642bdbc0b22a189ff45be51240cf52b_Flat Bar Blue Fill Bar.png",
           "name": "Flat Bar Blue Fill Bar.png"
         }
+      },
+      {
+        "file": "assets/cards/shield-time.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_shield-time.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/orbital-time.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_orbital-time.png",
+        "smoothed": true,
+        "userAdded": true
       }
     ]
   },

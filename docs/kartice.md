@@ -47,7 +47,7 @@ Vrednosti su po retkosti: Common / Uncommon / Rare / Epic / Mythic.
 |---|---|---|---|
 | `shield` | Shield | +shield i odmah puni; ako je preko maksimuma, diže i maksimum. **Pokreće tajmer** (30 s, vidi „Tajmeri“) | 10 / 15 / 22 / 35 / 50 |
 | `healing-shield` | Shield+ | +max shield **i isto toliko shield poena odmah** (10/100 + 25 → 35/125). Ako je shield bio istekao, ponovo ga pali i pokreće tajmer | 5 / 8 / 11 / 18 / 25 |
-| `shield-time` (ikona `healing-shield`) | Shield Time | trajno produžava trajanje shield-a za 5 s, **puni shield do maksimuma i restartuje tajmer** (kao novi shield). Nudi se tek kad imaš max shield > 0, **cap 120 s** | **+5 s** za svaku retkost |
+| `shield-time` | Shield Time | trajno produžava trajanje shield-a za 5 s, **puni shield do maksimuma i restartuje tajmer** (kao novi shield). Nudi se tek kad imaš max shield > 0, **cap 120 s** | **+5 s** za svaku retkost |
 | `shield-reflect` | Reflect | šansa da se neprijateljski projektil vrati nazad (samo dok je shield > 0); vraćen projektil nanosi 8 neprijatelju u koga uleti | 5 / 8 / 11 / 18 / 25 %, **cap 75%** |
 
 Shield ide preko Health ekstenzije (`MaxShield`, `ShieldPoints`). Native trajanje Health-a je 0 (ne ističe), a isticanje radi naš tajmer (vidi „Tajmeri“). Prikaz: plava providna sfera oko igrača, providnost = `0.5 · shield / maxShield`, i plava traka (`BlueFlatBar`, UI sloj) iznad crvene, skrivena dok nema shield-a.
@@ -85,7 +85,7 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
 | `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje, isti neprijatelj najviše na 0.45 s. **Pokreće tajmer** (30 s) | 1 / 1 / 1 / 2 / 3, **cap 4** |
-| `orbital-time` (ikona `orbital`) | Orbital Time | trajno produžava trajanje orbova za 5 s, **vraća sve orbove koje si do sada skupio** (broj se pamti i kad istekne tajmer) i restartuje tajmer. Ne dodaje novi orb. Nudi se tek kad imaš bar jedan orb, **cap 120 s** | **+5 s** za svaku retkost |
+| `orbital-time` | Orbital Time | trajno produžava trajanje orbova za 5 s, **vraća sve orbove koje si do sada skupio** (broj se pamti i kad istekne tajmer) i restartuje tajmer. Ne dodaje novi orb. Nudi se tek kad imaš bar jedan orb, **cap 120 s** | **+5 s** za svaku retkost |
 
 Šteta orbitala je `6 · (1 + šteta%) · TotalDamageMultiplier`. Objekat je `PlayerOrbital` (žuta kopija `EnemyProjectile`).
 
@@ -130,10 +130,26 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 
 1. Stavi sliku u `assets/cards/<id>.png` i dodaj resurs `card_<id>.png` (u `aMAZE.json`, `file` `assets/cards/<id>.png`).
 2. U objekat `CardIcons` dodaj animaciju sa tom slikom. Bez toga izvoz ne uključuje sliku, jer se u kodu poziva samo po imenu.
-3. U `CARDS` dodaj `{ id, title, cat, v: [C, U, R, E, M], text: (v, U) => '...' }`. `cat` je jedno od `shield`, `movement`, `healing`, `attack`, `passive` (to određuje boju kartice). Ako kartica deli ikonu sa drugom, dodaj `icon: '<id druge kartice>'` (tako `shield-time` koristi sliku od `healing-shield`), i tada koraci 1 i 2 otpadaju.
+3. U `CARDS` dodaj `{ id, title, cat, v: [C, U, R, E, M], text: (v, U) => '...' }`. `cat` je jedno od `shield`, `movement`, `healing`, `attack`, `passive` (to određuje boju kartice). (Ako bi kartica ipak delila sliku sa drugom, dodaj `icon: '<id druge kartice>'` i koraci 1 i 2 otpadaju.)
 4. U `G.apply` dodaj `case` koji menja `G.U`.
 5. Ako kartica ima cap ili ne smije uvek da se nudi, dodaj uslov u `G.available`.
 6. Ako treba novi stat, dodaj ga u `G.defaults`, pa ga primeni tamo gde se koristi (`G.push` za Health i fiziku, `UpgradesStep` za ostalo, ili izraz kao `UpgradeMaxSpeed`).
+7. Da se stat vidi u panelu: dodaj `case` u `G.stat` (vrati formatiran tekst) i jednu `BBText::SetBBText` akciju u događaju panela, sa bojom kategorije.
+
+## Panel statistika (`NewStatsText`)
+
+BBText objekat na `UI` sloju (gore desno). Puni ga događaj u sceni odmah posle onog za `LevelText`: jedna akcija `BBText::SetBBText` po liniji (prva `=`, ostale `+` sa `NewLine()`). Labela, boja i redosled su u event sheet-u, a vrednost daje izraz `Amaze::Stat("ključ")` (formatiran tekst, npr. `85 / 125`, `locked`, `24s / 35s`).
+
+| Boja | Linije (ključ) |
+|---|---|
+| zelena | `health`, `regen` |
+| plava | `shield`, `shieldTime`, `reflect` |
+| narandžasta | `speed`, `jump` |
+| crvena | `shooting`, `shotDamage`, `shotRange`, `bounces`, `chain`, `melee`, `reach` |
+| žuta | `orbs`, `orbTime`, `orbDamage` |
+| po kategoriji kartice | `picked`: BBCode lista uzetih kartica (`Ricochet x2, ...`) |
+
+Brojevi štete uključuju `TotalDamageMultiplier`. Stari objekat `StatsText` (običan Text) više nije povezan i može da se obriše.
 
 ## Zamke
 

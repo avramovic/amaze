@@ -21,7 +21,7 @@
     "gridColor": 10401023,
     "gridAlpha": 0.8,
     "snap": false,
-    "zoomFactor": 2.1301659159002737,
+    "zoomFactor": 0.584378441074094,
     "windowMask": false,
     "selectedLayer": "",
     "gameEditorMode": "instances-editor"
@@ -315,6 +315,23 @@
       "x": 40,
       "y": 668,
       "zOrder": 4,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": true,
+      "depth": 1,
+      "height": 651,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "NewStatsText",
+      "persistentUuid": "5606fba5-9a9d-4719-ac0e-a2118c72c6c7",
+      "width": 341,
+      "x": 913,
+      "y": 26,
+      "zOrder": 5,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -11531,6 +11548,64 @@
               ]
             }
           ]
+        },
+        {
+          "name": "shield-time",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_shield-time.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "orbital-time",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_orbital-time.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -11596,6 +11671,69 @@
         "characterSize": 20,
         "lineHeight": 0,
         "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "StatsText",
+      "persistentUuid": "bc737b02-8fa6-4e1f-a09f-2bd0e868db6f",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "Stats here",
+      "font": "",
+      "textAlignment": "right",
+      "characterSize": 20,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "255;255;255",
+        "outlineThickness": 2,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "Stats here",
+        "font": "",
+        "textAlignment": "right",
+        "verticalTextAlignment": "top",
+        "characterSize": 20,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "name": "NewStatsText",
+      "persistentUuid": "57af3af3-a8a7-4b0c-9b96-5decc97086ee",
+      "type": "BBText::BBText",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "text": "Stats",
+        "opacity": 255,
+        "fontSize": 18,
+        "visible": true,
+        "color": "255;255;255",
+        "fontFamily": "Arial",
+        "align": "right",
+        "verticalTextAlignment": "top"
       }
     }
   ],
@@ -11864,6 +12002,12 @@
       },
       {
         "objectName": "LevelText"
+      },
+      {
+        "objectName": "StatsText"
+      },
+      {
+        "objectName": "NewStatsText"
       },
       {
         "objectName": "Astronaut_Finn_The_Frog"
@@ -15956,6 +16100,202 @@
             "Text",
             "=",
             "\"Level: \"+Level"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "=",
+            "\"[color=#4cd964]Health[/color] \" + Amaze::Stat(\"health\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#4cd964]Regen[/color] \" + Amaze::Stat(\"regen\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#4aa8ff]Shield[/color] \" + Amaze::Stat(\"shield\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#4aa8ff]Shield time[/color] \" + Amaze::Stat(\"shieldTime\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#4aa8ff]Reflect[/color] \" + Amaze::Stat(\"reflect\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff9a2a]Speed[/color] \" + Amaze::Stat(\"speed\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff9a2a]Jump[/color] \" + Amaze::Stat(\"jump\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Shooting[/color] \" + Amaze::Stat(\"shooting\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Shot damage[/color] \" + Amaze::Stat(\"shotDamage\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Shot range[/color] \" + Amaze::Stat(\"shotRange\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Bounces[/color] \" + Amaze::Stat(\"bounces\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Chain[/color] \" + Amaze::Stat(\"chain\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Melee damage[/color] \" + Amaze::Stat(\"melee\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Melee reach[/color] \" + Amaze::Stat(\"reach\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ffd23c]Orbs[/color] \" + Amaze::Stat(\"orbs\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ffd23c]Orb time[/color] \" + Amaze::Stat(\"orbTime\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ffd23c]Orb damage[/color] \" + Amaze::Stat(\"orbDamage\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"Picked:\""
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + Amaze::Stat(\"picked\")"
           ]
         }
       ]
