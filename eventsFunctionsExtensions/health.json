@@ -155,6 +155,16 @@
                             "value": "NumberVariable"
                           },
                           "parameters": [
+                            "CurrentHealth",
+                            ">",
+                            "0"
+                          ]
+                        },
+                        {
+                          "type": {
+                            "value": "NumberVariable"
+                          },
+                          "parameters": [
                             "HealthRegenRate",
                             "!=",
                             "0"
