@@ -139,30 +139,30 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 
 **Rank** je nivo igrača od XP-a (da se ne meša sa **Level**, nivoom lavirinta). Počinje od **1**, preživljava smrt i novi level, i **otključava kartice i retkosti**, ne daje snagu.
 
-- **XP po ubistvu** = `EnemyLevel × Enemy.XP` (polje `XP` na tipu neprijatelja je množilac, podrazumevano 1). Računaju se sva ubistva: hitac, melee, orbovi, lanac. Događaj u sceni: `Amaze::Enemy::JustDied` → `Amaze::AwardKillXP`.
+- **XP po šteti**: 1 izgubljeni poen zdravlja neprijatelja = 1 XP (puta polje `XP` na tipu neprijatelja, podrazumevano 1), pa 10 štete = 10 XP. Računa se stvarni pad zdravlja svaki frame (`G.trackDamage`), a ne sirova šteta, pa jači udarac ne daje više XP-a od zdravlja koje je neprijatelju ostalo (kartice za štetu ne ubrzavaju rank). Važi za sve izvore: hitac, melee, orbovi, lanac. `Amaze::AwardKillXP` (događaj `JustDied`) samo dodaje zdravlje koje nije stiglo da se izbroji.
 - **XP se upisuje tek kad se level pobedi**: dodir vortexa poziva `Amaze::BankXP` (prvi korak događaja sa vortexom). Ako igrač umre ili ponovo učita level, XP tog levela se gubi, a već upisani XP ostaje.
 - **Čuvanje:** za sada **nigde**. XP živi samo u memoriji (`gdjs.amazeUpg.rank`) i posle ponovnog učitavanja projekta kreće od 0, tj. rank 1. Čuvanje po runu dolazi kasnije.
-- **Kriva** (polinomijalna): za prelazak sa ranka R na R+1 treba `50 · R²` XP.
+- **Kriva** (linearna): za prelazak sa ranka R na R+1 treba `rankXP · R` XP, `rankXP = 10` (`G.BASE.rankXP`, jedino mesto za podešavanje tempa). Rank ne daje snagu, samo otključava kartice.
 
-| Rank | XP do sledećeg | Ukupno XP za sledeći |
-|---|---|---|
-| 1 | 50 | 50 |
-| 2 | 200 | 250 |
-| 3 | 450 | 700 |
-| 4 | 800 | 1500 |
-| 5 | 1250 | 2750 |
-| 6 | 1800 | 4550 |
+| Rank | Ukupno XP za taj rank |
+|---|---|
+| 10 | 450 |
+| 20 | 1900 |
+| 30 | 4350 |
+| 40 | 7800 |
+| 50 | 12250 |
+| 60 | 17700 |
 
 - **Otključavanja** (tabela `UNLOCK` u biblioteci; kartica koja nije u tabeli je otključana od ranka 1):
 
 | Rank | Otključava |
 |---|---|
 | 1 | arm-bandage, health-increase, running-shoe, shield, falling-blob |
-| 2 | healing, punch-blast |
-| 3 | jump-across, healing-shield |
-| 4 | ricochet, orbital, retkost **Epic** |
-| 5 | shield-reflect, fire-tail |
-| 6 | orbital-time, retkost **Mythic** |
+| 20 | healing, punch-blast |
+| 30 | jump-across, healing-shield |
+| 40 | ricochet, orbital, retkost **Epic** |
+| 50 | shield-reflect, fire-tail |
+| 60 | orbital-time, retkost **Mythic** |
 
 Zaključana retkost se ne bira (težine ostalih se preraspodeljuju). Pošto se skup kartica menja sa rankom, isti `RunSeed` daje drugačiju ponudu na različitom ranku.
 
