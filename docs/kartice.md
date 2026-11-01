@@ -45,9 +45,9 @@ Vrednosti su po retkosti: Common / Uncommon / Rare / Epic / Mythic.
 
 | Kartica (slika) | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `shield` | Shield | +shield i odmah puni; ako je preko maksimuma, diže i maksimum. **Pokreće tajmer** (10 s, vidi dole) | 10 / 15 / 22 / 35 / 50 |
-| `healing-shield` | Shield Core | +max shield (bez punjenja) | 5 / 8 / 11 / 18 / 25 |
-| `shield-time` (ikona `healing-shield`) | Shield Time | trajno produžava trajanje shield-a i dodaje to vreme na tajmer koji trenutno teče. Nudi se tek kad imaš max shield > 0, **cap 60 s** | +3 / 5 / 7 / 10 / 15 s |
+| `shield` | Shield | +shield i odmah puni; ako je preko maksimuma, diže i maksimum. **Pokreće tajmer** (30 s, vidi „Tajmeri“) | 10 / 15 / 22 / 35 / 50 |
+| `healing-shield` | Shield+ | +max shield **i isto toliko shield poena odmah** (10/100 + 25 → 35/125). Ako je shield bio istekao, ponovo ga pali i pokreće tajmer | 5 / 8 / 11 / 18 / 25 |
+| `shield-time` (ikona `healing-shield`) | Shield Time | trajno produžava trajanje shield-a za 5 s, **puni shield do maksimuma i restartuje tajmer** (kao novi shield). Nudi se tek kad imaš max shield > 0, **cap 120 s** | **+5 s** za svaku retkost |
 | `shield-reflect` | Reflect | šansa da se neprijateljski projektil vrati nazad (samo dok je shield > 0); vraćen projektil nanosi 8 neprijatelju u koga uleti | 5 / 8 / 11 / 18 / 25 %, **cap 75%** |
 
 Shield ide preko Health ekstenzije (`MaxShield`, `ShieldPoints`). Native trajanje Health-a je 0 (ne ističe), a isticanje radi naš tajmer (vidi „Tajmeri“). Prikaz: plava providna sfera oko igrača, providnost = `0.5 · shield / maxShield`, i plava traka (`BlueFlatBar`, UI sloj) iznad crvene, skrivena dok nema shield-a.
@@ -84,8 +84,8 @@ Kartica brzine se ne nudi kad je brzina na 700.
 
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje, isti neprijatelj najviše na 0.45 s. **Pokreće tajmer** (10 s) | 1 / 1 / 1 / 2 / 3, **cap 6** |
-| `orbital-time` (ikona `orbital`) | Orbital Time | trajno produžava trajanje orbova i dodaje to vreme na tajmer koji teče. Nudi se tek kad imaš bar jedan orb, **cap 60 s** | +3 / 5 / 7 / 10 / 15 s |
+| `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje, isti neprijatelj najviše na 0.45 s. **Pokreće tajmer** (30 s) | 1 / 1 / 1 / 2 / 3, **cap 4** |
+| `orbital-time` (ikona `orbital`) | Orbital Time | trajno produžava trajanje orbova za 5 s, **vraća sve orbove koje si do sada skupio** (broj se pamti i kad istekne tajmer) i restartuje tajmer. Ne dodaje novi orb. Nudi se tek kad imaš bar jedan orb, **cap 120 s** | **+5 s** za svaku retkost |
 
 Šteta orbitala je `6 · (1 + šteta%) · TotalDamageMultiplier`. Objekat je `PlayerOrbital` (žuta kopija `EnemyProjectile`).
 
@@ -93,11 +93,12 @@ Kartica brzine se ne nudi kad je brzina na 700.
 
 Shield i orbovi nisu trajni, jer bi bili prejaki.
 
-- **Početno trajanje je 10 s** za svaki (`shieldDur`, `orbDur`).
+- **Početno trajanje je 30 s** za svaki (`shieldDur`, `orbDur`).
 - **Shield:** kartica `shield` ga puni i pokreće tajmer. Kad tajmer istekne, shield se spušta na 0 (health ostaje). Ako shield potrošiš pre toga, tajmer staje. Poslednje 2 sekunde sfera treperi.
 - **Orbovi:** kartica `orbital` dodaje orbove i vraća tajmer na pun. Kad istekne, orbovi nestaju, a broj orbova ostaje zapamćen, pa nova `orbital` kartica vraća sve.
-- **Kartice za vreme** (`shield-time`, `orbital-time`) trajno povećavaju trajanje (cap 60 s) i odmah dodaju to vreme na tajmer ako teče.
+- **Kartice za vreme** (`shield-time`, `orbital-time`) trajno povećavaju trajanje za 5 s (30 → 35 → 40…, cap 120 s) i **pale efekat ponovo**: shield se puni do maksimuma, a orbovi se vraćaju u broju koji si do sada skupio (ne dobijaju novi), i oba tajmera kreću od pune (novog) trajanja.
 - Tajmeri se računaju sa vremenom igre, pa stoje dok su kartice otvorene (0.1× brzina) i **prelaze u sledeći level**.
+- **Odbrojavanje iznad igrača:** sekunde do isteka, **plavo** za shield i **žuto** za orbove. Ako teku oba, stoje jedno iznad drugog (orbovi niže).
 - Vrednosti su `shieldDur`, `shieldT`, `orbDur`, `orbT` u `gdjs.amazeUpg.U`.
 
 ## Početne vrednosti i borba
