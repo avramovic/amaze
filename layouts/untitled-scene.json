@@ -221,6 +221,9 @@
       "objects": [
         {
           "name": "Astronaut_Fernando_The_Flamingo"
+        },
+        {
+          "name": "Astronaut_Finn_The_Frog"
         }
       ]
     }
@@ -255,21 +258,6 @@
     {
       "angle": 0,
       "customSize": false,
-      "height": 157,
-      "layer": "",
-      "name": "Astronaut_Fernando_The_Flamingo",
-      "persistentUuid": "eef27f2c-8bb1-455c-b8db-c9dd7f7ca969",
-      "width": 33.28118759292817,
-      "x": 200,
-      "y": 200,
-      "zOrder": 0,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": false,
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
@@ -279,6 +267,22 @@
       "x": 39,
       "y": 644,
       "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "",
+      "name": "Astronaut_Finn_The_Frog",
+      "persistentUuid": "154e314f-ff35-4175-9d8d-0ce3e7441bb9",
+      "width": 0,
+      "x": 102,
+      "y": 127,
+      "zOrder": 2,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -1965,7 +1969,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -2128,7 +2132,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -7557,7 +7561,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "Yes",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -7720,7 +7724,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "Yes",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -7883,7 +7887,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -8046,7 +8050,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -8209,7 +8213,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -8372,7 +8376,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "Yes",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -8535,7 +8539,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -8698,7 +8702,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "Yes",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -8861,7 +8865,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -9024,7 +9028,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -9187,7 +9191,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "Yes",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -9350,7 +9354,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "100",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -9513,7 +9517,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "100",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -9676,7 +9680,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "0",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -9839,7 +9843,7 @@
           "CurrentAnim": "",
           "DesiredAnim": "",
           "CanCrossWalls": "No",
-          "FlyHeight": "120",
+          "FlyHeight": "20",
           "MeleeRange": "100",
           "SpawnerId": "0",
           "WaypointX": "0",
@@ -10744,6 +10748,275 @@
         "MaxValue": 16,
         "InitialValue": 8
       }
+    },
+    {
+      "assetStoreId": "db04c4fe364fbe5c35f54a00c7aaeaa145ce905cabe9f6dd6180c2dbb0879fd1",
+      "name": "Astronaut_Finn_The_Frog",
+      "persistentUuid": "f8567a82-da5a-448b-bf4c-3fe42c84a45d",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "FireBullet",
+          "type": "FireBullet::FireBullet",
+          "FireCooldown": 0.1,
+          "HasJustFired": false,
+          "RotateBullet": true,
+          "FiringArc": 45,
+          "BulletQuantity": 1,
+          "AngleVariance": 0,
+          "BulletSpeedVariance": 0,
+          "AmmoQuantity": 0,
+          "ShotsPerReload": 0,
+          "ReloadDuration": 1,
+          "MaxAmmo": 0,
+          "ShotsBeforeNextReload": 0,
+          "TotalShotsFired": 0,
+          "TotalBulletsCreated": 0,
+          "StartingAmmo": 0,
+          "TotalReloadsCompleted": 0,
+          "UnlimitedAmmo": true,
+          "ReloadInProgress": false,
+          "HeatIncreasePerShot": 0,
+          "HeatLevel": 0,
+          "AutomaticReloading": true,
+          "OverheatDuration": 0,
+          "LinearCoolingRate": 0.1,
+          "ExponentialCoolingRate": 0.3,
+          "BulletLayer": "",
+          "RandomizedAngle": 0
+        },
+        {
+          "name": "FireBullet3D",
+          "type": "FireBullet::FireBullet3D",
+          "Object3D": "Object3D",
+          "FireBullet": "FireBullet"
+        },
+        {
+          "name": "Health",
+          "type": "Health::Health",
+          "Health": "100",
+          "CurrentHealth": "0",
+          "MaxHealth": "100",
+          "DamageCooldown": "0.5",
+          "AllowOverHealing": "",
+          "IsHealthJustDamaged": "",
+          "DamageToBeApplied": "0",
+          "HitAtLeastOnce": "",
+          "ChanceToDodge": "0",
+          "IsJustDodged": "",
+          "HealToBeApplied": "0",
+          "HealthRegenRate": "0",
+          "HealthRegenDelay": "0",
+          "IsJustHealed": "",
+          "CurrentShieldPoints": "",
+          "MaxShieldPoints": "0",
+          "ShieldDuration": "5",
+          "ShieldRegenRate": "0",
+          "BlockExcessDamage": "",
+          "ShieldRegenDelay": "0",
+          "IsShieldJustDamaged": "",
+          "ShieldDamageTaken": "",
+          "FlatDamageReduction": "0",
+          "PercentDamageReduction": "0"
+        },
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Dynamic",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Capsule",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 22,
+          "shapeDimensionB": 150,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        },
+        {
+          "name": "PhysicsCharacter3D",
+          "type": "Physics3D::PhysicsCharacter3D",
+          "physics3D": "Physics3D",
+          "jumpHeight": 100,
+          "jumpSustainTime": 0.2,
+          "gravity": 1000,
+          "fallingSpeedMax": 700,
+          "forwardAcceleration": 1200,
+          "forwardDeceleration": 1200,
+          "forwardSpeedMax": 400,
+          "sidewaysAcceleration": 800,
+          "sidewaysDeceleration": 800,
+          "sidewaysSpeedMax": 400,
+          "slopeMaxAngle": 50,
+          "stairHeightMax": 20,
+          "shouldBindObjectAndForwardAngle": true,
+          "canBePushed": true
+        },
+        {
+          "name": "Player",
+          "type": "Amaze::Player",
+          "MoveSpeed": 300,
+          "DamageMultiplier": 1,
+          "PickupRange": 150,
+          "InvulnerabilityTime": 0.5,
+          "XPBase": 5,
+          "XPGrowth": 10,
+          "MetaBonusesEnabled": true,
+          "MetaDamagePerLevel": 0.02,
+          "MetaHPPerLevel": 0.03,
+          "MetaBonusCap": 10,
+          "Health": "Health",
+          "RunXP": 0,
+          "RunLevel": 1,
+          "PendingLevelUps": 0,
+          "JustLeveledUp": false,
+          "MetaLevel": 0,
+          "MetaDamageBonus": 0
+        },
+        {
+          "name": "PlayerFSM",
+          "type": "Amaze::PlayerFSM",
+          "Character": "PhysicsCharacter3D",
+          "Health": "Health",
+          "RunSpeed": "250",
+          "ShootDuration": "0.87",
+          "HitDuration": "0.6",
+          "HandBone": "Middle1.R",
+          "GunNode": "Pistol",
+          "GunVisible": false,
+          "State": "Idle",
+          "StateTime": "0",
+          "CurrentAnim": "",
+          "FireMoment": "0.4",
+          "FirePending": "false",
+          "FireReady": "false"
+        }
+      ],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 157,
+        "height": 157,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Astronaut Finn The Frog.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 157,
+        "animations": [
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": false,
+            "name": "Duck",
+            "source": "Duck"
+          },
+          {
+            "loop": false,
+            "name": "HitReact",
+            "source": "HitReact"
+          },
+          {
+            "loop": false,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": false,
+            "name": "Idle_Gun",
+            "source": "Idle_Gun"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": false,
+            "name": "Jump_Idle",
+            "source": "Jump_Idle"
+          },
+          {
+            "loop": false,
+            "name": "Jump_Land",
+            "source": "Jump_Land"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          },
+          {
+            "loop": false,
+            "name": "Punch",
+            "source": "Punch"
+          },
+          {
+            "loop": false,
+            "name": "Run",
+            "source": "Run"
+          },
+          {
+            "loop": false,
+            "name": "Run_Gun",
+            "source": "Run_Gun"
+          },
+          {
+            "loop": false,
+            "name": "Run_Gun_Shoot",
+            "source": "Run_Gun_Shoot"
+          },
+          {
+            "loop": false,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": false,
+            "name": "Walk_Gun",
+            "source": "Walk_Gun"
+          },
+          {
+            "loop": false,
+            "name": "Wave",
+            "source": "Wave"
+          },
+          {
+            "loop": false,
+            "name": "Weapon",
+            "source": "Weapon"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          }
+        ]
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -11008,6 +11281,9 @@
       },
       {
         "objectName": "RedFlatBar"
+      },
+      {
+        "objectName": "Astronaut_Finn_The_Frog"
       }
     ]
   },
@@ -14444,6 +14720,18 @@
             "Object3D",
             "=",
             "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::Enemy::Knockback"
+          },
+          "parameters": [
+            "Enemies",
+            "Enemy",
+            "Enemies.CenterX() - Players.CenterX()",
+            "Enemies.CenterY() - Players.CenterY()",
+            "600"
           ]
         },
         {

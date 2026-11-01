@@ -254,7 +254,7 @@
       "objectGroups": []
     },
     {
-      "description": "Show a billboard text above each living enemy (and spawner) (under flying ones): two lines: the name (the object name split into words), then a smaller line with the level and health/max health, e.g. \"Alpa King\" / \"lvl 10 · 59/100\". Labels only appear while a player is closer than the maximum distance. Spawners have no level line. Call once per frame. The style parameters can be changed in one place; colors are written as r;g;b. Sizes are in scene units.",
+      "description": "Show a billboard text above each living enemy (and spawner): two lines: the name (the object name split into words), then a smaller line with the level and health/max health, e.g. \"Alpa King\" / \"lvl 10 · 59/100\". Labels only appear while a player is closer than the maximum distance. Spawners have no level line. Call once per frame. The style parameters can be changed in one place; colors are written as r;g;b. Sizes are in scene units.",
       "fullName": "Update enemy and spawner labels",
       "functionType": "Action",
       "name": "UpdateEnemyLabels",
@@ -393,18 +393,18 @@
             "    }",
             "    return e;",
             "};",
-            "const place = function (e, o, line1, line2, below) {",
+            "const place = function (e, o, line1, line2) {",
             "    const text = line1 + \"\\n\" + line2;",
             "    if (text !== e.text || styleKey !== e.style) {",
             "        e.text = text;",
             "        e.style = styleKey;",
             "        draw(e, line1, line2);",
             "    }",
-            "    // Above the head; flying enemies are already high, so theirs goes under the body.",
+            "    // Above the head, also for flying enemies.",
             "    const half = o.getDepth() / 2;",
             "    const cz = o.getCenterZInScene();",
-            "    e.sprite.center.set(0.5, below ? 1 : 0);",
-            "    e.sprite.position.set(o.getCenterXInScene(), o.getCenterYInScene(), below ? cz - half - offset : cz + half + offset);",
+            "    e.sprite.center.set(0.5, 0);",
+            "    e.sprite.position.set(o.getCenterXInScene(), o.getCenterYInScene(), cz + half + offset);",
             "    e.sprite.visible = true;",
             "};",
             "const hpText = function (hb) {",
@@ -419,8 +419,7 @@
             "    if (!hb || !eb) continue;",
             "    const e = prepare(o, hb);",
             "    if (!e) continue;",
-            "    const flying = eb.FlyHeight(ctx) > 0 || eb.RoleName(ctx) === \"Flying\";",
-            "    place(e, o, splitName(o.getName()), \"lvl \" + Math.round(eb.Level(ctx)) + \"  ·  \" + hpText(hb), flying);",
+            "    place(e, o, splitName(o.getName()), \"lvl \" + Math.round(eb.Level(ctx)) + \"  ·  \" + hpText(hb));",
             "}",
             "// Spawners: the name and the health, without a level.",
             "const spawners = ctx.getObjects(\"Spawners\");",
@@ -430,7 +429,7 @@
             "    if (!hb) continue;",
             "    const e = prepare(o, hb);",
             "    if (!e) continue;",
-            "    place(e, o, splitName(o.getName()), hpText(hb), false);",
+            "    place(e, o, splitName(o.getName()), hpText(hb));",
             "}",
             "L.map.forEach(function (e, o) {",
             "    if (!seen.has(o)) { dropEntry(e); L.map.delete(o); }",
@@ -476,10 +475,10 @@
           "type": "objectList"
         },
         {
+          "defaultValue": "1200",
           "description": "Show labels only closer than this distance to a player",
           "name": "MaxDistance",
-          "type": "expression",
-          "defaultValue": "1200"
+          "type": "expression"
         },
         {
           "defaultValue": "22",
@@ -2508,6 +2507,7 @@
             "S.cleanMists(runtimeScene, living);",
             "const C = gdjs.amazeCull;",
             "const m = C ? C.getMaze(runtimeScene, ctx.getArgument(\"MazeId\")) : null;",
+            "S.lastMaze = m;   // used by the knock-back of dying flying enemies",
             "S.separate(living, ctx.getArgument(\"Scale\"), gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene), fixed, m);",
             "for (const player of ctx.getObjects(\"Player\")) S.blockPlayer(player, living, ctx.getArgument(\"PlayerRadius\"), m, ctx, eName);"
           ],
@@ -7406,8 +7406,20 @@
                   "type": "BuiltinCommonInstructions::JsCode",
                   "inlineCode": [
                     "const o = objects[0];",
-                    "if (!o.getZ || !o.setZ || o.getZ() <= 0) { o.__amazeFall = 0; return; }",
+                    "if (!o.getZ || !o.setZ) return;",
                     "const dt = o.getElapsedTime() / 1000;",
+                    "// A killing hit threw this flying enemy back: take the push once, hop a little and slide away with drag.",
+                    "if (o.__amazeKnock) { o.__amazeVel = o.__amazeKnock; o.__amazeKnock = null; o.__amazeFall = -o.__amazeVel.hop; }",
+                    "const v = o.__amazeVel;",
+                    "if (v) {",
+                    "    o.setPosition(o.getX() + v.x * dt, o.getY() + v.y * dt);",
+                    "    const S = gdjs.amazeSpawn;",
+                    "    if (S && S.lastMaze) S.keepInCell(S.lastMaze, o, 60);   // never through a wall",
+                    "    const drag = Math.exp(-5 * dt);",
+                    "    v.x *= drag; v.y *= drag;",
+                    "    if (Math.hypot(v.x, v.y) < 10) o.__amazeVel = null;",
+                    "}",
+                    "if (o.getZ() <= 0) { o.__amazeFall = 0; return; }",
                     "o.__amazeFall = (o.__amazeFall || 0) + 2000 * dt;",
                     "o.setZ(Math.max(0, o.getZ() - o.__amazeFall * dt));"
                   ],
@@ -7673,6 +7685,79 @@
               "name": "Behavior",
               "supplementaryInformation": "Amaze::Enemy",
               "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Remember a push for a flying enemy: if it dies from this hit it is thrown back along (DirX; DirY) while it falls. Does nothing for enemies that do not fly.",
+          "fullName": "Knock back when killed",
+          "functionType": "Action",
+          "name": "Knockback",
+          "sentence": "Throw _PARAM0_ back along _PARAM2_;_PARAM3_ with speed _PARAM4_ if it dies",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareNumbers"
+                  },
+                  "parameters": [
+                    "FlyHeight",
+                    ">",
+                    "0"
+                  ]
+                }
+              ],
+              "actions": [],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::JsCode",
+                  "inlineCode": [
+                    "const o = objects[0];",
+                    "const dx = eventsFunctionContext.getArgument(\"DirX\");",
+                    "const dy = eventsFunctionContext.getArgument(\"DirY\");",
+                    "const speed = eventsFunctionContext.getArgument(\"Speed\");",
+                    "const len = Math.hypot(dx, dy);",
+                    "if (len < 0.001) return;",
+                    "// Taken once by the fall code of the dying enemy (Enemy doStepPostEvents).",
+                    "o.__amazeKnock = { x: dx / len * speed, y: dy / len * speed, hop: speed * 0.5 };"
+                  ],
+                  "parameterObjects": "Object",
+                  "useStrict": true,
+                  "eventsSheetExpanded": false
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            },
+            {
+              "description": "Direction X (any scale)",
+              "name": "DirX",
+              "type": "expression"
+            },
+            {
+              "description": "Direction Y (any scale)",
+              "name": "DirY",
+              "type": "expression"
+            },
+            {
+              "defaultValue": "600",
+              "description": "Speed",
+              "name": "Speed",
+              "type": "expression"
             }
           ],
           "objectGroups": []
@@ -9414,6 +9499,9 @@
           },
           {
             "functionName": "ForceAggro"
+          },
+          {
+            "functionName": "Knockback"
           },
           {
             "functionName": "Celebrate"
