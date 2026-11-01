@@ -15333,6 +15333,56 @@
       ]
     },
     {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "lifeLeft",
+            "<=",
+            "0"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "PlayerProjectile.X()",
+            "PlayerProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "PlayerProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            ""
+          ]
+        }
+      ]
+    },
+    {
       "disabled": true,
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
