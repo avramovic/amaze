@@ -73,9 +73,9 @@ Kartica brzine se ne nudi kad je brzina na 700.
 
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `falling-blob` | Heavy Shot | **prva otključava pucanje** (desni klik), kasnije + šteta i + domet projektila | 8 / 12 / 18 / 28 / 40 % |
+| `falling-blob` | Heavy Shot | **prva otključava pucanje** (desni klik), kasnije + šteta (%) i + domet projektila u **sekundama** (osnovni domet je 1 s) | šteta 8 / 12 / 18 / 28 / 40 %, domet +0.15 / 0.2 / 0.3 / 0.4 / 0.5 s |
 | `ricochet` | Ricochet | + odbijanja projektila od zida (početno 0) | 1 / 1 / 1 / 2 / 3 |
-| `fire-tail` | Chain Shot | projektil posle pogotka skače na najbližeg neprijatelja koji nije pogođen (do 800 daleko), ista šteta | 1 / 1 / 1 / 2 / 3 skokova |
+| `fire-tail` | Chain Shot | posle pogotka iz neprijatelja izlazi **pravi projektil** (isti kao prvi hitac, ista šteta) ka najbližem neprijatelju koji nije pogođen, **u vidokrugu** (isti red ili kolona lavirinta bez zida) i **najviše 800 daleko** (2 polja). Nema odbijanja, staje na prvom zidu; kratko ne može da pogodi neprijatelja iz kog je izašao | 1 / 1 / 1 / 2 / 3 skokova |
 | `punch-blast` | Punch Blast | + šteta melee udarca i + domet melee-ja (domet raste 0.6 × vrednost, 60 → **max 120**) | 10 / 15 / 22 / 35 / 50 % |
 
 `ricochet` i `fire-tail` se **ne nude dok se ne otključa pucanje** (nemaju efekta bez njega).
@@ -107,7 +107,7 @@ Shield i orbovi nisu trajni, jer bi bili prejaki.
 |---|---|---|
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
-| Pucanje | zaključano | desni klik, šteta 10, domet 4 s, odbijanja 0, lanac 0 |
+| Pucanje | zaključano | desni klik, šteta 10, domet 1 s (brzina 1000), odbijanja 0, lanac 0 |
 | Melee | otključan | levi klik, animacija `Weapon`, šteta 15, domet 60 (max 120), konus 65° ispred igrača, meri se do ivice neprijatelja |
 | Level | 1 | globalna promenljiva |
 

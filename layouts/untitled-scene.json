@@ -10177,11 +10177,17 @@
           "name": "lifeLeft",
           "persistentUuid": "9f947011-0710-46b8-9a5d-b028cee29803",
           "type": "number",
-          "value": 4
+          "value": 1
         },
         {
           "name": "bounceCd",
           "persistentUuid": "7084a978-ce40-4002-8217-31be92bd1832",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "spawnGrace",
+          "persistentUuid": "02067834-0765-48b7-bbd7-60e659b84aeb",
           "type": "number",
           "value": 0
         }
@@ -15736,6 +15742,17 @@
             "Health",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "spawnGrace",
+            "<=",
+            "0"
+          ]
         }
       ],
       "actions": [
@@ -16285,7 +16302,7 @@
           "parameters": [
             "NewStatsText",
             "+",
-            "NewLine() + \"Picked:\""
+            "NewLine() + NewLine() + \"[b]Picked:[/b]\""
           ]
         },
         {
