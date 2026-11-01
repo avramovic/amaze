@@ -21,7 +21,7 @@
     "gridColor": 10401023,
     "gridAlpha": 0.8,
     "snap": false,
-    "zoomFactor": 0.35534345588169863,
+    "zoomFactor": 2.1301659159002737,
     "windowMask": false,
     "selectedLayer": "",
     "gameEditorMode": "instances-editor"
@@ -264,8 +264,8 @@
       "name": "RedFlatBar",
       "persistentUuid": "d0b87bc3-3704-4948-b73d-8297c0fc094d",
       "width": 0,
-      "x": 39,
-      "y": 644,
+      "x": 40,
+      "y": 625,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -283,6 +283,38 @@
       "x": 102,
       "y": 127,
       "zOrder": 2,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "BlueFlatBar",
+      "persistentUuid": "313eed92-802a-4db9-99fe-4eec527b2c76",
+      "width": 0,
+      "x": 40,
+      "y": 583,
+      "zOrder": 3,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "LevelText",
+      "persistentUuid": "3c814655-56dd-4155-8061-3db29d2a011e",
+      "width": 0,
+      "x": 40,
+      "y": 668,
+      "zOrder": 4,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -10038,7 +10070,7 @@
       "variables": [
         {
           "name": "reflected",
-          "persistentUuid": "84a2aff6-d8e7-45bd-907e-a62d60196af0",
+          "persistentUuid": "7234faa9-4c63-46b4-8d7b-367e6cdb5a95",
           "type": "number",
           "value": 0
         }
@@ -10114,25 +10146,25 @@
         },
         {
           "name": "damage",
-          "persistentUuid": "1d489f89-8927-48dd-b688-ff90d3ba39cb",
+          "persistentUuid": "671f49ce-870b-4a82-9688-c79d299ff4f5",
           "type": "number",
           "value": 10
         },
         {
           "name": "chainLeft",
-          "persistentUuid": "663adff3-3ca5-4264-9fb3-1f45610b215a",
+          "persistentUuid": "a2ebfb88-7f9e-4306-974d-d36f2ef978db",
           "type": "number",
           "value": 0
         },
         {
           "name": "lifeLeft",
-          "persistentUuid": "97ff8e14-0708-4dba-b6ed-ce6749ecd622",
+          "persistentUuid": "9f947011-0710-46b8-9a5d-b028cee29803",
           "type": "number",
           "value": 4
         },
         {
           "name": "bounceCd",
-          "persistentUuid": "e48c6c42-d2e1-46ab-be31-187b75798873",
+          "persistentUuid": "7084a978-ce40-4002-8217-31be92bd1832",
           "type": "number",
           "value": 0
         }
@@ -11050,8 +11082,9 @@
       }
     },
     {
+      "assetStoreId": "",
       "name": "PlayerOrbital",
-      "persistentUuid": "756abe53-d24a-4f8f-9053-bf230ee7ab68",
+      "persistentUuid": "85440bb2-6cdc-4e95-b8bf-345a6c8ca14d",
       "type": "ParticleEmitter3D::ParticleEmitter3D",
       "variant": "",
       "variables": [],
@@ -11062,15 +11095,15 @@
         "StartColor": "255;215;60",
         "StartOpacity": 204,
         "SpayConeAngle": 1,
-        "StartSizeMin": 128,
-        "StartSizeMax": 128,
+        "StartSizeMin": 36,
+        "StartSizeMax": 36,
         "EndScale": 0.375,
-        "Flow": 100,
-        "LifespanMin": 0.5,
-        "LifespanMax": 0.5,
+        "Flow": 80,
+        "LifespanMin": 0.4,
+        "LifespanMax": 0.4,
         "Duration": 123456,
-        "StartSpeedMin": 300,
-        "StartSpeedMax": 600,
+        "StartSpeedMin": 0,
+        "StartSpeedMax": 5,
         "ShouldAutodestruct": true
       },
       "childrenContent": {
@@ -11115,7 +11148,7 @@
       "adaptCollisionMaskAutomatically": true,
       "assetStoreId": "",
       "name": "CardIcons",
-      "persistentUuid": "477eaca8-4917-47eb-b300-c867a6010c9b",
+      "persistentUuid": "763a4982-8b35-4043-a0d5-338e6cf1d714",
       "type": "Sprite",
       "updateIfNotVisible": false,
       "variables": [],
@@ -11500,6 +11533,70 @@
           ]
         }
       ]
+    },
+    {
+      "assetStoreId": "0a398f1656e34f64758c909a71ca17cd69fd41bd251d89ff5a640303c4279f50",
+      "name": "BlueFlatBar",
+      "persistentUuid": "200706d7-3f20-4a02-845a-6fd626f19531",
+      "type": "PanelSpriteContinuousBar::PanelSpriteContinuousBar",
+      "variant": "Blue Flat Bar",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "PreviousHighValueDuration": 0,
+        "ShowLabel": true,
+        "BarTopPadding": 4,
+        "BarBottomPadding": 6,
+        "BarLeftPadding": 4,
+        "BarRightPadding": 4,
+        "MaxValue": 16,
+        "InitialValue": 8
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "LevelText",
+      "persistentUuid": "b55a072f-bb44-4d21-bd42-39448ab6647c",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "Level: 1",
+      "font": "",
+      "textAlignment": "left",
+      "characterSize": 20,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "255;255;255",
+        "outlineThickness": 2,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "Level: 1",
+        "font": "",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 20,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -11766,6 +11863,9 @@
         "objectName": "RedFlatBar"
       },
       {
+        "objectName": "LevelText"
+      },
+      {
         "objectName": "Astronaut_Finn_The_Frog"
       },
       {
@@ -11773,6 +11873,9 @@
       },
       {
         "objectName": "CardIcons"
+      },
+      {
+        "objectName": "BlueFlatBar"
       }
     ]
   },
@@ -11889,8 +11992,7 @@
             ""
           ]
         }
-      ],
-      "events": []
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -14061,8 +14163,7 @@
             ""
           ]
         }
-      ],
-      "events": []
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -14209,8 +14310,7 @@
             ""
           ]
         }
-      ],
-      "events": []
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -14485,8 +14585,7 @@
             ""
           ]
         }
-      ],
-      "events": []
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -15086,8 +15185,7 @@
             "PlayerFSM"
           ]
         }
-      ],
-      "events": []
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -15203,8 +15301,7 @@
             ""
           ]
         }
-      ],
-      "events": []
+      ]
     },
     {
       "disabled": true,
@@ -15823,6 +15920,85 @@
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetMaxValue"
+          },
+          "parameters": [
+            "BlueFlatBar",
+            "=",
+            "max(1, Players.Health::MaxShield())",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetValue"
+          },
+          "parameters": [
+            "BlueFlatBar",
+            "=",
+            "Players.Health::ShieldPoints()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+          },
+          "parameters": [
+            "LevelText",
+            "Text",
+            "=",
+            "\"Level: \"+Level"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+          },
+          "parameters": [
+            "Players.Health::MaxShield()",
+            ">",
+            "0"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Show"
+          },
+          "parameters": [
+            "BlueFlatBar",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Else",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "Hide"
+          },
+          "parameters": [
+            "BlueFlatBar"
+          ]
+        }
+      ]
     }
   ],
   "layers": [
@@ -16048,6 +16224,10 @@
     {
       "name": "Spawning",
       "type": "Amaze::Spawner"
+    },
+    {
+      "name": "Text",
+      "type": "TextContainerCapability::TextContainerBehavior"
     }
   ]
 }

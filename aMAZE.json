@@ -1119,6 +1119,18 @@
         "name": "card_orbital.png",
         "smoothed": true,
         "userAdded": true
+      },
+      {
+        "file": "assets/Flat Bar Blue Fill Bar2.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Flat Bar Blue Fill Bar.png",
+        "smoothed": false,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/pixel art/f270f84b907c4d653ca7fad99ab890b31642bdbc0b22a189ff45be51240cf52b_Flat Bar Blue Fill Bar.png",
+          "name": "Flat Bar Blue Fill Bar.png"
+        }
       }
     ]
   },
