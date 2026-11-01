@@ -21,10 +21,10 @@
     "gridColor": 10401023,
     "gridAlpha": 0.8,
     "snap": false,
-    "zoomFactor": 0.9296875000000001,
+    "zoomFactor": 0.35534345588169863,
     "windowMask": false,
     "selectedLayer": "",
-    "gameEditorMode": "embedded-game"
+    "gameEditorMode": "instances-editor"
   },
   "objectsGroups": [
     {
@@ -199,6 +199,9 @@
         },
         {
           "name": "wall_vertical"
+        },
+        {
+          "name": "Tree_High_Round"
         }
       ]
     },
@@ -260,6 +263,22 @@
       "x": 200,
       "y": 200,
       "zOrder": 0,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "RedFlatBar",
+      "persistentUuid": "d0b87bc3-3704-4948-b73d-8297c0fc094d",
+      "width": 0,
+      "x": 39,
+      "y": 644,
+      "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -10649,6 +10668,82 @@
         "width": 120,
         "animations": []
       }
+    },
+    {
+      "assetStoreId": "",
+      "name": "cryptopod",
+      "persistentUuid": "29bf4ba3-bcee-4581-80a3-3f44d5de702a",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "Physics3D",
+          "type": "Physics3D::Physics3DBehavior",
+          "object3D": "Object3D",
+          "bodyType": "Static",
+          "bullet": false,
+          "fixedRotation": false,
+          "shape": "Box",
+          "meshShapeResourceName": "",
+          "shapeOrientation": "Z",
+          "shapeDimensionA": 0,
+          "shapeDimensionB": 0,
+          "shapeDimensionC": 0,
+          "shapeOffsetX": 0,
+          "shapeOffsetY": 0,
+          "shapeOffsetZ": 0,
+          "massCenterOffsetX": 0,
+          "massCenterOffsetY": 0,
+          "massCenterOffsetZ": 0,
+          "massOverride": 0,
+          "density": 1,
+          "friction": 0.3,
+          "restitution": 0.1,
+          "linearDamping": 0.1,
+          "angularDamping": 0.1,
+          "gravityScale": 1,
+          "layers": 17,
+          "masks": 17
+        }
+      ],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 200,
+        "height": 200,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "sci-fi_cryopod.glb",
+        "originLocation": "BottomCenterZ",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 200,
+        "animations": []
+      }
+    },
+    {
+      "assetStoreId": "3d6c54e76a9a06cbd7629c1e78388d4ab808bbf36d644c61d6a14c9ad34d4f89",
+      "name": "RedFlatBar",
+      "persistentUuid": "54186d34-5c62-4410-b7aa-a3f6d91305b9",
+      "type": "PanelSpriteContinuousBar::PanelSpriteContinuousBar",
+      "variant": "Red Flat Bar",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "PreviousHighValueDuration": 0,
+        "ShowLabel": true,
+        "BarTopPadding": 4,
+        "BarBottomPadding": 6,
+        "BarLeftPadding": 4,
+        "BarRightPadding": 4,
+        "MaxValue": 16,
+        "InitialValue": 8
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -10668,12 +10763,18 @@
               },
               {
                 "objectName": "Floor_Tiles"
+              },
+              {
+                "objectName": "cryptopod"
               }
             ]
           },
           {
             "folderName": "Green",
             "children": [
+              {
+                "objectName": "Tree_High_Round"
+              },
               {
                 "objectName": "Ground_Path_Open"
               },
@@ -10687,9 +10788,6 @@
           },
           {
             "objectName": "Pillar_Stone"
-          },
-          {
-            "objectName": "Tree_High_Round"
           }
         ]
       },
@@ -10907,6 +11005,9 @@
       },
       {
         "objectName": "ExplosionSparks"
+      },
+      {
+        "objectName": "RedFlatBar"
       }
     ]
   },
@@ -12614,7 +12715,6 @@
       "actions": []
     },
     {
-      "disabled": true,
       "type": "BuiltinCommonInstructions::ForEach",
       "object": "Pillar_Stone",
       "conditions": [
@@ -12625,21 +12725,8 @@
           },
           "parameters": [
             "Pillar_Stone",
+            "Walls",
             "Hedge_Large",
-            "Hedge_Large",
-            "Physics3D",
-            ""
-          ]
-        },
-        {
-          "type": {
-            "inverted": true,
-            "value": "CollisionNP"
-          },
-          "parameters": [
-            "Pillar_Stone",
-            "Hedge_Large_Hor",
-            "Hedge_Large_Hor",
             "Physics3D",
             ""
           ]
@@ -12652,7 +12739,7 @@
           },
           "parameters": [
             "",
-            "Tree_High_Round",
+            "cryptopod",
             "Pillar_Stone.X()",
             "Pillar_Stone.Y()",
             ""
@@ -12675,8 +12762,23 @@
       "actions": []
     },
     {
+      "disabled": true,
       "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [],
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "CollisionNP"
+          },
+          "parameters": [
+            "Pillar_Stone",
+            "Hedge_Large_Hor",
+            "Hedge_Large_Hor",
+            "Physics3D",
+            ""
+          ]
+        }
+      ],
       "actions": []
     },
     {
@@ -12722,6 +12824,25 @@
             "Enemy",
             "Health",
             "Object3D",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::UpdateEnemyLabels"
+          },
+          "parameters": [
+            "",
+            "Enemies",
+            "Enemy",
+            "Health",
+            "22",
+            "\"0;0;0\"",
+            "\"255;255;255\"",
+            "3",
+            "\"74;74;74\"",
+            "0.25",
+            "15",
             ""
           ]
         },
@@ -12991,7 +13112,7 @@
                 "value": "BuiltinCommonInstructions::CompareNumbers"
               },
               "parameters": [
-                "Abs(Players.Object3D::CenterZ() - Enemies.Object3D::CenterZ())",
+                "abs(Players.Object3D::CenterZ() - Enemies.Object3D::CenterZ())",
                 "<=",
                 "87 + Enemies.Enemy::FlyHeight()"
               ]
@@ -13147,7 +13268,8 @@
             "Health",
             "8",
             "yes",
-            "yes"
+            "yes",
+            ""
           ]
         },
         {
@@ -13193,7 +13315,9 @@
           },
           "parameters": [
             "EnemyProjectile",
-            "Hedge_Large",
+            "Walls",
+            "",
+            "",
             ""
           ]
         }
@@ -13234,6 +13358,7 @@
       ]
     },
     {
+      "disabled": true,
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
         {
@@ -13283,6 +13408,7 @@
       ]
     },
     {
+      "disabled": true,
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
         {
@@ -14591,6 +14717,34 @@
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetMaxValue"
+          },
+          "parameters": [
+            "RedFlatBar",
+            "=",
+            "Players.Health::MaxHealth()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetValue"
+          },
+          "parameters": [
+            "RedFlatBar",
+            "=",
+            "Players.Health::Health()",
+            ""
+          ]
+        }
+      ]
     }
   ],
   "layers": [
@@ -14677,12 +14831,72 @@
           "booleanParameters": {}
         }
       ]
+    },
+    {
+      "ambientLightColorB": 200,
+      "ambientLightColorG": 200,
+      "ambientLightColorR": 200,
+      "camera2DPlaneMaxDrawingDistance": 5000,
+      "camera3DFarPlaneDistance": 10000,
+      "camera3DFieldOfView": 45,
+      "camera3DNearPlaneDistance": 3,
+      "cameraType": "",
+      "followBaseLayerCamera": false,
+      "isLightingLayer": false,
+      "isLocked": false,
+      "name": "UI",
+      "renderingType": "",
+      "visibility": true,
+      "cameras": [],
+      "effects": [
+        {
+          "effectType": "Scene3D::HemisphereLight",
+          "name": "3D Ambient Hemisphere Light",
+          "doubleParameters": {
+            "elevation": 40,
+            "intensity": 0.33,
+            "rotation": 300
+          },
+          "stringParameters": {
+            "groundColor": "127;127;127",
+            "skyColor": "255;255;255",
+            "top": "Z+"
+          },
+          "booleanParameters": {}
+        },
+        {
+          "effectType": "Scene3D::DirectionalLight",
+          "name": "3D Sun Light",
+          "doubleParameters": {
+            "distanceFromCamera": 1500,
+            "elevation": 40,
+            "frustumSize": 4000,
+            "intensity": 0.75,
+            "minimumShadowBias": 0,
+            "rotation": 300,
+            "shadowDistance": 2000
+          },
+          "stringParameters": {
+            "color": "255;255;255",
+            "shadowQuality": "medium",
+            "shadowRenderingMode": "fittedToCameraView",
+            "top": "Z+"
+          },
+          "booleanParameters": {
+            "isCastingShadow": true
+          }
+        }
+      ]
     }
   ],
   "behaviorsSharedData": [
     {
       "name": "Animation",
       "type": "AnimatableCapability::AnimatableBehavior"
+    },
+    {
+      "name": "Effect",
+      "type": "EffectCapability::EffectBehavior"
     },
     {
       "name": "Enemy",
@@ -14711,6 +14925,10 @@
     {
       "name": "Object3D",
       "type": "Scene3D::Base3DBehavior"
+    },
+    {
+      "name": "Opacity",
+      "type": "OpacityCapability::OpacityBehavior"
     },
     {
       "name": "Physics3D",

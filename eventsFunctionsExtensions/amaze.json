@@ -19,7 +19,7 @@
   "sceneVariables": [],
   "eventsFunctions": [
     {
-      "description": "Replace every enemy that is ready to evolve with an object of the name in its EvolvesTo property. HP percentage, position, rotation and aggro carry over. Call once per frame; the group must contain every object that can be created.",
+      "description": "Replace every enemy that is ready to evolve with an object of the name in its EvolvesTo property. HP percentage, position, rotation and aggro carry over. Call once per frame; the group must contain every object that can be created. The level carries over too.",
       "fullName": "Process evolutions",
       "functionType": "Action",
       "name": "ProcessEvolutions",
@@ -49,9 +49,11 @@
             "    n.setPosition(o.getX(), o.getY());",
             "    n.setAngle(o.getAngle());",
             "    if (n.setZ && o.getZ) n.setZ(o.getZ());",
+            "    const nb = n.getBehavior(eName);",
+            "    // The new form keeps the level, so its max health and damage are scaled like the old one.",
+            "    nb.ApplyLevelScaling(eb.Level(ctx), ctx);",
             "    const nh = n.getBehavior(hName);",
             "    nh.SetCurrentHealth(pct * nh.MaxHealth(ctx), ctx);",
-            "    const nb = n.getBehavior(eName);",
             "    if (n.setZ) n.setZ(Math.max(n.getZ(), nb.FlyHeight(ctx)));",
             "    nb.SetSpawnerId(eb.SpawnerId(ctx), ctx);",
             "    nb.SetSlotAngle(eb.SlotAngle(ctx), ctx);",
@@ -246,6 +248,210 @@
         {
           "description": "Maximum number of corpses",
           "name": "MaxCorpses",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Show a billboard text above each living enemy (under flying ones): name (the object name split into words), level and health/max health, e.g. \"Alpa King (lvl 10) 59/100\". Call once per frame. The style parameters can be changed in one place; colors are written as r;g;b. Sizes are in scene units.",
+      "fullName": "Update enemy labels",
+      "functionType": "Action",
+      "name": "UpdateEnemyLabels",
+      "sentence": "Update the labels of _PARAM1_ (text size _PARAM4_, color _PARAM5_, outline _PARAM6_ of thickness _PARAM7_, background _PARAM8_ at opacity _PARAM9_, distance _PARAM10_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const ctx = eventsFunctionContext;",
+            "const L = gdjs.amazeLabels = gdjs.amazeLabels || { map: new Map(), scene: null, threeScene: null };",
+            "const threeScene = runtimeScene.getLayer(\"\").getRenderer().getThreeScene();",
+            "if (!threeScene) return;",
+            "",
+            "const dropEntry = function (e) {",
+            "    e.sprite.removeFromParent();",
+            "    if (e.texture) e.texture.dispose();",
+            "    e.sprite.material.dispose();",
+            "};",
+            "// A new scene (restart) has new objects and a new three scene: forget everything.",
+            "if (L.scene !== runtimeScene || L.threeScene !== threeScene) {",
+            "    L.map.forEach(dropEntry);",
+            "    L.map.clear();",
+            "    L.scene = runtimeScene;",
+            "    L.threeScene = threeScene;",
+            "}",
+            "",
+            "const eName = ctx.getBehaviorName(\"EnemyBehavior\");",
+            "const hName = ctx.getBehaviorName(\"HealthBehavior\");",
+            "const fontSize = Math.max(1, ctx.getArgument(\"FontSize\"));",
+            "const outline = Math.max(0, ctx.getArgument(\"OutlineThickness\"));",
+            "const bgOpacity = Math.min(1, Math.max(0, ctx.getArgument(\"BackgroundOpacity\")));",
+            "const offset = ctx.getArgument(\"Offset\");",
+            "const css = function (s) {",
+            "    const p = String(s).split(\";\");",
+            "    return \"rgb(\" + (p[0] || 0) + \",\" + (p[1] || 0) + \",\" + (p[2] || 0) + \")\";",
+            "};",
+            "const textColor = css(ctx.getArgument(\"TextColor\"));",
+            "const outlineColor = css(ctx.getArgument(\"OutlineColor\"));",
+            "const bgColor = css(ctx.getArgument(\"BackgroundColor\"));",
+            "const styleKey = [fontSize, textColor, outlineColor, outline, bgColor, bgOpacity].join(\"|\");",
+            "",
+            "const FONT_PX = 48;              // font size on the canvas",
+            "const k = FONT_PX / fontSize;    // canvas pixels per world unit",
+            "const splitName = function (n) {",
+            "    return n.replace(/([a-z])([A-Z])/g, \"$1 $2\").replace(/([A-Za-z])(\\d)/g, \"$1 $2\");",
+            "};",
+            "",
+            "const draw = function (e, text) {",
+            "    const c = e.canvas;",
+            "    const g = c.getContext(\"2d\");",
+            "    const font = \"bold \" + FONT_PX + \"px sans-serif\";",
+            "    g.font = font;",
+            "    const lw = outline * k;",
+            "    const pad = lw + FONT_PX * 0.25;",
+            "    const w = Math.ceil(g.measureText(text).width + pad * 2);",
+            "    const h = Math.ceil(FONT_PX * 1.3 + pad * 2);",
+            "    c.width = w;       // resizing also clears the canvas",
+            "    c.height = h;",
+            "    g.font = font;",
+            "    g.textAlign = \"center\";",
+            "    g.textBaseline = \"middle\";",
+            "    g.lineJoin = \"round\";",
+            "    if (bgOpacity > 0) {",
+            "        g.globalAlpha = bgOpacity;",
+            "        g.fillStyle = bgColor;",
+            "        const r = h / 4;",
+            "        g.beginPath();",
+            "        g.moveTo(r, 0); g.lineTo(w - r, 0); g.quadraticCurveTo(w, 0, w, r);",
+            "        g.lineTo(w, h - r); g.quadraticCurveTo(w, h, w - r, h);",
+            "        g.lineTo(r, h); g.quadraticCurveTo(0, h, 0, h - r);",
+            "        g.lineTo(0, r); g.quadraticCurveTo(0, 0, r, 0);",
+            "        g.fill();",
+            "        g.globalAlpha = 1;",
+            "    }",
+            "    if (lw > 0) {",
+            "        g.strokeStyle = outlineColor;",
+            "        g.lineWidth = lw;",
+            "        g.strokeText(text, w / 2, h / 2);",
+            "    }",
+            "    g.fillStyle = textColor;",
+            "    g.fillText(text, w / 2, h / 2);",
+            "    // A canvas texture cannot change size once uploaded, so each redraw gets a new texture.",
+            "    if (e.texture) e.texture.dispose();",
+            "    e.texture = new THREE.CanvasTexture(c);",
+            "    e.texture.colorSpace = THREE.SRGBColorSpace;",
+            "    e.sprite.material.map = e.texture;",
+            "    e.sprite.material.needsUpdate = true;",
+            "    e.sprite.scale.set(w / k, h / k, 1);",
+            "};",
+            "",
+            "const seen = new Set();",
+            "const list = ctx.getObjects(\"Enemies\");",
+            "for (let i = 0; i < list.length; i++) {",
+            "    const o = list[i];",
+            "    const hb = o.getBehavior(hName);",
+            "    const eb = o.getBehavior(eName);",
+            "    if (!hb || !eb) continue;",
+            "    seen.add(o);",
+            "    let e = L.map.get(o);",
+            "    if (hb.IsDead(ctx)) {          // dead enemies and corpses have no label",
+            "        if (e) { dropEntry(e); L.map.delete(o); }",
+            "        continue;",
+            "    }",
+            "    if (o.isHidden()) {            // hidden by maze culling",
+            "        if (e) e.sprite.visible = false;",
+            "        continue;",
+            "    }",
+            "    if (!e) {",
+            "        const mat = new THREE.SpriteMaterial({ transparent: true, depthWrite: false, depthTest: true, toneMapped: false, fog: false });",
+            "        const sprite = new THREE.Sprite(mat);",
+            "        sprite.renderOrder = 10;",
+            "        threeScene.add(sprite);",
+            "        e = { sprite: sprite, canvas: document.createElement(\"canvas\"), texture: null, text: \"\", style: \"\" };",
+            "        L.map.set(o, e);",
+            "    }",
+            "    const text = splitName(o.getName()) + \" (lvl \" + Math.round(eb.Level(ctx)) + \") \" +",
+            "        Math.ceil(hb.Health(ctx)) + \"/\" + Math.ceil(hb.MaxHealth(ctx));",
+            "    if (text !== e.text || styleKey !== e.style) {",
+            "        e.text = text;",
+            "        e.style = styleKey;",
+            "        draw(e, text);",
+            "    }",
+            "    // Above the head; flying enemies are already high, so theirs goes under the body.",
+            "    const half = o.getDepth() / 2;",
+            "    const cz = o.getCenterZInScene();",
+            "    const flying = eb.FlyHeight(ctx) > 0 || eb.RoleName(ctx) === \"Flying\";",
+            "    e.sprite.center.set(0.5, flying ? 1 : 0);",
+            "    e.sprite.position.set(o.getCenterXInScene(), o.getCenterYInScene(), flying ? cz - half - offset : cz + half + offset);",
+            "    e.sprite.visible = true;",
+            "}",
+            "L.map.forEach(function (e, o) {",
+            "    if (!seen.has(o)) { dropEntry(e); L.map.delete(o); }",
+            "});"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enemies (group with the Enemy behavior)",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemy behavior",
+          "name": "EnemyBehavior",
+          "supplementaryInformation": "Amaze::Enemy",
+          "type": "behavior"
+        },
+        {
+          "description": "Health behavior",
+          "name": "HealthBehavior",
+          "supplementaryInformation": "Health::Health",
+          "type": "behavior"
+        },
+        {
+          "defaultValue": "22",
+          "description": "Text height",
+          "name": "FontSize",
+          "type": "expression"
+        },
+        {
+          "defaultValue": "255;255;255",
+          "description": "Text color",
+          "name": "TextColor",
+          "type": "color"
+        },
+        {
+          "defaultValue": "0;0;0",
+          "description": "Outline color",
+          "name": "OutlineColor",
+          "type": "color"
+        },
+        {
+          "defaultValue": "3",
+          "description": "Outline thickness (0 = none)",
+          "name": "OutlineThickness",
+          "type": "expression"
+        },
+        {
+          "defaultValue": "0;0;0",
+          "description": "Background color",
+          "name": "BackgroundColor",
+          "type": "color"
+        },
+        {
+          "defaultValue": "0",
+          "description": "Background opacity (0 = none, 1 = solid)",
+          "name": "BackgroundOpacity",
+          "type": "expression"
+        },
+        {
+          "defaultValue": "15",
+          "description": "Distance from the model",
+          "name": "Offset",
           "type": "expression"
         }
       ],
@@ -2521,6 +2727,9 @@
       },
       {
         "functionName": "LimitCorpses"
+      },
+      {
+        "functionName": "UpdateEnemyLabels"
       },
       {
         "functionName": "onFirstSceneLoaded"
@@ -7544,7 +7753,7 @@
           "objectGroups": []
         },
         {
-          "description": "Scale max health (+10% per level up to level 20, then +5%) and damage (+4% per level up to level 20, then +2%) from the level number.",
+          "description": "Scale max health (+10% per level up to level 20, then +5%) and damage (+4% per level up to level 20, then +2%) from the level number. The level is stored and available with the Level expression.",
           "fullName": "Apply level scaling",
           "functionType": "Action",
           "name": "ApplyLevelScaling",
@@ -7554,6 +7763,16 @@
               "type": "BuiltinCommonInstructions::Standard",
               "conditions": [],
               "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "EnemyLevel",
+                    "=",
+                    "Level"
+                  ]
+                },
                 {
                   "type": {
                     "value": "Health::Health::SetMaxHealth"
@@ -8477,6 +8696,46 @@
           "objectGroups": []
         },
         {
+          "description": "Level the enemy was scaled to (set by Apply level scaling).",
+          "fullName": "Level",
+          "functionType": "Expression",
+          "name": "Level",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "EnemyLevel"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::Enemy",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
           "description": "Role of the enemy (Swarm, Chaser, Ranged...).",
           "fullName": "Role name",
           "functionType": "StringExpression",
@@ -9140,6 +9399,9 @@
             "functionName": "SpawnerId"
           },
           {
+            "functionName": "Level"
+          },
+          {
             "functionName": "RoleName"
           },
           {
@@ -9592,6 +9854,13 @@
           "name": "SpawnerId"
         },
         {
+          "value": "1",
+          "type": "Number",
+          "label": "Level the enemy was scaled to",
+          "hidden": true,
+          "name": "EnemyLevel"
+        },
+        {
           "value": "0",
           "type": "Number",
           "label": "Waypoint X",
@@ -9981,6 +10250,9 @@
           },
           {
             "propertyName": "SpawnerId"
+          },
+          {
+            "propertyName": "EnemyLevel"
           },
           {
             "propertyName": "WaypointX"
