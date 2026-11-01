@@ -1147,6 +1147,42 @@
         "name": "card_orbital-time.png",
         "smoothed": true,
         "userAdded": true
+      },
+      {
+        "file": "assets/Rounded Square Grey Fill Bar.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "assets\\Rounded Square Grey Fill Bar.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/Kenney/c4a2ea12eae507ab3314577d6829c6c51e228a3c2126f8689a0cf79a834cb5ec_Rounded Square Grey Fill Bar.png",
+          "name": "Rounded Square Grey Fill Bar.png"
+        }
+      },
+      {
+        "file": "assets/Rounded Square Transparent Border.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "assets\\Rounded Square Transparent Border.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/Kenney/c46289cfc281466abbbcc54ed9fdf27435171f135ca45e3bc4da5ef6f9ac9ef4_Rounded Square Transparent Border.png",
+          "name": "Rounded Square Transparent Border.png"
+        }
+      },
+      {
+        "file": "assets/Rounded Square Yellow Fill Bar.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "assets\\Rounded Square Yellow Fill Bar.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/Kenney/787adbbfd4d93e6a2f33d7b20115926d950e35c177ca2e699370ec02504c53be_Rounded Square Yellow Fill Bar.png",
+          "name": "Rounded Square Yellow Fill Bar.png"
+        }
       }
     ]
   },

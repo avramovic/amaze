@@ -260,22 +260,6 @@
       "customSize": false,
       "height": 0,
       "keepRatio": true,
-      "layer": "UI",
-      "name": "RedFlatBar",
-      "persistentUuid": "d0b87bc3-3704-4948-b73d-8297c0fc094d",
-      "width": 0,
-      "x": 40,
-      "y": 625,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": false,
-      "height": 0,
-      "keepRatio": true,
       "layer": "",
       "name": "Astronaut_Finn_The_Frog",
       "persistentUuid": "154e314f-ff35-4175-9d8d-0ce3e7441bb9",
@@ -283,38 +267,6 @@
       "x": 102,
       "y": 127,
       "zOrder": 2,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": false,
-      "height": 0,
-      "keepRatio": true,
-      "layer": "UI",
-      "name": "BlueFlatBar",
-      "persistentUuid": "313eed92-802a-4db9-99fe-4eec527b2c76",
-      "width": 0,
-      "x": 40,
-      "y": 583,
-      "zOrder": 3,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": false,
-      "height": 0,
-      "keepRatio": true,
-      "layer": "UI",
-      "name": "LevelText",
-      "persistentUuid": "3c814655-56dd-4155-8061-3db29d2a011e",
-      "width": 0,
-      "x": 40,
-      "y": 668,
-      "zOrder": 4,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -332,6 +284,23 @@
       "x": 913,
       "y": 26,
       "zOrder": 5,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": true,
+      "depth": 1,
+      "height": 20,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "XPBar",
+      "persistentUuid": "7baca1c2-3cc8-44d4-a01e-0d8d08281de4",
+      "width": 1184,
+      "x": 46,
+      "y": 674,
+      "zOrder": 6,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -10816,26 +10785,6 @@
       }
     },
     {
-      "assetStoreId": "3d6c54e76a9a06cbd7629c1e78388d4ab808bbf36d644c61d6a14c9ad34d4f89",
-      "name": "RedFlatBar",
-      "persistentUuid": "54186d34-5c62-4410-b7aa-a3f6d91305b9",
-      "type": "PanelSpriteContinuousBar::PanelSpriteContinuousBar",
-      "variant": "Red Flat Bar",
-      "variables": [],
-      "effects": [],
-      "behaviors": [],
-      "content": {
-        "PreviousHighValueDuration": 0,
-        "ShowLabel": true,
-        "BarTopPadding": 4,
-        "BarBottomPadding": 6,
-        "BarLeftPadding": 4,
-        "BarRightPadding": 4,
-        "MaxValue": 16,
-        "InitialValue": 8
-      }
-    },
-    {
       "assetStoreId": "db04c4fe364fbe5c35f54a00c7aaeaa145ce905cabe9f6dd6180c2dbb0879fd1",
       "name": "Astronaut_Finn_The_Frog",
       "persistentUuid": "f8567a82-da5a-448b-bf4c-3fe42c84a45d",
@@ -11616,114 +11565,6 @@
       ]
     },
     {
-      "assetStoreId": "0a398f1656e34f64758c909a71ca17cd69fd41bd251d89ff5a640303c4279f50",
-      "name": "BlueFlatBar",
-      "persistentUuid": "200706d7-3f20-4a02-845a-6fd626f19531",
-      "type": "PanelSpriteContinuousBar::PanelSpriteContinuousBar",
-      "variant": "Blue Flat Bar",
-      "variables": [],
-      "effects": [],
-      "behaviors": [],
-      "content": {
-        "PreviousHighValueDuration": 0,
-        "ShowLabel": true,
-        "BarTopPadding": 4,
-        "BarBottomPadding": 6,
-        "BarLeftPadding": 4,
-        "BarRightPadding": 4,
-        "MaxValue": 16,
-        "InitialValue": 8
-      }
-    },
-    {
-      "assetStoreId": "",
-      "bold": false,
-      "italic": false,
-      "name": "LevelText",
-      "persistentUuid": "b55a072f-bb44-4d21-bd42-39448ab6647c",
-      "smoothed": true,
-      "type": "TextObject::Text",
-      "underlined": false,
-      "variables": [],
-      "effects": [],
-      "behaviors": [],
-      "string": "Level: 1",
-      "font": "",
-      "textAlignment": "left",
-      "characterSize": 20,
-      "color": {
-        "b": 0,
-        "g": 0,
-        "r": 0
-      },
-      "content": {
-        "bold": false,
-        "isOutlineEnabled": true,
-        "isShadowEnabled": false,
-        "italic": false,
-        "outlineColor": "255;255;255",
-        "outlineThickness": 2,
-        "shadowAngle": 90,
-        "shadowBlurRadius": 2,
-        "shadowColor": "0;0;0",
-        "shadowDistance": 4,
-        "shadowOpacity": 127,
-        "smoothed": true,
-        "underlined": false,
-        "text": "Level: 1",
-        "font": "",
-        "textAlignment": "left",
-        "verticalTextAlignment": "top",
-        "characterSize": 20,
-        "lineHeight": 0,
-        "color": "0;0;0"
-      }
-    },
-    {
-      "assetStoreId": "",
-      "bold": false,
-      "italic": false,
-      "name": "StatsText",
-      "persistentUuid": "bc737b02-8fa6-4e1f-a09f-2bd0e868db6f",
-      "smoothed": true,
-      "type": "TextObject::Text",
-      "underlined": false,
-      "variables": [],
-      "effects": [],
-      "behaviors": [],
-      "string": "Stats here",
-      "font": "",
-      "textAlignment": "right",
-      "characterSize": 20,
-      "color": {
-        "b": 0,
-        "g": 0,
-        "r": 0
-      },
-      "content": {
-        "bold": false,
-        "isOutlineEnabled": true,
-        "isShadowEnabled": false,
-        "italic": false,
-        "outlineColor": "255;255;255",
-        "outlineThickness": 2,
-        "shadowAngle": 90,
-        "shadowBlurRadius": 2,
-        "shadowColor": "0;0;0",
-        "shadowDistance": 4,
-        "shadowOpacity": 127,
-        "smoothed": true,
-        "underlined": false,
-        "text": "Stats here",
-        "font": "",
-        "textAlignment": "right",
-        "verticalTextAlignment": "top",
-        "characterSize": 20,
-        "lineHeight": 0,
-        "color": "0;0;0"
-      }
-    },
-    {
       "assetStoreId": "",
       "name": "NewStatsText",
       "persistentUuid": "57af3af3-a8a7-4b0c-9b96-5decc97086ee",
@@ -11740,6 +11581,25 @@
         "fontFamily": "Arial",
         "align": "right",
         "verticalTextAlignment": "top"
+      }
+    },
+    {
+      "assetStoreId": "b9685c526017062e7a580f9fc329d9618b5da9d03979b62db4de25cb3aa79e60",
+      "name": "XPBar",
+      "persistentUuid": "5aa9ceae-6272-4933-85b5-fd004362366d",
+      "type": "PanelSpriteContinuousBar::PanelSpriteContinuousBar",
+      "variant": "Rounded Square Grey Bar",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "InitialValue": 12,
+        "MaxValue": 16,
+        "BarTopPadding": 8,
+        "BarRightPadding": 10,
+        "BarBottomPadding": 8,
+        "BarLeftPadding": 10,
+        "PreviousHighValueDuration": 0
       }
     }
   ],
@@ -12004,15 +11864,6 @@
         "objectName": "ExplosionSparks"
       },
       {
-        "objectName": "RedFlatBar"
-      },
-      {
-        "objectName": "LevelText"
-      },
-      {
-        "objectName": "StatsText"
-      },
-      {
         "objectName": "NewStatsText"
       },
       {
@@ -12025,7 +11876,7 @@
         "objectName": "CardIcons"
       },
       {
-        "objectName": "BlueFlatBar"
+        "objectName": "XPBar"
       }
     ]
   },
@@ -15063,6 +14914,32 @@
       "conditions": [
         {
           "type": {
+            "value": "Amaze::Enemy::JustDied"
+          },
+          "parameters": [
+            "Enemies",
+            "Enemy"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::AwardKillXP"
+          },
+          "parameters": [
+            "",
+            "Enemies",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
             "value": "Distance"
           },
           "parameters": [
@@ -15080,6 +14957,15 @@
         }
       ],
       "actions": [
+        {
+          "type": {
+            "value": "Amaze::BankXP"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
         {
           "type": {
             "value": "SetNumberVariable"
@@ -16060,79 +15946,42 @@
       "actions": [
         {
           "type": {
-            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetMaxValue"
+            "value": "BBText::SetBBText"
           },
           "parameters": [
-            "RedFlatBar",
+            "NewStatsText",
             "=",
-            "Players.Health::MaxHealth()",
-            ""
+            "\"[b]Level: \" + Level + \"[/b]\""
           ]
         },
-        {
-          "type": {
-            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetValue"
-          },
-          "parameters": [
-            "RedFlatBar",
-            "=",
-            "Players.Health::Health()",
-            ""
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [],
-      "actions": [
-        {
-          "type": {
-            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetMaxValue"
-          },
-          "parameters": [
-            "BlueFlatBar",
-            "=",
-            "max(1, Players.Health::MaxShield())",
-            ""
-          ]
-        },
-        {
-          "type": {
-            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetValue"
-          },
-          "parameters": [
-            "BlueFlatBar",
-            "=",
-            "Players.Health::ShieldPoints()",
-            ""
-          ]
-        },
-        {
-          "type": {
-            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
-          },
-          "parameters": [
-            "LevelText",
-            "Text",
-            "=",
-            "\"Level: \"+Level"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [],
-      "actions": [
         {
           "type": {
             "value": "BBText::SetBBText"
           },
           "parameters": [
             "NewStatsText",
-            "=",
-            "\"[color=#4cd964]Health[/color] \" + Amaze::Stat(\"health\")"
+            "+",
+            "NewLine() + \"[color=#c9a0ff]Meta level:[/color] \" + ToString(Amaze::MetaLevel())"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#c9a0ff]XP:[/color] \" + ToString(Amaze::MetaXP()) + \" / \" + ToString(Amaze::MetaGoal()) + \"  (+\" + ToString(Amaze::PendingXP()) + \" this level)\""
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + NewLine() + \"[color=#4cd964]Health[/color] \" + Amaze::Stat(\"health\")"
           ]
         },
         {
@@ -16314,45 +16163,27 @@
             "+",
             "NewLine() + Amaze::Stat(\"picked\")"
           ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
+        },
         {
           "type": {
-            "value": "BuiltinCommonInstructions::CompareNumbers"
+            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetMaxValue"
           },
           "parameters": [
-            "Players.Health::MaxShield()",
-            ">",
-            "0"
-          ]
-        }
-      ],
-      "actions": [
-        {
-          "type": {
-            "value": "Show"
-          },
-          "parameters": [
-            "BlueFlatBar",
+            "XPBar",
+            "=",
+            "Amaze::MetaGoal()",
             ""
           ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Else",
-      "conditions": [],
-      "actions": [
+        },
         {
           "type": {
-            "value": "Hide"
+            "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetValue"
           },
           "parameters": [
-            "BlueFlatBar"
+            "XPBar",
+            "=",
+            "Amaze::MetaXP()",
+            ""
           ]
         }
       ]

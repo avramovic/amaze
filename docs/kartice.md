@@ -108,7 +108,7 @@ Shield i orbovi nisu trajni, jer bi bili prejaki.
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
 | Pucanje | zaključano | desni klik, šteta 10, domet 1 s (brzina 1000), odbijanja 0, lanac 0 |
-| Melee | otključan | levi klik, animacija `Weapon`, šteta 15, domet 60 (max 120), konus 65° ispred igrača, meri se do ivice neprijatelja |
+| Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120), konus 65° ispred igrača, meri se do ivice neprijatelja |
 | Level | 1 | globalna promenljiva |
 
 Sve ove šteta se množe sa `Player::TotalDamageMultiplier()`. Melee udara na `MeleeMoment = 0.35 s` u animaciji (procena, treba podesiti).
@@ -134,7 +134,43 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 4. U `G.apply` dodaj `case` koji menja `G.U`.
 5. Ako kartica ima cap ili ne smije uvek da se nudi, dodaj uslov u `G.available`.
 6. Ako treba novi stat, dodaj ga u `G.defaults`, pa ga primeni tamo gde se koristi (`G.push` za Health i fiziku, `UpgradesStep` za ostalo, ili izraz kao `UpgradeMaxSpeed`).
-7. Da se stat vidi u panelu: dodaj `case` u `G.stat` (vrati formatiran tekst) i jednu `BBText::SetBBText` akciju u događaju panela, sa bojom kategorije.
+7. Svaka nova kartica treba i red u tabeli `UNLOCK` (od kog meta nivoa se nudi). Bez reda je dostupna od nivoa 0.
+8. Da se stat vidi u panelu: dodaj `case` u `G.stat` (vrati formatiran tekst) i jednu `BBText::SetBBText` akciju u događaju panela, sa bojom kategorije.
+
+## XP i meta nivo
+
+Meta nivo je trajan (preživljava smrt i novi run) i **otključava kartice i retkosti**, ne daje snagu.
+
+- **XP po ubistvu** = `EnemyLevel × Enemy.XP` (polje `XP` na tipu neprijatelja je množilac, podrazumevano 1). Računaju se sva ubistva: hitac, melee, orbovi, lanac. Događaj u sceni: `Amaze::Enemy::JustDied` → `Amaze::AwardKillXP`.
+- **XP se čuva tek kad se level pobedi**: dodir vortexa poziva `Amaze::BankXP` (prvi korak događaja sa vortexom). Ako igrač umre ili ponovo učita level, XP tog levela se gubi, a sačuvani meta XP ostaje.
+- **Čuvanje:** `localStorage` ključ `aMAZE.meta` (`{ "xp": N }`). Ako storage nije dostupan, radi u memoriji i piše upozorenje u konzoli.
+- **Kriva** (polinomijalna): meta nivo L košta `50 · L²` XP.
+
+| Nivo | Cena nivoa | Ukupno XP |
+|---|---|---|
+| 1 | 50 | 50 |
+| 2 | 200 | 250 |
+| 3 | 450 | 700 |
+| 4 | 800 | 1500 |
+| 5 | 1250 | 2750 |
+| 6 | 1800 | 4550 |
+
+- **Otključavanja** (tabela `UNLOCK` u biblioteci; kartica koja nije u tabeli je otključana od nivoa 0):
+
+| Meta nivo | Otključava |
+|---|---|
+| 0 | arm-bandage, health-increase, running-shoe, shield, falling-blob |
+| 1 | healing, punch-blast |
+| 2 | jump-across, healing-shield |
+| 3 | ricochet, orbital, retkost **Epic** |
+| 4 | shield-reflect, fire-tail |
+| 5 | shield-time, orbital-time, retkost **Mythic** |
+
+Zaključana retkost se ne bira (težine ostalih se preraspodeljuju). Pošto se skup kartica menja sa meta nivoom, isti `RunSeed` daje drugačiju ponudu na različitom meta nivou.
+
+**Izrazi** (za progress bar i tekst): `Amaze::MetaLevel()`, `Amaze::MetaXP()` (XP unutar trenutnog meta nivoa), `Amaze::MetaGoal()` (cilj tog nivoa, to je maksimum bara), `Amaze::MetaTotalXP()` (sav sačuvani XP) i `Amaze::PendingXP()` (XP levela koji se igra, čeka vortex). Progress bar: `SetMaxValue = Amaze::MetaGoal()`, `SetValue = Amaze::MetaXP()`.
+
+Resetovanje napretka tokom testiranja: u konzoli browsera `localStorage.removeItem('aMAZE.meta')`.
 
 ## Panel statistika (`NewStatsText`)
 
@@ -142,6 +178,7 @@ BBText objekat na `UI` sloju (gore desno). Puni ga događaj u sceni odmah posle 
 
 | Boja | Linije (ključ) |
 |---|---|
+| ljubičasta (iznad statova) | `meta` (nivo i XP do sledećeg), `xpLevel` (XP ovog levela, čeka vortex) |
 | zelena | `health`, `regen` |
 | plava | `shield`, `shieldTime`, `reflect` |
 | narandžasta | `speed`, `jump` |

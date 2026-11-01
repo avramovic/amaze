@@ -1240,7 +1240,7 @@
             "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 1) return;",
             "const G = (gdjs.amazeUpg = { version: 1 });",
             "",
-            "G.BASE = { speed: 300, speedCap: 700, shot: 10, life: 1, melee: 15, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 1000, orbitalCap: 4, effectTime: 30, effectTimeMax: 120, timeCard: 5 };",
+            "G.BASE = { speed: 300, speedCap: 700, shot: 10, life: 1, melee: 5, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 1000, orbitalCap: 4, effectTime: 30, effectTimeMax: 120, timeCard: 5 };",
             "",
             "const RARITY = [",
             "    { name: 'Common', color: '#aab0b8' },",
@@ -1272,6 +1272,34 @@
             "    { id: 'orbital-time', title: 'Orbital Time', cat: 'passive', v: [5, 5, 5, 5, 5], text: (v, U) => '+' + v + 's duration, respawns ' + U.orbitals + ' orb' + (U.orbitals > 1 ? 's' : '') },",
             "];",
             "G.CARDS = CARDS;",
+            "",
+            "// ---- meta level: XP from kills, banked when the level is won (the vortex), saved in localStorage.",
+            "// It never resets with a run. It unlocks cards (UNLOCK) and the Epic / Mythic rarities (RARITY_UNLOCK).",
+            "const UNLOCK = {",
+            "    'arm-bandage': 0, 'health-increase': 0, 'running-shoe': 0, 'shield': 0, 'falling-blob': 0,",
+            "    'healing': 1, 'punch-blast': 1,",
+            "    'jump-across': 2, 'healing-shield': 2,",
+            "    'ricochet': 3, 'orbital': 3,",
+            "    'shield-reflect': 4, 'fire-tail': 4,",
+            "    'shield-time': 5, 'orbital-time': 5,",
+            "};",
+            "const RARITY_UNLOCK = [0, 0, 0, 3, 5]; // meta level needed for Common, Uncommon, Rare, Epic, Mythic",
+            "G.UNLOCK = UNLOCK;",
+            "G.metaCost = function (level) { return 50 * level * level; }; // XP to go from level-1 to level: 50, 200, 450, 800...",
+            "G.meta = { xp: 0 };",
+            "try {",
+            "    const raw = window.localStorage.getItem('aMAZE.meta');",
+            "    if (raw) G.meta.xp = Math.max(0, Number(JSON.parse(raw).xp) || 0);",
+            "} catch (e) { console.warn('[Meta] storage not available, the progress will not be saved'); }",
+            "G.saveMeta = function () {",
+            "    try { window.localStorage.setItem('aMAZE.meta', JSON.stringify({ xp: G.meta.xp })); } catch (e) { /* no storage */ }",
+            "};",
+            "G.metaInfo = function () {",
+            "    let xp = G.meta.xp, level = 0;",
+            "    while (xp >= G.metaCost(level + 1)) { xp -= G.metaCost(level + 1); level++; }",
+            "    return { level, into: xp, toNext: G.metaCost(level + 1) };",
+            "};",
+            "G.metaLevel = function () { return G.metaInfo().level; };",
             "function CARDS_RANGE(ri) { return CARDS.find((c) => c.id === 'falling-blob').range[ri]; }",
             "",
             "G.defaults = function () {",
@@ -1313,6 +1341,7 @@
             "// ---- offers",
             "G.available = function (c) {",
             "    const U = G.U;",
+            "    if ((UNLOCK[c.id] || 0) > G.metaLevel()) return false;",
             "    switch (c.id) {",
             "        case 'running-shoe': return U.maxSpeed < G.BASE.speedCap;",
             "        case 'shield-reflect': return U.reflect < G.BASE.reflectCap;",
@@ -1332,7 +1361,8 @@
             "G.roll = function (seed, level) {",
             "    const r = G.rng(seed);",
             "    const pool = CARDS.filter(G.available);",
-            "    const w = G.weights(level);",
+            "    const meta = G.metaLevel();",
+            "    const w = G.weights(level).map((x, i) => (meta >= RARITY_UNLOCK[i] ? x : 0)); // locked rarities never roll",
             "    const total = w.reduce((a, b) => a + b, 0);",
             "    const out = [];",
             "    for (let k = 0; k < 3 && pool.length; k++) {",
@@ -1439,7 +1469,7 @@
             "    if (runSeed) U.runSeed = runSeed;",
             "    G.R = {",
             "        scene: runtimeScene, threeScene: runtimeScene.getLayer('').getRenderer().getThreeScene(),",
-            "        frame: 0, t: 0, open: false, openAt: 0, closedFrame: -1, pickedFrame: -1, ui: null, cards: [], keyPick: -1,",
+            "        frame: 0, t: 0, xpPending: 0, open: false, openAt: 0, closedFrame: -1, pickedFrame: -1, ui: null, cards: [], keyPick: -1,",
             "        enemies: [], spawners: [], orbs: [], orbAngle: 0, bubble: null,",
             "    };",
             "    runtimeScene.getTimeManager().setTimeScale(1);",
@@ -1756,6 +1786,8 @@
             "        case 'orbs': return U.orbitals + ' / ' + G.BASE.orbitalCap;",
             "        case 'orbTime': return U.orbitals <= 0 ? '-' : U.orbT > 0 ? secs(U.orbT) + ' / ' + secs(U.orbDur) : 'off (' + secs(U.orbDur) + ')';",
             "        case 'orbDamage': return fmt(G.BASE.orbDamage * (1 + U.dmgPct / 100) * mult, 1);",
+            "        case 'meta': { const m = G.metaInfo(); return 'Lv ' + m.level + ' (' + fmt(m.into, 0) + ' / ' + m.toNext + ')'; }",
+            "        case 'xpLevel': return '+' + fmt(R ? R.xpPending : 0, 0);",
             "        case 'picked': {",
             "            const list = CARDS.filter((c) => U.picks[c.id] > 0)",
             "                .map((c) => '[color=' + TEXT_COLOR[c.cat] + ']' + c.title + ' x' + U.picks[c.id] + '[/color]');",
@@ -1763,6 +1795,27 @@
             "        }",
             "        default: return '?';",
             "    }",
+            "};",
+            "",
+            "// ---- XP: every enemy that just died gives EnemyLevel x its XP value; it is banked only when the level is won",
+            "G.awardKills = function (enemies) {",
+            "    const R = G.R;",
+            "    if (!R) return;",
+            "    let sum = 0;",
+            "    for (const e of enemies) {",
+            "        const b = e.getBehavior('Enemy');",
+            "        if (b) sum += (Number(b._getEnemyLevel()) || 1) * (Number(b._getXP()) || 1);",
+            "    }",
+            "    R.xpPending += sum;",
+            "};",
+            "G.bankXP = function () {",
+            "    const R = G.R;",
+            "    if (!R || R.xpPending <= 0) return;",
+            "    const before = G.metaLevel();",
+            "    G.meta.xp += R.xpPending;",
+            "    G.saveMeta();",
+            "    console.log('[Meta] +' + R.xpPending + ' xp, total ' + G.meta.xp + ', level ' + G.metaLevel() + (G.metaLevel() > before ? ' (new level!)' : ''));",
+            "    R.xpPending = 0;",
             "};",
             "",
             "// ---- the per-frame step",
@@ -3850,6 +3903,176 @@
         }
       ],
       "objectGroups": []
+    },
+    {
+      "description": "Gives XP for the enemies that just died: EnemyLevel x the XP value of each enemy. The XP of a level is only banked when the vortex is touched (see Bank XP). Use it with the condition 'Just died' on the enemies.",
+      "fullName": "Award kill XP",
+      "functionType": "Action",
+      "name": "AwardKillXP",
+      "sentence": "Give XP for the enemies that just died",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (!G || !G.R) return;",
+            "G.awardKills(eventsFunctionContext.getObjects('Enemies'));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enemies (that just died)",
+          "name": "Enemies",
+          "type": "objectList"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Adds the XP collected on this level to the meta level and saves it. Call it when the level is won (the vortex). The XP of a level that is lost (death, restart) is never banked.",
+      "fullName": "Bank XP",
+      "functionType": "Action",
+      "name": "BankXP",
+      "sentence": "Bank the XP of this level",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (!G) return;",
+            "G.bankXP();"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Current meta level of the player (0 at the start).",
+      "fullName": "Meta level",
+      "functionType": "Expression",
+      "name": "MetaLevel",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.metaInfo().level : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "number"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "XP collected inside the current meta level (0 up to MetaGoal). Does not include the XP of the level being played (see PendingXP).",
+      "fullName": "Meta XP in this level",
+      "functionType": "Expression",
+      "name": "MetaXP",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? Math.floor(G.metaInfo().into) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "number"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "XP needed to finish the current meta level (the goal of the progress bar).",
+      "fullName": "Meta XP goal",
+      "functionType": "Expression",
+      "name": "MetaGoal",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.metaInfo().toNext : 50;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "number"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "All XP banked so far, over all meta levels.",
+      "fullName": "Meta XP total",
+      "functionType": "Expression",
+      "name": "MetaTotalXP",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? Math.floor(G.meta.xp) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "number"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "XP collected on the level being played. It is banked only when the vortex is touched, and lost on death.",
+      "fullName": "Pending XP of this level",
+      "functionType": "Expression",
+      "name": "PendingXP",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G && G.R ? Math.floor(G.R.xpPending) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "number"
+      },
+      "parameters": [],
+      "objectGroups": []
     }
   ],
   "eventsFunctionsFolderStructure": {
@@ -4004,6 +4227,27 @@
       },
       {
         "functionName": "Stat"
+      },
+      {
+        "functionName": "AwardKillXP"
+      },
+      {
+        "functionName": "BankXP"
+      },
+      {
+        "functionName": "MetaLevel"
+      },
+      {
+        "functionName": "MetaXP"
+      },
+      {
+        "functionName": "MetaGoal"
+      },
+      {
+        "functionName": "MetaTotalXP"
+      },
+      {
+        "functionName": "PendingXP"
       }
     ]
   },
