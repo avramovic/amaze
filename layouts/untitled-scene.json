@@ -10941,12 +10941,12 @@
             "source": "HitReact"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Idle",
             "source": "Idle"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Idle_Gun",
             "source": "Idle_Gun"
           },
@@ -10976,32 +10976,32 @@
             "source": "Punch"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Run",
             "source": "Run"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Run_Gun",
             "source": "Run_Gun"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Run_Gun_Shoot",
             "source": "Run_Gun_Shoot"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Walk",
             "source": "Walk"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Walk_Gun",
             "source": "Walk_Gun"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Wave",
             "source": "Wave"
           },

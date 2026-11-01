@@ -913,6 +913,108 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Sushi Restaurant/Ground/917c27180c1463876aab56f60582aed11a941f07f30a0ece00e30b85dd067e95_Floor Tiles.glb",
           "name": "Floor Tiles.glb"
         }
+      },
+      {
+        "file": "sci-fi_cryopod.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "sci-fi_cryopod.glb",
+        "userAdded": false
+      },
+      {
+        "file": "assets/LowPoly 3D Heart Resource Bar Separated Empty.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "assets\\LowPoly 3D Heart Resource Bar Separated Empty.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/7728a19eed956ec227b47311c438f9a8df47398e12b902e78fa74ac2b89baf6c_LowPoly 3D Heart Resource Bar Separated Empty.png",
+          "name": "LowPoly 3D Heart Resource Bar Separated Empty.png"
+        }
+      },
+      {
+        "file": "assets/LowPoly 3D Heart Resource Bar Separated Filled.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "assets\\LowPoly 3D Heart Resource Bar Separated Filled.png",
+        "smoothed": true,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/4ac29b012011e0e9bbba5a06a9c534ebfb784fe7ac887d3535206ac4cfd81c0a_LowPoly 3D Heart Resource Bar Separated Filled.png",
+          "name": "LowPoly 3D Heart Resource Bar Separated Filled.png"
+        }
+      },
+      {
+        "file": "assets/Metal Bar Border.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Metal Bar Border.png",
+        "smoothed": false,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/pixel art/f8e5d88f8b377f182d5d42adf0bf9bc5f94034ac24c410f07ba27c46cda841c3_Metal Bar Border.png",
+          "name": "Metal Bar Border.png"
+        }
+      },
+      {
+        "file": "assets/Pixel Red Fill Bar.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Pixel Red Fill Bar.png",
+        "smoothed": false,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/pixel art/3eee053defc4f2944d72ef78b5aebbac31634202712157a3630b84fe08d79cbb_Pixel Red Fill Bar.png",
+          "name": "Pixel Red Fill Bar.png"
+        }
+      },
+      {
+        "file": "assets/Pixel Yellow Fill Bar.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Pixel Yellow Fill Bar.png",
+        "smoothed": false,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/pixel art/62f87cd20640fba9413cea576a648c6995a6d0e0026ba0adadb937ab3adec1b1_Pixel Yellow Fill Bar.png",
+          "name": "Pixel Yellow Fill Bar.png"
+        }
+      },
+      {
+        "file": "assets/Flat Bar Red Fill Bar.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Flat Bar Red Fill Bar.png",
+        "smoothed": false,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/pixel art/212e9679eaae4753beaa5d595d7c80ea66df3235485c6a3963e88b0d936a1798_Flat Bar Red Fill Bar.png",
+          "name": "Flat Bar Red Fill Bar.png"
+        }
+      },
+      {
+        "file": "assets/Flat Bar White Border.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "Flat Bar White Border.png",
+        "smoothed": false,
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/pixel art/c090d31cafed0c8ef7bb4d5af75a7dbf7149bcc03a7d5d63ae997d59100e362e_Flat Bar White Border.png",
+          "name": "Flat Bar White Border.png"
+        }
+      },
+      {
+        "file": "assets/Astronaut Finn The Frog.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Astronaut Finn The Frog.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Space Station/Characters/6f6c40ff16a3c156bcc53f12f8999bc4380b397cbe0da18d91581294b506d6ad_Astronaut Finn The Frog.glb",
+          "name": "Astronaut Finn The Frog.glb"
+        }
       }
     ]
   },
@@ -926,7 +1028,7 @@
       "name": "Level",
       "persistentUuid": "11efaaa5-d7e0-445b-aa79-860f04fdec7f",
       "type": "number",
-      "value": 10
+      "value": 15
     },
     {
       "name": "RunSeed",
@@ -982,6 +1084,14 @@
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/eventsFunctionsExtensions/show3dcollisionshapes"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/tiledunitsbar"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/panelspritecontinuousbar"
     }
   ],
   "externalLayouts": []
