@@ -861,10 +861,10 @@
           "fallingSpeedMax": 700,
           "forwardAcceleration": 1200,
           "forwardDeceleration": 1200,
-          "forwardSpeedMax": 400,
+          "forwardSpeedMax": 300,
           "sidewaysAcceleration": 800,
           "sidewaysDeceleration": 800,
-          "sidewaysSpeedMax": 400,
+          "sidewaysSpeedMax": 300,
           "slopeMaxAngle": 50,
           "stairHeightMax": 20,
           "shouldBindObjectAndForwardAngle": true,
@@ -10035,7 +10035,14 @@
       "persistentUuid": "adbb467d-4045-4534-868f-35c361520a1a",
       "type": "ParticleEmitter3D::ParticleEmitter3D",
       "variant": "",
-      "variables": [],
+      "variables": [
+        {
+          "name": "reflected",
+          "persistentUuid": "84a2aff6-d8e7-45bd-907e-a62d60196af0",
+          "type": "number",
+          "value": 0
+        }
+      ],
       "effects": [],
       "behaviors": [],
       "content": {
@@ -10102,6 +10109,30 @@
         {
           "name": "bouncesLeft",
           "persistentUuid": "291488dc-e057-4b7a-8603-9ad8d2412bc6",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "damage",
+          "persistentUuid": "1d489f89-8927-48dd-b688-ff90d3ba39cb",
+          "type": "number",
+          "value": 10
+        },
+        {
+          "name": "chainLeft",
+          "persistentUuid": "663adff3-3ca5-4264-9fb3-1f45610b215a",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "lifeLeft",
+          "persistentUuid": "97ff8e14-0708-4dba-b6ed-ce6749ecd622",
+          "type": "number",
+          "value": 4
+        },
+        {
+          "name": "bounceCd",
+          "persistentUuid": "e48c6c42-d2e1-46ab-be31-187b75798873",
           "type": "number",
           "value": 0
         }
@@ -10860,10 +10891,10 @@
           "fallingSpeedMax": 700,
           "forwardAcceleration": 1200,
           "forwardDeceleration": 1200,
-          "forwardSpeedMax": 400,
+          "forwardSpeedMax": 300,
           "sidewaysAcceleration": 800,
           "sidewaysDeceleration": 800,
-          "sidewaysSpeedMax": 400,
+          "sidewaysSpeedMax": 300,
           "slopeMaxAngle": 50,
           "stairHeightMax": 20,
           "shouldBindObjectAndForwardAngle": true,
@@ -11017,6 +11048,458 @@
           }
         ]
       }
+    },
+    {
+      "name": "PlayerOrbital",
+      "persistentUuid": "756abe53-d24a-4f8f-9053-bf230ee7ab68",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "EndColor": "255;140;0",
+        "StartColor": "255;215;60",
+        "StartOpacity": 204,
+        "SpayConeAngle": 1,
+        "StartSizeMin": 128,
+        "StartSizeMax": 128,
+        "EndScale": 0.375,
+        "Flow": 100,
+        "LifespanMin": 0.5,
+        "LifespanMax": 0.5,
+        "Duration": 123456,
+        "StartSpeedMin": 300,
+        "StartSpeedMax": 600,
+        "ShouldAutodestruct": true
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "LightGlow.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "adaptCollisionMaskAutomatically": true,
+      "assetStoreId": "",
+      "name": "CardIcons",
+      "persistentUuid": "477eaca8-4917-47eb-b300-c867a6010c9b",
+      "type": "Sprite",
+      "updateIfNotVisible": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "animations": [
+        {
+          "name": "shield",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_shield.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "shield-reflect",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_shield-reflect.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "healing-shield",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_healing-shield.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "running-shoe",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_running-shoe.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jump-across",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_jump-across.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "arm-bandage",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_arm-bandage.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "healing",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_healing.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "health-increase",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_health-increase.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ricochet",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_ricochet.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "falling-blob",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_falling-blob.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "fire-tail",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_fire-tail.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "punch-blast",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_punch-blast.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "orbital",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_orbital.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "objectsFolderStructure": {
@@ -11284,6 +11767,12 @@
       },
       {
         "objectName": "Astronaut_Finn_The_Frog"
+      },
+      {
+        "objectName": "PlayerOrbital"
+      },
+      {
+        "objectName": "CardIcons"
       }
     ]
   },
@@ -11379,6 +11868,29 @@
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::UpgradesStep"
+          },
+          "parameters": [
+            "",
+            "Players",
+            "Enemies",
+            "Spawner",
+            "PlayerProjectile",
+            "PlayerOrbital",
+            "Level",
+            "RunSeed",
+            ""
+          ]
+        }
+      ],
+      "events": []
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -13525,6 +14037,56 @@
             "<",
             "60"
           ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "reflected",
+            "=",
+            "0"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::RollReflect"
+          },
+          "parameters": [
+            "",
+            "EnemyProjectile",
+            ""
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+          },
+          "parameters": [
+            "DistanceBetweenPositions(EnemyProjectile.CenterX(), EnemyProjectile.CenterY(), Players.CenterX(), Players.CenterY())",
+            "<",
+            "60"
+          ]
+        },
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "reflected",
+            "!=",
+            "1"
+          ]
         }
       ],
       "actions": [
@@ -13574,6 +14136,81 @@
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "NumberObjectVariable"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "reflected",
+            "=",
+            "1"
+          ]
+        },
+        {
+          "type": {
+            "value": "Distance"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            "Enemies",
+            "80",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Create"
+          },
+          "parameters": [
+            "oo",
+            "BigExplosion",
+            "EnemyProjectile.X()",
+            "EnemyProjectile.Y()",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene3D::Base3DBehavior::SetZ"
+          },
+          "parameters": [
+            "BigExplosion",
+            "Object3D",
+            "=",
+            "EnemyProjectile.Object3D::CenterZ()"
+          ]
+        },
+        {
+          "type": {
+            "value": "Health::Health::Hit"
+          },
+          "parameters": [
+            "Enemies",
+            "Health",
+            "8*Players.Player::TotalDamageMultiplier()",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "EnemyProjectile",
+            ""
+          ]
+        }
+      ],
+      "events": []
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -13789,6 +14426,16 @@
         },
         {
           "type": {
+            "inverted": true,
+            "value": "Amaze::AreCardsOpen"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
             "value": "BuiltinCommonInstructions::Once"
           },
           "parameters": []
@@ -13814,6 +14461,32 @@
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Amaze::CardJustPicked"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "MousePointerLock::RequestPointerLock"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "events": []
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -14033,6 +14706,15 @@
                 "",
                 "\"Space\""
               ]
+            },
+            {
+              "type": {
+                "value": "Amaze::UpgradeJumpUnlocked"
+              },
+              "parameters": [
+                "",
+                ""
+              ]
             }
           ],
           "actions": [
@@ -14076,6 +14758,16 @@
         },
         {
           "type": {
+            "inverted": true,
+            "value": "Amaze::AreCardsOpen"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
             "value": "BuiltinCommonInstructions::Once"
           },
           "parameters": []
@@ -14095,70 +14787,24 @@
         },
         {
           "type": {
-            "value": "PickNearest"
+            "value": "Amaze::OpenChest"
           },
           "parameters": [
-            "Enemies",
-            "Players.X()",
-            "Players.Y()"
-          ]
-        },
-        {
-          "type": {
-            "value": "Health::Health::SetHealth"
-          },
-          "parameters": [
-            "Enemies",
-            "Health",
-            "0",
-            ""
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "inverted": true,
-            "value": "Distance"
-          },
-          "parameters": [
+            "",
             "Players",
             "Chest",
-            "200",
+            "Level",
+            "RunSeed",
             ""
           ]
         },
         {
           "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::Name"
+            "value": "MousePointerLock::ExitPointerLock"
           },
           "parameters": [
-            "Chest",
-            "Animation",
-            "=",
-            "\"Chest_Open\""
-          ]
-        },
-        {
-          "type": {
-            "value": "BuiltinCommonInstructions::Once"
-          },
-          "parameters": []
-        }
-      ],
-      "actions": [
-        {
-          "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::SetName"
-          },
-          "parameters": [
-            "Chest",
-            "Animation",
-            "=",
-            "\"Chest_Close\""
+            "",
+            ""
           ]
         }
       ]
@@ -14262,7 +14908,7 @@
             "Players",
             "PhysicsCharacter3D",
             "=",
-            "200"
+            "Amaze::UpgradeMaxSpeed()*0.5"
           ]
         }
       ]
@@ -14279,7 +14925,7 @@
             "Players",
             "PhysicsCharacter3D",
             "=",
-            "400"
+            "Amaze::UpgradeMaxSpeed()"
           ]
         }
       ]
@@ -14352,12 +14998,22 @@
                 "Health",
                 ""
               ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "Amaze::AreCardsOpen"
+              },
+              "parameters": [
+                "",
+                ""
+              ]
             }
           ],
           "actions": [
             {
               "type": {
-                "value": "Amaze::PlayerFSM::Shoot"
+                "value": "Amaze::PlayerFSM::Melee"
               },
               "parameters": [
                 "Players",
@@ -14367,6 +15023,71 @@
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "MouseButtonFromTextReleased"
+          },
+          "parameters": [
+            "",
+            "\"Right\""
+          ]
+        },
+        {
+          "type": {
+            "value": "MousePointerLock::isPointerLocked"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Players",
+            "Health",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Amaze::AreCardsOpen"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::ShotUnlocked"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::PlayerFSM::Shoot"
+          },
+          "parameters": [
+            "Players",
+            "PlayerFSM"
+          ]
+        }
+      ],
+      "events": []
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -14418,10 +15139,72 @@
             "PlayerProjectile",
             "bouncesLeft",
             "=",
-            "2"
+            "Amaze::UpgradeBounces()"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "damage",
+            "=",
+            "Amaze::UpgradeShotDamage()"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "chainLeft",
+            "=",
+            "Amaze::UpgradeChain()"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "PlayerProjectile",
+            "lifeLeft",
+            "=",
+            "Amaze::UpgradeShotLife()"
           ]
         }
       ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Amaze::PlayerFSM::MeleeMomentReached"
+          },
+          "parameters": [
+            "Players",
+            "PlayerFSM"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::MeleeStrike"
+          },
+          "parameters": [
+            "",
+            "Players",
+            "Enemies",
+            "Spawner",
+            ""
+          ]
+        }
+      ],
+      "events": []
     },
     {
       "disabled": true,
@@ -14492,9 +15275,14 @@
         },
         {
           "type": {
-            "value": "BuiltinCommonInstructions::Once"
+            "value": "NumberObjectVariable"
           },
-          "parameters": []
+          "parameters": [
+            "PlayerProjectile",
+            "bounceCd",
+            "<=",
+            "0"
+          ]
         }
       ],
       "actions": [],
@@ -14562,6 +15350,17 @@
                 "bouncesLeft",
                 "-",
                 "1"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberObjectVariable"
+              },
+              "parameters": [
+                "PlayerProjectile",
+                "bounceCd",
+                "=",
+                "0.12"
               ]
             }
           ]
@@ -14736,23 +15535,34 @@
         },
         {
           "type": {
-            "value": "Delete"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            ""
-          ]
-        },
-        {
-          "type": {
             "value": "Health::Health::Hit"
           },
           "parameters": [
             "Enemies",
             "Health",
-            "Players.Player::TotalDamageMultiplier()*10",
+            "PlayerProjectile.Variable(damage)*Players.Player::TotalDamageMultiplier()",
             "",
             "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::ChainHit"
+          },
+          "parameters": [
+            "",
+            "PlayerProjectile",
+            "Enemies",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
             ""
           ]
         }
@@ -14800,23 +15610,23 @@
         },
         {
           "type": {
-            "value": "Delete"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            ""
-          ]
-        },
-        {
-          "type": {
             "value": "Health::Health::Hit"
           },
           "parameters": [
             "Spawner",
             "Health",
-            "Players.Player::TotalDamageMultiplier()*10",
+            "PlayerProjectile.Variable(damage)*Players.Player::TotalDamageMultiplier()",
             "",
             "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Delete"
+          },
+          "parameters": [
+            "PlayerProjectile",
             ""
           ]
         }

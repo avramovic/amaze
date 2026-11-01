@@ -1015,6 +1015,110 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Space Station/Characters/6f6c40ff16a3c156bcc53f12f8999bc4380b397cbe0da18d91581294b506d6ad_Astronaut Finn The Frog.glb",
           "name": "Astronaut Finn The Frog.glb"
         }
+      },
+      {
+        "file": "assets/cards/shield.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_shield.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/shield-reflect.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_shield-reflect.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/healing-shield.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_healing-shield.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/running-shoe.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_running-shoe.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/jump-across.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_jump-across.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/arm-bandage.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_arm-bandage.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/healing.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_healing.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/health-increase.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_health-increase.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/ricochet.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_ricochet.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/falling-blob.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_falling-blob.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/fire-tail.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_fire-tail.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/punch-blast.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_punch-blast.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/orbital.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_orbital.png",
+        "smoothed": true,
+        "userAdded": true
       }
     ]
   },
@@ -1028,7 +1132,7 @@
       "name": "Level",
       "persistentUuid": "11efaaa5-d7e0-445b-aa79-860f04fdec7f",
       "type": "number",
-      "value": 15
+      "value": 1
     },
     {
       "name": "RunSeed",

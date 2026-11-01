@@ -526,7 +526,7 @@
       "objectGroups": []
     },
     {
-      "description": "Run once when the first scene loads. Defines the maze culling helpers (BFS through open maze passages, hiding of objects outside the reached cells) and the enemy helpers (flow-field, line of sight, spawn queue).",
+      "description": "Run once when the first scene loads. Defines the maze culling helpers (BFS through open maze passages, hiding of objects outside the reached cells) and the enemy helpers (flow-field, line of sight, spawn queue). Also defines the upgrade card system (gdjs.amazeUpg): offers, card UI, melee, chain shots, reflect, orbitals, shield bubble.",
       "fullName": "Amaze — on first scene loaded",
       "functionType": "Action",
       "name": "onFirstSceneLoaded",
@@ -1228,6 +1228,13 @@
             "};",
             ""
           ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        },
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "// aMAZE upgrade cards: run-wide player upgrades that persist between levels (gdjs.amazeUpg.U survives scene\n// changes), seeded chest offers, the 3D card UI, melee, chain shots, reflect, orbitals and the shield bubble.\nif (gdjs.amazeUpg && gdjs.amazeUpg.version === 1) return;\nconst G = (gdjs.amazeUpg = { version: 1 });\n\nG.BASE = { speed: 300, speedCap: 700, shot: 10, life: 4, melee: 15, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, orbitalCap: 6 };\n\nconst RARITY = [\n    { name: 'Common', color: '#aab0b8' },\n    { name: 'Uncommon', color: '#4cc870' },\n    { name: 'Rare', color: '#3d8bff' },\n    { name: 'Epic', color: '#b25cff' },\n    { name: 'Mythic', color: '#ffb81c' },\n];\n// Card colour per category (blue shield, orange movement, green healing, red attack, yellow passive)\nconst CAT = { shield: '#2f6fdb', movement: '#e8821a', healing: '#2e9e4f', attack: '#d63a3a', passive: '#d9b81c' };\n\n// v = value per rarity (Common, Uncommon, Rare, Epic, Mythic)\nconst CARDS = [\n    { id: 'shield', title: 'Shield', cat: 'shield', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + ' shield, refilled' },\n    { id: 'healing-shield', title: 'Shield Core', cat: 'shield', v: [5, 8, 11, 18, 25], text: (v) => '+' + v + ' max shield' },\n    { id: 'shield-reflect', title: 'Reflect', cat: 'shield', v: [5, 8, 11, 18, 25], text: (v) => v + '% to reflect ranged attacks while shielded' },\n    { id: 'running-shoe', title: 'Running Shoes', cat: 'movement', v: [12, 18, 27, 42, 60], text: (v) => '+' + v + ' max speed' },\n    { id: 'jump-across', title: 'Jump', cat: 'movement', v: [8, 12, 18, 28, 40], text: (v, U) => (U.jumpUnlocked ? '+' + v + '% jump height' : 'Unlocks jumping, +' + v + '% height') },\n    { id: 'arm-bandage', title: 'Bandage', cat: 'healing', v: [20, 30, 45, 70, 100], text: (v) => 'Heal ' + v + ' health now' },\n    { id: 'healing', title: 'Regeneration', cat: 'healing', v: [0.5, 0.75, 1.1, 1.75, 2.5], text: (v) => '+' + v + ' health per second' },\n    { id: 'health-increase', title: 'Vitality', cat: 'healing', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + ' max health' },\n    { id: 'ricochet', title: 'Ricochet', cat: 'attack', v: [1, 1, 1, 2, 3], text: (v) => '+' + v + ' projectile bounce' + (v > 1 ? 's' : '') },\n    { id: 'falling-blob', title: 'Heavy Shot', cat: 'attack', v: [8, 12, 18, 28, 40], text: (v, U) => (U.shotUnlocked ? '+' + v + '% shot damage and range' : 'Unlocks shooting (right click), +' + v + '%') },\n    { id: 'fire-tail', title: 'Chain Shot', cat: 'attack', v: [1, 1, 1, 2, 3], text: (v) => 'Shots jump to ' + v + ' more enem' + (v > 1 ? 'ies' : 'y') },\n    { id: 'punch-blast', title: 'Punch Blast', cat: 'attack', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + '% melee damage, +' + Math.round(v * 0.6) + ' reach' },\n    { id: 'orbital', title: 'Orbital', cat: 'passive', v: [1, 1, 1, 2, 3], text: (v) => '+' + v + ' orbiting orb' + (v > 1 ? 's' : '') },\n];\nG.CARDS = CARDS;\n\nG.defaults = function () {\n    return {\n        maxSpeed: G.BASE.speed, jumpUnlocked: false, jumpPct: 0,\n        shotUnlocked: false, dmgPct: 0, rangePct: 0, bounces: 0, chain: 0,\n        reflect: 0, meleePct: 0, meleeReach: G.BASE.reach, orbitals: 0,\n        picks: {},\n        hp: null, maxHp: 100, shield: 0, maxShield: 0, regen: 0,\n        lastLevel: 0, runSeed: 0,\n    };\n};\nG.U = G.defaults();\nconst num = function (x) { const n = Number(x); return isFinite(n) ? n : 0; };\nG.R = null; // per-scene runtime state\n\n// ---- seeded random (the same RunSeed + level + chest always gives the same offer)\nG.hash = function () {\n    let h = 2166136261 >>> 0;\n    for (let i = 0; i < arguments.length; i++) {\n        h ^= (Math.floor(arguments[i]) | 0) + 0x9e3779b9;\n        h = Math.imul(h, 16777619) >>> 0;\n        h ^= h >>> 13;\n    }\n    return h >>> 0;\n};\nG.rng = function (seed) {\n    let a = seed >>> 0;\n    return function () {\n        a = (a + 0x6d2b79f5) >>> 0;\n        let t = a;\n        t = Math.imul(t ^ (t >>> 15), t | 1);\n        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);\n        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;\n    };\n};\n\n// ---- offers\nG.available = function (c) {\n    const U = G.U;\n    switch (c.id) {\n        case 'running-shoe': return U.maxSpeed < G.BASE.speedCap;\n        case 'shield-reflect': return U.reflect < G.BASE.reflectCap;\n        case 'orbital': return U.orbitals < G.BASE.orbitalCap;\n        case 'ricochet':\n        case 'fire-tail': return U.shotUnlocked; // useless before the player can shoot\n        default: return true;\n    }\n};\n// Rarity weights: Common gives way to the higher tiers by 3 per level (never below 25)\nG.weights = function (level) {\n    const l = Math.max(0, level - 1);\n    return [Math.max(25, 55 - 3 * l), 26 + l, 13 + l, 5 + 0.7 * l, 1 + 0.3 * l];\n};\nG.roll = function (seed, level) {\n    const r = G.rng(seed);\n    const pool = CARDS.filter(G.available);\n    const w = G.weights(level);\n    const total = w.reduce((a, b) => a + b, 0);\n    const out = [];\n    for (let k = 0; k < 3 && pool.length; k++) {\n        const c = pool.splice(Math.floor(r() * pool.length), 1)[0];\n        let x = r() * total, ri = 0;\n        while (ri < 4 && x >= w[ri]) { x -= w[ri]; ri++; }\n        out.push({ card: c, rarity: ri, value: c.v[ri] });\n    }\n    return out;\n};\nG.apply = function (id, v) {\n    const U = G.U;\n    U.picks[id] = (U.picks[id] || 0) + 1;\n    switch (id) {\n        case 'shield': U.maxShield = Math.max(U.maxShield, U.shield + v); U.shield = Math.min(U.maxShield, U.shield + v); break;\n        case 'healing-shield': U.maxShield += v; break;\n        case 'shield-reflect': U.reflect = Math.min(G.BASE.reflectCap, U.reflect + v); break;\n        case 'running-shoe': U.maxSpeed = Math.min(G.BASE.speedCap, U.maxSpeed + v); break;\n        case 'jump-across': U.jumpUnlocked = true; U.jumpPct += v; break;\n        case 'arm-bandage': U.hp = Math.min(U.maxHp, U.hp + v); break;\n        case 'healing': U.regen += v; break;\n        case 'health-increase': U.maxHp += v; U.hp += v; break;\n        case 'ricochet': U.bounces += v; break;\n        case 'falling-blob': U.shotUnlocked = true; U.dmgPct += v; U.rangePct += v; break;\n        case 'fire-tail': U.chain += v; break;\n        case 'punch-blast': U.meleePct += v; U.meleeReach = Math.min(G.BASE.reachMax, U.meleeReach + v * 0.6); break;\n        case 'orbital': U.orbitals = Math.min(G.BASE.orbitalCap, U.orbitals + v); break;\n    }\n};\n\n// ---- player <-> stats\n// push: write the saved stats into the player behaviours. pull: read health/shield back every frame.\nG.push = function (players) {\n    const U = G.U;\n    for (const p of players) {\n        const h = p.getBehavior('Health');\n        const c = p.getBehavior('PhysicsCharacter3D');\n        if (h) {\n            h.SetMaxHealthOp(U.maxHp);\n            h.SetHealth(U.hp);\n            h.SetHealthRegenRateOp(U.regen);\n            h.SetShieldDurationOp(0); // 0 = the shield never expires\n            h.SetMaxShieldOp(U.maxShield);\n            h.SetShieldPointsOp(U.shield);\n        }\n        if (c) {\n            c.setForwardSpeedMax(U.maxSpeed);\n            c.setSidewaysSpeedMax(U.maxSpeed);\n            c.setJumpSpeed(c.getJumpSpeedToReach(G.BASE.jump * (1 + U.jumpPct / 100)));\n        }\n    }\n};\nG.pull = function (players) {\n    const U = G.U;\n    const p = players[0];\n    const h = p && p.getBehavior('Health');\n    if (!h) return;\n    U.hp = num(h._getCurrentHealth());\n    U.shield = num(h._getCurrentShieldPoints());\n};\nG.mult = function (p) {\n    try {\n        const b = p.getBehavior('Player');\n        return b._getDamageMultiplier() * (1 + b._getMetaDamageBonus());\n    } catch (e) { return 1; }\n};\nG.alive = function (o) {\n    const h = o.getBehavior('Health');\n    return !!h && h._getCurrentHealth() > 0;\n};\nG.hit = function (o, dmg) {\n    const h = o.getBehavior('Health');\n    if (h) h.Hit(dmg, false, false);\n};\n// getCenterX/Y/Z are offsets from the object's corner, not scene positions: use these instead\nG.cx = function (o) { return o.getCenterXInScene(); };\nG.cy = function (o) { return o.getCenterYInScene(); };\nG.cz = function (o) { return o.getZ() + o.getDepth() / 2; };\nG.dist2 = function (a, b) { return Math.hypot(G.cx(a) - G.cx(b), G.cy(a) - G.cy(b)); };\n\nG.shotDamage = function () { return G.BASE.shot * (1 + G.U.dmgPct / 100); };\nG.shotLife = function () { return G.BASE.life * (1 + G.U.rangePct / 100); };\n\n// ---- scene state\nG.dispose = function () {\n    const R = G.R;\n    if (!R) return;\n    try {\n        G.closeCards(true);\n        if (R.bubble) { R.bubble.removeFromParent(); R.bubble.geometry.dispose(); R.bubble.material.dispose(); }\n        R.fx.forEach((f) => f.sprites.forEach((s) => { s.removeFromParent(); s.material.dispose(); }));\n        R.orbs.forEach((o) => o.deleteFromScene(R.scene));\n    } catch (e) { /* the old scene is gone already */ }\n    G.R = null;\n};\nG.sceneInit = function (runtimeScene, players, level, runSeed) {\n    G.dispose();\n    let U = G.U;\n    // A lower level or a different RunSeed means a new run: forget everything\n    if (level < U.lastLevel || (U.runSeed && runSeed && U.runSeed !== runSeed)) U = G.U = G.defaults();\n    U.lastLevel = level;\n    if (runSeed) U.runSeed = runSeed;\n    G.R = {\n        scene: runtimeScene, threeScene: runtimeScene.getLayer('').getRenderer().getThreeScene(),\n        frame: 0, t: 0, open: false, openAt: 0, closedFrame: -1, pickedFrame: -1, ui: null, cards: [], keyPick: -1,\n        enemies: [], spawners: [], orbs: [], orbAngle: 0, bubble: null, chains: [], fx: [],\n    };\n    runtimeScene.getTimeManager().setTimeScale(1);\n    const p = players[0];\n    const h = p && p.getBehavior('Health');\n    if (U.hp === null) {\n        // very first level of the run: take the starting values from the player\n        if (h) {\n            U.hp = num(h._getCurrentHealth()); U.maxHp = num(h._getMaxHealth()); U.regen = num(h._getHealthRegenRate());\n            U.shield = num(h._getCurrentShieldPoints()); U.maxShield = num(h._getMaxShieldPoints());\n        } else { U.hp = 100; }\n    } else if (U.hp <= 0) {\n        U.hp = U.maxHp; // restarted after a death\n    }\n    G.push(players);\n};\nif (typeof window !== 'undefined' && !G.keyHandler) {\n    G.keyHandler = function (e) {\n        const m = /^(?:Digit|Numpad)([1-3])$/.exec(e.code || '');\n        if (m && G.R) G.R.keyPick = parseInt(m[1], 10) - 1;\n    };\n    window.addEventListener('keydown', G.keyHandler);\n}\n\n// ---- cards: 2D sprites on the UI layer (like the health bar), a black 50% overlay behind them, picked with the mouse\nconst roundRect = function (g, x, y, w, h, r) {\n    g.beginPath();\n    g.moveTo(x + r, y);\n    g.arcTo(x + w, y, x + w, y + h, r);\n    g.arcTo(x + w, y + h, x, y + h, r);\n    g.arcTo(x, y + h, x, y, r);\n    g.arcTo(x, y, x + w, y, r);\n    g.closePath();\n};\nG.cardCanvas = function (scene, def, ri, v) {\n    const W = 512, H = 720;\n    const cv = document.createElement('canvas');\n    cv.width = W; cv.height = H;\n    const g = cv.getContext('2d');\n    const rar = RARITY[ri];\n    const grad = g.createLinearGradient(0, 0, 0, H);\n    grad.addColorStop(0, CAT[def.cat]);\n    grad.addColorStop(1, '#10151b');\n    g.fillStyle = grad;\n    roundRect(g, 0, 0, W, H, 36); g.fill();\n    g.lineWidth = 22; g.strokeStyle = rar.color;\n    roundRect(g, 11, 11, W - 22, H - 22, 30); g.stroke();\n    g.lineWidth = 4; g.strokeStyle = 'rgba(255,255,255,0.35)';\n    roundRect(g, 32, 32, W - 64, H - 64, 20); g.stroke();\n    g.textAlign = 'center';\n    g.fillStyle = rar.color; g.font = 'bold 36px sans-serif';\n    g.fillText(rar.name.toUpperCase(), W / 2, 86);\n    // light plate behind the icon so every icon colour is readable\n    g.fillStyle = 'rgba(255,255,255,0.93)';\n    g.beginPath(); g.arc(W / 2, 290, 170, 0, Math.PI * 2); g.fill();\n    try {\n        const tex = scene.getGame().getImageManager().getThreeTexture('card_' + def.id + '.png');\n        const img = tex && tex.image;\n        if (img && (img.width || img.videoWidth)) g.drawImage(img, W / 2 - 140, 150, 280, 280);\n    } catch (e) { /* icon not loaded: the card still shows its text */ }\n    g.fillStyle = '#ffffff'; g.font = 'bold 54px sans-serif';\n    g.fillText(def.title, W / 2, 540);\n    g.font = '34px sans-serif'; g.fillStyle = 'rgba(255,255,255,0.92)';\n    const words = def.text(v, G.U).split(' ');\n    let line = '', y = 595;\n    for (const w of words) {\n        const test = line ? line + ' ' + w : w;\n        if (g.measureText(test).width > W - 110 && line) { g.fillText(line, W / 2, y); line = w; y += 42; } else line = test;\n    }\n    g.fillText(line, W / 2, y);\n    return cv;\n};\nG.openChest = function (runtimeScene, players, chests, level, runSeed) {\n    const R = G.R;\n    const p = players[0];\n    if (!R || R.open || !p || !chests.length) return;\n    let chest = chests[0];\n    for (const c of chests) if (G.dist2(c, p) < G.dist2(chest, p)) chest = c;\n    const offer = G.roll(G.hash(runSeed, level, Math.round(chest.getX()), Math.round(chest.getY())), level);\n    if (!offer.length) return;\n    const game = runtimeScene.getGame();\n    const W = game.getGameResolutionWidth(), H = game.getGameResolutionHeight();\n    const layer = runtimeScene.getLayer('UI');\n    const root = new PIXI.Container();\n    root.sortableChildren = true;\n    const shade = new PIXI.Graphics(); // black, 50% transparent overlay over the whole screen\n    shade.beginFill(0x000000, 0.5);\n    shade.drawRect(0, 0, W, H);\n    shade.endFill();\n    root.addChild(shade);\n    const n = offer.length;\n    const cardH = Math.min(H * 0.64, (W * 0.92) / (n * 0.711 + (n - 1) * 0.12));\n    const cardW = cardH * 512 / 720;\n    const gap = cardW * 0.12;\n    const x0 = (W - (n * cardW + (n - 1) * gap)) / 2 + cardW / 2;\n    const cy = H / 2 + 24;\n    const title = new PIXI.Text('Choose an upgrade', { fontFamily: 'sans-serif', fontSize: Math.round(H * 0.05), fontWeight: 'bold', fill: 0xffffff });\n    title.anchor.set(0.5);\n    title.position.set(W / 2, Math.max(36, cy - cardH / 2 - H * 0.06));\n    root.addChild(title);\n    const hint = new PIXI.Text('Click a card (or press 1, 2, 3)', { fontFamily: 'sans-serif', fontSize: Math.round(H * 0.028), fill: 0xcccccc });\n    hint.anchor.set(0.5);\n    hint.position.set(W / 2, Math.min(H - 24, cy + cardH / 2 + H * 0.05));\n    root.addChild(hint);\n    const cards = [];\n    offer.forEach((o, i) => {\n        const cv = G.cardCanvas(runtimeScene, o.card, o.rarity, o.value);\n        const sp = new PIXI.Sprite(PIXI.Texture.from(cv));\n        sp.anchor.set(0.5);\n        const bs = cardW / cv.width;\n        sp.scale.set(bs);\n        sp.position.set(x0 + i * (cardW + gap), cy);\n        sp.zIndex = 1;\n        root.addChild(sp);\n        cards.push({ sprite: sp, bs, k: 1, w: cardW, h: cardH, ...o });\n    });\n    layer.getRenderer().addRendererObject(root, 1000000);\n    R.cards = cards;\n    R.ui = { root, layer };\n    R.open = true;\n    R.openAt = performance.now();\n    runtimeScene.getTimeManager().setTimeScale(0.1);\n};\nG.closeCards = function (silent) {\n    const R = G.R;\n    if (!R) return;\n    if (R.ui) {\n        try {\n            R.ui.layer.getRenderer().removeRendererObject(R.ui.root);\n            R.ui.root.destroy({ children: true, texture: true, baseTexture: true });\n        } catch (e) { /* the layer is gone already */ }\n        R.ui = null;\n    }\n    R.cards = [];\n    if (R.open) {\n        R.open = false;\n        R.closedFrame = R.frame;\n        if (!silent) R.scene.getTimeManager().setTimeScale(1);\n    }\n};\nG.stepCards = function (runtimeScene, players) {\n    const R = G.R;\n    if (!R.open) return;\n    const input = runtimeScene.getGame().getInputManager();\n    const mx = input.getMouseX(), my = input.getMouseY();\n    const now = performance.now();\n    const appear = Math.min(1, (now - R.openAt) / 220);\n    let hover = -1;\n    R.cards.forEach((c, i) => {\n        const sp = c.sprite;\n        if (Math.abs(mx - sp.x) <= c.w / 2 && Math.abs(my - sp.y) <= c.h / 2) hover = i;\n    });\n    R.cards.forEach((c, i) => {\n        c.k += ((i === hover ? 1.08 : 1) - c.k) * 0.3;\n        c.sprite.scale.set(c.bs * c.k * (0.85 + 0.15 * appear));\n        c.sprite.alpha = appear;\n        c.sprite.tint = i === hover ? 0xffffff : 0xb8b8b8;\n        c.sprite.zIndex = i === hover ? 2 : 1;\n    });\n    let pick = -1;\n    if (now - R.openAt > 350) {\n        if (R.keyPick >= 0 && R.keyPick < R.cards.length) pick = R.keyPick;\n        else if (hover >= 0 && input.isMouseButtonReleased(0)) pick = hover;\n    }\n    R.keyPick = -1;\n    if (pick < 0) return;\n    const c = R.cards[pick];\n    G.pull(players);\n    G.apply(c.card.id, c.value);\n    G.push(players);\n    console.log('[Cards] picked ' + c.card.id + ' (' + RARITY[c.rarity].name + ') value ' + c.value);\n    R.pickedFrame = R.frame;\n    G.closeCards(false);\n};\n\n// ---- chain shots: the shot jumps to the nearest enemy that was not hit yet\nG.glowSprites = function (scene, a, b, color) {\n    const R = G.R;\n    let map = null;\n    try { map = scene.getGame().getImageManager().getThreeTexture('LightGlow.png'); } catch (e) { /* no texture */ }\n    const len = Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z);\n    const n = Math.max(2, Math.round(len / 35));\n    const sprites = [];\n    for (let i = 0; i <= n; i++) {\n        const m = new THREE.SpriteMaterial({ map, color, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });\n        const s = new THREE.Sprite(m);\n        const f = i / n;\n        s.position.set(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, a.z + (b.z - a.z) * f);\n        s.scale.set(55, 55, 1);\n        R.threeScene.add(s);\n        sprites.push(s);\n    }\n    R.fx.push({ sprites, t0: R.t, life: 0.3 });\n};\nG.queueChain = function (projs, enemies) {\n    const R = G.R;\n    const pr = projs[0], e = enemies[0];\n    if (!R || !pr || !e) return;\n    const vars = pr.getVariables();\n    const left = vars.get('chainLeft').getAsNumber();\n    if (left <= 0) return;\n    R.chains.push({ from: e, left, dmg: vars.get('damage').getAsNumber(), at: R.t + 0.1, seen: [e] });\n};\nG.stepChains = function (runtimeScene, players) {\n    const R = G.R;\n    const mult = players[0] ? G.mult(players[0]) : 1;\n    for (const c of R.chains.slice()) {\n        if (R.t < c.at) continue;\n        R.chains.splice(R.chains.indexOf(c), 1);\n        let best = null, bd = 800;\n        for (const e of R.enemies) {\n            if (c.seen.indexOf(e) >= 0 || !G.alive(e)) continue;\n            const d = G.dist2(c.from, e);\n            if (d < bd) { bd = d; best = e; }\n        }\n        if (!best) continue;\n        G.hit(best, c.dmg * mult);\n        G.glowSprites(runtimeScene,\n            { x: G.cx(c.from), y: G.cy(c.from), z: G.cz(c.from) },\n            { x: G.cx(best), y: G.cy(best), z: G.cz(best) }, 0xff9a2a);\n        c.seen.push(best);\n        c.from = best;\n        c.left--;\n        c.at = R.t + 0.1;\n        if (c.left > 0) R.chains.push(c);\n    }\n    R.fx = R.fx.filter((f) => {\n        const k = (R.t - f.t0) / f.life;\n        if (k < 1) { f.sprites.forEach((s) => { s.material.opacity = 1 - k; }); return true; }\n        f.sprites.forEach((s) => { s.removeFromParent(); s.material.dispose(); });\n        return false;\n    });\n};\n\n// ---- reflect: an enemy projectile that reaches the shielded player may fly back (0 untouched, 1 reflected, 2 failed)\nG.reflect = function (projs) {\n    const U = G.U;\n    for (const pr of projs) {\n        const v = pr.getVariables().get('reflected');\n        if (v.getAsNumber() !== 0) continue;\n        if (U.shield > 0 && Math.random() * 100 < U.reflect) {\n            pr.setAngle(pr.getAngle() + 180);\n            v.setNumber(1);\n        } else v.setNumber(2);\n    }\n};\n\n// ---- melee: a cone in front of the player\nG.melee = function (players, enemies, spawners) {\n    const p = players[0];\n    if (!p) return;\n    const U = G.U;\n    const dmg = G.BASE.melee * (1 + U.meleePct / 100) * G.mult(p);\n    const reach = Math.min(G.BASE.reachMax, U.meleeReach);\n    const face = p.getAngle();\n    const px = G.cx(p), py = G.cy(p), pz = G.cz(p);\n    const test = function (o, knock) {\n        if (!G.alive(o)) return;\n        const dx = G.cx(o) - px, dy = G.cy(o) - py;\n        const d = Math.hypot(dx, dy);\n        const radius = Math.min(60, Math.min(o.getWidth(), o.getHeight()) / 2);\n        if (d - radius > reach || Math.abs(G.cz(o) - pz) > 220) return; // reach is measured to the enemy's edge\n        let a = Math.atan2(dy, dx) * 180 / Math.PI - face;\n        a = Math.abs(((a + 540) % 360) - 180);\n        if (a > 65 && d - radius > 20) return;\n        G.hit(o, dmg);\n        if (knock) { const e = o.getBehavior('Enemy'); if (e) e.Knockback(dx, dy, 700); }\n    };\n    enemies.forEach((o) => test(o, true));\n    spawners.forEach((o) => test(o, false));\n};\n\n// ---- the per-frame step\nG.step = function (ctx, runtimeScene) {\n    const players = ctx.getObjects('Players');\n    const level = ctx.getArgument('Level');\n    const runSeed = ctx.getArgument('RunSeed');\n    if (!G.R || G.R.scene !== runtimeScene) G.sceneInit(runtimeScene, players, level, runSeed);\n    const R = G.R, U = G.U;\n    R.frame++;\n    const dt = (runtimeScene.getElapsedTime ? runtimeScene.getElapsedTime() : runtimeScene.getTimeManager().getElapsedTime()) / 1000;\n    R.t += dt;\n    const p = players[0];\n    G.pull(players);\n    R.enemies = ctx.getObjects('Enemies').slice();\n    R.spawners = ctx.getObjects('Spawner').slice();\n\n    // shots die when their range runs out\n    for (const pr of ctx.getObjects('PlayerProjectile')) {\n        const v = pr.getVariables().get('lifeLeft');\n        v.setNumber(v.getAsNumber() - dt);\n        if (v.getAsNumber() <= 0) pr.deleteFromScene(runtimeScene);\n        const cd = pr.getVariables().get('bounceCd'); // per-projectile cooldown between two wall bounces\n        if (cd.getAsNumber() > 0) cd.setNumber(Math.max(0, cd.getAsNumber() - dt));\n    }\n\n    G.stepCards(runtimeScene, players);\n    G.stepChains(runtimeScene, players);\n\n    // orbitals\n    const N = p ? U.orbitals : 0;\n    while (R.orbs.length < N) {\n        const o = ctx.createObject('PlayerOrbital');\n        if (!o) break;\n        R.orbs.push(o);\n    }\n    while (R.orbs.length > N) R.orbs.pop().deleteFromScene(runtimeScene);\n    if (p && N > 0) {\n        R.orbAngle = (R.orbAngle + 200 * dt) % 360;\n        R.orbs.forEach((o, i) => {\n            const a = (R.orbAngle + (i * 360) / N) * Math.PI / 180;\n            o.setCenterXInScene(G.cx(p) + Math.cos(a) * G.BASE.orbRadius);\n            o.setCenterYInScene(G.cy(p) + Math.sin(a) * G.BASE.orbRadius);\n            o.setZ(G.cz(p) - o.getDepth() / 2);\n        });\n        const dmg = G.BASE.orbDamage * (1 + U.dmgPct / 100) * G.mult(p);\n        for (const e of R.enemies) {\n            if (R.t - (e.__orbHit === undefined ? -9 : e.__orbHit) < 0.45 || !G.alive(e)) continue;\n            for (const o of R.orbs) {\n                if (G.dist2(o, e) < 75 && Math.abs(G.cz(o) - G.cz(e)) < 200) {\n                    G.hit(e, dmg);\n                    e.__orbHit = R.t;\n                    break;\n                }\n            }\n        }\n    }\n\n    // shield bubble: 50% transparent at a full shield, fading out with the shield\n    if (!R.bubble) {\n        R.bubble = new THREE.Mesh(\n            new THREE.SphereGeometry(1, 28, 18),\n            new THREE.MeshBasicMaterial({ color: 0x4aa8ff, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })\n        );\n        R.bubble.renderOrder = 10;\n        R.threeScene.add(R.bubble);\n    }\n    const show = !!p && U.maxShield > 0 && U.shield > 0 && U.hp > 0;\n    R.bubble.visible = show;\n    if (show) {\n        R.bubble.position.set(G.cx(p), G.cy(p), G.cz(p));\n        R.bubble.scale.setScalar(Math.max(80, p.getDepth() * 0.6));\n        R.bubble.material.opacity = 0.5 * Math.min(1, U.shield / U.maxShield);\n    }\n};\n",
           "parameterObjects": "",
           "useStrict": true,
           "eventsSheetExpanded": false
@@ -2791,6 +2798,363 @@
         }
       ],
       "objectGroups": []
+    },
+    {
+      "description": "Per-frame update of the upgrade system: keeps stats between levels, card selection, shot range, chain shots, orbitals and the shield bubble. Call it every frame.",
+      "fullName": "Update upgrades",
+      "functionType": "Action",
+      "name": "UpgradesStep",
+      "sentence": "Update the upgrade system",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\nif (!G) return;\nG.step(eventsFunctionContext, runtimeScene);",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Players",
+          "name": "Players",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemies",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Spawners",
+          "name": "Spawner",
+          "type": "objectList"
+        },
+        {
+          "description": "Player projectiles",
+          "name": "PlayerProjectile",
+          "type": "objectList"
+        },
+        {
+          "description": "Orbitals",
+          "name": "PlayerOrbital",
+          "type": "objectList"
+        },
+        {
+          "description": "Level",
+          "name": "Level",
+          "type": "expression"
+        },
+        {
+          "description": "Run seed",
+          "name": "RunSeed",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Shows 3 upgrade cards for the nearest of the given chests. The offer is seeded from RunSeed, Level and the chest position.",
+      "fullName": "Open chest (offer cards)",
+      "functionType": "Action",
+      "name": "OpenChest",
+      "sentence": "Offer upgrade cards from the chest",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\nif (!G || !G.R) return;\nG.openChest(runtimeScene, eventsFunctionContext.getObjects('Players'), eventsFunctionContext.getObjects('Chest'), eventsFunctionContext.getArgument('Level'), eventsFunctionContext.getArgument('RunSeed'));",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Players",
+          "name": "Players",
+          "type": "objectList"
+        },
+        {
+          "description": "Chests",
+          "name": "Chest",
+          "type": "objectList"
+        },
+        {
+          "description": "Level",
+          "name": "Level",
+          "type": "expression"
+        },
+        {
+          "description": "Run seed",
+          "name": "RunSeed",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Called when a player projectile hits an enemy: if the projectile has chain jumps left, the shot jumps to the nearest other enemy.",
+      "fullName": "Chain shot",
+      "functionType": "Action",
+      "name": "ChainHit",
+      "sentence": "Chain the player projectile from the enemy it hit",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\nif (!G || !G.R) return;\nG.queueChain(eventsFunctionContext.getObjects('PlayerProjectile'), eventsFunctionContext.getObjects('Enemies'));",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Player projectile",
+          "name": "PlayerProjectile",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemy that was hit",
+          "name": "Enemies",
+          "type": "objectList"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "For enemy projectiles that reach the player: with the reflect chance (and while the shield holds) they fly back. Sets the variable reflected: 1 = reflected, 2 = not reflected.",
+      "fullName": "Roll reflect",
+      "functionType": "Action",
+      "name": "RollReflect",
+      "sentence": "Roll the reflect chance for the enemy projectiles",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\nif (!G) return;\nG.reflect(eventsFunctionContext.getObjects('EnemyProjectile'));",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Enemy projectiles",
+          "name": "EnemyProjectile",
+          "type": "objectList"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Damages the enemies and spawners in front of the player (a cone). Call it when the melee moment is reached.",
+      "fullName": "Melee strike",
+      "functionType": "Action",
+      "name": "MeleeStrike",
+      "sentence": "Strike in front of the player",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\nif (!G) return;\nG.melee(eventsFunctionContext.getObjects('Players'), eventsFunctionContext.getObjects('Enemies'), eventsFunctionContext.getObjects('Spawner'));",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Players",
+          "name": "Players",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemies",
+          "name": "Enemies",
+          "type": "objectList"
+        },
+        {
+          "description": "Spawners",
+          "name": "Spawner",
+          "type": "objectList"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "True while the upgrade cards are shown (and in the frame a card was picked), so clicks do not also attack.",
+      "fullName": "Upgrade cards are open",
+      "functionType": "Condition",
+      "name": "AreCardsOpen",
+      "sentence": "The upgrade cards are open",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\nconst R = G && G.R;\neventsFunctionContext.returnValue = !!R && (R.open || R.closedFrame === R.frame);",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "True for one frame after the player picked an upgrade card: lock the mouse again then.",
+      "fullName": "Upgrade card just picked",
+      "functionType": "Condition",
+      "name": "CardJustPicked",
+      "sentence": "An upgrade card was just picked",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\nconst R = G && G.R;\neventsFunctionContext.returnValue = !!R && R.pickedFrame === R.frame;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "True when the player picked a Heavy Shot (falling-blob) card: shooting is locked at the start.",
+      "fullName": "Shooting unlocked",
+      "functionType": "Condition",
+      "name": "ShotUnlocked",
+      "sentence": "Shooting is unlocked",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\neventsFunctionContext.returnValue = !!G && G.U.shotUnlocked;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "True when the player picked a jump card (jumping is locked at the start).",
+      "fullName": "Jump unlocked",
+      "functionType": "Condition",
+      "name": "UpgradeJumpUnlocked",
+      "sentence": "Jumping is unlocked",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\neventsFunctionContext.returnValue = !!G && G.U.jumpUnlocked;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Maximum movement speed of the player (300 at the start, 700 at most).",
+      "fullName": "Player max speed",
+      "functionType": "Expression",
+      "name": "UpgradeMaxSpeed",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\neventsFunctionContext.returnValue = G ? G.U.maxSpeed : 300;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Number of wall bounces of a player projectile.",
+      "fullName": "Projectile bounces",
+      "functionType": "Expression",
+      "name": "UpgradeBounces",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\neventsFunctionContext.returnValue = G ? G.U.bounces : 0;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Base damage of a player projectile, before the damage multiplier.",
+      "fullName": "Projectile damage",
+      "functionType": "Expression",
+      "name": "UpgradeShotDamage",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\neventsFunctionContext.returnValue = G ? G.shotDamage() : 10;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Number of enemies a player projectile can jump to after a hit.",
+      "fullName": "Projectile chain jumps",
+      "functionType": "Expression",
+      "name": "UpgradeChain",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\neventsFunctionContext.returnValue = G ? G.U.chain : 0;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Seconds a player projectile lives (its range).",
+      "fullName": "Projectile lifetime",
+      "functionType": "Expression",
+      "name": "UpgradeShotLife",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "const G = gdjs.amazeUpg;\neventsFunctionContext.returnValue = G ? G.shotLife() : 4;",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
     }
   ],
   "eventsFunctionsFolderStructure": {
@@ -2900,6 +3264,48 @@
       },
       {
         "functionName": "UpdateWallFade"
+      },
+      {
+        "functionName": "UpgradesStep"
+      },
+      {
+        "functionName": "OpenChest"
+      },
+      {
+        "functionName": "ChainHit"
+      },
+      {
+        "functionName": "RollReflect"
+      },
+      {
+        "functionName": "MeleeStrike"
+      },
+      {
+        "functionName": "AreCardsOpen"
+      },
+      {
+        "functionName": "CardJustPicked"
+      },
+      {
+        "functionName": "ShotUnlocked"
+      },
+      {
+        "functionName": "UpgradeJumpUnlocked"
+      },
+      {
+        "functionName": "UpgradeMaxSpeed"
+      },
+      {
+        "functionName": "UpgradeBounces"
+      },
+      {
+        "functionName": "UpgradeShotDamage"
+      },
+      {
+        "functionName": "UpgradeChain"
+      },
+      {
+        "functionName": "UpgradeShotLife"
       }
     ]
   },
@@ -12502,6 +12908,7 @@
                 "const moving = spd > 20;",
                 "const set = (s) => { state = s; t = 0; };",
                 "b._setFireReady(false); // one-frame flag, the scene events read it in the next frame",
+                "b._setMeleeReady(false);",
                 "",
                 "// The projectile is fired when the arm is extended, not on click",
                 "if (state === 'Shoot' && b._getFirePending() && t >= b._getFireMoment()) {",
@@ -12509,16 +12916,24 @@
                 "  b._setFireReady(true);",
                 "}",
                 "",
+                "// The melee strike lands when the swing connects",
+                "if (state === 'Melee' && b._getMeleePending() && t >= b._getMeleeMoment()) {",
+                "  b._setMeleePending(false);",
+                "  b._setMeleeReady(true);",
+                "}",
+                "",
                 "// Timed exits (Death never ends, the finished animation holds its last pose)",
                 "if (state === 'Hit' && t >= b._getHitDuration()) set('Idle');",
                 "if (state === 'Shoot' && t >= b._getShootDuration()) set('Idle');",
+                "if (state === 'Melee' && t >= b._getMeleeDuration()) set('Idle');",
                 "if (state === 'Jump' && t >= 0.37) set('Air');",
                 "if (state === 'Land' && t >= (moving ? 0.15 : 0.37)) set('Idle');",
                 "",
                 "if (state !== 'Shoot' && b._getFirePending()) b._setFirePending(false); // interrupted (death)",
+                "if (state !== 'Melee' && b._getMeleePending()) b._setMeleePending(false);",
                 "",
                 "// Locomotion: Hit, Shoot and Death keep the animation until they end",
-                "if (state !== 'Death' && state !== 'Hit' && state !== 'Shoot') {",
+                "if (state !== 'Death' && state !== 'Hit' && state !== 'Shoot' && state !== 'Melee') {",
                 "  if (air) {",
                 "    if (state !== 'Jump' && state !== 'Air') set(ch.isJumping() ? 'Jump' : 'Air');",
                 "  } else if (state === 'Jump' || state === 'Air') {",
@@ -12535,6 +12950,7 @@
                 "  case 'Death': anim = 'Death'; break;",
                 "  case 'Hit': anim = 'HitReact'; break;",
                 "  case 'Shoot': anim = 'Punch'; break;",
+                "  case 'Melee': anim = 'Weapon'; break;",
                 "  case 'Jump': anim = 'Jump'; break;",
                 "  case 'Air': anim = 'Jump_Idle'; break;",
                 "  case 'Land': anim = 'Jump_Land'; break;",
@@ -13238,6 +13654,98 @@
             }
           ],
           "objectGroups": []
+        },
+        {
+          "description": "Play the melee animation (Weapon). The hit lands later, when the swing connects: use the condition 'Melee moment reached'. A click during the wind-up is ignored.",
+          "fullName": "Melee",
+          "functionType": "Action",
+          "name": "Melee",
+          "sentence": "Play the melee animation of _PARAM0_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": "const o = eventsFunctionContext.getObjects(\"Object\")[0];\nconst b = o && o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));\nif (!o || !b) return;\nif (b._getState() === 'Death') return;\nif (b._getState() === 'Melee' && b._getMeleePending()) return; // still winding up\nb._setState('Melee');\nb._setStateTime(0);\nb._setMeleePending(true);\nb._setMeleeReady(false);\nb._setFirePending(false);\n// Restart the swing from its start even when it is already playing\nif (o.getAnimationName() === 'Weapon') o.setAnimationName('Idle');\no.setAnimationName('Weapon');\nb._setCurrentAnim('Weapon');",
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": false
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "True for one frame when the melee swing connects: strike now.",
+          "fullName": "Melee moment reached",
+          "functionType": "Condition",
+          "name": "MeleeMomentReached",
+          "sentence": "The melee swing of _PARAM0_ connects: strike now",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "MeleeReady",
+                    "True",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "Amaze::PlayerFSM",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
         }
       ],
       "eventsFunctionsFolderStructure": {
@@ -13281,6 +13789,12 @@
           },
           {
             "functionName": "HandUp"
+          },
+          {
+            "functionName": "Melee"
+          },
+          {
+            "functionName": "MeleeMomentReached"
           }
         ]
       },
@@ -13392,6 +13906,36 @@
           "group": "Runtime",
           "hidden": true,
           "name": "FireReady"
+        },
+        {
+          "value": "0.35",
+          "type": "Number",
+          "label": "Seconds into the melee swing when the hit lands",
+          "group": "Weapon",
+          "name": "MeleeMoment"
+        },
+        {
+          "value": "0.87",
+          "type": "Number",
+          "label": "Melee swing duration (s)",
+          "group": "Weapon",
+          "name": "MeleeDuration"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Waiting for the melee moment",
+          "group": "Runtime",
+          "hidden": true,
+          "name": "MeleePending"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Melee moment reached this frame",
+          "group": "Runtime",
+          "hidden": true,
+          "name": "MeleeReady"
         }
       ],
       "propertiesFolderStructure": {
@@ -13436,6 +13980,12 @@
               },
               {
                 "propertyName": "FireMoment"
+              },
+              {
+                "propertyName": "MeleeMoment"
+              },
+              {
+                "propertyName": "MeleeDuration"
               }
             ]
           },
@@ -13456,6 +14006,12 @@
               },
               {
                 "propertyName": "FireReady"
+              },
+              {
+                "propertyName": "MeleePending"
+              },
+              {
+                "propertyName": "MeleeReady"
               }
             ]
           }
