@@ -11209,17 +11209,6 @@
         },
         {
           "type": {
-            "value": "ZoomCamera"
-          },
-          "parameters": [
-            "",
-            "2",
-            "",
-            ""
-          ]
-        },
-        {
-          "type": {
             "value": "MazeGenerator::ComputeDeadEnds"
           },
           "parameters": [
@@ -12836,6 +12825,10 @@
             "Enemies",
             "Enemy",
             "Health",
+            "Spawner",
+            "Health",
+            "Players",
+            "1200",
             "22",
             "\"0;0;0\"",
             "\"255;255;255\"",
@@ -13229,7 +13222,7 @@
           "parameters": [
             "EnemyProjectile",
             "+",
-            "cos(ToRad(EnemyProjectile.Angle())) * 300 * TimeDelta()"
+            "cos(ToRad(EnemyProjectile.Angle())) * 600 * TimeDelta()"
           ]
         },
         {
@@ -13239,7 +13232,7 @@
           "parameters": [
             "EnemyProjectile",
             "+",
-            "sin(ToRad(EnemyProjectile.Angle())) * 300 * TimeDelta()"
+            "sin(ToRad(EnemyProjectile.Angle())) * 600 * TimeDelta()"
           ]
         }
       ]
@@ -14619,19 +14612,6 @@
           },
           "parameters": [
             "PlayerProjectile",
-            ""
-          ]
-        },
-        {
-          "type": {
-            "value": "Health::Health::Hit"
-          },
-          "parameters": [
-            "Spawner",
-            "Health",
-            "Players.Player::TotalDamageMultiplier()*10",
-            "",
-            "",
             ""
           ]
         }
