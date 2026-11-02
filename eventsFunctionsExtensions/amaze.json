@@ -1237,14 +1237,14 @@
           "inlineCode": [
             "// aMAZE upgrade cards: run-wide player upgrades that persist between levels (gdjs.amazeUpg.U survives scene",
             "// changes), seeded chest offers, the 3D card UI, melee, chain shots, reflect, orbitals and the shield bubble.",
-            "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 3) return;",
-            "const G = (gdjs.amazeUpg = { version: 3 });",
+            "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 4) return;",
+            "const G = (gdjs.amazeUpg = { version: 4 });",
             "",
-            "G.BASE = { speed: 300, speedCap: 700, shot: 10, life: 1, melee: 10, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 1000, orbitalCap: 4, effectTime: 30, effectTimeMax: 120, timeCard: 5, rankXP: 10,",
+            "G.BASE = { speed: 300, speedCap: 700, shot: 10, life: 0.5, melee: 10, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 600, orbitalCap: 4, effectTime: 30, effectTimeMax: 120, timeCard: 5, rankXP: 10,",
             "    // crit / shooting / survival basics",
-            "    critMul: 2, execBelow: 0.3, spread: 7, regenDelay: 3, iframes: 0.5, fireMoment: 0.4, shootDuration: 0.87, extraShotValue: 0.6, volleyGap: 8,",
-            "    dashSpeed: 1400, dashTime: 0.15, dashCd: 3, dashCdMin: 0.8, reviveInvuln: 1.5, chestOpen: 0.75, chestHold: 0.5,",
-            "    critCap: 60, critBonusCap: 300, execCap: 150, knockCap: 400, fireRateCap: 150, shotSpeedCap: 150, extraShotsCap: 4, lifestealCap: 25, regenDelayMin: 0.5, dodgeCap: 50, livesCap: 3, phaseCap: 1.5, thornsCap: 200 };",
+            "    critMul: 2, execBelow: 0.3, spread: 7, regenDelay: 10, iframes: 0.5, fireMoment: 0.4, shootDuration: 0.87, extraShotValue: 0.6, volleyGap: 8,",
+            "    dashSpeed: 1400, dashTime: 0.15, dashCd: 3, dashCdMin: 0.8, reviveInvuln: 1.5, chestOpen: 0.75, chestHold: 0.5, reflectDmg: 0.6,",
+            "    critCap: 60, critBonusCap: 300, execCap: 150, knockCap: 400, fireRateCap: 150, shotSpeedCap: 150, extraShotsCap: 4, lifestealCap: 25, regenDelayMin: 3, dodgeCap: 50, livesCap: 3, phaseCap: 1.5, thornsCap: 200 };",
             "",
             "const RARITY = [",
             "    { name: 'Common', color: '#aab0b8' },",
@@ -1264,11 +1264,11 @@
             "    { id: 'running-shoe', title: 'Running Shoes', cat: 'movement', v: [12, 18, 27, 42, 60], text: (v) => '+' + v + ' max speed' },",
             "    { id: 'jump-across', title: 'Jump', cat: 'movement', v: [8, 12, 18, 28, 40], text: (v, U) => (U.jumpUnlocked ? '+' + v + '% jump height' : 'Unlocks jumping, +' + v + '% height') },",
             "    { id: 'arm-bandage', title: 'Bandage', cat: 'healing', v: [20, 30, 45, 70, 100], text: (v) => 'Heal ' + v + ' health now' },",
-            "    { id: 'healing', title: 'Regeneration', cat: 'healing', v: [0.5, 0.75, 1.1, 1.75, 2.5], text: (v) => '+' + v + ' health per second' },",
+            "    { id: 'healing', title: 'Regeneration', cat: 'healing', v: [0.2, 0.3, 0.45, 0.7, 1], text: (v) => '+' + v + ' health per second' },",
             "    { id: 'health-increase', title: 'Vitality', cat: 'healing', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + ' max health' },",
             "    { id: 'ricochet', title: 'Ricochet', cat: 'attack', v: [1, 1, 1, 2, 3], text: (v) => '+' + v + ' projectile bounce' + (v > 1 ? 's' : '') },",
             "    { id: 'falling-blob', title: 'Heavy Shot', cat: 'attack', v: [8, 12, 18, 28, 40], text: (v, U) => (U.shotUnlocked ? '' : 'Unlocks shooting (right click). ') + '+' + v + '% shot damage' },",
-            "    { id: 'projectile-timer', title: 'Long Shot', cat: 'attack', v: [0.15, 0.2, 0.3, 0.4, 0.5], text: (v) => '+' + v + 's shot range' },",
+            "    { id: 'projectile-timer', title: 'Long Shot', cat: 'attack', v: [0.5, 0.5, 0.75, 1, 2], text: (v) => '+' + v + 's shot range' },",
             "    { id: 'fire-tail', title: 'Chain Shot', cat: 'attack', v: [1, 1, 1, 2, 3], text: (v) => 'Shots jump to ' + v + ' more enem' + (v > 1 ? 'ies' : 'y') },",
             "    { id: 'punch-blast', title: 'Punch Blast', cat: 'attack', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + '% melee damage' },",
             "    { id: 'punch-range', title: 'Long Fist', cat: 'attack', v: [6, 9, 13, 21, 30], text: (v) => '+' + v + ' melee reach' },",
@@ -1283,7 +1283,7 @@
             "    { id: 'double-shot', title: 'Double Shot', cat: 'attack', v: [1, 1, 1, 2, 3], text: (v) => '+' + v + ' shot' + (v > 1 ? 's' : '') + ' per volley, each hits a bit weaker' },",
             "    { id: 'steady-aim', title: 'Steady Aim', cat: 'attack', v: [1, 1.5, 2, 3, 4], text: (v) => '-' + v + ' degrees of shot spread' },",
             "    { id: 'soul-catcher', title: 'Soul Catcher', cat: 'healing', v: [2, 3, 5, 8, 12], text: (v) => 'Heal ' + v + '% of the damage you deal' },",
-            "    { id: 'quick-recovery', title: 'Quick Recovery', cat: 'healing', v: [0.3, 0.45, 0.65, 1, 1.5], text: (v) => 'Regeneration starts ' + v + 's sooner after a hit' },",
+            "    { id: 'quick-recovery', title: 'Quick Recovery', cat: 'healing', v: [1, 1, 1.5, 2, 3], text: (v) => 'Regeneration starts ' + v + 's sooner after a hit' },",
             "    { id: 'dodge', title: 'Dodge', cat: 'healing', v: [3, 5, 7, 10, 15], text: (v) => '+' + v + '% chance to dodge a hit' },",
             "    { id: 'second-chance', title: 'Second Chance', cat: 'healing', v: [25, 35, 50, 70, 100], text: (v) => '+1 life: come back with ' + v + '% health when you would die' },",
             "    { id: 'phase-time', title: 'Phase Time', cat: 'movement', v: [0.1, 0.15, 0.2, 0.3, 0.4], text: (v) => '+' + v + 's invulnerability after a hit' },",
@@ -1611,6 +1611,25 @@
             "        if (U.thorns > 0 && total() < before && G.alive(en)) { // dodged and cooldown hits do nothing",
             "            G.hit(en, dmg * U.thorns / 100 * G.mult(p));",
             "            G.say(en, 'THORNS', '#c9a0ff', { size: 36 });",
+            "        }",
+            "    }",
+            "};",
+            "",
+            "// ---- an enemy projectile that was reflected by the shield hits an enemy: it takes the projectile's damage, reduced by BASE.reflectDmg",
+            "G.reflectedHit = function (ctx) {",
+            "    const projs = ctx.getObjects('EnemyProjectile'), ens = ctx.getObjects('Enemies');",
+            "    for (const pr of projs) {",
+            "        const dmg = pr.getVariables().get('damage').getAsNumber() * G.BASE.reflectDmg;",
+            "        let targets = ens;",
+            "        if (projs.length > 1) { // several at once: each one hits the enemy nearest to it",
+            "            let best = null, bd = Infinity;",
+            "            for (const en of ens) { const d = G.dist2(pr, en); if (d < bd) { bd = d; best = en; } }",
+            "            targets = best ? [best] : [];",
+            "        }",
+            "        for (const en of targets) {",
+            "            if (!G.alive(en)) continue;",
+            "            G.hit(en, dmg);",
+            "            G.say(en, '-' + Math.round(dmg), '#4aa8ff', { size: 34 });",
             "        }",
             "    }",
             "};",
@@ -4373,6 +4392,39 @@
         {
           "description": "Players",
           "name": "Players",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemies",
+          "name": "Enemies",
+          "type": "objectList"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "A reflected enemy projectile hits the picked enemies for its own damage, reduced (Reflect).",
+      "fullName": "Reflected enemy projectile hits an enemy",
+      "functionType": "Action",
+      "name": "ReflectedHit",
+      "sentence": "A reflected projectile hits an enemy",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (!G || !G.R) return;",
+            "G.reflectedHit(eventsFunctionContext);"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "EnemyProjectile",
+          "name": "EnemyProjectile",
           "type": "objectList"
         },
         {

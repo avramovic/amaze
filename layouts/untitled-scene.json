@@ -10076,6 +10076,12 @@
           "persistentUuid": "7234faa9-4c63-46b4-8d7b-367e6cdb5a95",
           "type": "number",
           "value": 0
+        },
+        {
+          "name": "damage",
+          "persistentUuid": "5b0c2d6e-3f7a-4c58-9a41-8d2e6f1b7c93",
+          "type": "number",
+          "value": 8
         }
       ],
       "effects": [],
@@ -14664,6 +14670,17 @@
             },
             {
               "type": {
+                "value": "SetNumberObjectVariable"
+              },
+              "parameters": [
+                "EnemyProjectile",
+                "damage",
+                "=",
+                "Enemies.Enemy::Damage()"
+              ]
+            },
+            {
+              "type": {
                 "value": "SetAngle"
               },
               "parameters": [
@@ -14807,7 +14824,7 @@
           "parameters": [
             "Players",
             "Health",
-            "8",
+            "EnemyProjectile.Variable(damage)",
             "yes",
             "yes",
             ""
@@ -14899,14 +14916,12 @@
         },
         {
           "type": {
-            "value": "Health::Health::Hit"
+            "value": "Amaze::ReflectedHit"
           },
           "parameters": [
+            "",
+            "EnemyProjectile",
             "Enemies",
-            "Health",
-            "8*Players.Player::TotalDamageMultiplier()",
-            "",
-            "",
             ""
           ]
         },

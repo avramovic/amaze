@@ -403,7 +403,7 @@ Fajl: `eventsFunctionsExtensions/amaze.json`. Zahteva ekstenziju "Health points 
 
 **Navigacija:** `UpdateFlowField` (BFS od ćelije igrača, samo kad igrač promeni ćeliju), `FlowTargetX/Y` (tačka 0.75 ćelije iza vrata ka igraču, na sredini hodnika), `MazeLineOfSight` (1 ako su u istoj ćeliji ili u istom redu/koloni bez zida). Behavior `Enemy` dobija `SetMoveTarget` (kuda hoda) i `SetCanAttack` (napad samo sa linijom vidljivosti), a `SetTarget` ostaje igrač (aggro, napad). `CanCrossWalls` preskače flow-field (za Evolved letače).
 
-**Napad:** `AttackMoment` u sceni: unutar `MeleeRange` je udarac (`Health::Hit` na igraču), a van njega ranged uloga ispaljuje `EnemyProjectile` (300 px/s, 8 štete, nestaje na zidu ili igraču).
+**Napad:** `AttackMoment` u sceni: unutar `MeleeRange` je udarac (`Health::Hit` na igraču), a van njega ranged uloga ispaljuje `EnemyProjectile` (600 px/s, šteta = `Damage` neprijatelja koji ga ispali (promenljiva `damage` na projektilu), nestaje na zidu ili igraču; odbijen shieldom pogađa neprijatelja za 60% te štete).
 
 ---
 

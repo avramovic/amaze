@@ -47,7 +47,7 @@ Vrednosti su po retkosti: Common / Uncommon / Rare / Epic / Mythic.
 |---|---|---|---|
 | `shield` | Shield | +shield poena, ali nikad preko maksimuma (početni max je **50**); ne nudi se dok je shield pun | 10 / 15 / 22 / 35 / 50 |
 | `healing-shield` | Shield+ | samo diže max shield, ne dodaje shield poene | 5 / 8 / 11 / 18 / 25 |
-| `shield-reflect` | Reflect | šansa da se neprijateljski projektil vrati nazad (samo dok je shield > 0); vraćen projektil nanosi 8 neprijatelju u koga uleti | 5 / 8 / 11 / 18 / 25 %, **cap 75%** |
+| `shield-reflect` | Reflect | šansa da se neprijateljski projektil vrati nazad (samo dok je shield > 0); vraćen projektil nanosi neprijatelju u koga uleti 60% svoje štete (šteta projektila = `Damage` onoga ko ga je ispalio, `BASE.reflectDmg`); nad neprijateljem se vidi plavo `-N` | 5 / 8 / 11 / 18 / 25 %, **cap 75%** |
 
 Shield ide preko Health ekstenzije (`MaxShield`, `ShieldPoints`). Nema tajmer: Health-ovo trajanje je 0 (ne ističe), shield se troši samo udarcima. Prikaz: plava providna sfera oko igrača, providnost = `0.5 · shield / maxShield`, i plava traka (`BlueFlatBar`, UI sloj) iznad crvene, skrivena dok nema shield-a.
 
@@ -67,10 +67,10 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
 | `arm-bandage` | Bandage | odmah leči | 20 / 30 / 45 / 70 / 100 |
-| `healing` | Regeneration | + health regen u sekundi | 0.5 / 0.75 / 1.1 / 1.75 / 2.5 |
+| `healing` | Regeneration | + health regen u sekundi | 0.2 / 0.3 / 0.45 / 0.7 / 1 |
 | `health-increase` | Vitality | samo diže max health, ne leči | 10 / 15 / 22 / 35 / 50 |
 | `soul-catcher` | Soul Catcher | deo **stvarno nanete štete** se vraća kao HP (računa se pad zdravlja neprijatelja u `G.trackDamage`, pa overkill ne daje ništa; važi za sve izvore) | 2 / 3 / 5 / 8 / 12 %, **cap 25%** |
-| `quick-recovery` | Quick Recovery | regen kreće ranije posle udarca (početno čekanje **3 s**, min 0.5); nudi se tek kad imaš regen | −0.3 / 0.45 / 0.65 / 1 / 1.5 s |
+| `quick-recovery` | Quick Recovery | regen kreće ranije posle udarca (početno čekanje **10 s**, min **3 s**); nudi se tek kad imaš regen | −1 / 1 / 1.5 / 2 / 3 s |
 | `dodge` | Dodge | šansa da izbegneš udarac (`ChanceToDodge` u Health) | 3 / 5 / 7 / 10 / 15 %, **cap 50%** |
 | `second-chance` | Second Chance | **+1 život**: kad bi umro, vraćaš se sa delom max HP-a i 1.5 s si nepovrediv. Život se troši i ne vraća. HP pri oživljavanju je najbolja vrednost koju si birao | HP 25 / 35 / 50 / 70 / 100 %, **max 3 života** |
 
@@ -79,7 +79,7 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
 | `falling-blob` | Heavy Shot | **prva otključava pucanje** (desni klik), kasnije + šteta (%) | šteta 8 / 12 / 18 / 28 / 40 % |
-| `projectile-timer` | Long Shot | + domet projektila u **sekundama** (osnovni domet je 1 s) | +0.15 / 0.2 / 0.3 / 0.4 / 0.5 s |
+| `projectile-timer` | Long Shot | + domet projektila u **sekundama** (osnovni domet je 0.5 s, oko 300 jedinica) | +0.5 / 0.5 / 0.75 / 1 / 2 s |
 | `ricochet` | Ricochet | + odbijanja projektila od zida (početno 0) | 1 / 1 / 1 / 2 / 3 |
 | `fire-tail` | Chain Shot | posle pogotka iz neprijatelja izlazi **pravi projektil** (isti kao prvi hitac, ista šteta) ka najbližem neprijatelju koji nije pogođen, **u vidokrugu** (isti red ili kolona lavirinta bez zida) i **najviše 800 daleko** (2 polja). Nema odbijanja, staje na prvom zidu; kratko ne može da pogodi neprijatelja iz kog je izašao | 1 / 1 / 1 / 2 / 3 skokova |
 | `punch-blast` | Punch Blast | + šteta melee udarca | 10 / 15 / 22 / 35 / 50 % |
@@ -89,7 +89,7 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | `executioner` | Executioner | + šteta protiv neprijatelja (i spawnera) ispod **30% HP** | 10 / 15 / 22 / 35 / 50 %, cap 150% |
 | `knockback` | Knockback | hitac i melee guraju **živog** neprijatelja unazad (klizi sa otporom, staje na zidu lavirinta, ne radi na `SuperArmor = Yes` ni na ulozi `Stationary`, tj. mushnubi) | +40 / 60 / 90 / 140 / 200 (piksela), **cap 400** |
 | `rapid-fire` | Rapid Fire | brže pucanje: kraći `FireMoment` i `ShootDuration` u `PlayerFSM`, animacija ubrzana isto | 8 / 12 / 18 / 28 / 40 %, cap 150% |
-| `fast-bullets` | Fast Bullets | brži metak (1000 →), a kako je domet u sekundama, i dalje stiže | 8 / 12 / 18 / 28 / 40 %, **cap 150% (2500)** |
+| `fast-bullets` | Fast Bullets | brži metak (600 →), a kako je domet u sekundama, i dalje stiže | 8 / 12 / 18 / 28 / 40 %, **cap 150% (1500)** |
 | `double-shot` | Double Shot | + metaka u jednoj salvi, u luku (razmak 8°). Svaki metak je slabiji: šteta salve je `1 + 0.6·extra` šteta jednog hica, podeljena na sve metke | 1 / 1 / 1 / 2 / 3, **cap 4 dodatna** |
 | `steady-aim` | Steady Aim | manje rasipanje hitaca (početno **±7°**); ne nudi se na 0 | −1 / 1.5 / 2 / 3 / 4 ° |
 
@@ -122,8 +122,8 @@ Orbovi nisu trajni, jer bi bili prejaki. Shield nema tajmer, troši se samo udar
 |---|---|---|
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
-| Pucanje | zaključano | desni klik, šteta 10, domet 1 s (brzina 1000), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
-| Regen | 0 | kad se doda, čeka **3 s** posle udarca |
+| Pucanje | zaključano | desni klik, šteta 10, domet 0.5 s (brzina 600, kao neprijateljski projektil), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
+| Regen | 0 | kad se doda, čeka **10 s** posle udarca |
 | Neranjivost posle udarca | 0.5 s | `DamageCooldown` u Health; Dodge početno 0 |
 | Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120). Sečivo (`G.meleeTick`) maše lukom od −65° do +65° ispred igrača (s leva na desno) u prozoru `MeleeMoment`–`MeleeHitEnd`, dužine jednake dometu; svaki neprijatelj se pogađa najviše jednom po zamahu. Kost šake se koristi samo ako daje pravu poziciju. Trag `FireEmbers` je na vrhu sečiva, flow (čestica/s) = jačina melee napada |
 | Level | 1 | globalna promenljiva |
