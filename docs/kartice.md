@@ -87,7 +87,7 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | `crit-chance` | Crit Chance | šansa za kritični pogodak (osnovno **×2** štete) na hitac, melee i orbove; pogodak daje dodatnu eksploziju | 3 / 5 / 7 / 10 / 15 %, **cap 60%** |
 | `crit-damage` | Crit Damage | + šteta kritika (×2 → max **×5**); nudi se tek kad imaš Crit Chance | 20 / 30 / 45 / 70 / 100 %, **cap 300%** |
 | `executioner` | Executioner | + šteta protiv neprijatelja (i spawnera) ispod **30% HP** | 10 / 15 / 22 / 35 / 50 %, cap 150% |
-| `knockback` | Knockback | hitac i melee guraju **živog** neprijatelja unazad (klizi sa otporom, staje na zidu lavirinta, ne radi na `SuperArmor = Yes`) | +40 / 60 / 90 / 140 / 200 (piksela), **cap 400** |
+| `knockback` | Knockback | hitac i melee guraju **živog** neprijatelja unazad (klizi sa otporom, staje na zidu lavirinta, ne radi na `SuperArmor = Yes` ni na ulozi `Stationary`, tj. mushnubi) | +40 / 60 / 90 / 140 / 200 (piksela), **cap 400** |
 | `rapid-fire` | Rapid Fire | brže pucanje: kraći `FireMoment` i `ShootDuration` u `PlayerFSM`, animacija ubrzana isto | 8 / 12 / 18 / 28 / 40 %, cap 150% |
 | `fast-bullets` | Fast Bullets | brži metak (1000 →), a kako je domet u sekundama, i dalje stiže | 8 / 12 / 18 / 28 / 40 %, **cap 150% (2500)** |
 | `double-shot` | Double Shot | + metaka u jednoj salvi, u luku (razmak 8°). Svaki metak je slabiji: šteta salve je `1 + 0.6·extra` šteta jednog hica, podeljena na sve metke | 1 / 1 / 1 / 2 / 3, **cap 4 dodatna** |

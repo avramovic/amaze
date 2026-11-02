@@ -15629,52 +15629,6 @@
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "value": "Distance"
-          },
-          "parameters": [
-            "Players",
-            "BlueMist",
-            "200",
-            ""
-          ]
-        }
-      ],
-      "actions": [
-        {
-          "type": {
-            "value": "Physics3D::PhysicsCharacter3D::SetForwardSpeedMax"
-          },
-          "parameters": [
-            "Players",
-            "PhysicsCharacter3D",
-            "=",
-            "Amaze::UpgradeMaxSpeed()*0.5"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Else",
-      "conditions": [],
-      "actions": [
-        {
-          "type": {
-            "value": "Physics3D::PhysicsCharacter3D::SetForwardSpeedMax"
-          },
-          "parameters": [
-            "Players",
-            "PhysicsCharacter3D",
-            "=",
-            "Amaze::UpgradeMaxSpeed()"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
       "conditions": [],
       "actions": []
     },
