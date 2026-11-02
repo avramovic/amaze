@@ -11505,6 +11505,35 @@
           ]
         },
         {
+          "name": "punch-range",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_punch-range.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
           "name": "orbital",
           "useMultipleDirections": false,
           "directions": [
@@ -11544,6 +11573,441 @@
                 {
                   "hasCustomCollisionMask": false,
                   "image": "card_orbital-time.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "crit-chance",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_crit-chance.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "crit-damage",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_crit-damage.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "executioner",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_executioner.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "knockback",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_knockback.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rapid-fire",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_rapid-fire.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "fast-bullets",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_fast-bullets.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "double-shot",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_double-shot.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "steady-aim",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_steady-aim.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "soul-catcher",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_soul-catcher.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "quick-recovery",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_quick-recovery.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "dodge",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_dodge.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "second-chance",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_second-chance.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "phase-time",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_phase-time.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "dash",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_dash.png",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "crown-of-thorns",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": false,
+                  "image": "card_crown-of-thorns.png",
                   "points": [],
                   "originPoint": {
                     "name": "origine",
@@ -14100,14 +14564,13 @@
           "actions": [
             {
               "type": {
-                "value": "Health::Health::Hit"
+                "value": "Amaze::EnemyMeleeHit"
               },
               "parameters": [
+                "",
                 "Players",
-                "Health",
-                "Enemies.Enemy::Damage()",
-                "yes",
-                "yes"
+                "Enemies",
+                ""
               ]
             }
           ]
@@ -15323,6 +15786,63 @@
       "conditions": [
         {
           "type": {
+            "value": "KeyFromTextPressed"
+          },
+          "parameters": [
+            "",
+            "\"LShift\""
+          ]
+        },
+        {
+          "type": {
+            "value": "MousePointerLock::isPointerLocked"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Players",
+            "Health",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Amaze::AreCardsOpen"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::Dash"
+          },
+          "parameters": [
+            "",
+            "Players",
+            ""
+          ]
+        }
+      ],
+      "events": []
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
             "value": "Amaze::PlayerFSM::FireMomentReached"
           },
           "parameters": [
@@ -15334,74 +15854,13 @@
       "actions": [
         {
           "type": {
-            "value": "FireBullet::FireBullet3D::FireForwardObject3D"
+            "value": "Amaze::FireShot"
           },
           "parameters": [
+            "",
             "Players",
-            "FireBullet3D",
-            "30",
-            "0",
-            "0",
             "PlayerProjectile",
-            "Object3D",
-            "Physics3D",
-            "1000",
             ""
-          ]
-        },
-        {
-          "type": {
-            "value": "Scene3D::Base3DBehavior::SetRotationY"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            "Object3D",
-            "=",
-            "-90"
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberObjectVariable"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            "bouncesLeft",
-            "=",
-            "Amaze::UpgradeBounces()"
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberObjectVariable"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            "damage",
-            "=",
-            "Amaze::UpgradeShotDamage()"
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberObjectVariable"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            "chainLeft",
-            "=",
-            "Amaze::UpgradeChain()"
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberObjectVariable"
-          },
-          "parameters": [
-            "PlayerProjectile",
-            "lifeLeft",
-            "=",
-            "Amaze::UpgradeShotLife()"
           ]
         }
       ]
@@ -15814,14 +16273,13 @@
         },
         {
           "type": {
-            "value": "Health::Health::Hit"
+            "value": "Amaze::ShotHit"
           },
           "parameters": [
+            "",
+            "PlayerProjectile",
             "Enemies",
-            "Health",
-            "PlayerProjectile.Variable(damage)*Players.Player::TotalDamageMultiplier()",
-            "",
-            "",
+            "Players",
             ""
           ]
         },
@@ -15889,14 +16347,13 @@
         },
         {
           "type": {
-            "value": "Health::Health::Hit"
+            "value": "Amaze::ShotHit"
           },
           "parameters": [
+            "",
+            "PlayerProjectile",
             "Spawner",
-            "Health",
-            "PlayerProjectile.Variable(damage)*Players.Player::TotalDamageMultiplier()",
-            "",
-            "",
+            "Players",
             ""
           ]
         },
@@ -16267,6 +16724,136 @@
             "NewStatsText",
             "+",
             "NewLine() + \"[color=#ffd23c]Orb damage[/color] \" + Amaze::Stat(\"orbDamage\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Crit[/color] \" + Amaze::Stat(\"crit\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Executioner[/color] \" + Amaze::Stat(\"exec\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Knockback[/color] \" + Amaze::Stat(\"knock\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Fire rate[/color] \" + Amaze::Stat(\"fireRate\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Shot speed[/color] \" + Amaze::Stat(\"shotSpeed\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff5a5a]Shots[/color] \" + Amaze::Stat(\"shots\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#4cd964]Soul Catcher[/color] \" + Amaze::Stat(\"lifesteal\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#4cd964]Regen delay[/color] \" + Amaze::Stat(\"regenDelay\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#4cd964]Dodge[/color] \" + Amaze::Stat(\"dodge\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#4cd964]Lives[/color] \" + Amaze::Stat(\"lives\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff9a2a]Invulnerability[/color] \" + Amaze::Stat(\"phase\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ff9a2a]Dash[/color] \" + Amaze::Stat(\"dash\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "NewStatsText",
+            "+",
+            "NewLine() + \"[color=#ffd23c]Thorns[/color] \" + Amaze::Stat(\"thorns\")"
           ]
         },
         {

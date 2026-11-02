@@ -45,8 +45,8 @@ Vrednosti su po retkosti: Common / Uncommon / Rare / Epic / Mythic.
 
 | Kartica (slika) | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `shield` | Shield | +shield i odmah puni; ako je preko maksimuma, diže i maksimum | 10 / 15 / 22 / 35 / 50 |
-| `healing-shield` | Shield+ | +max shield **i isto toliko shield poena odmah** (10/100 + 25 → 35/125) | 5 / 8 / 11 / 18 / 25 |
+| `shield` | Shield | +shield poena, ali nikad preko maksimuma (početni max je **50**); ne nudi se dok je shield pun | 10 / 15 / 22 / 35 / 50 |
+| `healing-shield` | Shield+ | samo diže max shield, ne dodaje shield poene | 5 / 8 / 11 / 18 / 25 |
 | `shield-reflect` | Reflect | šansa da se neprijateljski projektil vrati nazad (samo dok je shield > 0); vraćen projektil nanosi 8 neprijatelju u koga uleti | 5 / 8 / 11 / 18 / 25 %, **cap 75%** |
 
 Shield ide preko Health ekstenzije (`MaxShield`, `ShieldPoints`). Nema tajmer: Health-ovo trajanje je 0 (ne ističe), shield se troši samo udarcima. Prikaz: plava providna sfera oko igrača, providnost = `0.5 · shield / maxShield`, i plava traka (`BlueFlatBar`, UI sloj) iznad crvene, skrivena dok nema shield-a.
@@ -57,6 +57,8 @@ Shield ide preko Health ekstenzije (`MaxShield`, `ShieldPoints`). Nema tajmer: H
 |---|---|---|---|
 | `running-shoe` | Running Shoes | + max brzina | +12 / 18 / 27 / 42 / 60, početno **300**, **cap 700** |
 | `jump-across` | Jump | **prva otključava skok** (bez nje Space ne radi), kasnije + visina skoka | 8 / 12 / 18 / 28 / 40 % |
+| `phase-time` | Phase Time | duža neranjivost posle udarca (početno 0.5 s) | +0.1 / 0.15 / 0.2 / 0.3 / 0.4 s, cap +1.5 s |
+| `dash` | Dash | **prva otključava dash** (Shift, cooldown 3 s): kratak nalet (0.15 s, brzina 1400) u pravcu u kom se krećeš, a ako stojiš, napred; nepovrediv dok traje. Kasnije skraćuje cooldown | −0.15 / 0.2 / 0.3 / 0.45 / 0.6 s, **min 0.8 s** |
 
 Kartica brzine se ne nudi kad je brzina na 700.
 
@@ -66,7 +68,11 @@ Kartica brzine se ne nudi kad je brzina na 700.
 |---|---|---|---|
 | `arm-bandage` | Bandage | odmah leči | 20 / 30 / 45 / 70 / 100 |
 | `healing` | Regeneration | + health regen u sekundi | 0.5 / 0.75 / 1.1 / 1.75 / 2.5 |
-| `health-increase` | Vitality | + max health, i leči za isto toliko | 10 / 15 / 22 / 35 / 50 |
+| `health-increase` | Vitality | samo diže max health, ne leči | 10 / 15 / 22 / 35 / 50 |
+| `soul-catcher` | Soul Catcher | deo **stvarno nanete štete** se vraća kao HP (računa se pad zdravlja neprijatelja u `G.trackDamage`, pa overkill ne daje ništa; važi za sve izvore) | 2 / 3 / 5 / 8 / 12 %, **cap 25%** |
+| `quick-recovery` | Quick Recovery | regen kreće ranije posle udarca (početno čekanje **3 s**, min 0.5); nudi se tek kad imaš regen | −0.3 / 0.45 / 0.65 / 1 / 1.5 s |
+| `dodge` | Dodge | šansa da izbegneš udarac (`ChanceToDodge` u Health) | 3 / 5 / 7 / 10 / 15 %, **cap 50%** |
+| `second-chance` | Second Chance | **+1 život**: kad bi umro, vraćaš se sa delom max HP-a i 1.5 s si nepovrediv. Život se troši i ne vraća. HP pri oživljavanju je najbolja vrednost koju si birao | HP 25 / 35 / 50 / 70 / 100 %, **max 3 života** |
 
 ### Crvena, napad
 
@@ -76,15 +82,25 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | `projectile-timer` | Long Shot | + domet projektila u **sekundama** (osnovni domet je 1 s) | +0.15 / 0.2 / 0.3 / 0.4 / 0.5 s |
 | `ricochet` | Ricochet | + odbijanja projektila od zida (početno 0) | 1 / 1 / 1 / 2 / 3 |
 | `fire-tail` | Chain Shot | posle pogotka iz neprijatelja izlazi **pravi projektil** (isti kao prvi hitac, ista šteta) ka najbližem neprijatelju koji nije pogođen, **u vidokrugu** (isti red ili kolona lavirinta bez zida) i **najviše 800 daleko** (2 polja). Nema odbijanja, staje na prvom zidu; kratko ne može da pogodi neprijatelja iz kog je izašao | 1 / 1 / 1 / 2 / 3 skokova |
-| `punch-blast` | Punch Blast | + šteta melee udarca i + domet melee-ja (domet raste 0.6 × vrednost, 60 → **max 120**) | 10 / 15 / 22 / 35 / 50 % |
+| `punch-blast` | Punch Blast | + šteta melee udarca | 10 / 15 / 22 / 35 / 50 % |
+| `punch-range` | Long Fist | + domet melee-ja (60 → **max 120**); ne nudi se kad je cap dostignut | 6 / 9 / 13 / 21 / 30 |
+| `crit-chance` | Crit Chance | šansa za kritični pogodak (osnovno **×2** štete) na hitac, melee i orbove; pogodak daje dodatnu eksploziju | 3 / 5 / 7 / 10 / 15 %, **cap 60%** |
+| `crit-damage` | Crit Damage | + šteta kritika (×2 → max **×5**); nudi se tek kad imaš Crit Chance | 20 / 30 / 45 / 70 / 100 %, **cap 300%** |
+| `executioner` | Executioner | + šteta protiv neprijatelja (i spawnera) ispod **30% HP** | 10 / 15 / 22 / 35 / 50 %, cap 150% |
+| `knockback` | Knockback | hitac i melee guraju **živog** neprijatelja unazad (klizi sa otporom, staje na zidu lavirinta, ne radi na `SuperArmor = Yes`) | +40 / 60 / 90 / 140 / 200 (piksela), **cap 400** |
+| `rapid-fire` | Rapid Fire | brže pucanje: kraći `FireMoment` i `ShootDuration` u `PlayerFSM`, animacija ubrzana isto | 8 / 12 / 18 / 28 / 40 %, cap 150% |
+| `fast-bullets` | Fast Bullets | brži metak (1000 →), a kako je domet u sekundama, i dalje stiže | 8 / 12 / 18 / 28 / 40 %, **cap 150% (2500)** |
+| `double-shot` | Double Shot | + metaka u jednoj salvi, u luku (razmak 8°). Svaki metak je slabiji: šteta salve je `1 + 0.6·extra` šteta jednog hica, podeljena na sve metke | 1 / 1 / 1 / 2 / 3, **cap 4 dodatna** |
+| `steady-aim` | Steady Aim | manje rasipanje hitaca (početno **±7°**); ne nudi se na 0 | −1 / 1.5 / 2 / 3 / 4 ° |
 
-`ricochet`, `fire-tail` i `projectile-timer` se **ne nude dok se ne otključa pucanje** (nemaju efekta bez njega).
+`ricochet`, `fire-tail`, `projectile-timer`, `rapid-fire`, `fast-bullets`, `double-shot` i `steady-aim` se **ne nude dok se ne otključa pucanje** (nemaju efekta bez njega).
 
 ### Žuta, pasivno
 
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
 | `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje, isti neprijatelj najviše na 0.45 s. **Pokreće tajmer** (30 s) | 1 / 1 / 1 / 2 / 3, **cap 4** |
+| `crown-of-thorns` | Crown of Thorns | neprijatelj koji te udari u melee dobija deo štete nazad (samo kad udarac stvarno prođe: ne dodge, ne cooldown) | 25 / 35 / 50 / 75 / 100 %, cap 200% |
 | `orbital-time` | Orbital Time | trajno produžava trajanje orbova za 5 s, **vraća sve orbove koje si do sada skupio** (broj se pamti i kad istekne tajmer) i restartuje tajmer. Ne dodaje novi orb. Nudi se tek kad imaš bar jedan orb, **cap 120 s** | **+5 s** za svaku retkost |
 
 Šteta orbitala je `6 · (1 + šteta%) · TotalDamageMultiplier`. Objekat je `PlayerOrbital` (žuta kopija `EnemyProjectile`).
@@ -106,7 +122,9 @@ Orbovi nisu trajni, jer bi bili prejaki. Shield nema tajmer, troši se samo udar
 |---|---|---|
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
-| Pucanje | zaključano | desni klik, šteta 10, domet 1 s (brzina 1000), odbijanja 0, lanac 0 |
+| Pucanje | zaključano | desni klik, šteta 10, domet 1 s (brzina 1000), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
+| Regen | 0 | kad se doda, čeka **3 s** posle udarca |
+| Neranjivost posle udarca | 0.5 s | `DamageCooldown` u Health; Dodge početno 0 |
 | Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120). Sečivo (`G.meleeTick`) maše lukom od −65° do +65° ispred igrača (s leva na desno) u prozoru `MeleeMoment`–`MeleeHitEnd`, dužine jednake dometu; svaki neprijatelj se pogađa najviše jednom po zamahu. Kost šake se koristi samo ako daje pravu poziciju. Trag `FireEmbers` je na vrhu sečiva, flow (čestica/s) = jačina melee napada |
 | Level | 1 | globalna promenljiva |
 
@@ -120,6 +138,9 @@ Sve ove šteta se množe sa `Player::TotalDamageMultiplier()`. Melee je aktivan 
 | Stanje runa (preživljava promenu scene) | `gdjs.amazeUpg.U` |
 | Svaki frejm | `Amaze::UpgradesStep` (događaj u sceni posle postavljanja seed-ova) |
 | Chest, miš, desni/levi klik, brzina, skok | događaji u `layouts/untitled-scene.json` (traže `OpenChest`, `ExitPointerLock`, `CardJustPicked`, `ShotUnlocked`, `UpgradeMaxSpeed`...) |
+| Ispaljivanje (salva, rasipanje), pogodak hica, melee udarac neprijatelja, dash | funkcije `Amaze::FireShot`, `Amaze::ShotHit`, `Amaze::EnemyMeleeHit`, `Amaze::Dash` (pozivaju `G.fire`, `G.shotHit`, `G.enemyMeleeHit`, `G.dash`); u sceni zamenjuju `FireForwardObject3D` i `Health::Hit` |
+| Šteta igrača (krit, executioner, guranje) | `G.strike(o, dmg, p, shove)`; koriste ga hitac, melee i orbovi. `G.hit` je goli udarac (reflect, thorns) |
+| Second Chance | `G.rescue(o)`, poziva se na kraju `Health::Hit` u `eventsFunctionsExtensions/health.json` (JS događaj na kraju funkcije; ne radi ništa za neprijatelje) |
 | Melee stanje i animacija | `Amaze::PlayerFSM` (`Melee`, `MeleeMomentReached`, `MeleeMoment`, `MeleeDuration`) |
 | Slike kartica | `assets/cards/<id>.png`, resurs `card_<id>.png`; objekat `CardIcons` (Sprite) je tu samo da ih izvoz ne izbaci |
 
@@ -158,12 +179,16 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 
 | Rank | Otključava |
 |---|---|
-| 1 | arm-bandage, health-increase, running-shoe, shield, falling-blob |
-| 20 | healing, punch-blast, projectile-timer |
+| 1 | arm-bandage, health-increase, running-shoe, shield, punch-blast |
+| 3 | punch-range |
+| 8 | falling-blob (prvi pucanj) |
+| 20 | healing, projectile-timer |
 | 30 | jump-across, healing-shield |
 | 40 | ricochet, orbital, retkost **Epic** |
 | 50 | shield-reflect, fire-tail |
 | 60 | orbital-time, retkost **Mythic** |
+
+Nove kartice: rank 5 `crit-chance`, `dodge`; 10 `knockback`, `rapid-fire`; 12 `steady-aim`; 15 `executioner`, `phase-time`; 25 `fast-bullets`, `soul-catcher`, `quick-recovery`; 35 `crit-damage`, `dash`; 45 `double-shot`, `crown-of-thorns`; 55 `second-chance`. (Tabela `UNLOCK` je jedino mesto za podešavanje.)
 
 Zaključana retkost se ne bira (težine ostalih se preraspodeljuju). Pošto se skup kartica menja sa rankom, isti `RunSeed` daje drugačiju ponudu na različitom ranku.
 
@@ -190,11 +215,20 @@ BBText objekat na `UI` sloju (gore desno). Puni ga događaj u sceni odmah posle 
 | zelena | `health`, `regen` |
 | plava | `shield`, `reflect` |
 | narandžasta | `speed`, `jump` |
-| crvena | `shooting`, `shotDamage`, `shotRange`, `bounces`, `chain`, `melee`, `reach` |
+| crvena | `shooting`, `shotDamage`, `shotRange`, `bounces`, `chain`, `melee`, `reach`, `crit`, `exec`, `knock`, `fireRate`, `shotSpeed`, `shots` |
+| zelena (nove, posle žutih) | `lifesteal`, `regenDelay`, `dodge`, `lives` |
+| narandžasta (nove, posle žutih) | `phase`, `dash` |
+| žuta (nova) | `thorns` |
 | žuta | `orbs`, `orbTime`, `orbDamage` |
 | po kategoriji kartice | `picked`: BBCode lista uzetih kartica (`Ricochet x2, ...`) |
 
 Brojevi štete uključuju `TotalDamageMultiplier`. Stari objekat `StatsText` (običan Text) više nije povezan i može da se obriše.
+
+## Nove kartice: napomene
+
+- **Hitac se više ne pravi preko `FireBullet3D`** (taj ignoriše količinu metaka i varijansu ugla). `G.fire` pravi `PlayerProjectile` sam, sa istim promenljivama (`damage`, `bouncesLeft`, `chainLeft`, `lifeLeft`).
+- **Neranjivost** (dash, oživljavanje): `G.stepPlayer` svaki frejm obnavlja Health-ov damage cooldown, a `DamageCooldown` je tada 0.05 s; posle se vraća na `0.5 + Phase Time`.
+- **Dash** postavlja `setCurrentForwardSpeed` / `setCurrentSidewaysSpeed` na `PhysicsCharacter3D` i podiže maksimum na 1400 dok traje.
 
 ## Zamke
 
@@ -204,4 +238,4 @@ Brojevi štete uključuju `TotalDamageMultiplier`. Stari objekat `StatsText` (ob
 
 ## Nije proveravano u igri
 
-Sve gore je napisano bez preview-a. Treba pogledati: izgled i tekst kartica, `MeleeMoment`, veličinu shield sfere, vatru orbitala (ostaje li iza njih), i da se miš dobro zaključava posle izbora.
+Sve gore je napisano bez preview-a. Za nove kartice posebno: `setCurrentForwardSpeed` (dash), `p.setAnimationSpeedScale` (Rapid Fire), da `G.rescue` iz `Health::Hit` zaista oživi igrača pre `Death` animacije, da hitac krene sa pravog mesta (pozicija se računa preko centra), guranje ne probija zid, i da `BigExplosion` na kritu ne ostaje u sceni. Takođe treba pogledati: izgled i tekst kartica, `MeleeMoment`, veličinu shield sfere, vatru orbitala (ostaje li iza njih), i da se miš dobro zaključava posle izbora.

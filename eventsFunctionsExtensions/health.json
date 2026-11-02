@@ -1125,6 +1125,29 @@
                 }
               ],
               "parameters": []
+            },
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "aMAZE: a player with a Second Chance life comes back instead of dying (does nothing for anyone else)"
+            },
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+                "const G = gdjs.amazeUpg;",
+                "if (o && G && G.rescue) G.rescue(o);"
+              ],
+              "parameterObjects": "Object",
+              "useStrict": true,
+              "eventsSheetExpanded": false
             }
           ],
           "parameters": [

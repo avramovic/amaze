@@ -1105,6 +1105,14 @@
         "userAdded": true
       },
       {
+        "file": "assets/cards/punch-range.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_punch-range.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
         "file": "assets/cards/fire-tail.png",
         "kind": "image",
         "metadata": "",
@@ -1183,6 +1191,126 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/Resource bars/Kenney/787adbbfd4d93e6a2f33d7b20115926d950e35c177ca2e699370ec02504c53be_Rounded Square Yellow Fill Bar.png",
           "name": "Rounded Square Yellow Fill Bar.png"
         }
+      },
+      {
+        "file": "assets/cards/crit-chance.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_crit-chance.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/crit-damage.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_crit-damage.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/executioner.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_executioner.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/knockback.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_knockback.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/rapid-fire.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_rapid-fire.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/fast-bullets.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_fast-bullets.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/double-shot.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_double-shot.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/steady-aim.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_steady-aim.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/soul-catcher.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_soul-catcher.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/quick-recovery.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_quick-recovery.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/dodge.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_dodge.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/second-chance.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_second-chance.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/phase-time.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_phase-time.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/dash.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_dash.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "file": "assets/cards/crown-of-thorns.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_crown-of-thorns.png",
+        "smoothed": true,
+        "userAdded": true
       }
     ]
   },
