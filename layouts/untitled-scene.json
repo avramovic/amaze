@@ -15505,7 +15505,23 @@
             "RunSeed",
             ""
           ]
-        },
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Amaze::CardsJustShown"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
         {
           "type": {
             "value": "MousePointerLock::ExitPointerLock"

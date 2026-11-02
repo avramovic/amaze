@@ -238,3 +238,33 @@ Brojevi štete uključuju `TotalDamageMultiplier`. Stari objekat `StatsText` (ob
 ## Nije proveravano u igri
 
 Sve gore je napisano bez preview-a. Za nove kartice posebno: `setCurrentForwardSpeed` (dash), `p.setAnimationSpeedScale` (Rapid Fire), da `G.rescue` iz `Health::Hit` zaista oživi igrača pre `Death` animacije, da hitac krene sa pravog mesta (pozicija se računa preko centra), guranje ne probija zid, i da `BigExplosion` na kritu ne ostaje u sceni. Takođe treba pogledati: izgled i tekst kartica, `MeleeMoment`, veličinu shield sfere, vatru orbitala (ostaje li iza njih), i da se miš dobro zaključava posle izbora.
+
+## Vizuelni feedback (lebdeći tekst i plusići)
+
+Sve u biblioteci `gdjs.amazeUpg` (verzija 3), modul `// ---- visual feedback`. Tekst je `THREE.Sprite` (billboard) sa canvas teksturom u three sceni, diže se po Z, njiše se i bledi; igračev tekst prati igrača, tekst na neprijatelju ostaje gde je pogođen. Više tekstova na istom objektu se slažu jedan iznad drugog. Najviše 60 sprajtova istovremeno. Efekti se kreću sa vremenom scene, pa stoje dok su kartice otvorene.
+
+| Događaj | Tekst / efekat | Odakle |
+|---|---|---|
+| XP od pogotka | sivo `+N XP` nad igračem (pogoci unutar 0.3 s se sabiraju) | `G.feedbackStep` (`R.xpFx` puni `trackDamage` i `awardKills`) |
+| Krit | crveno `CRITICAL HIT!` nad neprijateljem (max jedan na 0.15 s po neprijatelju) | `G.strike` → `G.critFx` |
+| Dodge | narandžasto `DODGE!` nad igračem | kraj `Health::Hit` → `G.afterHit` (čita `IsJustDodged`) |
+| Bandage | `+N HP` i zeleni plusići oko igrača 2 s (12 u sekundi) | `G.apply` (`R.healBurst`) |
+| Bilo koje lečenje (regen, Soul Catcher) | zeleni plusići (4 u sekundi) dok zdravlje raste | `G.feedbackStep` (`R.healGlow`, drži 0.5 s) |
+| Šteta igraču | crveno `-N` | pad `U.hp` između frejmova |
+| Štit upije udarac / pukne | plavo `-N` / `SHIELD BROKEN` | pad `U.shield` |
+| Reflect | plavo `REFLECT!` | `G.reflect` |
+| Second Chance | zlatno `SECOND CHANCE!` + plusići | `G.rescue` |
+| Crown of Thorns | ljubičasto `THORNS` nad neprijateljem | `G.enemyMeleeHit` |
+| Executioner (ubije) | tamnocrveno `EXECUTE!` | `G.strike` |
+| Dash | narandžasto `DASH` | `G.dash` |
+| Rank up | ljubičasto `RANK UP!` + `Rank N` | `G.feedbackStep` (`R.lastRank`) |
+| Izabrana kartica | `+ Naziv` u boji kategorije | `G.apply` |
+| Otvaranje chesta | zlatne zvezdice oko chesta | `G.openChest` / `G.stepCards` |
+
+Veličine, boje i trajanja su argumenti poziva `G.say(objekat, tekst, boja, { size, life, pop })`. Nije urađen tekst za upis XP-a na vortexu, jer se scena odmah učitava ponovo.
+
+## Chest: prvo animacija, pa kartice
+
+`Amaze::OpenChest` više ne otvara kartice odmah. Upisuje `R.pending` i čeka `chestOpen + chestHold` (0.75 s je trajanje klipa `Chest_Open` u `Chest.glb`, plus 0.5 s da se vidi otvoren chest; oba u `G.BASE`). Tek tada `G.showCards` pravi UI i usporava vreme na 0.1x. Pointer lock se otključava tek tada: događaj u sceni ima uslov `Amaze::CardsJustShown` (tačan jedan frejm), a ne više akciju u događaju chesta, pa miš i kamera rade dok se chest otvara. Dok traje otvaranje, napadi nisu blokirani (`AreCardsOpen` ostaje samo za otvorene kartice).
+
+**Nije provereno u preview-u:** da li `h.IsJustDodged()` iz JS-a vraća tačnu vrednost (u suprotnom nema `DODGE!`), izgled i veličina tekstova, i da li je 0.75 s + 0.5 s prijatno za chest.

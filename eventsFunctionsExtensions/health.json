@@ -1143,6 +1143,7 @@
               "inlineCode": [
                 "const o = eventsFunctionContext.getObjects(\"Object\")[0];",
                 "const G = gdjs.amazeUpg;",
+                "if (o && G && G.afterHit) G.afterHit(o);",
                 "if (o && G && G.rescue) G.rescue(o);"
               ],
               "parameterObjects": "Object",
