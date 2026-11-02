@@ -2395,7 +2395,7 @@
             "    const U = G.U, R = G.R;",
             "    const mult = R && R.mult ? R.mult : 1;",
             "    switch (key) {",
-            "        case 'health': return fmt(U.hp === null ? 0 : U.hp, 0) + ' / ' + fmt(U.maxHp, 0);",
+            "        case 'health': return fmt(U.hp === null ? 0 : Math.max(0, U.hp), 0) + ' / ' + fmt(U.maxHp, 0); // never below 0 (a hit can overkill)",
             "        case 'regen': return fmt(U.regen, 2) + '/s';",
             "        case 'shield': return fmt(U.shield, 0) + ' / ' + fmt(U.maxShield, 0);",
             "        case 'reflect': return fmt(U.reflect, 0) + '%';",
