@@ -107,10 +107,10 @@ Orbovi nisu trajni, jer bi bili prejaki. Shield nema tajmer, troši se samo udar
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
 | Pucanje | zaključano | desni klik, šteta 10, domet 1 s (brzina 1000), odbijanja 0, lanac 0 |
-| Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120), konus 65° ispred igrača, meri se do ivice neprijatelja |
+| Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120). Sečivo (`G.meleeTick`) maše lukom od −65° do +65° ispred igrača (s leva na desno) u prozoru `MeleeMoment`–`MeleeHitEnd`, dužine jednake dometu; svaki neprijatelj se pogađa najviše jednom po zamahu. Kost šake se koristi samo ako daje pravu poziciju. Trag `FireEmbers` je na vrhu sečiva, flow (čestica/s) = jačina melee napada |
 | Level | 1 | globalna promenljiva |
 
-Sve ove šteta se množe sa `Player::TotalDamageMultiplier()`. Melee udara na `MeleeMoment = 0.35 s` u animaciji (procena, treba podesiti).
+Sve ove šteta se množe sa `Player::TotalDamageMultiplier()`. Melee je aktivan u prozoru `MeleeMoment = 0.35 s` do `MeleeHitEnd = 0.55 s` u animaciji (procena, treba podesiti po tragu). Događaj u sceni je `Amaze::MeleeUpdate` (svaki frame).
 
 ## Gde je šta u projektu
 

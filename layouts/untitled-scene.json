@@ -11623,6 +11623,76 @@
         "BarLeftPadding": 10,
         "PreviousHighValueDuration": 0
       }
+    },
+    {
+      "assetStoreId": "8e888966ddfefe73bf24760740620c96e3b9ca6df977ee5ed7f1bdac65575ce0",
+      "name": "FireEmbers",
+      "persistentUuid": "48d929b7-17f7-43cd-9622-65f128b1e84f",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0,
+        "ShouldAutodestruct": false,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": 0,
+        "ZoneRadius": 14,
+        "EndScale": 0.5,
+        "RenderMode": "Billboard",
+        "Blending": "Additive",
+        "StartColor": "255;200;90",
+        "EndColor": "255;60;0",
+        "StartOpacity": 255,
+        "EndOpacity": 0,
+        "StartSizeMin": 22,
+        "StartSizeMax": 36,
+        "Flow": 5,
+        "LifespanMin": 0.45,
+        "LifespanMax": 0.8,
+        "StartSpeedMin": 15,
+        "StartSpeedMax": 45,
+        "SpayConeAngle": 25
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "SoftDot.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -11899,6 +11969,9 @@
       },
       {
         "objectName": "XPBar"
+      },
+      {
+        "objectName": "FireEmbers"
       }
     ]
   },
@@ -15335,21 +15408,11 @@
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "value": "Amaze::PlayerFSM::MeleeMomentReached"
-          },
-          "parameters": [
-            "Players",
-            "PlayerFSM"
-          ]
-        }
-      ],
+      "conditions": [],
       "actions": [
         {
           "type": {
-            "value": "Amaze::MeleeStrike"
+            "value": "Amaze::MeleeUpdate"
           },
           "parameters": [
             "",
