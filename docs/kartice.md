@@ -72,12 +72,13 @@ Kartica brzine se ne nudi kad je brzina na 700.
 
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `falling-blob` | Heavy Shot | **prva otključava pucanje** (desni klik), kasnije + šteta (%) i + domet projektila u **sekundama** (osnovni domet je 1 s) | šteta 8 / 12 / 18 / 28 / 40 %, domet +0.15 / 0.2 / 0.3 / 0.4 / 0.5 s |
+| `falling-blob` | Heavy Shot | **prva otključava pucanje** (desni klik), kasnije + šteta (%) | šteta 8 / 12 / 18 / 28 / 40 % |
+| `projectile-timer` | Long Shot | + domet projektila u **sekundama** (osnovni domet je 1 s) | +0.15 / 0.2 / 0.3 / 0.4 / 0.5 s |
 | `ricochet` | Ricochet | + odbijanja projektila od zida (početno 0) | 1 / 1 / 1 / 2 / 3 |
 | `fire-tail` | Chain Shot | posle pogotka iz neprijatelja izlazi **pravi projektil** (isti kao prvi hitac, ista šteta) ka najbližem neprijatelju koji nije pogođen, **u vidokrugu** (isti red ili kolona lavirinta bez zida) i **najviše 800 daleko** (2 polja). Nema odbijanja, staje na prvom zidu; kratko ne može da pogodi neprijatelja iz kog je izašao | 1 / 1 / 1 / 2 / 3 skokova |
 | `punch-blast` | Punch Blast | + šteta melee udarca i + domet melee-ja (domet raste 0.6 × vrednost, 60 → **max 120**) | 10 / 15 / 22 / 35 / 50 % |
 
-`ricochet` i `fire-tail` se **ne nude dok se ne otključa pucanje** (nemaju efekta bez njega).
+`ricochet`, `fire-tail` i `projectile-timer` se **ne nude dok se ne otključa pucanje** (nemaju efekta bez njega).
 
 ### Žuta, pasivno
 
@@ -158,7 +159,7 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 | Rank | Otključava |
 |---|---|
 | 1 | arm-bandage, health-increase, running-shoe, shield, falling-blob |
-| 20 | healing, punch-blast |
+| 20 | healing, punch-blast, projectile-timer |
 | 30 | jump-across, healing-shield |
 | 40 | ricochet, orbital, retkost **Epic** |
 | 50 | shield-reflect, fire-tail |

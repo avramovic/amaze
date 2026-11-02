@@ -1097,6 +1097,14 @@
         "userAdded": true
       },
       {
+        "file": "assets/cards/projectile-timer.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "card_projectile-timer.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
         "file": "assets/cards/fire-tail.png",
         "kind": "image",
         "metadata": "",
