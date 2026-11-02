@@ -268,3 +268,11 @@ Veličine, boje i trajanja su argumenti poziva `G.say(objekat, tekst, boja, { si
 `Amaze::OpenChest` više ne otvara kartice odmah. Upisuje `R.pending` i čeka `chestOpen + chestHold` (0.75 s je trajanje klipa `Chest_Open` u `Chest.glb`, plus 0.5 s da se vidi otvoren chest; oba u `G.BASE`). Tek tada `G.showCards` pravi UI i usporava vreme na 0.1x. Pointer lock se otključava tek tada: događaj u sceni ima uslov `Amaze::CardsJustShown` (tačan jedan frejm), a ne više akciju u događaju chesta, pa miš i kamera rade dok se chest otvara. Dok traje otvaranje, napadi nisu blokirani (`AreCardsOpen` ostaje samo za otvorene kartice).
 
 **Nije provereno u preview-u:** da li `h.IsJustDodged()` iz JS-a vraća tačnu vrednost (u suprotnom nema `DODGE!`), izgled i veličina tekstova, i da li je 0.75 s + 0.5 s prijatno za chest.
+
+## Pauza i biranje tastaturom
+
+**Kartice:** ←/→ (ili ↑/↓) menja izabranu karticu, Enter potvrđuje, 1–3 i klik rade kao pre. Na početku je izabrana srednja. Miš menja izbor samo dok se pomera. Za kontroler treba samo pozivati `gdjs.amazeUpg.cardNav(±1)` i `gdjs.amazeUpg.cardConfirm()`.
+
+**Pauza** (grupa događaja "Pause menu" u ssceni, sloj `Pause`, kopirano iz maps3d): otvara se kad se izgubi lock miša (Esc) i na početku nivoa ako miš nije zaključan, ne i stalno dok je otključan. Ne otvara se dok su kartice otvorene ili su se tek zatvorile (`Amaze::CardsRecentlyClosed`, 0.6 s). Gore/dole ili miš biraju dugme, Enter ili klik potvrđuje. Esc u pauzi ne radi ništa (prvi Esc samo oslobodi miš i otvori pauzu), pauza se zatvara samo sa CONTINUE. `BACK TO MENU` namerno nema akciju.
+
+**Nije provereno u preview-u:** imena tastera `Return`/`Up`/`Down`, `SceneWindowWidth()` za centriranje, `Resizable` na `BlackBg`, `setColor` iz JS-a na tekstu, i da li Chrome vrati lock odmah posle Esc-a.
