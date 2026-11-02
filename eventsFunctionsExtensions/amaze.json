@@ -2150,17 +2150,61 @@
             "        case 'dodge': return fmt(U.dodge, 0) + '%';",
             "        case 'lives': return U.lives > 0 ? U.lives + ' (' + fmt(U.revivePct, 0) + '% health)' : '0';",
             "        case 'phase': return fmt(G.BASE.iframes + U.phase, 2) + 's';",
-            "        case 'dash': return !U.dashUnlocked ? 'locked' : U.dashT > 0 ? fmt(U.dashT, 1) + 's / ' + fmt(U.dashCd, 2) + 's' : 'ready (' + fmt(U.dashCd, 2) + 's)';",
+            "        case 'dash': return !U.dashUnlocked ? 'locked' : U.dashT > 0 ? secs(U.dashT) + ' / ' + fmt(U.dashCd, 2) + 's' : 'ready (' + fmt(U.dashCd, 2) + 's)';",
             "        case 'thorns': return U.thorns > 0 ? fmt(U.thorns, 0) + '%' : '-';",
             "        case 'rank': { const m = G.rankInfo(true); return 'Rank ' + m.level + ' (' + fmt(m.into, 0) + ' / ' + m.toNext + ')'; }",
             "        case 'xpLevel': return '+' + fmt(R ? R.xpPending : 0, 0);",
-            "        case 'picked': {",
-            "            const list = CARDS.filter((c) => U.picks[c.id] > 0)",
-            "                .map((c) => '[color=' + TEXT_COLOR[c.cat] + ']' + c.title + ' x' + U.picks[c.id] + '[/color]');",
-            "            return list.length ? list.join(', ') : '-';",
+            "        case 'panel': return G.panel();",
+            "        case 'rankPanel': {",
+            "            const m = G.rankInfo(true);",
+            "            return '[b]Level: ' + U.lastLevel + '[/b]\\n[color=#c9a0ff]Rank:[/color] ' + m.level + '\\n[color=#c9a0ff]XP:[/color] ' + Math.floor(m.into) + ' / ' + m.toNext + '  (+' + Math.floor(R ? R.xpPending : 0) + ' at vortex)';",
             "        }",
             "        default: return '?';",
             "    }",
+            "};",
+            "// The stats panel as one BBCode text: only what the player has, grouped by colour (green, blue, orange, red, yellow).",
+            "G.panel = function () {",
+            "    const U = G.U, out = [];",
+            "    const add = (cat, label, key) => out.push('[color=' + TEXT_COLOR[cat] + ']' + label + '[/color] ' + G.stat(key));",
+            "    const picked = (id) => U.picks[id] > 0;",
+            "    add('healing', 'Health', 'health');",
+            "    if (U.regen > 0) { add('healing', 'Regen', 'regen'); add('healing', 'Regen delay', 'regenDelay'); }",
+            "    if (U.lifesteal > 0) add('healing', 'Soul Catcher', 'lifesteal');",
+            "    if (U.dodge > 0) add('healing', 'Dodge', 'dodge');",
+            "    if (U.lives > 0) add('healing', 'Lives', 'lives');",
+            "    if (U.shield > 0 || picked('shield') || picked('healing-shield')) add('shield', 'Shield', 'shield');",
+            "    if (U.reflect > 0) add('shield', 'Reflect', 'reflect');",
+            "    add('movement', 'Speed', 'speed');",
+            "    if (U.jumpUnlocked) add('movement', 'Jump', 'jump');",
+            "    if (U.phase > 0) add('movement', 'Invulnerability', 'phase');",
+            "    if (U.dashUnlocked) add('movement', 'Dash', 'dash');",
+            "    add('attack', 'Melee damage', 'melee');",
+            "    add('attack', 'Melee reach', 'reach');",
+            "    if (U.shotUnlocked) {",
+            "        add('attack', 'Shot damage', 'shotDamage');",
+            "        add('attack', 'Shot range', 'shotRange');",
+            "        add('attack', 'Shot speed', 'shotSpeed');",
+            "        add('attack', 'Shots', 'shots');",
+            "        if (U.fireRate > 0) add('attack', 'Fire rate', 'fireRate');",
+            "        if (U.bounces > 0) add('attack', 'Bounces', 'bounces');",
+            "        if (U.chain > 0) add('attack', 'Chain', 'chain');",
+            "    }",
+            "    if (U.critPct > 0) add('attack', 'Crit', 'crit');",
+            "    if (U.exec > 0) add('attack', 'Executioner', 'exec');",
+            "    if (U.knock > 0) add('attack', 'Knockback', 'knock');",
+            "    if (U.orbitals > 0) { add('passive', 'Orbs', 'orbs'); add('passive', 'Orb time', 'orbTime'); add('passive', 'Orb damage', 'orbDamage'); }",
+            "    if (U.thorns > 0) add('passive', 'Thorns', 'thorns');",
+            "    return out.join('\\n');",
+            "};",
+            "// True when the text for this key is different from the one last shown: the panels are rebuilt only then (a BBText that is set every frame is redrawn every frame).",
+            "G.textChanged = function (key) {",
+            "    const R = G.R;",
+            "    if (!R) return false;",
+            "    R.textCache = R.textCache || {};",
+            "    const t = G.stat(key);",
+            "    if (R.textCache[key] === t) return false;",
+            "    R.textCache[key] = t;",
+            "    return true;",
             "};",
             "",
             "// ---- XP: 1 XP per health point an enemy loses (times its XP value, default 1); it is banked only when the level is won.",
@@ -4261,6 +4305,33 @@
       "objectGroups": []
     },
     {
+      "description": "True when Stat(Key) is different from the last time this condition saw it (and the first time in a scene). Use it so a BBText panel is only rebuilt when something changed. Keys: panel (the stats panel text), rankPanel (level, rank and XP).",
+      "fullName": "Panel text changed",
+      "functionType": "Condition",
+      "name": "TextChanged",
+      "sentence": "The text for _PARAM1_ changed",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = !!G && G.textChanged(String(eventsFunctionContext.getArgument(\"Key\")));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Text key",
+          "name": "Key",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
       "description": "True for one frame after the player picked an upgrade card: lock the mouse again then.",
       "fullName": "Upgrade card just picked",
       "functionType": "Condition",
@@ -4445,7 +4516,7 @@
       "objectGroups": []
     },
     {
-      "description": "Formatted value of a player stat for the stats panel (e.g. \"85 / 125\", \"locked\", \"24s / 35s\"). Keys: health, regen, shield, reflect, speed, jump, shooting, shotDamage, shotRange, bounces, chain, melee, reach, orbs, orbTime, orbDamage, picked (BBCode list of the picked cards).",
+      "description": "Formatted value of a player stat for the stats panel (e.g. \"85 / 125\", \"locked\", \"24s / 35s\"). Keys: health, regen, shield, reflect, speed, jump, shooting, shotDamage, shotRange, bounces, chain, melee, reach, orbs, orbTime, orbDamage, panel (the whole stats panel as BBCode, only what the player has), rankPanel (level, rank and XP).",
       "fullName": "Player stat (text)",
       "functionType": "StringExpression",
       "name": "Stat",
@@ -4875,6 +4946,21 @@
       },
       {
         "functionName": "SavedRankXP"
+      },
+      {
+        "functionName": "FireShot"
+      },
+      {
+        "functionName": "ShotHit"
+      },
+      {
+        "functionName": "EnemyMeleeHit"
+      },
+      {
+        "functionName": "Dash"
+      },
+      {
+        "functionName": "TextChanged"
       }
     ]
   },

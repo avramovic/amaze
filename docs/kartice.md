@@ -155,7 +155,7 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 5. Ako kartica ima cap ili ne smije uvek da se nudi, dodaj uslov u `G.available`.
 6. Ako treba novi stat, dodaj ga u `G.defaults`, pa ga primeni tamo gde se koristi (`G.push` za Health i fiziku, `UpgradesStep` za ostalo, ili izraz kao `UpgradeMaxSpeed`).
 7. Svaka nova kartica treba i red u tabeli `UNLOCK` (od kog ranka se nudi). Bez reda je dostupna od ranka 1.
-8. Da se stat vidi u panelu: dodaj `case` u `G.stat` (vrati formatiran tekst) i jednu `BBText::SetBBText` akciju u događaju panela, sa bojom kategorije.
+8. Da se stat vidi u panelu: dodaj `case` u `G.stat` (vrati formatiran tekst) i `add(...)` red u `G.panel`, u grupi boje kategorije i sa uslovom kad treba da se prikaže.
 
 ## XP i rank
 
@@ -205,22 +205,21 @@ Zaključana retkost se ne bira (težine ostalih se preraspodeljuju). Pošto se s
 
 Resetovanje napretka tokom testiranja: ponovo učitaj projekat (preview).
 
-## Panel statistika (`NewStatsText`)
+## Panel statistika (`NewStatsText`, `RankText`)
 
-BBText objekat na `UI` sloju (gore desno). Puni ga događaj u sceni odmah posle onog za `LevelText`: jedna akcija `BBText::SetBBText` po liniji (prva `=`, ostale `+` sa `NewLine()`). Labela, boja i redosled su u event sheet-u, a vrednost daje izraz `Amaze::Stat("ključ")` (formatiran tekst, npr. `85 / 125`, `locked`, `24s / 35s`).
+Dva BBText objekta na `UI` sloju: `RankText` (Level, Rank, XP) i `NewStatsText` (statovi). Oba se **grade u JS-u kao jedan tekst** (`G.panel()` i ključ `rankPanel` u `G.stat`) i postavljaju jednom akcijom `SetBBText(..., =, Amaze::Stat("panel"))`, a događaj ima uslov `Amaze::TextChanged("panel")` (odnosno `"rankPanel"`). Uslov je tačan samo kad je tekst drugačiji od poslednjeg prikazanog (keš je u `G.R.textCache`, pa se resetuje sa scenom). Razlog: BBText koji se postavlja svaki frejm se i crta svaki frejm, što je spuštalo fps. Traka `XPBar` se i dalje postavlja svaki frejm (jeftino).
 
-| Boja | Linije (ključ) |
-|---|---|
-| ljubičasta (iznad statova) | `rank` (rank i XP do sledećeg), `xpLevel` (XP ovog levela, čeka vortex) |
-| zelena | `health`, `regen` |
-| plava | `shield`, `reflect` |
-| narandžasta | `speed`, `jump` |
-| crvena | `shooting`, `shotDamage`, `shotRange`, `bounces`, `chain`, `melee`, `reach`, `crit`, `exec`, `knock`, `fireRate`, `shotSpeed`, `shots` |
-| zelena (nove, posle žutih) | `lifesteal`, `regenDelay`, `dodge`, `lives` |
-| narandžasta (nove, posle žutih) | `phase`, `dash` |
-| žuta (nova) | `thorns` |
-| žuta | `orbs`, `orbTime`, `orbDamage` |
-| po kategoriji kartice | `picked`: BBCode lista uzetih kartica (`Ricochet x2, ...`) |
+Prikazuje se samo ono što igrač ima, grupisano po boji (zelena, plava, narandžasta, crvena, žuta). Uslovi su u `G.panel`:
+
+| Boja | Uvek | Tek kad igrač ima |
+|---|---|---|
+| zelena | `health` | `regen` i `regenDelay` (regen > 0), `lifesteal`, `dodge`, `lives` |
+| plava | | `shield` (shield > 0 ili uzeta shield kartica), `reflect` |
+| narandžasta | `speed` | `jump` (otključan), `phase` (Phase Time uzet), `dash` (otključan) |
+| crvena | `melee`, `reach` | posle otključanog pucanja: `shotDamage`, `shotRange`, `shotSpeed`, `shots`, pa `fireRate`, `bounces`, `chain` kad su > 0; `crit`, `exec`, `knock` kad su > 0 |
+| žuta | | `orbs`, `orbTime`, `orbDamage` (kad ima orbova), `thorns` |
+
+Lista uzetih kartica (`picked`) je uklonjena. Dash cooldown se prikazuje u celim sekundama da se tekst ne menja 10 puta u sekundi. Da dodaš liniju: dodaj `case` u `G.stat` i `add(...)` red u `G.panel` na pravom mestu u grupi boje.
 
 Brojevi štete uključuju `TotalDamageMultiplier`. Stari objekat `StatsText` (običan Text) više nije povezan i može da se obriše.
 

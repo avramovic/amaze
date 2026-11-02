@@ -280,8 +280,8 @@
       "layer": "UI",
       "name": "NewStatsText",
       "persistentUuid": "5606fba5-9a9d-4719-ac0e-a2118c72c6c7",
-      "width": 341,
-      "x": 913,
+      "width": 604,
+      "x": 650,
       "y": 26,
       "zOrder": 5,
       "numberProperties": [],
@@ -301,6 +301,23 @@
       "x": 46,
       "y": 674,
       "zOrder": 6,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": true,
+      "depth": 1,
+      "height": 601,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "RankText",
+      "persistentUuid": "c11544b2-f62b-4559-b90c-fbee674a66ab",
+      "width": 608,
+      "x": 20,
+      "y": 26,
+      "zOrder": 7,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -12157,6 +12174,36 @@
           ]
         }
       }
+    },
+    {
+      "assetStoreId": "",
+      "name": "RankText",
+      "persistentUuid": "227dbe7d-5e58-4589-abff-1ea5a47097f5",
+      "type": "BBText::BBText",
+      "variables": [],
+      "effects": [],
+      "behaviors": [
+        {
+          "name": "Anchor",
+          "type": "AnchorBehavior::AnchorBehavior",
+          "leftEdgeAnchor": 1,
+          "rightEdgeAnchor": 1,
+          "bottomEdgeAnchor": 2,
+          "relativeToOriginalWindowSize": true,
+          "topEdgeAnchor": 1,
+          "useLegacyBottomAndRightAnchors": false
+        }
+      ],
+      "content": {
+        "text": "Stats",
+        "opacity": 255,
+        "fontSize": 18,
+        "visible": true,
+        "color": "255;255;255",
+        "fontFamily": "Arial",
+        "align": "left",
+        "verticalTextAlignment": "top"
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -12421,6 +12468,9 @@
       },
       {
         "objectName": "NewStatsText"
+      },
+      {
+        "objectName": "RankText"
       },
       {
         "objectName": "Astronaut_Finn_The_Frog"
@@ -15835,8 +15885,7 @@
             ""
           ]
         }
-      ],
-      "events": []
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -16534,7 +16583,45 @@
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [],
+      "conditions": [
+        {
+          "type": {
+            "value": "Amaze::TextChanged"
+          },
+          "parameters": [
+            "",
+            "\"rankPanel\"",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "BBText::SetBBText"
+          },
+          "parameters": [
+            "RankText",
+            "=",
+            "Amaze::Stat(\"rankPanel\")"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Amaze::TextChanged"
+          },
+          "parameters": [
+            "",
+            "\"panel\"",
+            ""
+          ]
+        }
+      ],
       "actions": [
         {
           "type": {
@@ -16543,339 +16630,15 @@
           "parameters": [
             "NewStatsText",
             "=",
-            "\"[b]Level: \" + Level + \"[/b]\""
+            "Amaze::Stat(\"panel\")"
           ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#c9a0ff]Rank:[/color] \" + ToString(Amaze::Rank())"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#c9a0ff]XP:[/color] \" + ToString(Amaze::RankXP()) + \" / \" + ToString(Amaze::RankGoal()) + \"  (+\" + ToString(Amaze::PendingXP()) + \" at vortex)\""
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + NewLine() + \"[color=#4cd964]Health[/color] \" + Amaze::Stat(\"health\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#4cd964]Regen[/color] \" + Amaze::Stat(\"regen\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#4aa8ff]Shield[/color] \" + Amaze::Stat(\"shield\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#4aa8ff]Reflect[/color] \" + Amaze::Stat(\"reflect\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff9a2a]Speed[/color] \" + Amaze::Stat(\"speed\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff9a2a]Jump[/color] \" + Amaze::Stat(\"jump\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Shooting[/color] \" + Amaze::Stat(\"shooting\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Shot damage[/color] \" + Amaze::Stat(\"shotDamage\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Shot range[/color] \" + Amaze::Stat(\"shotRange\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Bounces[/color] \" + Amaze::Stat(\"bounces\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Chain[/color] \" + Amaze::Stat(\"chain\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Melee damage[/color] \" + Amaze::Stat(\"melee\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Melee reach[/color] \" + Amaze::Stat(\"reach\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ffd23c]Orbs[/color] \" + Amaze::Stat(\"orbs\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ffd23c]Orb time[/color] \" + Amaze::Stat(\"orbTime\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ffd23c]Orb damage[/color] \" + Amaze::Stat(\"orbDamage\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Crit[/color] \" + Amaze::Stat(\"crit\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Executioner[/color] \" + Amaze::Stat(\"exec\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Knockback[/color] \" + Amaze::Stat(\"knock\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Fire rate[/color] \" + Amaze::Stat(\"fireRate\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Shot speed[/color] \" + Amaze::Stat(\"shotSpeed\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff5a5a]Shots[/color] \" + Amaze::Stat(\"shots\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#4cd964]Soul Catcher[/color] \" + Amaze::Stat(\"lifesteal\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#4cd964]Regen delay[/color] \" + Amaze::Stat(\"regenDelay\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#4cd964]Dodge[/color] \" + Amaze::Stat(\"dodge\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#4cd964]Lives[/color] \" + Amaze::Stat(\"lives\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff9a2a]Invulnerability[/color] \" + Amaze::Stat(\"phase\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ff9a2a]Dash[/color] \" + Amaze::Stat(\"dash\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + \"[color=#ffd23c]Thorns[/color] \" + Amaze::Stat(\"thorns\")"
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + NewLine() + \"[b]Picked:[/b]\""
-          ]
-        },
-        {
-          "type": {
-            "value": "BBText::SetBBText"
-          },
-          "parameters": [
-            "NewStatsText",
-            "+",
-            "NewLine() + Amaze::Stat(\"picked\")"
-          ]
-        },
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
         {
           "type": {
             "value": "PanelSpriteContinuousBar::PanelSpriteContinuousBar::SetMaxValue"
