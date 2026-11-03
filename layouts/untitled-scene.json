@@ -288,6 +288,24 @@
       "persistentUuid": "a8877120-73b5-43fe-9070-07142fd8ab34",
       "type": "number",
       "value": 0
+    },
+    {
+      "name": "camElev",
+      "persistentUuid": "a11730b6-5320-44c8-9e53-8f24d2499151",
+      "type": "number",
+      "value": 30
+    },
+    {
+      "name": "camElevTarget",
+      "persistentUuid": "d1e09dba-fa7b-4d61-8679-d25a27d691dc",
+      "type": "number",
+      "value": 30
+    },
+    {
+      "name": "camLift",
+      "persistentUuid": "f260b3dc-001d-4343-8f72-335c362a183e",
+      "type": "number",
+      "value": 80
     }
   ],
   "instances": [
@@ -16914,6 +16932,16 @@
             "=",
             "Players.Angle()+90"
           ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "camElevTarget",
+            "=",
+            "clamp(camElevTarget+MousePointerLock::MovementY()/10, 5, 70)"
+          ]
         }
       ]
     },
@@ -16923,15 +16951,43 @@
       "actions": [
         {
           "type": {
-            "value": "ThirdPersonCamera::LookFromDistanceAtObject3D"
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "camElev",
+            "=",
+            "lerp(camElev, camElevTarget, min(1, TimeDelta()*10))"
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::UpdateCameraDistance"
           },
           "parameters": [
             "",
+            "Walls",
             "Players",
-            "Object3D",
             "500",
             "camRot",
+            "camElev",
             "30",
+            "100",
+            "camLift",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "ThirdPersonCamera::LookFromDistanceAtPosition3D"
+          },
+          "parameters": [
+            "",
+            "Players.CenterX()",
+            "Players.CenterY()",
+            "Players.Object3D::CenterZ() + camLift",
+            "Amaze::CameraDistance()",
+            "camRot",
+            "camElev",
             "",
             ""
           ]

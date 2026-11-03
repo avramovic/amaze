@@ -10,7 +10,7 @@
   "name": "Amaze",
   "previewIconUrl": "",
   "shortDescription": "Enemy and player behaviors for aMAZE.",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Data-driven enemy behavior (stats, roles, state machine, evolution) and player run/meta progression for aMAZE. See docs/neprijatelji.md and docs/progresija.md.",
   "tags": [],
   "authorIds": [],
@@ -4202,6 +4202,141 @@
           "type": "objectList"
         }
       ],
+      "objectGroups": []
+    },
+    {
+      "description": "Computes how far the camera can be from the target without a wall that is taller than the camera standing between them. The distance glides in when a wall blocks the view and eases back out when the way is free. Read it with CameraDistance(). Walls lower than the camera are ignored here, use UpdateWallFade to fade those.",
+      "fullName": "Pull the camera in front of walls",
+      "functionType": "Action",
+      "name": "UpdateCameraDistance",
+      "sentence": "Pull the camera of the object named _PARAM2_ in front of _PARAM1_ (max distance _PARAM3_, rotation _PARAM4_, elevation _PARAM5_, margin _PARAM6_, min distance _PARAM7_, pivot height _PARAM8_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "try {",
+            "    const walls = eventsFunctionContext.getObjects(\"Walls\");",
+            "    const target = eventsFunctionContext.getObjects(\"Target\")[0];",
+            "    const want = eventsFunctionContext.getArgument(\"Distance\");",
+            "    if (!target) return;",
+            "    const margin = eventsFunctionContext.getArgument(\"Margin\");",
+            "    const minDist = eventsFunctionContext.getArgument(\"MinDistance\");",
+            "    const lift = eventsFunctionContext.getArgument(\"HeightOffset\");",
+            "    const rot = (eventsFunctionContext.getArgument(\"RotationAngle\") + 90) * Math.PI / 180;",
+            "    const el = eventsFunctionContext.getArgument(\"ElevationAngle\") * Math.PI / 180;",
+            "",
+            "    // Same pivot and direction as ThirdPersonCamera::LookFromDistanceAtPosition3D, in scene units",
+            "    const px = target.getCenterXInScene(), py = target.getCenterYInScene(), pz = target.getCenterZInScene() + lift;",
+            "    const dx = Math.cos(rot) * Math.cos(el) * want;",
+            "    const dy = Math.sin(rot) * Math.cos(el) * want;",
+            "    const dz = Math.sin(el) * want;",
+            "",
+            "    // Slab test of the segment target -> camera against every wall box taller than the camera.",
+            "    let tHit = 1;",
+            "    for (const wall of walls) {",
+            "        if (wall.isHidden()) continue;",
+            "        const minZ = wall.getUnrotatedAABBMinZ(), maxZ = wall.getUnrotatedAABBMaxZ();",
+            "        const aabb = wall.getAABB();",
+            "        const lo = [aabb.min[0], aabb.min[1], minZ], hi = [aabb.max[0], aabb.max[1], maxZ];",
+            "        const o = [px, py, pz], dir = [dx, dy, dz];",
+            "        let t0 = 0, t1 = 1, ok = true;",
+            "        for (let k = 0; k < 3 && ok; k++) {",
+            "            if (Math.abs(dir[k]) < 1e-9) {",
+            "                if (o[k] < lo[k] || o[k] > hi[k]) ok = false;",
+            "            } else {",
+            "                let a = (lo[k] - o[k]) / dir[k], b = (hi[k] - o[k]) / dir[k];",
+            "                if (a > b) { const s = a; a = b; b = s; }",
+            "                if (a > t0) t0 = a;",
+            "                if (b < t1) t1 = b;",
+            "                if (t0 > t1) ok = false;",
+            "            }",
+            "        }",
+            "        if (!ok || t0 >= tHit) continue;",
+            "        // The camera at full distance is higher than this wall: it is faded, not avoided",
+            "        if (pz + dz >= maxZ) continue;",
+            "        tHit = t0;",
+            "    }",
+            "",
+            "    const limit = Math.min(want, Math.max(minDist, want * tHit - margin));",
+            "    const S = gdjs.amazeCamera || (gdjs.amazeCamera = { dist: want });",
+            "    const dt = runtimeScene.getElapsedTime() / 1000;",
+            "    // Glide in quickly and out slowly",
+            "    const speed = limit < S.dist ? 10 : 3;",
+            "    S.dist += (limit - S.dist) * Math.min(1, speed * dt);",
+            "} catch (error) {",
+            "    console.error(\"[UpdateCameraDistance] \" + error);",
+            "}"
+          ],
+          "parameterObjects": "Walls",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Walls (group of 3D objects)",
+          "name": "Walls",
+          "type": "objectList"
+        },
+        {
+          "description": "Object the camera looks at (for example the Players group)",
+          "name": "Target",
+          "type": "objectList"
+        },
+        {
+          "description": "Wanted distance from the target",
+          "name": "Distance",
+          "type": "expression"
+        },
+        {
+          "description": "Camera rotation angle (degrees, same as in the third person camera action)",
+          "name": "RotationAngle",
+          "type": "expression"
+        },
+        {
+          "description": "Camera elevation angle (degrees)",
+          "name": "ElevationAngle",
+          "type": "expression"
+        },
+        {
+          "description": "Gap kept between the camera and the wall (for example 30)",
+          "name": "Margin",
+          "type": "expression"
+        },
+        {
+          "description": "Closest the camera may get to the target (for example 100)",
+          "name": "MinDistance",
+          "type": "expression"
+        },
+        {
+          "description": "Height above the target's center the camera pivots around (for example 80)",
+          "name": "HeightOffset",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Camera distance from the target computed by UpdateCameraDistance (0 before the first update).",
+      "fullName": "Camera distance",
+      "functionType": "Expression",
+      "name": "CameraDistance",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "eventsFunctionContext.returnValue = gdjs.amazeCamera ? gdjs.amazeCamera.dist : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [],
       "objectGroups": []
     },
     {
