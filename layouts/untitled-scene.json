@@ -10212,7 +10212,7 @@
         "StartSizeMin": 128,
         "StartSizeMax": 128,
         "EndScale": 0.375,
-        "Flow": 100,
+        "Flow": 50,
         "LifespanMin": 0.5,
         "LifespanMax": 0.5,
         "Duration": 123456,
@@ -10342,7 +10342,7 @@
         "StartSizeMin": 128,
         "StartSizeMax": 128,
         "EndScale": 0.375,
-        "Flow": 100,
+        "Flow": 50,
         "LifespanMin": 0.5,
         "LifespanMax": 0.5,
         "Duration": 123456,
@@ -15039,6 +15039,17 @@
                 "=",
                 "80"
               ]
+            },
+            {
+              "type": {
+                "value": "ParticleEmitter3D::ParticleEmitter3D::SetFlow"
+              },
+              "parameters": [
+                "EnemyProjectile",
+                "=",
+                "min(100, 50 + (Enemies.Enemy::Level() - 1) * 5)",
+                ""
+              ]
             }
           ]
         }
@@ -18115,8 +18126,7 @@
             ""
           ]
         }
-      ],
-      "events": []
+      ]
     },
     {
       "type": "BuiltinCommonInstructions::Standard",

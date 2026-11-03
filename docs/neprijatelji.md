@@ -48,7 +48,7 @@ Neki likovi postoje i kao Blob i kao Standing (ili Flying) verzija:
 - **Roj:** mali, brzi, slabi. Glave bez tela (Cat, Dog, Chicken) i kuglice.
 - **Ganjač:** prati igrača preko flow-field mape, melee napad.
 - **Skakač / brzi:** Frog (skok + jezik), Bunny, Ninja (dash, pa pauza).
-- **Strelac:** drži distancu, puca niz hodnik (Cactoro, Ghost, Squidle; Wizard je poseban slučaj, vidi poglavlje 7). Projektili treba da su **spori**, da igrač može da ih izbegne naginjanjem u VR-u. Nijedna grupa nema animaciju pucanja, pa se projektil ispaljuje usred postojeće napadačke animacije (vidi poglavlje 7).
+- **Strelac:** drži distancu, puca niz hodnik (Cactoro, Ghost, Squidle; Wizard je poseban slučaj, vidi poglavlje 7). Projektili treba da su **spori**, da igrač može da ih izbegne naginjanjem u VR-u. Čestice traga `EnemyProjectile`: flow **50 + 5 po nivou neprijatelja, max 100** (akcija `SetFlow` pri kreiranju u sceni). Nijedna grupa nema animaciju pucanja, pa se projektil ispaljuje usred postojeće napadačke animacije (vidi poglavlje 7).
 - **Stacionarni:** Mushnub (oblak spora, usporava), kao "turret" u slepim ulicama.
 - **Leteći:** ne koriste flow-field, lete pravo ka igraču i ignorišu zidove. Držati ih malo.
 - **Tenk / elite:** spori, mnogo HP (Yeti, Orc Skull, BlueDemon, Dino).

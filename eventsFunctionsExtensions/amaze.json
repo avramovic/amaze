@@ -1237,14 +1237,16 @@
           "inlineCode": [
             "// aMAZE upgrade cards: run-wide player upgrades that persist between levels (gdjs.amazeUpg.U survives scene",
             "// changes), seeded chest offers, the 3D card UI, melee, chain shots, reflect, orbitals and the shield bubble.",
-            "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 7) return;",
-            "const G = (gdjs.amazeUpg = { version: 7 });",
+            "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 8) return;",
+            "const G = (gdjs.amazeUpg = { version: 8 });",
             "",
             "G.BASE = { speed: 300, speedCap: 700, shot: 10, life: 0.5, melee: 10, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 1000, orbitalCap: 4, orbCd: 30, orbCdMin: 10, orbCdCard: 1, rankXP: 10,",
             "    // crit / shooting / survival basics",
             "    critMul: 2, execBelow: 0.3, spread: 7, regenDelay: 10, iframes: 0.5, fireMoment: 0.4, shootDuration: 0.87, extraShotValue: 0.6, volleyGap: 8,",
             "    dashSpeed: 1400, dashTime: 0.15, dashCd: 3, dashCdMin: 0.8, reviveInvuln: 1.5, chestOpen: 0.75, chestHold: 0.5, reflectDmg: 0.6,",
-            "    critCap: 60, critBonusCap: 300, execCap: 150, knockCap: 400, fireRateCap: 150, extraShotsCap: 4, lifestealCap: 25, regenDelayMin: 3, dodgeCap: 50, livesCap: 3, phaseCap: 1.5, thornsCap: 200,\n    // spawner: XP per health point lost, bonus when switched off, health lost per shake, slowest/fastest speed factor, how far it sinks when dead\n    spawnerXP: 0.1, spawnerKillXP: 1000, spawnerShakeStep: 100, spawnerMinSpeed: 0.6, spawnerSink: 40 };",
+            "    critCap: 60, critBonusCap: 300, execCap: 150, knockCap: 400, fireRateCap: 150, extraShotsCap: 4, lifestealCap: 25, regenDelayMin: 3, dodgeCap: 50, livesCap: 3, phaseCap: 1.5, thornsCap: 200,",
+            "    // spawner: XP per health point lost, bonus when switched off, health lost per shake, slowest/fastest speed factor, how far it sinks when dead",
+            "    spawnerXP: 0.1, spawnerKillXP: 1000, spawnerShakeStep: 100, spawnerMinSpeed: 0.6, spawnerSink: 40 };",
             "",
             "const RARITY = [",
             "    { name: 'Common', color: '#aab0b8' },",
@@ -2642,7 +2644,9 @@
             "    G.spawnerStep(ctx, R.spawners, dt);",
             "",
             "    // shots run out of range (the scene event then explodes them)",
+            "    const shotFlow = Math.max(1, Math.round(G.shotDamage() * (p ? G.mult(p) : 1) * 5)); // particles per second = ranged strength x 5 (50 at the start)",
             "    for (const pr of ctx.getObjects('PlayerProjectile')) {",
+            "        if (pr.__flow !== shotFlow) { pr.__flow = shotFlow; const ad = pr.__particleEmitterAdapter; if (ad && ad.setFlow) ad.setFlow(shotFlow); }",
             "        const v = pr.getVariables().get('lifeLeft');",
             "        v.setNumber(v.getAsNumber() - dt);",
             "        // when it reaches 0 the scene event (lifeLeft <= 0) makes the explosion and deletes it",
@@ -4390,9 +4394,7 @@
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
-          "inlineCode": [
-            "eventsFunctionContext.returnValue = gdjs.amazeCamera ? gdjs.amazeCamera.dist : 0;"
-          ],
+          "inlineCode": "eventsFunctionContext.returnValue = gdjs.amazeCamera ? gdjs.amazeCamera.dist : 0;",
           "parameterObjects": "",
           "useStrict": true,
           "eventsSheetExpanded": false
@@ -5539,6 +5541,12 @@
       },
       {
         "functionName": "CardsRecentlyClosed"
+      },
+      {
+        "functionName": "UpdateCameraDistance"
+      },
+      {
+        "functionName": "CameraDistance"
       }
     ]
   },

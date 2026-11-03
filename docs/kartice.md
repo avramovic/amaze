@@ -120,7 +120,7 @@ Orbovi su jaki, pa se posle pogotka troše.
 |---|---|---|
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
-| Pucanje | zaključano | desni klik, šteta 10, domet 0.5 s (brzina fiksnih **1000**, nema kartice za brzinu), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
+| Pucanje | zaključano | desni klik, šteta 10, domet 0.5 s (brzina fiksnih **1000**, nema kartice za brzinu; čestice traga: flow = šteta hica × 5, postavlja se u `UpgradesStep`), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
 | Regen | 0 | kad se doda, čeka **10 s** posle udarca, hica **ili melee zamaha** (`R.lastAttack`) |
 | Neranjivost posle udarca | 0.5 s | `DamageCooldown` u Health; Dodge početno 0 |
 | Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120). Sečivo (`G.meleeTick`) maše lukom od −65° do +65° ispred igrača (s leva na desno) u prozoru `MeleeMoment`–`MeleeHitEnd`, dužine jednake dometu; svaki neprijatelj se pogađa najviše jednom po zamahu. Kost šake se koristi samo ako daje pravu poziciju. Trag `FireEmbers` je na vrhu sečiva, flow (čestica/s) = jačina melee napada |
