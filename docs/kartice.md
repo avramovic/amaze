@@ -89,11 +89,10 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | `executioner` | Executioner | + šteta protiv neprijatelja (i spawnera) ispod **30% HP** | 10 / 15 / 22 / 35 / 50 %, cap 150% |
 | `knockback` | Knockback | hitac i melee guraju **živog** neprijatelja unazad (klizi sa otporom, staje na zidu lavirinta, ne radi na `SuperArmor = Yes` ni na ulozi `Stationary`, tj. mushnubi) | +40 / 60 / 90 / 140 / 200 (piksela), **cap 400** |
 | `rapid-fire` | Rapid Fire | brže pucanje: kraći `FireMoment` i `ShootDuration` u `PlayerFSM`, animacija ubrzana isto | 8 / 12 / 18 / 28 / 40 %, cap 150% |
-| `fast-bullets` | Fast Bullets | brži metak (600 →), a kako je domet u sekundama, i dalje stiže | 8 / 12 / 18 / 28 / 40 %, **cap 150% (1500)** |
 | `double-shot` | Double Shot | + metaka u jednoj salvi, u luku (razmak 8°). Svaki metak je slabiji: šteta salve je `1 + 0.6·extra` šteta jednog hica, podeljena na sve metke | 1 / 1 / 1 / 2 / 3, **cap 4 dodatna** |
 | `steady-aim` | Steady Aim | manje rasipanje hitaca (početno **±7°**); ne nudi se na 0 | −1 / 1.5 / 2 / 3 / 4 ° |
 
-`ricochet`, `fire-tail`, `projectile-timer`, `rapid-fire`, `fast-bullets`, `double-shot` i `steady-aim` se **ne nude dok se ne otključa pucanje** (nemaju efekta bez njega).
+`ricochet`, `fire-tail`, `projectile-timer`, `rapid-fire`, `double-shot` i `steady-aim` se **ne nude dok se ne otključa pucanje** (nemaju efekta bez njega).
 
 ### Žuta, pasivno
 
@@ -112,7 +111,7 @@ Orbovi su jaki, pa se posle pogotka troše.
 - Svaki orb **nestaje kad pogodi neprijatelja** (šteta se računa normalno). Kad nestane poslednji, kreće **cooldown od 30 s** (`orbCd`), pa se vraćaju svi orbovi.
 - Kartica `orbital` dodaje orb i odmah vraća sve orbove, bez cooldown-a. `orbital-time` skraca cooldown za 1 s (min 10 s).
 - Cooldown se računa sa vremenom igre, pa stoji dok su kartice otvorene i **prelazi u sledeći level**.
-- **Ikonice pasiva** su iznad XP bara na UI sloju (ikonica kartice), `G.passiveHud`: orbital i crown-of-thorns, lista `PASSIVES`. Tokom cooldown-a ikonica je zatamnjena i preko nje je **žuto** odbrojavanje.
+- **Ikonice pasiva** su iznad XP bara na UI sloju (ikonica kartice), `G.passiveHud`: regen (healing), orbital i crown-of-thorns, lista `PASSIVES`. Tokom cooldown-a ikonica je zatamnjena i preko nje je odbrojavanje: **zeleno** za regen (`G.regenWait`: koliko još čeka posle hica, melee udarca ili udarca na igrača), **žuto** za ostale.
 - Vrednosti su `orbCd`, `orbCdT` i `orbLive` u `gdjs.amazeUpg.U`.
 
 ## Početne vrednosti i borba
@@ -121,8 +120,8 @@ Orbovi su jaki, pa se posle pogotka troše.
 |---|---|---|
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
-| Pucanje | zaključano | desni klik, šteta 10, domet 0.5 s (brzina 600, kao neprijateljski projektil), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
-| Regen | 0 | kad se doda, čeka **10 s** posle udarca **ili hica** (`R.lastShot`) |
+| Pucanje | zaključano | desni klik, šteta 10, domet 0.5 s (brzina fiksnih **1000**, nema kartice za brzinu), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
+| Regen | 0 | kad se doda, čeka **10 s** posle udarca, hica **ili melee zamaha** (`R.lastAttack`) |
 | Neranjivost posle udarca | 0.5 s | `DamageCooldown` u Health; Dodge početno 0 |
 | Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120). Sečivo (`G.meleeTick`) maše lukom od −65° do +65° ispred igrača (s leva na desno) u prozoru `MeleeMoment`–`MeleeHitEnd`, dužine jednake dometu; svaki neprijatelj se pogađa najviše jednom po zamahu. Kost šake se koristi samo ako daje pravu poziciju. Trag `FireEmbers` je na vrhu sečiva, flow (čestica/s) = jačina melee napada |
 | Level | 1 | globalna promenljiva |
@@ -187,7 +186,7 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 | 50 | shield-reflect, fire-tail |
 | 60 | orbital-time, retkost **Mythic** |
 
-Nove kartice: rank 5 `crit-chance`, `dodge`; 10 `knockback`, `rapid-fire`; 12 `steady-aim`; 15 `executioner`, `phase-time`; 25 `fast-bullets`, `soul-catcher`, `quick-recovery`; 35 `crit-damage`, `dash`; 45 `double-shot`, `crown-of-thorns`; 55 `second-chance`. (Tabela `UNLOCK` je jedino mesto za podešavanje.)
+Nove kartice: rank 5 `crit-chance`, `dodge`; 10 `knockback`, `rapid-fire`; 12 `steady-aim`; 15 `executioner`, `phase-time`; 25 `soul-catcher`, `quick-recovery`; 35 `crit-damage`, `dash`; 45 `double-shot`, `crown-of-thorns`; 55 `second-chance`. (Tabela `UNLOCK` je jedino mesto za podešavanje.)
 
 Zaključana retkost se ne bira (težine ostalih se preraspodeljuju). Pošto se skup kartica menja sa rankom, isti `RunSeed` daje drugačiju ponudu na različitom ranku.
 
@@ -215,7 +214,7 @@ Prikazuje se samo ono što igrač ima, grupisano po boji (zelena, plava, narand�
 | zelena | `health` | `regen` i `regenDelay` (regen > 0), `lifesteal`, `dodge`, `lives` |
 | plava | | `shield` (shield > 0 ili uzeta shield kartica), `reflect` |
 | narandžasta | `speed` | `jump` (otključan), `phase` (Phase Time uzet), `dash` (otključan) |
-| crvena | `melee`, `reach` | posle otključanog pucanja: `shotDamage`, `shotRange`, `shotSpeed`, `shots`, pa `fireRate`, `bounces`, `chain` kad su > 0; `crit`, `exec`, `knock` kad su > 0 |
+| crvena | `melee`, `reach` | posle otključanog pucanja: `shotDamage`, `shotRange`, `shots`, pa `fireRate`, `bounces`, `chain` kad su > 0; `crit`, `exec`, `knock` kad su > 0 |
 | žuta | | `orbs`, `orbTime`, `orbDamage` (kad ima orbova), `thorns` |
 
 Lista uzetih kartica (`picked`) je uklonjena. Dash cooldown se prikazuje u celim sekundama da se tekst ne menja 10 puta u sekundi. Da dodaš liniju: dodaj `case` u `G.stat` i `add(...)` red u `G.panel` na pravom mestu u grupi boje.
