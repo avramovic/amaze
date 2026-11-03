@@ -426,7 +426,7 @@ Napomena: pool je "od nivoa naviše", stariji tipovi ostaju. Ako blobovi na viso
 
 - **Slabljenje starih tipova:** `SetEnemySpawnInfo` ima sedmi parametar `FadeAfter`. Posle tog nivoa težina tipa pada na 10% kroz 10 nivoa (0 = nikad). Roj (Cat, Dog, Chicken, Green, Pink) slabi posle 8, ostali obični tipovi `minNivo + 12..14`. Elite, Yeti i mini-bossevi nikad ne slabe, pa se mešavina sa nivoom pomera ka težim tipovima.
 - **Nivo 1 je bez neprijatelja.** Od nivoa 2: talas ima `WaveSize (1) + floor(max(nivo - 2, 0) / 4)` neprijatelja, broj talasa je `Waves (3) + floor(nivo / 10)`, a globalni cap živih je `min(12, 2 + nivo / 2)` (nivo 2: 3, nivo 10: 7, nivo 20+: 12).
-- **Skaliranje statistika** (`ApplyLevelScaling`): HP +10% po nivou do 20, pa +5%. Šteta +4% po nivou do 20, pa +2%. Na nivou 100 je to HP x6.9 i šteta x3.4 (ranije HP x12.9 i šteta x8.9, što bi bilo neodrživo uz igrača sa 100 HP).
+- **Skaliranje statistika** (`ApplyLevelScaling`): HP +10% po nivou do 20, pa +8%. Šteta linearno +5% po nivou (`1 + 0.05·(nivo − 1)`). Nivo 26: HP x3.4, šteta x2.25. Nivo 100: HP x9.3, šteta x5.95 (ranije posle 20: HP +5%, šteta +2%, što je uz stackovanu odbranu igrača bilo premalo).
 - **Igrač:** `Health` igrača ima 0.5 s neranjivosti posle pogotka, što ograničava štetu od gomile na `šteta / 0.5 s`, bez obzira koliko ih ima.
 
 ---

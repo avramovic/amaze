@@ -57,7 +57,7 @@ Shield ide preko Health ekstenzije (`MaxShield`, `ShieldPoints`). Nema tajmer: H
 |---|---|---|---|
 | `running-shoe` | Running Shoes | + max brzina | +12 / 18 / 27 / 42 / 60, početno **300**, **cap 700** |
 | `jump-across` | Jump | **prva otključava skok** (bez nje Space ne radi), kasnije + visina skoka | 8 / 12 / 18 / 28 / 40 % |
-| `phase-time` | Phase Time | duža neranjivost posle udarca (početno 0.5 s) | +0.1 / 0.15 / 0.2 / 0.3 / 0.4 s, cap +1.5 s |
+| `phase-time` | Phase Time | duža neranjivost posle udarca (početno 0.5 s) | +0.05 / 0.08 / 0.1 / 0.15 / 0.2 s, **cap +0.5 s** (ukupno 1.0 s) |
 | `dash` | Dash | **prva otključava dash** (Shift, cooldown 3 s): kratak nalet (0.15 s, brzina 1400) u pravcu u kom se krećeš, a ako stojiš, napred; nepovrediv dok traje. Kasnije skraćuje cooldown | −0.15 / 0.2 / 0.3 / 0.45 / 0.6 s, **min 0.8 s** |
 
 Kartica brzine se ne nudi kad je brzina na 700.
@@ -69,9 +69,9 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | `arm-bandage` | Bandage | odmah leči | 20 / 30 / 45 / 70 / 100 |
 | `healing` | Regeneration | + health regen u sekundi | 0.2 / 0.3 / 0.45 / 0.7 / 1 |
 | `health-increase` | Vitality | samo diže max health, ne leči | 10 / 15 / 22 / 35 / 50 |
-| `soul-catcher` | Soul Catcher | deo **stvarno nanete štete** se vraća kao HP (računa se pad zdravlja neprijatelja u `G.trackDamage`, pa overkill ne daje ništa; važi za sve izvore) | 2 / 3 / 5 / 8 / 12 %, **cap 25%** |
+| `soul-catcher` | Soul Catcher | deo **stvarno nanete štete** se vraća kao HP (računa se pad zdravlja neprijatelja u `G.trackDamage`, pa overkill ne daje ništa; važi za sve izvore) | 1 / 1.5 / 2 / 3 / 5 %, **cap 12%** |
 | `quick-recovery` | Quick Recovery | regen kreće ranije posle udarca (početno čekanje **10 s**, min **3 s**); nudi se tek kad imaš regen | −1 / 1 / 1.5 / 2 / 3 s |
-| `dodge` | Dodge | šansa da izbegneš udarac (`ChanceToDodge` u Health) | 3 / 5 / 7 / 10 / 15 %, **cap 50%** |
+| `dodge` | Dodge | šansa da izbegneš udarac (`ChanceToDodge` u Health) | 3 / 5 / 7 / 10 / 15 %, **cap 35%** |
 | `second-chance` | Second Chance | **+1 život**: kad bi umro, vraćaš se sa delom max HP-a i 1.5 s si nepovrediv. Život se troši i ne vraća. HP pri oživljavanju je najbolja vrednost koju si birao | HP 25 / 35 / 50 / 70 / 100 %, **max 3 života** |
 
 ### Crvena, napad
@@ -80,12 +80,12 @@ Kartica brzine se ne nudi kad je brzina na 700.
 |---|---|---|---|
 | `falling-blob` | Heavy Shot | **prva otključava pucanje** (desni klik), kasnije + šteta (%) | šteta 8 / 12 / 18 / 28 / 40 % |
 | `projectile-timer` | Long Shot | + domet projektila u **sekundama** (osnovni domet je 0.5 s, oko 300 jedinica) | +0.5 / 0.5 / 0.75 / 1 / 2 s |
-| `ricochet` | Ricochet | + odbijanja projektila od zida (početno 0) | 1 / 1 / 1 / 2 / 3 |
-| `fire-tail` | Chain Shot | posle pogotka iz neprijatelja izlazi **pravi projektil** (isti kao prvi hitac, ista šteta) ka najbližem neprijatelju koji nije pogođen, **u vidokrugu** (isti red ili kolona lavirinta bez zida) i **najviše 800 daleko** (2 polja). Nema odbijanja, staje na prvom zidu; kratko ne može da pogodi neprijatelja iz kog je izašao | 1 / 1 / 1 / 2 / 3 skokova |
+| `ricochet` | Ricochet | + odbijanja projektila od zida (početno 0) | 1 / 1 / 1 / 2 / 3, **cap 5** |
+| `fire-tail` | Chain Shot | posle pogotka iz neprijatelja izlazi **pravi projektil** (isti kao prvi hitac, ista šteta) ka najbližem neprijatelju koji nije pogođen, **u vidokrugu** (isti red ili kolona lavirinta bez zida) i **najviše 800 daleko** (2 polja). Svaki skok pogađa slabije (**×0.6 po skoku**, `BASE.chainDmg`). Nema odbijanja, staje na prvom zidu; kratko ne može da pogodi neprijatelja iz kog je izašao | 1 / 1 / 1 / 2 / 3 skokova |
 | `punch-blast` | Punch Blast | + šteta melee udarca | 10 / 15 / 22 / 35 / 50 % |
 | `punch-range` | Long Fist | + domet melee-ja (60 → **max 120**); ne nudi se kad je cap dostignut | 6 / 9 / 13 / 21 / 30 |
 | `crit-chance` | Crit Chance | šansa za kritični pogodak (osnovno **×2** štete) na hitac, melee i orbove; pogodak daje dodatnu eksploziju | 3 / 5 / 7 / 10 / 15 %, **cap 60%** |
-| `crit-damage` | Crit Damage | + šteta kritika (×2 → max **×5**); nudi se tek kad imaš Crit Chance | 20 / 30 / 45 / 70 / 100 %, **cap 300%** |
+| `crit-damage` | Crit Damage | + šteta kritika (×2 → max **×5**); nudi se tek kad imaš Crit Chance | 20 / 30 / 45 / 70 / 100 %, **cap 200%** (×4) |
 | `executioner` | Executioner | + šteta protiv neprijatelja (i spawnera) ispod **30% HP** | 10 / 15 / 22 / 35 / 50 %, cap 150% |
 | `knockback` | Knockback | hitac i melee guraju **živog** neprijatelja unazad (klizi sa otporom, staje na zidu lavirinta, ne radi na `SuperArmor = Yes` ni na ulozi `Stationary`, tj. mushnubi) | +40 / 60 / 90 / 140 / 200 (piksela), **cap 400** |
 | `rapid-fire` | Rapid Fire | brže pucanje: kraći `FireMoment` i `ShootDuration` u `PlayerFSM`, animacija ubrzana isto | 8 / 12 / 18 / 28 / 40 %, cap 150% |
@@ -99,7 +99,7 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
 | `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje. **Svaka kugla nestaje kad pogodi neprijatelja; kad nestanu sve, kreće cooldown** (30 s), pa se sve vrate. Nova kartica vraća sve odmah | 1 / 1 / 1 / 2 / 3, **cap 4** |
-| `crown-of-thorns` | Crown of Thorns | neprijatelj koji te udari u melee dobija deo štete nazad (samo kad udarac stvarno prođe: ne dodge, ne cooldown) | 25 / 35 / 50 / 75 / 100 %, cap 200% |
+| `crown-of-thorns` | Crown of Thorns | neprijatelj koji te udari u melee dobija deo štete nazad (samo kad udarac stvarno prođe: ne dodge, ne cooldown) | 25 / 35 / 50 / 75 / 100 %, **cap 100%** |
 | `orbital-time` | Orbital Time | trajno smanjuje cooldown orbitala za 1 s (min **10 s**). Nudi se tek kad imaš bar jedan orb | **−1 s** za svaku retkost |
 
 Šteta orbitala je `6 · (1 + šteta%) · TotalDamageMultiplier`. Objekat je `PlayerOrbital` (žuta kopija `EnemyProjectile`).
@@ -216,6 +216,8 @@ Prikazuje se samo ono što igrač ima, grupisano po boji (zelena, plava, narand�
 | narandžasta | `speed` | `jump` (otključan), `phase` (Phase Time uzet), `dash` (otključan) |
 | crvena | `melee`, `reach` | posle otključanog pucanja: `shotDamage`, `shotRange`, `shots`, pa `fireRate`, `bounces`, `chain` kad su > 0; `crit`, `exec`, `knock` kad su > 0 |
 | žuta | | `orbs`, `orbTime`, `orbDamage` (kad ima orbova), `thorns` |
+
+**Razmak i pozadina:** grupe boja su razdvojene praznim redom. Iza oba teksta (`NewStatsText`, `RankText`) je tamna poluprovidna pozadina iste boje i providnosti kao imena neprijatelja (`BASE.hudBg` 0x4a4a4a, `hudBgAlpha` 0.25, `hudPad`, `hudRadius`). Crta je `G.hudPanels` (PIXI Graphics na sloju `UI`, z 4, ispod tekstova): visina iz granica renderera, širina iz najduže linije (`measureText`), precrtava se samo kad se veličina promeni.
 
 Lista uzetih kartica (`picked`) je uklonjena. Dash cooldown se prikazuje u celim sekundama da se tekst ne menja 10 puta u sekundi. Da dodaš liniju: dodaj `case` u `G.stat` i `add(...)` red u `G.panel` na pravom mestu u grupi boje.
 
