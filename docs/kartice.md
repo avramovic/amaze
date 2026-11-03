@@ -111,7 +111,7 @@ Orbovi su jaki, pa se posle pogotka troše.
 - Svaki orb **nestaje kad pogodi neprijatelja** (šteta se računa normalno). Kad nestane poslednji, kreće **cooldown od 30 s** (`orbCd`), pa se vraćaju svi orbovi.
 - Kartica `orbital` dodaje orb i odmah vraća sve orbove, bez cooldown-a. `orbital-time` skraca cooldown za 1 s (min 10 s).
 - Cooldown se računa sa vremenom igre, pa stoji dok su kartice otvorene i **prelazi u sledeći level**.
-- **Ikonice pasiva** su iznad XP bara na UI sloju (ikonica kartice), `G.passiveHud`: regen (healing), orbital i crown-of-thorns, lista `PASSIVES`. Tokom cooldown-a ikonica je zatamnjena i preko nje je odbrojavanje: **zeleno** za regen (`G.regenWait`: koliko još čeka posle hica, melee udarca ili udarca na igrača), **žuto** za ostale.
+- **Ikonice pasiva** su iznad XP bara na UI sloju (ikonica kartice), `G.passiveHud`, lista `PASSIVES`: dash, regen, orbital, crown-of-thorns, reflect, soul catcher, dodge i second chance (pojavljuju se tek kad ih imaš). Tokom cooldown-a ikonica je zatamnjena i preko nje je odbrojavanje u **boji kategorije kartice**: narandžasto dash (`U.dashT`), zeleno regen (`G.regenWait`: koliko još čeka posle hica, melee udarca ili udarca na igrača), žuto orbital. Ispod 3 s odbrojavanje ima jednu decimalu. Mali beli broj u donjem desnom uglu: živi orbovi, preostali životi. Reflect je zatamnjen (bez broja) dok je shield 0. Novi pasiv sa tajmerom = jedan unos u `PASSIVES`, boja dolazi sama iz kategorije.
 - Vrednosti su `orbCd`, `orbCdT` i `orbLive` u `gdjs.amazeUpg.U`.
 
 ## Početne vrednosti i borba
