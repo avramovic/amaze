@@ -255,31 +255,37 @@
     },
     {
       "name": "PauseSel",
+      "persistentUuid": "cdf63592-b256-4915-85a6-f9c1c9b8d6bd",
       "type": "number",
       "value": 0
     },
     {
       "name": "PauseMx",
+      "persistentUuid": "5175347a-7123-404e-ab3d-1bcbef7fa0d6",
       "type": "number",
       "value": 0
     },
     {
       "name": "PauseMy",
+      "persistentUuid": "5aabf91a-4f16-4a2a-a8f6-5b96fc30008f",
       "type": "number",
       "value": 0
     },
     {
       "name": "WasLocked",
+      "persistentUuid": "eb1fc2cc-ab3b-45cf-bc7b-8d762155d005",
       "type": "boolean",
       "value": false
     },
     {
       "name": "DeathScreen",
+      "persistentUuid": "1ac0e09a-4096-4942-926f-d10efc11cdbe",
       "type": "boolean",
       "value": false
     },
     {
       "name": "DeathT",
+      "persistentUuid": "a8877120-73b5-43fe-9070-07142fd8ab34",
       "type": "number",
       "value": 0
     }
@@ -15432,14 +15438,13 @@
       ]
     },
     {
-      "type": "BuiltinCommonInstructions::Group",
-      "name": "Pause menu",
-      "source": "",
       "colorB": 228,
       "colorG": 176,
       "colorR": 74,
       "creationTime": 0,
-      "parameters": [],
+      "name": "Pause menu",
+      "source": "",
+      "type": "BuiltinCommonInstructions::Group",
       "events": [
         {
           "type": "BuiltinCommonInstructions::Comment",
@@ -15458,8 +15463,8 @@
           "conditions": [
             {
               "type": {
-                "value": "MousePointerLock::isPointerLocked",
-                "inverted": true
+                "inverted": true,
+                "value": "MousePointerLock::isPointerLocked"
               },
               "parameters": [
                 "",
@@ -15468,8 +15473,8 @@
             },
             {
               "type": {
-                "value": "LayerVisible",
-                "inverted": true
+                "inverted": true,
+                "value": "LayerVisible"
               },
               "parameters": [
                 "",
@@ -15478,8 +15483,8 @@
             },
             {
               "type": {
-                "value": "Amaze::AreCardsOpen",
-                "inverted": true
+                "inverted": true,
+                "value": "Amaze::AreCardsOpen"
               },
               "parameters": [
                 "",
@@ -15488,8 +15493,8 @@
             },
             {
               "type": {
-                "value": "Amaze::CardsRecentlyClosed",
-                "inverted": true
+                "inverted": true,
+                "value": "Amaze::CardsRecentlyClosed"
               },
               "parameters": [
                 "",
@@ -15508,8 +15513,8 @@
             },
             {
               "type": {
-                "value": "Health::Health::IsDead",
-                "inverted": true
+                "inverted": true,
+                "value": "Health::Health::IsDead"
               },
               "parameters": [
                 "Players",
@@ -15687,8 +15692,8 @@
           "conditions": [
             {
               "type": {
-                "value": "MousePointerLock::isPointerLocked",
-                "inverted": true
+                "inverted": true,
+                "value": "MousePointerLock::isPointerLocked"
               },
               "parameters": [
                 "",
@@ -15697,8 +15702,8 @@
             },
             {
               "type": {
-                "value": "LayerVisible",
-                "inverted": true
+                "inverted": true,
+                "value": "LayerVisible"
               },
               "parameters": [
                 "",
@@ -15707,8 +15712,8 @@
             },
             {
               "type": {
-                "value": "Amaze::AreCardsOpen",
-                "inverted": true
+                "inverted": true,
+                "value": "Amaze::AreCardsOpen"
               },
               "parameters": [
                 "",
@@ -15717,8 +15722,8 @@
             },
             {
               "type": {
-                "value": "Amaze::CardsRecentlyClosed",
-                "inverted": true
+                "inverted": true,
+                "value": "Amaze::CardsRecentlyClosed"
               },
               "parameters": [
                 "",
@@ -15736,8 +15741,8 @@
             },
             {
               "type": {
-                "value": "Health::Health::IsDead",
-                "inverted": true
+                "inverted": true,
+                "value": "Health::Health::IsDead"
               },
               "parameters": [
                 "Players",
@@ -16767,7 +16772,8 @@
             }
           ]
         }
-      ]
+      ],
+      "parameters": []
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
@@ -16809,8 +16815,8 @@
         },
         {
           "type": {
-            "value": "LayerVisible",
-            "inverted": true
+            "inverted": true,
+            "value": "LayerVisible"
           },
           "parameters": [
             "",

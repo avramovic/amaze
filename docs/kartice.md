@@ -99,22 +99,21 @@ Kartica brzine se ne nudi kad je brzina na 700.
 
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje, isti neprijatelj najviše na 0.45 s. **Pokreće tajmer** (30 s) | 1 / 1 / 1 / 2 / 3, **cap 4** |
+| `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje. **Svaka kugla nestaje kad pogodi neprijatelja; kad nestanu sve, kreće cooldown** (30 s), pa se sve vrate. Nova kartica vraća sve odmah | 1 / 1 / 1 / 2 / 3, **cap 4** |
 | `crown-of-thorns` | Crown of Thorns | neprijatelj koji te udari u melee dobija deo štete nazad (samo kad udarac stvarno prođe: ne dodge, ne cooldown) | 25 / 35 / 50 / 75 / 100 %, cap 200% |
-| `orbital-time` | Orbital Time | trajno produžava trajanje orbova za 5 s, **vraća sve orbove koje si do sada skupio** (broj se pamti i kad istekne tajmer) i restartuje tajmer. Ne dodaje novi orb. Nudi se tek kad imaš bar jedan orb, **cap 120 s** | **+5 s** za svaku retkost |
+| `orbital-time` | Orbital Time | trajno smanjuje cooldown orbitala za 1 s (min **10 s**). Nudi se tek kad imaš bar jedan orb | **−1 s** za svaku retkost |
 
 Šteta orbitala je `6 · (1 + šteta%) · TotalDamageMultiplier`. Objekat je `PlayerOrbital` (žuta kopija `EnemyProjectile`).
 
-## Tajmer orbova
+## Cooldown orbova
 
-Orbovi nisu trajni, jer bi bili prejaki. Shield nema tajmer, troši se samo udarcima.
+Orbovi su jaki, pa se posle pogotka troše.
 
-- **Početno trajanje je 30 s** (`orbDur`).
-- **Orbovi:** kartica `orbital` dodaje orbove i vraća tajmer na pun. Kad istekne, orbovi nestaju, a broj orbova ostaje zapamćen, pa nova `orbital` kartica vraća sve.
-- **Kartica za vreme** (`orbital-time`) trajno povećava trajanje za 5 s (30 → 35 → 40…, cap 120 s) i **pali efekat ponovo**: orbovi se vraćaju u broju koji si do sada skupio (ne dobijaju novi), a tajmer kreće od pune (novog) trajanja.
-- Tajmeri se računaju sa vremenom igre, pa stoje dok su kartice otvorene (0.1× brzina) i **prelaze u sledeći level**.
-- **Odbrojavanje iznad igrača:** sekunde do isteka, **žuto**.
-- Vrednosti su `orbDur` i `orbT` u `gdjs.amazeUpg.U`.
+- Svaki orb **nestaje kad pogodi neprijatelja** (šteta se računa normalno). Kad nestane poslednji, kreće **cooldown od 30 s** (`orbCd`), pa se vraćaju svi orbovi.
+- Kartica `orbital` dodaje orb i odmah vraća sve orbove, bez cooldown-a. `orbital-time` skraca cooldown za 1 s (min 10 s).
+- Cooldown se računa sa vremenom igre, pa stoji dok su kartice otvorene i **prelazi u sledeći level**.
+- **Ikonice pasiva** su iznad XP bara na UI sloju (ikonica kartice), `G.passiveHud`: orbital i crown-of-thorns, lista `PASSIVES`. Tokom cooldown-a ikonica je zatamnjena i preko nje je **žuto** odbrojavanje.
+- Vrednosti su `orbCd`, `orbCdT` i `orbLive` u `gdjs.amazeUpg.U`.
 
 ## Početne vrednosti i borba
 
@@ -123,7 +122,7 @@ Orbovi nisu trajni, jer bi bili prejaki. Shield nema tajmer, troši se samo udar
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
 | Pucanje | zaključano | desni klik, šteta 10, domet 0.5 s (brzina 600, kao neprijateljski projektil), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
-| Regen | 0 | kad se doda, čeka **10 s** posle udarca |
+| Regen | 0 | kad se doda, čeka **10 s** posle udarca **ili hica** (`R.lastShot`) |
 | Neranjivost posle udarca | 0.5 s | `DamageCooldown` u Health; Dodge početno 0 |
 | Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120). Sečivo (`G.meleeTick`) maše lukom od −65° do +65° ispred igrača (s leva na desno) u prozoru `MeleeMoment`–`MeleeHitEnd`, dužine jednake dometu; svaki neprijatelj se pogađa najviše jednom po zamahu. Kost šake se koristi samo ako daje pravu poziciju. Trag `FireEmbers` je na vrhu sečiva, flow (čestica/s) = jačina melee napada |
 | Level | 1 | globalna promenljiva |
@@ -254,7 +253,7 @@ Sve u biblioteci `gdjs.amazeUpg` (verzija 3), modul `// ---- visual feedback`. T
 | Štit upije udarac / pukne | plavo `-N` / `SHIELD BROKEN` | pad `U.shield` |
 | Reflect | plavo `REFLECT!` | `G.reflect` |
 | Second Chance | zlatno `SECOND CHANCE!` + plusići | `G.rescue` |
-| Crown of Thorns | ljubičasto `THORNS` nad neprijateljem | `G.enemyMeleeHit` |
+| Crown of Thorns | žuto `THORNS` nad neprijateljem | `G.enemyMeleeHit` |
 | Executioner (ubije) | tamnocrveno `EXECUTE!` | `G.strike` |
 | Dash | narandžasto `DASH` | `G.dash` |
 | Rank up | ljubičasto `RANK UP!` + `Rank N` | `G.feedbackStep` (`R.lastRank`) |
