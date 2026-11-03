@@ -18244,9 +18244,14 @@
         },
         {
           "type": {
-            "value": "BuiltinCommonInstructions::Once"
+            "value": "Distance"
           },
-          "parameters": []
+          "parameters": [
+            "Spawner",
+            "RedMist",
+            "5",
+            ""
+          ]
         }
       ],
       "actions": [
@@ -18258,16 +18263,6 @@
             "Spawner",
             "Spawning",
             "no"
-          ]
-        },
-        {
-          "type": {
-            "value": "PickNearest"
-          },
-          "parameters": [
-            "RedMist",
-            "Spawner.CenterX()",
-            "Spawner.CenterY()"
           ]
         },
         {
