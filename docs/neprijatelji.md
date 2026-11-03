@@ -458,3 +458,13 @@ Implementacija: stanja `Look` i `GiveUp` u behavior-u `Enemy`, akcije `StartLook
 - Damage i health preko GDevelop ekstenzija ("Health points and damage" i "Fire bullets / 3D fire bullet")
 - Sistem perkova i level-up
 - Ranged koji drži distancu, Evolved letači preko zidova (`CanCrossWalls`)
+
+## Spawner: zdravlje, trešenje, XP
+
+- Zdravlje 10000 (behavior `Health` na objektu `Spawner`). Ugašen spawner ne prima više štetu (`G.shotHit` preskače mrtve mete).
+- Trešenje na svakih 100 izgubljenih HP-a: `next = max - 100`, kad zdravlje padne na `next` ili ispod, trese se i `next -= 100` (više pragova u jednom udarcu daje jedan shake). Logika je u `G.spawnerStep` (`eventsFunctionsExtensions/amaze.json`, blok `onFirstSceneLoaded`).
+- Ubrzavanje: `WaveCooldown` i `SpawnInterval` se množe faktorom od 1 (pun HP) do `spawnerMinSpeed` (0.6, pri 0 HP).
+- Udarac dok spawner čeka između talasa (`Cooldown`) odmah pokreće sledeći talas.
+- Ispod 50%: jednom "ENRAGED" i dodatni talas (iz `Cooldown`, a spawner koji je `Exhausted` dobije još jedan), pa samostalno trešenje svakih 5-15 s.
+- XP: `spawnerXP` (0.1) po izgubljenom HP-u + `spawnerKillXP` (1000) kad se ugasi, uz eksploziju i natpise. Sve konstante su u `G.BASE`.
+- Ugašen se lagano spušta za `spawnerSink` (40) ispod početne visine.

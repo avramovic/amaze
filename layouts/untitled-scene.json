@@ -2692,9 +2692,9 @@
         {
           "name": "Health",
           "type": "Health::Health",
-          "Health": 1000,
+          "Health": 10000,
           "CurrentHealth": 0,
-          "MaxHealth": 1000,
+          "MaxHealth": 10000,
           "DamageCooldown": 0,
           "AllowOverHealing": false,
           "IsHealthJustDamaged": false,
@@ -18116,38 +18116,7 @@
           ]
         }
       ],
-      "events": [
-        {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [
-            {
-              "type": {
-                "value": "BuiltinCommonInstructions::CompareNumbers"
-              },
-              "parameters": [
-                "mod(Spawner.Health::Health(), 100)",
-                "=",
-                "0"
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": {
-                "value": "ShakeObject3D::ShakeModel3D::Shake"
-              },
-              "parameters": [
-                "Spawner",
-                "ShakeModel3D",
-                "0.5",
-                "0",
-                "0",
-                ""
-              ]
-            }
-          ]
-        }
-      ]
+      "events": []
     },
     {
       "type": "BuiltinCommonInstructions::Standard",
