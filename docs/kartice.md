@@ -45,7 +45,7 @@ Vrednosti su po retkosti: Common / Uncommon / Rare / Epic / Mythic.
 
 | Kartica (slika) | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `shield` | Shield | +shield poena, ali nikad preko maksimuma (početni max je **50**); ne nudi se dok je shield pun | 10 / 15 / 22 / 35 / 50 |
+| `shield` | Shield | puni shield: `max(50, v% max shield-a)` poena, nikad preko maksimuma (početni max je **50**, pa common puni do kraja); ne nudi se dok je shield pun; Mythic piše "Fully restore shield" | 50 / 65 / 75 / 90 / 100 % |
 | `healing-shield` | Shield+ | samo diže max shield, ne dodaje shield poene | 5 / 8 / 11 / 18 / 25 |
 | `shield-reflect` | Reflect | šansa da se neprijateljski projektil vrati nazad (samo dok je shield > 0); vraćen projektil nanosi neprijatelju u koga uleti 60% svoje štete (šteta projektila = `Damage` onoga ko ga je ispalio, `BASE.reflectDmg`); nad neprijateljem se vidi plavo `-N` | 5 / 8 / 11 / 18 / 25 %, **cap 75%** |
 
