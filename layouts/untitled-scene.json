@@ -11878,35 +11878,6 @@
           ]
         },
         {
-          "name": "fast-bullets",
-          "useMultipleDirections": false,
-          "directions": [
-            {
-              "looping": false,
-              "timeBetweenFrames": 0.08,
-              "sprites": [
-                {
-                  "hasCustomCollisionMask": false,
-                  "image": "card_fast-bullets.png",
-                  "points": [],
-                  "originPoint": {
-                    "name": "origine",
-                    "x": 0,
-                    "y": 0
-                  },
-                  "centerPoint": {
-                    "automatic": true,
-                    "name": "centre",
-                    "x": 0,
-                    "y": 0
-                  },
-                  "customCollisionMask": []
-                }
-              ]
-            }
-          ]
-        },
-        {
           "name": "double-shot",
           "useMultipleDirections": false,
           "directions": [
@@ -14739,6 +14710,17 @@
             ">=",
             "2"
           ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Players",
+            "Health",
+            ""
+          ]
         }
       ],
       "actions": [
@@ -14875,6 +14857,16 @@
                 "Enemy",
                 ""
               ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "DistanceBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Players.CenterX(), Players.CenterY())",
+                "<",
+                "800"
+              ]
             }
           ],
           "actions": [
@@ -14887,6 +14879,54 @@
                 "Enemy",
                 "Players.CenterX()",
                 "Players.CenterY()"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "Amaze::Enemy::CanCrossWalls"
+              },
+              "parameters": [
+                "Enemies",
+                "Enemy",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "Amaze::Enemy::IsAggro"
+              },
+              "parameters": [
+                "Enemies",
+                "Enemy",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "DistanceBetweenPositions(Enemies.CenterX(), Enemies.CenterY(), Players.CenterX(), Players.CenterY())",
+                ">=",
+                "800"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Amaze::Enemy::SetMoveTarget"
+              },
+              "parameters": [
+                "Enemies",
+                "Enemy",
+                "Amaze::FlowTargetX(\"maze\", Enemies.CenterX(), Enemies.CenterY(), Enemies.Enemy::AttackRange() * 0.8, Enemies.Enemy::SlotAngle())",
+                "Amaze::FlowTargetY(\"maze\", Enemies.CenterX(), Enemies.CenterY(), Enemies.Enemy::AttackRange() * 0.8, Enemies.Enemy::SlotAngle())"
               ]
             }
           ]
@@ -14916,6 +14956,17 @@
           "parameters": [
             "Enemies",
             "Enemy",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Players",
+            "Health",
             ""
           ]
         }
@@ -15116,6 +15167,17 @@
             "=",
             "0"
           ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Players",
+            "Health",
+            ""
+          ]
         }
       ],
       "actions": [
@@ -15153,6 +15215,17 @@
             "reflected",
             "!=",
             "1"
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Players",
+            "Health",
+            ""
           ]
         }
       ],
@@ -17366,6 +17439,17 @@
             "200",
             ""
           ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Players",
+            "Health",
+            ""
+          ]
         }
       ],
       "actions": [
@@ -17608,6 +17692,17 @@
           "parameters": [
             "Players",
             "PlayerFSM"
+          ]
+        },
+        {
+          "type": {
+            "inverted": true,
+            "value": "Health::Health::IsDead"
+          },
+          "parameters": [
+            "Players",
+            "Health",
+            ""
           ]
         }
       ],

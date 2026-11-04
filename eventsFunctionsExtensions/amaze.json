@@ -919,6 +919,7 @@
             "// Keep an object inside its current cell on the sides that are walls (open passages are not limited).",
             "S.keepInCell = function (m, obj, margin) {",
             "    if (!m) return;",
+            "        if (obj.__amazeOverWalls) return;   // a flyer high above the walls is not held by them",
             "    const cx = obj.getCenterXInScene();",
             "    const cy = obj.getCenterYInScene();",
             "    const c = S.cellOf(m, cx, cy);",
@@ -1669,8 +1670,9 @@
             "// every frame: dash, invulnerability, cooldowns and the animation speed of rapid fire",
             "G.stepPlayer = function (players, dt) {",
             "    const R = G.R, U = G.U;",
-            "    if (U.dashT > 0) U.dashT = Math.max(0, U.dashT - dt);",
             "    const p = players[0];",
+            "    if (p && U.hp <= 0) return; // dead: dash timer, dash and invulnerability all stop",
+            "    if (U.dashT > 0) U.dashT = Math.max(0, U.dashT - dt);",
             "    if (!p) return;",
             "    const h = p.getBehavior('Health');",
             "    const ch = p.getBehavior('PhysicsCharacter3D');",
@@ -1855,7 +1857,7 @@
             "G.feedbackStep = function (p, dt) {",
             "    const R = G.R, U = G.U;",
             "    const alive = !!p && U.hp > 0;",
-            "    if (p && R.lastHp !== undefined) {",
+            "    if (p && R.lastHp !== undefined && R.lastHp > 0) { // nothing after the hit that killed the player",
             "        const dh = U.hp - R.lastHp;",
             "        if (dh > 0.001) R.healGlow = 0.5; // regeneration, soul catcher, anything that heals keeps the plus signs going",
             "        else if (dh < -0.5) G.say(p, String(Math.round(dh)), '#ff4d4d', { size: 34 });",
@@ -2684,13 +2686,15 @@
             "    R.dt = dt;",
             "    R.mult = p ? G.mult(p) : 1; // for the damage numbers of the stats panel",
             "    G.pull(players);",
-            "    if (U.orbCdT > 0) { U.orbCdT = Math.max(0, U.orbCdT - dt); if (U.orbCdT === 0) U.orbLive = U.orbitals; } // cooldown over: all the orbs are back",
+            "    const dead = !!p && U.hp <= 0; // once the player is dead nothing else happens to them: no hits, no timers, no orbs, no new enemies",
+            "    if (dead) { const dh = p.getBehavior('Health'); if (dh) dh.TriggerDamageCooldown(); } // Health.Hit then returns before the dodge roll and the damage",
+            "    if (!dead && U.orbCdT > 0) { U.orbCdT = Math.max(0, U.orbCdT - dt); if (U.orbCdT === 0) U.orbLive = U.orbitals; } // cooldown over: all the orbs are back",
             "    R.enemies = ctx.getObjects('Enemies').slice();",
             "    G.trackDamage(R.enemies);",
             "    G.feedbackStep(p, dt);",
             "    // soul catcher: part of the damage dealt comes back as health",
             "    if (R.heal > 0) {",
-            "        if (p && U.hp > 0) { const hh = p.getBehavior('Health'); if (hh) hh.Heal(R.heal); }",
+            "        if (p && !dead) { const hh = p.getBehavior('Health'); if (hh) hh.Heal(R.heal); }",
             "        R.heal = 0;",
             "    }",
             "    // knockback: pushed enemies slide back and stop at a wall",
@@ -2706,7 +2710,7 @@
             "    }",
             "    G.stepPlayer(players, dt);",
             "    R.spawners = ctx.getObjects('Spawner').slice();",
-            "    G.spawnerStep(ctx, R.spawners, dt);",
+            "    if (!dead) G.spawnerStep(ctx, R.spawners, dt);",
             "",
             "    // shots run out of range (the scene event then explodes them)",
             "    const shotFlow = Math.max(1, Math.round(G.shotDamage() * (p ? G.mult(p) : 1) * 5)); // particles per second = ranged strength x 5 (50 at the start)",
@@ -2724,7 +2728,7 @@
             "    G.stepCards(runtimeScene, players);",
             "",
             "    // orbitals: each one breaks on its first hit, when the last one is gone the cooldown starts",
-            "    const N0 = p ? U.orbLive : 0;",
+            "    const N0 = p && !dead ? U.orbLive : 0;",
             "    while (R.orbs.length < N0) {",
             "        const o = ctx.createObject('PlayerOrbital');",
             "        if (!o) break;",
@@ -9803,6 +9807,109 @@
               ]
             },
             {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Death\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "State",
+                    "!=",
+                    "\"Dead\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "CanCrossWalls",
+                    "=",
+                    "\"Yes\""
+                  ]
+                }
+              ],
+              "actions": [],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::JsCode",
+                  "inlineCode": [
+                    "// Flying enemies that cross walls: they never go through them. They climb to CROSS_Z, fly over, and sink back to FlyHeight. While too low, the cell walls hold them (like any other enemy).",
+                    "const CROSS_Z = 250, CLEAR_Z = 240, LOOK = 140, UP = 600, DOWN = 350, MARGIN = 60;",
+                    "const o = objects[0];",
+                    "if (!o.getZ || !o.setZ) return;",
+                    "const S = gdjs.amazeSpawn;",
+                    "const m = S && S.lastMaze;",
+                    "if (!m) return;",
+                    "const b = o.getBehavior(eventsFunctionContext.getBehaviorName(\"Behavior\"));",
+                    "const fly = b._getFlyHeight();",
+                    "const dt = o.getElapsedTime() / 1000;",
+                    "// where the walls of the cell around (x, y) would hold a body",
+                    "const hold = function (x, y) {",
+                    "    const c = S.cellOf(m, x, y);",
+                    "    if (c < 0) return [x, y];",
+                    "    const row = (c / m.cols) | 0;",
+                    "    const col = c - row * m.cols;",
+                    "    const left = m.x0 + col * m.fw;",
+                    "    const top = m.y0 + row * m.fh;",
+                    "    let nx = x, ny = y;",
+                    "    if (S.open(m, c, 2) < 0) nx = Math.max(nx, left + MARGIN);",
+                    "    if (S.open(m, c, 3) < 0) nx = Math.min(nx, left + m.fw - MARGIN);",
+                    "    if (S.open(m, c, 0) < 0) ny = Math.max(ny, top + MARGIN);",
+                    "    if (S.open(m, c, 1) < 0) ny = Math.min(ny, top + m.fh - MARGIN);",
+                    "    return [nx, ny];",
+                    "};",
+                    "const blockedAt = function (x, y) {",
+                    "    const h = hold(x, y);",
+                    "    return Math.abs(h[0] - x) > 0.5 || Math.abs(h[1] - y) > 0.5;",
+                    "};",
+                    "const cx = o.getCenterXInScene();",
+                    "const cy = o.getCenterYInScene();",
+                    "// Over a wall right now: stay up.",
+                    "let need = blockedAt(cx, cy);",
+                    "// Flying straight at the target (not following the corridors): a wall within LOOK px ahead means climb first.",
+                    "if (!need && b._getAggro() && b._getState() === \"Move\") {",
+                    "    const wx = b._getWaypointX(), wy = b._getWaypointY();",
+                    "    const straight = Math.hypot(wx - b._getTargetX(), wy - b._getTargetY()) < 1;",
+                    "    const dist = Math.hypot(wx - cx, wy - cy);",
+                    "    if (straight && dist > 1) {",
+                    "        const k = Math.min(LOOK, dist) / dist;",
+                    "        const ax = cx + (wx - cx) * k, ay = cy + (wy - cy) * k;",
+                    "        const c = S.cellOf(m, cx, cy), a = S.cellOf(m, ax, ay);",
+                    "        if (a < 0) need = true;",
+                    "        else if (a !== c) {",
+                    "            let linked = false;",
+                    "            for (let dir = 0; dir < 4; dir++) if (S.open(m, c, dir) === a) linked = true;",
+                    "            need = !linked || blockedAt(ax, ay);",
+                    "        } else need = blockedAt(ax, ay);",
+                    "    }",
+                    "}",
+                    "const target = need ? CROSS_Z : fly;",
+                    "let z = o.getZ();",
+                    "if (z < target) z = Math.min(target, z + UP * dt);",
+                    "else if (z > target) z = Math.max(target, z - DOWN * dt);",
+                    "o.setZ(z);",
+                    "o.__amazeOverWalls = z >= CLEAR_Z;",
+                    "if (!o.__amazeOverWalls) S.keepInCell(m, o, MARGIN);"
+                  ],
+                  "parameterObjects": "Object",
+                  "useStrict": true,
+                  "eventsSheetExpanded": false
+                }
+              ]
+            },
+            {
               "type": "BuiltinCommonInstructions::Comment",
               "color": {
                 "b": 109,
@@ -10121,6 +10228,7 @@
                     "const o = objects[0];",
                     "if (!o.getZ || !o.setZ) return;",
                     "const dt = o.getElapsedTime() / 1000;",
+                    "o.__amazeOverWalls = false;   // dying: the walls hold it again",
                     "// A killing hit threw this flying enemy back: take the push once, hop a little and slide away with drag.",
                     "if (o.__amazeKnock) { o.__amazeVel = o.__amazeKnock; o.__amazeKnock = null; o.__amazeFall = -o.__amazeVel.hop; }",
                     "const v = o.__amazeVel;",
