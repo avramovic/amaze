@@ -98,7 +98,7 @@ Kartica brzine se ne nudi kad je brzina na 700.
 
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
-| `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje. **Svaka kugla nestaje kad pogodi neprijatelja; kad nestanu sve, kreće cooldown** (30 s), pa se sve vrate. Nova kartica vraća sve odmah | 1 / 1 / 1 / 2 / 3, **cap 4** |
+| `orbital` | Orbital | + kugla koja kruži oko igrača (200°/s, radijus 130) i povređuje neprijatelje. **Svaka kugla nestaje kad pogodi neprijatelja; cooldown (30 s) kreće čim nestane prva, a kad istekne vraćaju se sve** (kasniji gubici ga ne resetuju). Nova kartica vraća sve odmah | 1 / 1 / 1 / 2 / 3, **cap 4** |
 | `crown-of-thorns` | Crown of Thorns | neprijatelj koji te udari u melee dobija deo štete nazad (samo kad udarac stvarno prođe: ne dodge, ne cooldown) | 25 / 35 / 50 / 75 / 100 %, **cap 100%** |
 | `orbital-time` | Orbital Time | trajno smanjuje cooldown orbitala za 1 s (min **10 s**). Nudi se tek kad imaš bar jedan orb | **−1 s** za svaku retkost |
 
