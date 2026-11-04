@@ -50,7 +50,7 @@ Neki likovi postoje i kao Blob i kao Standing (ili Flying) verzija:
 - **Skakač / brzi:** Frog (skok + jezik), Bunny, Ninja (dash, pa pauza).
 - **Strelac:** drži distancu, puca niz hodnik (Cactoro, Ghost, Squidle; Wizard je poseban slučaj, vidi poglavlje 7). Projektili treba da su **spori**, da igrač može da ih izbegne naginjanjem u VR-u. Čestice traga `EnemyProjectile`: flow **50 + 5 po nivou neprijatelja, max 100** (akcija `SetFlow` pri kreiranju u sceni). Nijedna grupa nema animaciju pucanja, pa se projektil ispaljuje usred postojeće napadačke animacije (vidi poglavlje 7).
 - **Stacionarni:** Mushnub (oblak spora, usporava), kao "turret" u slepim ulicama.
-- **Leteći:** ne koriste flow-field, lete pravo ka igraču i ignorišu zidove. Držati ih malo.
+- **Leteći:** obični prate hodnike (flow-field) kao kopneni. *Evolved* leteći (`CanCrossWalls = Yes`) kad su aggro i igrač je na manje od 800 px vazdušne linije lete pravo ka njemu: ispred zida uzlete na 250 px, pređu ga i spuste se na `FlyHeight`; dok nisu dovoljno visoko, zid ih zaustavlja. Dalje od 800 px prate hodnike. Držati ih malo.
 - **Tenk / elite:** spori, mnogo HP (Yeti, Orc Skull, BlueDemon, Dino).
 - **Boss:** ručno postavljen, svaki 5. nivo, dve faze (astronaut → mech), vidi poglavlje 8.
 - **Varijante:** isti model u drugoj boji = viši tier (običan, brži, jači, elite sa modifikatorom).
@@ -386,7 +386,7 @@ Fajl: `eventsFunctionsExtensions/amaze.json`. Zahteva ekstenziju "Health points 
 **Evolucija:** tajmer kreće pri prvom aggrou. U poslednjoj sekundi neprijatelj stane i igra `Dance` (Blob). `ProcessEvolutions` zatim pravi objekat iz `EvolvesTo` (akcija "Create an object from its name"), prenosi poziciju, ugao, Z, procenat HP-a i aggro, pušta `Wave` (Standing) i briše stari. Svi objekti koji mogu da nastanu moraju da budu u grupi "Enemies".
 
 **Ograničenja prve verzije:**
-- Kretanje je pravo ka meti i **ne poštuje zidove**. To je u redu za leteće, a kopnene čeka flow-field.
+- Kretanje je pravo ka meti (`WaypointX/Y`); zidove drži `keepInCell` iz scene. Izuzetak su leteći sa `CanCrossWalls = Yes`: kad lete pravo ka igraču, behavior (`doStepPostEvents`) im diže Z na 250 pre zida, a dok je Z iznad 240 `keepInCell` ih ne drži (`__amazeOverWalls`).
 - `Ranged` ne drži distancu, to se dodaje u event sheet-u ili kasnije u behavior-u.
 - Blob nema `HitReact`, pa pri pogotku samo nastavlja trenutnu animaciju. Bljesak ili tresenje ide preko ekstenzija iz pravila 3.
 - Cena, `minLevel` i težina ostaju u spawn tabeli (poglavlje 6), jer se properties ne mogu čitati bez instance.
@@ -461,10 +461,11 @@ Implementacija: stanja `Look` i `GiveUp` u behavior-u `Enemy`, akcije `StartLook
 
 ## Spawner: zdravlje, trešenje, XP
 
-- Zdravlje 10000 (behavior `Health` na objektu `Spawner`). Ugašen spawner ne prima više štetu (`G.shotHit` preskače mrtve mete).
-- Trešenje na svakih 100 izgubljenih HP-a: `next = max - 100`, kad zdravlje padne na `next` ili ispod, trese se i `next -= 100` (više pragova u jednom udarcu daje jedan shake). Logika je u `G.spawnerStep` (`eventsFunctionsExtensions/amaze.json`, blok `onFirstSceneLoaded`).
-- Ubrzavanje: `WaveCooldown` i `SpawnInterval` se množe faktorom od 1 (pun HP) do `spawnerMinSpeed` (0.6, pri 0 HP).
-- Udarac dok spawner čeka između talasa (`Cooldown`) odmah pokreće sledeći talas.
-- Ispod 50%: jednom "ENRAGED" i dodatni talas (iz `Cooldown`, a spawner koji je `Exhausted` dobije još jedan), pa samostalno trešenje svakih 5-15 s.
-- XP: `spawnerXP` (0.1) po izgubljenom HP-u + `spawnerKillXP` (1000) kad se ugasi, uz eksploziju i natpise. Sve konstante su u `G.BASE`.
-- Ugašen se lagano spušta za `spawnerSink` (40) ispod početne visine.
+- Zdravlje 1000 (behavior `Health` na objektu `Spawner`). Ugašen spawner ne prima više štetu (`G.shotHit` preskače mrtve mete).
+- Trešenje na svakih 100 izgubljenih HP-a: `next = max - 100`, kad zdravlje padne na `next` ili ispod, trese se i `next -= 100`. Logika je u `G.spawnerStep` (`eventsFunctionsExtensions/amaze.json`, blok `onFirstSceneLoaded`).
+- **Odbrana:** po svakom pređenom pragu od 100 HP spawner pravi 1 neprijatelja **van budžeta nivoa** (`G.spawnExtra`): težinski izbor iz spawn tabele (`minLevel <= nivo`, bez stražara, cena do četvrtine budžeta `12 + 4 × nivo`), ne dira `S.queue`, odmah je aggro (`ForceAggro` pa `StartIntro`). Ne poštuje `GlobalCap` scene, ali ne pravi nove kad ima 40 živih (`spawnerDefenseCap`).
+- **Enrage** na ≤ 50% HP (`spawnerEnrageAt`), jednom po spawneru: natpis "ENRAGED", on i svi ostali živi spawneri prave po 3 neprijatelja (`spawnerDefenseRage`), rotacija po X ide sa 1 na 2 (`spawnerSpin`, `spawnerSpinRage`, stepeni po frejmu pri 60 fps), pojavi se objekat `Smoke` u centru sa flow-om 10, +10 na svakih sledećih 100 HP. Samostalno trešenje svakih 5-15 s.
+- Ubrzavanje: `WaveCooldown` i `SpawnInterval` se množe faktorom od 1 (pun HP) do `spawnerMinSpeed` (0.6, pri 0 HP). Udarac dok spawner čeka između talasa (`Cooldown`) odmah pokreće sledeći talas.
+- XP: `spawnerXP` (1) po izgubljenom HP-u + `spawnerKillXP` (1000) kad se ugasi, uz eksploziju i natpise (ukupno 2000). Sve konstante su u `G.BASE`.
+- **Nagrada:** pri gašenju 3 kartice iste, najviše otključane retkosti (`G.topRarity`: Rare, od ranka 40 Epic, od ranka 60 Mythic). Idu kroz isti tok kao kovčeg (`R.pending` pa `G.showCards`); ako su kartice već otvorene, čekaju u `R.rewardQueue`.
+- Ugašen se lagano spušta za `spawnerSink` (40) ispod početne visine, a dim ostaje na flow-u 20 (`spawnerSmokeDead`) i spušta se s njim.

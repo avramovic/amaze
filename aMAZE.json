@@ -1233,14 +1233,6 @@
         "userAdded": true
       },
       {
-        "file": "assets/cards/fast-bullets.png",
-        "kind": "image",
-        "metadata": "",
-        "name": "card_fast-bullets.png",
-        "smoothed": true,
-        "userAdded": true
-      },
-      {
         "file": "assets/cards/double-shot.png",
         "kind": "image",
         "metadata": "",

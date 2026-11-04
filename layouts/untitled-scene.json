@@ -2692,9 +2692,9 @@
         {
           "name": "Health",
           "type": "Health::Health",
-          "Health": 10000,
+          "Health": 1000,
           "CurrentHealth": 0,
-          "MaxHealth": 10000,
+          "MaxHealth": 1000,
           "DamageCooldown": 0,
           "AllowOverHealing": false,
           "IsHealthJustDamaged": false,
@@ -12493,6 +12493,76 @@
         "lineHeight": 0,
         "color": "255;255;255"
       }
+    },
+    {
+      "assetStoreId": "68ee3af221f9c3cd9ad342f04201f386a3deb99c4e41d3ce4ded358269ef6237",
+      "name": "Smoke",
+      "persistentUuid": "3cacec5d-67a0-49b0-8e4a-a66bfc6e1df9",
+      "type": "ParticleEmitter3D::ParticleEmitter3D",
+      "variant": "",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "Duration": 0,
+        "ShouldAutodestruct": false,
+        "AreParticlesRelative": false,
+        "GravityTop": "Z+",
+        "Gravity": -15,
+        "ZoneRadius": 10,
+        "EndScale": 4,
+        "RenderMode": "Billboard",
+        "Blending": "Normal",
+        "StartColor": "120;120;120",
+        "EndColor": "180;180;180",
+        "StartOpacity": 210,
+        "EndOpacity": 0,
+        "StartSizeMin": 30,
+        "StartSizeMax": 50,
+        "Flow": 20,
+        "LifespanMin": 3,
+        "LifespanMax": 4,
+        "StartSpeedMin": 30,
+        "StartSpeedMax": 50,
+        "SpayConeAngle": 15
+      },
+      "childrenContent": {
+        "Particle": {
+          "adaptCollisionMaskAutomatically": true,
+          "updateIfNotVisible": false,
+          "animations": [
+            {
+              "name": "Image",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "Smoke.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -12792,6 +12862,9 @@
             "objectName": "BackText"
           }
         ]
+      },
+      {
+        "objectName": "Smoke"
       }
     ]
   },
@@ -18279,35 +18352,6 @@
       "conditions": [
         {
           "type": {
-            "inverted": true,
-            "value": "Health::Health::IsDead"
-          },
-          "parameters": [
-            "Spawner",
-            "Health",
-            ""
-          ]
-        }
-      ],
-      "actions": [
-        {
-          "type": {
-            "value": "Scene3D::Base3DBehavior::SetRotationX"
-          },
-          "parameters": [
-            "Spawner",
-            "Object3D",
-            "+",
-            "1"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
             "value": "Health::Health::IsDead"
           },
           "parameters": [
@@ -18678,6 +18722,10 @@
     {
       "name": "Spawning",
       "type": "Amaze::Spawner"
+    },
+    {
+      "name": "Text",
+      "type": "TextContainerCapability::TextContainerBehavior"
     }
   ]
 }
