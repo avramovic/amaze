@@ -1322,6 +1322,28 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/Kenney Font Pack/078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
           "name": "gdevelop-asset-store"
         }
+      },
+      {
+        "file": "assets/Astronaut Rae The Red Panda.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Astronaut Rae The Red Panda.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Space Station/Characters/7f1a0ecc2d0d7de6f5b07753a696adc9576883e3396d34288e6e945f3c5ebfed_Astronaut Rae The Red Panda.glb",
+          "name": "Astronaut Rae The Red Panda.glb"
+        }
+      },
+      {
+        "file": "assets/Astronaut Barbara The Bee.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Astronaut Barbara The Bee.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Space Station/Characters/20f2e83b2993f8c828adb56fe6bbffbcd417b97802787bc194c4b5c78c16ea3d_Astronaut Barbara The Bee.glb",
+          "name": "Astronaut Barbara The Bee.glb"
+        }
       }
     ]
   },
@@ -1347,14 +1369,28 @@
   "layouts": [
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
-      "referenceTo": "/layouts/untitled-scene"
+      "referenceTo": "/layouts/gamescene"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/layouts/mainmenu"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/layouts/characterselection"
     }
   ],
   "layoutsFolderStructure": {
     "folderName": "__ROOT",
     "children": [
       {
-        "itemName": "Untitled scene"
+        "itemName": "GameScene"
+      },
+      {
+        "itemName": "MainMenu"
+      },
+      {
+        "itemName": "CharacterSelection"
       }
     ]
   },
