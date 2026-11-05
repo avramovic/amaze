@@ -16750,11 +16750,22 @@
             },
             {
               "type": {
-                "value": "SceneJustBegins"
+                "value": "BuiltinCommonInstructions::CompareNumbers"
               },
               "parameters": [
-                "",
-                ""
+                "TimeFromStart()",
+                ">=",
+                "0.3"
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::CompareNumbers"
+              },
+              "parameters": [
+                "TimeFromStart()",
+                "<",
+                "0.6"
               ]
             },
             {

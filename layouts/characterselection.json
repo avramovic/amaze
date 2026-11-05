@@ -1834,6 +1834,55 @@
         },
         {
           "type": {
+            "value": "PlayerInput::LastDeviceIs"
+          },
+          "parameters": [
+            "",
+            "\"P1\"",
+            "\"Keyboard\"",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "MousePointerLock::RequestPointerLock"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "4",
+            ""
+          ]
+        },
+        {
+          "type": {
             "value": "BuiltinCommonInstructions::CompareStrings"
           },
           "parameters": [

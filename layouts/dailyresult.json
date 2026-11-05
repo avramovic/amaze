@@ -1153,6 +1153,35 @@
             ""
           ]
         }
+      ],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "PlayerInput::LastDeviceIs"
+              },
+              "parameters": [
+                "",
+                "\"P1\"",
+                "\"Keyboard\"",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "MousePointerLock::RequestPointerLock"
+              },
+              "parameters": [
+                "",
+                ""
+              ]
+            }
+          ]
+        }
       ]
     },
     {
