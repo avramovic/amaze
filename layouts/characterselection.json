@@ -1831,6 +1831,16 @@
             "4",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"run\""
+          ]
         }
       ],
       "actions": [
@@ -1925,8 +1935,222 @@
           "parameters": [
             "",
             "\"chars\"",
+            "4",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"daily\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetStringVariable"
+          },
+          "parameters": [
+            "PlayerCharacters[0]",
+            "=",
+            "Amaze::ModelText(PlayerModels, CharSel, \"Character\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::NewRun"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "RunSeed",
+            "=",
+            "Amaze::DailySeed()"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "Level",
+            "=",
+            "Amaze::DailyLevel()"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetStringVariable"
+          },
+          "parameters": [
+            "RunId",
+            "=",
+            "\"\""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetBooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "FadeT",
+            "=",
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
             "5",
             ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"run\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"RunSelection\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "5",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"daily\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"MainMenu\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuBack"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"run\""
           ]
         }
       ],
@@ -1966,6 +2190,16 @@
             "\"chars\"",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"daily\""
+          ]
         }
       ],
       "actions": [
@@ -1975,7 +2209,7 @@
           },
           "parameters": [
             "",
-            "\"RunSelection\"",
+            "\"MainMenu\"",
             ""
           ]
         }

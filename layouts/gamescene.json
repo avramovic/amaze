@@ -323,6 +323,12 @@
       "persistentUuid": "f260b3dc-001d-4343-8f72-335c362a183e",
       "type": "number",
       "value": 80
+    },
+    {
+      "name": "DailyT",
+      "persistentUuid": "4a935f2b-3713-4f0e-8fa5-1ada8bf4c8d1",
+      "type": "number",
+      "value": 0
     }
   ],
   "instances": [
@@ -437,6 +443,23 @@
       "x": 416,
       "y": 416,
       "zOrder": 6,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": true,
+      "depth": 1,
+      "height": 651,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "DailyTimerText",
+      "persistentUuid": "9a9edaa8-4e53-445f-bb04-0527e5b68183",
+      "width": 604,
+      "x": 540,
+      "y": 16,
+      "zOrder": 5,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -13156,6 +13179,50 @@
           }
         ]
       }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "DailyTimerText",
+      "persistentUuid": "0e59a603-908b-4aab-ab6a-15a77eeb931b",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 36,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 36,
+        "lineHeight": 0,
+        "color": "255;255;255"
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -13464,6 +13531,9 @@
       },
       {
         "objectName": "Smoke"
+      },
+      {
+        "objectName": "DailyTimerText"
       }
     ]
   },
@@ -13594,6 +13664,151 @@
             "=",
             "Players.Angle()+90"
           ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Daily challenge: 20 x 20 maze, fixed level, a timer that runs while the game does (it stops in the pause menu)."
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"daily\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "Blocks",
+            "=",
+            "Amaze::DailyBlocks()"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "DailyT",
+            "=",
+            "0"
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::DailyStart"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "console.log('[Daily] ' + gdjs.amazeUpg.dailyDate(runtimeScene.getGame()) + ' seed ' + runtimeScene.getGame().getVariables().get('RunSeed').getAsNumber() + ' level ' + runtimeScene.getGame().getVariables().get('Level').getAsNumber());"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"daily\""
+          ]
+        },
+        {
+          "type": {
+            "value": "Health::Health::IsDead",
+            "inverted": true
+          },
+          "parameters": [
+            "Players",
+            "Health",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "DailyT",
+            "+",
+            "TimeDelta()"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"daily\""
+          ]
+        }
+      ],
+      "actions": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "const t = runtimeScene.getVariables().get('DailyT').getAsNumber();",
+            "const w = runtimeScene.getGame().getGameResolutionWidth();",
+            "runtimeScene.getObjects('DailyTimerText').forEach((o) => { o.setText(G ? G.formatTime(t) : ''); o.setX((w - o.getWidth()) / 2); });"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
         }
       ]
     },
@@ -17665,6 +17880,16 @@
                     "",
                     ""
                   ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "GameMode",
+                    "=",
+                    "\"run\""
+                  ]
                 }
               ],
               "actions": [
@@ -17705,6 +17930,102 @@
                     "RunId",
                     "=",
                     "Amaze::NewRunId()"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Scene"
+                  },
+                  "parameters": [
+                    "",
+                    "\"GameScene\"",
+                    ""
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "PlayerInput::LastDeviceIs"
+                      },
+                      "parameters": [
+                        "",
+                        "\"P1\"",
+                        "\"Keyboard\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "MousePointerLock::RequestPointerLock"
+                      },
+                      "parameters": [
+                        "",
+                        ""
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "PlayerInput::MenuConfirmed"
+                  },
+                  "parameters": [
+                    "",
+                    "\"pause\"",
+                    "0",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "DeathScreen",
+                    "True",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "inverted": true,
+                    "value": "Amaze::HasSecondChance"
+                  },
+                  "parameters": [
+                    "",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "GameMode",
+                    "=",
+                    "\"daily\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Amaze::NewRun"
+                  },
+                  "parameters": [
+                    "",
+                    ""
                   ]
                 },
                 {
@@ -17820,6 +18141,16 @@
                     "1",
                     ""
                   ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "GameMode",
+                    "=",
+                    "\"run\""
+                  ]
                 }
               ],
               "actions": [
@@ -17848,6 +18179,62 @@
                   "parameters": [
                     "",
                     "\"RunSelection\"",
+                    ""
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "PlayerInput::MenuConfirmed"
+                  },
+                  "parameters": [
+                    "",
+                    "\"pause\"",
+                    "1",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BuiltinCommonInstructions::CompareStrings"
+                  },
+                  "parameters": [
+                    "GameMode",
+                    "=",
+                    "\"daily\""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "MousePointerLock::ExitPointerLock"
+                  },
+                  "parameters": [
+                    "",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "ChangeTimeScale"
+                  },
+                  "parameters": [
+                    "",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Scene"
+                  },
+                  "parameters": [
+                    "",
+                    "\"MainMenu\"",
                     ""
                   ]
                 }
@@ -18627,6 +19014,16 @@
             "value": "BuiltinCommonInstructions::Once"
           },
           "parameters": []
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"run\""
+          ]
         }
       ],
       "actions": [
@@ -18668,6 +19065,70 @@
           "parameters": [
             "",
             "\"GameScene\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "Distance"
+          },
+          "parameters": [
+            "Players",
+            "PortalVortex",
+            "100",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::Once"
+          },
+          "parameters": []
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareStrings"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"daily\""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "DailyTime",
+            "=",
+            "DailyT"
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::DailyFinish"
+          },
+          "parameters": [
+            "",
+            "DailyT",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"DailyResult\"",
             ""
           ]
         }

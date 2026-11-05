@@ -1392,6 +1392,30 @@
           "value": "Astronaut_Rae_The_Red_Panda"
         }
       ]
+    },
+    {
+      "name": "GameMode",
+      "persistentUuid": "5103f38d-2f34-4f01-837b-891dd08ce4c3",
+      "type": "string",
+      "value": "run"
+    },
+    {
+      "name": "DailyTime",
+      "persistentUuid": "5d1b1dbd-b16e-4faf-9a68-65fb9a23f9ad",
+      "type": "number",
+      "value": 0
+    },
+    {
+      "name": "DailyLeaderboardId",
+      "persistentUuid": "b01fbdc9-e338-44fe-b5ad-ce1a092876cb",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "DailyDateOverride",
+      "persistentUuid": "7a80b07e-3b7e-4ca3-9a40-00ccfb36278a",
+      "type": "string",
+      "value": ""
     }
   ],
   "layouts": [
@@ -1410,6 +1434,10 @@
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/layouts/gamescene"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/layouts/dailyresult"
     }
   ],
   "layoutsFolderStructure": {
@@ -1426,6 +1454,9 @@
       },
       {
         "itemName": "GameScene"
+      },
+      {
+        "itemName": "DailyResult"
       }
     ]
   },

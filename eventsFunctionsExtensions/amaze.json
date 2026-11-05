@@ -1238,8 +1238,8 @@
           "inlineCode": [
             "// aMAZE upgrade cards: run-wide player upgrades that persist between levels (gdjs.amazeUpg.U survives scene",
             "// changes), seeded chest offers, the 3D card UI, melee, chain shots, reflect, orbitals and the shield bubble.",
-            "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 12) return;",
-            "const G = (gdjs.amazeUpg = { version: 12 });",
+            "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 13) return;",
+            "const G = (gdjs.amazeUpg = { version: 13 });",
             "",
             "G.BASE = { speed: 300, speedCap: 700, shot: 10, life: 0.5, melee: 10, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 1000, orbitalCap: 4, orbCd: 30, orbCdMin: 10, orbCdCard: 1, rankXP: 10,",
             "    // crit / shooting / survival basics",
@@ -2951,6 +2951,57 @@
             "        case 'lives': { const u = r.players && r.players[0] && r.players[0].upg; return u ? (u.lives || 0) : 0; }",
             "        default: return '';",
             "    }",
+            "};",
+            "",
+            "// ---- daily challenge: the same maze for everybody on a UTC day. Results stay on this machine (localStorage 'aMAZE.daily').",
+            "G.BASE.dailyLevel = 10;   // difficulty of the daily level (enemies, scaling, card rarity)",
+            "G.BASE.dailyBlocks = 20;  // 20 x 20 cells",
+            "G.DAILY_KEY = 'aMAZE.daily';",
+            "G.dailyDate = function (game) { // UTC date as YYYY-MM-DD; the global DailyDateOverride (same format) is for testing",
+            "    try {",
+            "        const v = game && game.getVariables();",
+            "        if (v && v.has('DailyDateOverride')) { const s = String(v.get('DailyDateOverride').getAsString()); if (/^\\d{4}-\\d{2}-\\d{2}$/.test(s)) return s; }",
+            "    } catch (e) { /* no override */ }",
+            "    const d = new Date();",
+            "    const p = function (n) { return (n < 10 ? '0' : '') + n; };",
+            "    return d.getUTCFullYear() + '-' + p(d.getUTCMonth() + 1) + '-' + p(d.getUTCDate());",
+            "};",
+            "G.dailySeed = function (date) { // 1..999999, mixed so that neighbouring days look unrelated",
+            "    const m = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(String(date));",
+            "    if (!m) return 1;",
+            "    return G.hash(parseInt(m[1], 10), parseInt(m[2], 10), parseInt(m[3], 10), 20260101) % 999999 + 1;",
+            "};",
+            "G.readDaily = function () {",
+            "    try { const o = JSON.parse(window.localStorage.getItem(G.DAILY_KEY) || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; }",
+            "};",
+            "G.writeDaily = function (o) {",
+            "    try { window.localStorage.setItem(G.DAILY_KEY, JSON.stringify(o)); return true; } catch (e) { console.warn('[Daily] could not save', e); return false; }",
+            "};",
+            "G.dailyDay = function (o, date) {",
+            "    o.days = o.days || {};",
+            "    return o.days[date] || (o.days[date] = { best: 0, attempts: 0 });",
+            "};",
+            "G.dailyBestOf = function (date) { const d = (G.readDaily().days || {})[date]; return d && d.best > 0 ? d.best : 0; };",
+            "G.dailyAttemptsOf = function (date) { const d = (G.readDaily().days || {})[date]; return d ? (d.attempts || 0) : 0; };",
+            "G.dailyStart = function (date) { const o = G.readDaily(); G.dailyDay(o, date).attempts++; G.writeDaily(o); };",
+            "G.dailyFinish = function (date, sec) {",
+            "    sec = Number(sec);",
+            "    if (!(sec > 0)) return;",
+            "    const o = G.readDaily();",
+            "    const d = G.dailyDay(o, date);",
+            "    d.best = d.best > 0 ? Math.min(d.best, sec) : sec;",
+            "    G.writeDaily(o);",
+            "};",
+            "G.playerName = function () { // stable nickname for the leaderboard (Latin letters, digits, - _ |, at most 30 characters)",
+            "    const o = G.readDaily();",
+            "    let n = String(o.name || '').replace(/[^A-Za-z0-9_|-]/g, '').slice(0, 30);",
+            "    if (!n) { n = 'Player' + (10000 + Math.floor(Math.random() * 90000)); o.name = n; G.writeDaily(o); }",
+            "    return n;",
+            "};",
+            "G.formatTime = function (sec) {",
+            "    sec = Math.max(0, Number(sec) || 0);",
+            "    const m = Math.floor(sec / 60), s = sec - m * 60;",
+            "    return m + ':' + (s < 10 ? '0' : '') + s.toFixed(2);",
             "};",
             ""
           ],
@@ -6050,6 +6101,273 @@
         }
       ],
       "objectGroups": []
+    },
+    {
+      "description": "Today's UTC date (YYYY-MM-DD), or the global DailyDateOverride when it is set (for testing).",
+      "fullName": "Daily challenge date",
+      "functionType": "StringExpression",
+      "name": "DailyDate",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.dailyDate(runtimeScene.getGame()) : '';"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "string"
+      }
+    },
+    {
+      "description": "Run seed of the daily challenge: the same number for everybody on the same UTC day.",
+      "fullName": "Daily challenge seed",
+      "functionType": "Expression",
+      "name": "DailySeed",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.dailySeed(G.dailyDate(runtimeScene.getGame())) : 1;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Level (difficulty) of the daily challenge.",
+      "fullName": "Daily challenge level",
+      "functionType": "Expression",
+      "name": "DailyLevel",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.BASE.dailyLevel : 10;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Maze size of the daily challenge in blocks (20 = 20 x 20).",
+      "fullName": "Daily challenge maze size",
+      "functionType": "Expression",
+      "name": "DailyBlocks",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.BASE.dailyBlocks : 20;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Best time of today's daily on this machine, in seconds (0 = not finished yet).",
+      "fullName": "Daily best time",
+      "functionType": "Expression",
+      "name": "DailyBest",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.dailyBestOf(G.dailyDate(runtimeScene.getGame())) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Number of attempts at today's daily on this machine.",
+      "fullName": "Daily attempts",
+      "functionType": "Expression",
+      "name": "DailyAttempts",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.dailyAttemptsOf(G.dailyDate(runtimeScene.getGame())) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "expression"
+      }
+    },
+    {
+      "description": "Stable nickname used on the leaderboard.",
+      "fullName": "Player nickname",
+      "functionType": "StringExpression",
+      "name": "PlayerName",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.playerName() : 'Player';"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "string"
+      }
+    },
+    {
+      "description": "Seconds as m:ss.cc.",
+      "fullName": "Format a time",
+      "functionType": "StringExpression",
+      "name": "FormatTime",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.formatTime(eventsFunctionContext.getArgument('Seconds')) : '';"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Seconds",
+          "name": "Seconds",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": [],
+      "expressionType": {
+        "type": "string"
+      }
+    },
+    {
+      "description": "Counts a new attempt at today's daily.",
+      "fullName": "Start a daily attempt",
+      "functionType": "Action",
+      "name": "DailyStart",
+      "sentence": "Count an attempt at today's daily",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.dailyStart(G.dailyDate(runtimeScene.getGame()));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Stores the time if it is the best of today.",
+      "fullName": "Finish the daily",
+      "functionType": "Action",
+      "name": "DailyFinish",
+      "sentence": "Store the daily time _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.dailyFinish(G.dailyDate(runtimeScene.getGame()), eventsFunctionContext.getArgument('Seconds'));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Time in seconds",
+          "name": "Seconds",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Today's daily was finished on this machine.",
+      "fullName": "Daily completed",
+      "functionType": "Condition",
+      "name": "DailyCompleted",
+      "sentence": "Today's daily was completed",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = !!G && G.dailyBestOf(G.dailyDate(runtimeScene.getGame())) > 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
     }
   ],
   "eventsFunctionsFolderStructure": {
@@ -6315,6 +6633,39 @@
       },
       {
         "functionName": "ModelText"
+      },
+      {
+        "functionName": "DailyDate"
+      },
+      {
+        "functionName": "DailySeed"
+      },
+      {
+        "functionName": "DailyLevel"
+      },
+      {
+        "functionName": "DailyBlocks"
+      },
+      {
+        "functionName": "DailyBest"
+      },
+      {
+        "functionName": "DailyAttempts"
+      },
+      {
+        "functionName": "PlayerName"
+      },
+      {
+        "functionName": "FormatTime"
+      },
+      {
+        "functionName": "DailyStart"
+      },
+      {
+        "functionName": "DailyFinish"
+      },
+      {
+        "functionName": "DailyCompleted"
       }
     ]
   },

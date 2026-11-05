@@ -34,6 +34,9 @@
           "name": "SinglePlayerText"
         },
         {
+          "name": "DailyText"
+        },
+        {
           "name": "CoopText"
         },
         {
@@ -93,7 +96,7 @@
       "persistentUuid": "3f7230b9-4ba4-4dbf-be7f-27bf40b4fcd5",
       "width": 0,
       "x": 74,
-      "y": 254,
+      "y": 324,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -109,7 +112,7 @@
       "persistentUuid": "666b5b13-1d22-4a1d-ab21-1957077a0bea",
       "width": 0,
       "x": 74,
-      "y": 324,
+      "y": 394,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -125,7 +128,7 @@
       "persistentUuid": "1fd9a944-c645-46e8-89ec-4180871d85b0",
       "width": 0,
       "x": 74,
-      "y": 394,
+      "y": 464,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -141,7 +144,7 @@
       "persistentUuid": "bdfe63f1-3433-4662-becd-a1bcab9028e6",
       "width": 0,
       "x": 74,
-      "y": 464,
+      "y": 534,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -160,6 +163,22 @@
       "y": 450,
       "z": 35,
       "zOrder": 3,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "DailyText",
+      "persistentUuid": "d968dfe2-c49f-4da3-a83a-e3cb2268624c",
+      "width": 0,
+      "x": 74,
+      "y": 254,
+      "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -360,7 +379,7 @@
           "name": "Index",
           "persistentUuid": "092afe39-32b5-482b-8cc0-41625d491f7e",
           "type": "number",
-          "value": 1
+          "value": 2
         },
         {
           "name": "Enabled",
@@ -417,7 +436,7 @@
           "name": "Index",
           "persistentUuid": "54e09ade-e175-4334-9154-39a08afe03c8",
           "type": "number",
-          "value": 2
+          "value": 3
         },
         {
           "name": "Enabled",
@@ -474,7 +493,7 @@
           "name": "Index",
           "persistentUuid": "0056b8b5-c1f2-49ed-9402-79d577eb562b",
           "type": "number",
-          "value": 3
+          "value": 4
         },
         {
           "name": "Enabled",
@@ -531,7 +550,7 @@
           "name": "Index",
           "persistentUuid": "e299d1fe-2858-416e-b00a-2b6dc1b68ee4",
           "type": "number",
-          "value": 4
+          "value": 5
         },
         {
           "name": "Enabled",
@@ -599,6 +618,63 @@
         "width": 15,
         "animations": []
       }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "DailyText",
+      "persistentUuid": "a69475f1-f508-48e8-b6f8-0221b8739a3e",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "7f7f5ac7-8d3b-4668-956b-0869519ebc2f",
+          "type": "number",
+          "value": 1
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "a5402d80-e584-4417-9ab9-18bb81d13ce5",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "DAILY CHALLENGE",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "DAILY CHALLENGE",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -624,6 +700,9 @@
       },
       {
         "objectName": "Camera_Target"
+      },
+      {
+        "objectName": "DailyText"
       }
     ]
   },
@@ -808,6 +887,31 @@
             "0",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "SetStringVariable"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"run\""
+          ]
+        }
+      ],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "// the daily challenge shows when today's one was already finished on this machine",
+            "const G = gdjs.amazeUpg;",
+            "if (!G) return;",
+            "const best = G.dailyBestOf(G.dailyDate(runtimeScene.getGame()));",
+            "runtimeScene.getObjects('DailyText').forEach((o) => o.setText(best > 0 ? 'DAILY CHALLENGE  [DONE ' + G.formatTime(best) + ']' : 'DAILY CHALLENGE'));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
         }
       ]
     },
@@ -870,7 +974,45 @@
           "parameters": [
             "",
             "\"main\"",
-            "4",
+            "1",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetStringVariable"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"daily\""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"CharacterSelection\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"main\"",
+            "5",
             ""
           ]
         }

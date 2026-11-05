@@ -1,0 +1,1400 @@
+{
+  "b": 255,
+  "disableInputWhenNotFocused": true,
+  "mangledName": "DailyResult",
+  "name": "DailyResult",
+  "r": 247,
+  "renderer3DWorldScale": 100,
+  "standardSortMethod": true,
+  "stopSoundsOnStartup": true,
+  "title": "",
+  "v": 249,
+  "uiSettings": {
+    "grid": false,
+    "gridType": "rectangular",
+    "gridWidth": 32,
+    "gridHeight": 32,
+    "gridDepth": 32,
+    "gridOffsetX": 0,
+    "gridOffsetY": 0,
+    "gridOffsetZ": 0,
+    "gridColor": 10401023,
+    "gridAlpha": 0.8,
+    "snap": false,
+    "zoomFactor": 0.546875,
+    "windowMask": false,
+    "selectedLayer": "",
+    "gameEditorMode": "instances-editor"
+  },
+  "objectsGroups": [
+    {
+      "name": "DailyItems",
+      "objects": [
+        {
+          "name": "LeaderboardText"
+        },
+        {
+          "name": "PlayAgainText"
+        },
+        {
+          "name": "DailyBackText"
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "BoardOpen",
+      "persistentUuid": "c3681fb6-97e9-4d2c-a2ff-6bdfa07f9666",
+      "type": "boolean",
+      "value": false
+    }
+  ],
+  "instances": [
+    {
+      "angle": 90,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "",
+      "name": "Astronaut_Fernando_The_Flamingo",
+      "persistentUuid": "a4750024-204e-4345-acac-3acf5b372342",
+      "width": 0,
+      "x": 1086,
+      "y": 452,
+      "z": 5,
+      "zOrder": 2,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "TitleText",
+      "persistentUuid": "bb6a6166-dac2-4083-8537-2ac04ae5e23d",
+      "x": 74,
+      "y": 100
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "DateText",
+      "persistentUuid": "fd4f6ee1-313b-495a-aad0-9a99ca27984c",
+      "x": 74,
+      "y": 160
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "TimeText",
+      "persistentUuid": "b747e593-7f4f-40eb-9625-77fa6620f9bd",
+      "x": 74,
+      "y": 215
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "BestText",
+      "persistentUuid": "f1f4ea20-346e-41f8-b964-fa3383c877bc",
+      "x": 74,
+      "y": 270
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "AttemptsText",
+      "persistentUuid": "b5c387c8-1c50-47a9-b9ab-756c58b3730b",
+      "x": 74,
+      "y": 310
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "StatusText",
+      "persistentUuid": "c4a34be9-61f0-43a2-b368-f396fb497a02",
+      "x": 74,
+      "y": 352
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "LeaderboardText",
+      "persistentUuid": "6cb94ba9-7215-4b3a-ac21-90cfed0d300d",
+      "x": 74,
+      "y": 430
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "PlayAgainText",
+      "persistentUuid": "76bc1d26-5cf4-4e11-a4b8-fec5ec0da4c9",
+      "x": 74,
+      "y": 490
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "width": 0,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": [],
+      "name": "DailyBackText",
+      "persistentUuid": "27b4f097-f72c-4c2b-8236-0a2d0dc859ea",
+      "x": 74,
+      "y": 550
+    }
+  ],
+  "objects": [
+    {
+      "assetStoreId": "",
+      "name": "Astronaut_Fernando_The_Flamingo",
+      "persistentUuid": "978a21f9-8444-478f-9ba5-bf6a3022cfe4",
+      "type": "Scene3D::Model3DObject",
+      "variables": [
+        {
+          "name": "waveTime",
+          "type": "number",
+          "value": 5
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 100,
+        "height": 100,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Astronaut Fernando The Flamingo.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 90,
+        "rotationY": 0,
+        "rotationZ": 90,
+        "width": 100,
+        "animations": [
+          {
+            "loop": false,
+            "name": "Death",
+            "source": "Death"
+          },
+          {
+            "loop": false,
+            "name": "Duck",
+            "source": "Duck"
+          },
+          {
+            "loop": false,
+            "name": "HitReact",
+            "source": "HitReact"
+          },
+          {
+            "loop": true,
+            "name": "Idle",
+            "source": "Idle"
+          },
+          {
+            "loop": true,
+            "name": "Idle_Gun",
+            "source": "Idle_Gun"
+          },
+          {
+            "loop": false,
+            "name": "Jump",
+            "source": "Jump"
+          },
+          {
+            "loop": false,
+            "name": "Jump_Idle",
+            "source": "Jump_Idle"
+          },
+          {
+            "loop": false,
+            "name": "Jump_Land",
+            "source": "Jump_Land"
+          },
+          {
+            "loop": false,
+            "name": "No",
+            "source": "No"
+          },
+          {
+            "loop": false,
+            "name": "Punch",
+            "source": "Punch"
+          },
+          {
+            "loop": false,
+            "name": "Run",
+            "source": "Run"
+          },
+          {
+            "loop": false,
+            "name": "Run_Gun",
+            "source": "Run_Gun"
+          },
+          {
+            "loop": false,
+            "name": "Run_Gun_Shoot",
+            "source": "Run_Gun_Shoot"
+          },
+          {
+            "loop": false,
+            "name": "Walk",
+            "source": "Walk"
+          },
+          {
+            "loop": false,
+            "name": "Walk_Gun",
+            "source": "Walk_Gun"
+          },
+          {
+            "loop": false,
+            "name": "Wave",
+            "source": "Wave"
+          },
+          {
+            "loop": false,
+            "name": "Weapon",
+            "source": "Weapon"
+          },
+          {
+            "loop": false,
+            "name": "Yes",
+            "source": "Yes"
+          }
+        ]
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "TitleText",
+      "persistentUuid": "d498b638-b0dd-4c2d-b371-172fb27a1436",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "DAILY CHALLENGE",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 46,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "DAILY CHALLENGE",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 46,
+        "lineHeight": 0,
+        "color": "255;255;255"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "DateText",
+      "persistentUuid": "d3db7c06-1486-4980-9fc8-3a3b0075998b",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 28,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 28,
+        "lineHeight": 0,
+        "color": "255;255;255"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "TimeText",
+      "persistentUuid": "2191db3c-0ca6-4af0-9065-f0162e640457",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "r": 110,
+        "g": 230,
+        "b": 130
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "110;230;130"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "BestText",
+      "persistentUuid": "cd1a4443-341e-4698-a813-a25c4a559c2a",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 28,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 28,
+        "lineHeight": 0,
+        "color": "255;255;255"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "AttemptsText",
+      "persistentUuid": "954094fc-6e94-4728-95c0-10575c1aa195",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 28,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 28,
+        "lineHeight": 0,
+        "color": "255;255;255"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "StatusText",
+      "persistentUuid": "bdb1dc9a-c7e0-48b9-a191-93a889f6ebb6",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 22,
+      "color": {
+        "r": 200,
+        "g": 200,
+        "b": 200
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 22,
+        "lineHeight": 0,
+        "color": "200;200;200"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "LeaderboardText",
+      "persistentUuid": "7cf771d5-9204-4904-813f-027afa409f44",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "51534784-2977-4b42-b083-5f266a8ddd5e",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "171368e5-7c17-4ea2-9f26-b9304d1a4494",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "LEADERBOARD",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "LEADERBOARD",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "PlayAgainText",
+      "persistentUuid": "15ec2274-0605-410f-bc29-fa58cb965cc1",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "11324b41-9373-46ba-917f-06c37aa45155",
+          "type": "number",
+          "value": 1
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "8fa91c81-9a02-419b-8e84-5d9932c869c6",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "PLAY AGAIN",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "PLAY AGAIN",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "DailyBackText",
+      "persistentUuid": "998faeef-c19b-40d0-8aa8-1ab6d03df12e",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "d2391da4-548c-4292-aace-93d508a4c521",
+          "type": "number",
+          "value": 2
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "75167bb6-6e8d-4438-8ac3-37dd6f0e7303",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "BACK TO MENU",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "BACK TO MENU",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    }
+  ],
+  "objectsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+      {
+        "objectName": "Astronaut_Fernando_The_Flamingo"
+      },
+      {
+        "objectName": "TitleText"
+      },
+      {
+        "objectName": "DateText"
+      },
+      {
+        "objectName": "TimeText"
+      },
+      {
+        "objectName": "BestText"
+      },
+      {
+        "objectName": "AttemptsText"
+      },
+      {
+        "objectName": "StatusText"
+      },
+      {
+        "objectName": "LeaderboardText"
+      },
+      {
+        "objectName": "PlayAgainText"
+      },
+      {
+        "objectName": "DailyBackText"
+      }
+    ]
+  },
+  "events": [
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "ThirdPersonCamera::LookFromDistanceAtObject3D"
+          },
+          "parameters": [
+            "",
+            "Astronaut_Fernando_The_Flamingo",
+            "Object3D",
+            "100",
+            "0",
+            "0",
+            "\"\"",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "Animation",
+            "=",
+            "\"Idle\""
+          ]
+        },
+        {
+          "type": {
+            "value": "ResetObjectTimer"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "\"waveTimer\""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "CompareObjectTimer"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "\"waveTimer\"",
+            ">=",
+            "Astronaut_Fernando_The_Flamingo.waveTime"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "Animation",
+            "=",
+            "\"Wave\""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberObjectVariable"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "waveTime",
+            "=",
+            "RandomInRange(3,10)"
+          ]
+        },
+        {
+          "type": {
+            "value": "ResetObjectTimer"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "\"waveTimer\""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::Name"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "Animation",
+            "=",
+            "\"Wave\""
+          ]
+        },
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::HasAnimationEnded"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "Animation"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+          },
+          "parameters": [
+            "Astronaut_Fernando_The_Flamingo",
+            "Animation",
+            "=",
+            "\"Idle\""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Result of the daily challenge. The time goes to the leaderboard when DailyLeaderboardId is set; the best time and the attempts stay on this machine."
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuSelect"
+          },
+          "parameters": [
+            "",
+            "\"daily\"",
+            "1",
+            ""
+          ]
+        }
+      ],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "const game = runtimeScene.getGame();",
+            "const gv = game.getVariables();",
+            "const date = G.dailyDate(game);",
+            "const time = gv.get('DailyTime').getAsNumber();",
+            "const id = String(gv.get('DailyLeaderboardId').getAsString() || '');",
+            "const name = G.playerName();",
+            "const best = G.dailyBestOf(date);",
+            "const set = (n, t) => runtimeScene.getObjects(n).forEach((o) => o.setText(t));",
+            "set('DateText', date + '  (UTC)');",
+            "set('TimeText', 'TIME  ' + G.formatTime(time));",
+            "set('BestText', 'BEST  ' + G.formatTime(best) + (time > 0 && Math.abs(time - best) < 1e-6 ? '   NEW BEST!' : ''));",
+            "set('AttemptsText', 'ATTEMPTS  ' + G.dailyAttemptsOf(date));",
+            "runtimeScene.getObjects('LeaderboardText').forEach((o) => o.getVariables().get('Enabled').setNumber(id ? 1 : 0));",
+            "const L = gdjs.evtTools && gdjs.evtTools.leaderboards;",
+            "if (!id) set('StatusText', 'LEADERBOARD NOT SET UP');",
+            "else if (!L || !(time > 0)) set('StatusText', '');",
+            "else {",
+            "    try { L.savePlayerScore(runtimeScene, id, time, name); set('StatusText', 'SCORE SENT AS ' + name); }",
+            "    catch (e) { console.warn('[Daily] leaderboard', e); set('StatusText', 'COULD NOT SEND THE SCORE'); }",
+            "}"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BooleanVariable",
+            "inverted": true
+          },
+          "parameters": [
+            "BoardOpen",
+            "True",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuUpdate"
+          },
+          "parameters": [
+            "",
+            "\"daily\"",
+            "DailyItems",
+            "\"vertical\"",
+            "\"255;210;60\"",
+            "\"255;255;255\"",
+            "\"150;150;150\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"daily\"",
+            "0",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetBooleanVariable"
+          },
+          "parameters": [
+            "BoardOpen",
+            "True"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const id = String(runtimeScene.getGame().getVariables().get('DailyLeaderboardId').getAsString() || '');",
+            "const L = gdjs.evtTools && gdjs.evtTools.leaderboards;",
+            "let ok = false;",
+            "try { if (L && id) { L.displayLeaderboard(runtimeScene, id, true); ok = true; } } catch (e) { console.warn('[Daily] leaderboard', e); }",
+            "if (!ok) runtimeScene.getVariables().get('BoardOpen').setBoolean(false);"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "BoardOpen",
+            "True",
+            ""
+          ]
+        }
+      ],
+      "actions": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const L = gdjs.evtTools && gdjs.evtTools.leaderboards;",
+            "if (!L || (L.hasPlayerJustClosedLeaderboardView && L.hasPlayerJustClosedLeaderboardView())) runtimeScene.getVariables().get('BoardOpen').setBoolean(false);"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"daily\"",
+            "1",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::NewRun"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"GameScene\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"daily\"",
+            "2",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"MainMenu\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuBack"
+          },
+          "parameters": [
+            "",
+            "\"daily\"",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"MainMenu\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::JsCode",
+      "inlineCode": [
+        "//const o = eventsFunctionContext.getObjects(\"Object\")[0];",
+        "const o = objects[0];",
+        "  if (!o) return;",
+        "",
+        "  const norm = (s) => String(s).replace(/[^A-Za-z0-9]/g, '');                                                                                                                                                                           ",
+        "  const target = norm(\"Pistol\"); // ime noda pistolja u modelu",
+        "",
+        "  // Model se učitava asinhrono, pa se čvor traži dok ne postoji",
+        "  let gun = o.__gunNode;",
+        "  const root = o.get3DRendererObject();",
+        "  const attached = (n) => { for (let p = n; p; p = p.parent) if (p === root) return true; return false; };",
+        "  if (!gun || !attached(gun)) {",
+        "    gun = null;",
+        "    if (root && root.traverse) root.traverse((n) => { if (!gun && norm(n.name) === target) gun = n; });",
+        "    o.__gunNode = gun;",
+        "  }",
+        "  if (gun && gun.visible) gun.visible = false;"
+      ],
+      "parameterObjects": "Astronaut_Fernando_The_Flamingo",
+      "useStrict": true,
+      "eventsSheetExpanded": false
+    }
+  ],
+  "layers": [
+    {
+      "ambientLightColorB": 200,
+      "ambientLightColorG": 200,
+      "ambientLightColorR": 200,
+      "camera2DPlaneMaxDrawingDistance": 5000,
+      "camera3DFarPlaneDistance": 10000,
+      "camera3DFieldOfView": 45,
+      "camera3DNearPlaneDistance": 3,
+      "cameraType": "",
+      "followBaseLayerCamera": false,
+      "isLightingLayer": false,
+      "isLocked": false,
+      "name": "",
+      "renderingType": "",
+      "visibility": true,
+      "cameras": [
+        {
+          "defaultSize": true,
+          "defaultViewport": true,
+          "height": 0,
+          "viewportBottom": 1,
+          "viewportLeft": 0,
+          "viewportRight": 1,
+          "viewportTop": 0,
+          "width": 0
+        }
+      ],
+      "effects": [
+        {
+          "effectType": "Scene3D::HemisphereLight",
+          "name": "3D Ambient Hemisphere Light",
+          "doubleParameters": {
+            "elevation": 40,
+            "intensity": 0.33,
+            "rotation": 300
+          },
+          "stringParameters": {
+            "groundColor": "127;127;127",
+            "skyColor": "255;255;255",
+            "top": "Z+"
+          },
+          "booleanParameters": {}
+        },
+        {
+          "effectType": "Scene3D::DirectionalLight",
+          "name": "3D Sun Light",
+          "doubleParameters": {
+            "distanceFromCamera": 1500,
+            "elevation": 40,
+            "frustumSize": 4000,
+            "intensity": 0.75,
+            "minimumShadowBias": 0,
+            "rotation": 300,
+            "shadowDistance": 2000,
+            "shadowNormalBias": 1
+          },
+          "stringParameters": {
+            "color": "255;255;255",
+            "shadowQuality": "medium",
+            "shadowRenderingMode": "fittedToCameraView",
+            "top": "Z+"
+          },
+          "booleanParameters": {
+            "isCastingShadow": true
+          }
+        }
+      ]
+    },
+    {
+      "ambientLightColorB": 200,
+      "ambientLightColorG": 200,
+      "ambientLightColorR": 200,
+      "camera2DPlaneMaxDrawingDistance": 5000,
+      "camera3DFarPlaneDistance": 10000,
+      "camera3DFieldOfView": 45,
+      "camera3DNearPlaneDistance": 3,
+      "cameraType": "",
+      "followBaseLayerCamera": false,
+      "isLightingLayer": false,
+      "isLocked": false,
+      "name": "UI",
+      "renderingType": "",
+      "visibility": true,
+      "cameras": [],
+      "effects": [
+        {
+          "effectType": "Scene3D::HemisphereLight",
+          "name": "3D Ambient Hemisphere Light",
+          "doubleParameters": {
+            "elevation": 40,
+            "intensity": 0.33,
+            "rotation": 300
+          },
+          "stringParameters": {
+            "groundColor": "127;127;127",
+            "skyColor": "255;255;255",
+            "top": "Z+"
+          },
+          "booleanParameters": {}
+        },
+        {
+          "effectType": "Scene3D::DirectionalLight",
+          "name": "3D Sun Light",
+          "doubleParameters": {
+            "distanceFromCamera": 1500,
+            "elevation": 40,
+            "frustumSize": 4000,
+            "intensity": 0.75,
+            "minimumShadowBias": 0,
+            "rotation": 300,
+            "shadowDistance": 2000,
+            "shadowNormalBias": 1
+          },
+          "stringParameters": {
+            "color": "255;255;255",
+            "shadowQuality": "medium",
+            "shadowRenderingMode": "fittedToCameraView",
+            "top": "Z+"
+          },
+          "booleanParameters": {
+            "isCastingShadow": true
+          }
+        }
+      ]
+    }
+  ],
+  "behaviorsSharedData": [
+    {
+      "name": "Animation",
+      "type": "AnimatableCapability::AnimatableBehavior"
+    },
+    {
+      "name": "Effect",
+      "type": "EffectCapability::EffectBehavior"
+    },
+    {
+      "name": "Flippable",
+      "type": "FlippableCapability::FlippableBehavior"
+    },
+    {
+      "name": "Object3D",
+      "type": "Scene3D::Base3DBehavior"
+    },
+    {
+      "name": "Opacity",
+      "type": "OpacityCapability::OpacityBehavior"
+    },
+    {
+      "name": "Resizable",
+      "type": "ResizableCapability::ResizableBehavior"
+    },
+    {
+      "name": "Scale",
+      "type": "ScalableCapability::ScalableBehavior"
+    },
+    {
+      "name": "Text",
+      "type": "TextContainerCapability::TextContainerBehavior"
+    }
+  ]
+}

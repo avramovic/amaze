@@ -650,6 +650,16 @@
             "0",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "SetStringVariable"
+          },
+          "parameters": [
+            "GameMode",
+            "=",
+            "\"run\""
+          ]
         }
       ],
       "events": [
