@@ -1075,7 +1075,8 @@
           "MetaDamageBonus": 0,
           "Luck": 0.2,
           "BaseCritPct": 10,
-          "BaseMaxShield": 30
+          "BaseMaxShield": 30,
+          "ModelScale": 1.25
         },
         {
           "name": "PlayerFSM",
@@ -11103,7 +11104,8 @@
           "MetaLevel": 0,
           "MetaDamageBonus": 0,
           "StartsWithJump": true,
-          "BaseSpread": 10
+          "BaseSpread": 10,
+          "ModelScale": 1.25
         },
         {
           "name": "PlayerFSM",
@@ -13050,7 +13052,8 @@
           "JustLeveledUp": false,
           "MetaLevel": 0,
           "MetaDamageBonus": 0,
-          "BaseSpread": 0
+          "BaseSpread": 0,
+          "ModelScale": 1.25
         },
         {
           "name": "PlayerFSM",
