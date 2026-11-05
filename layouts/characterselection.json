@@ -99,7 +99,7 @@
       "persistentUuid": "3ba0c0bb-8813-4c16-9c24-0eeee5e97a6f",
       "width": 0,
       "x": 74,
-      "y": 184,
+      "y": 400,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -114,8 +114,9 @@
       "name": "Astronaut_Fernando_The_Flamingo",
       "persistentUuid": "b6a67dac-d956-4b2e-bbf2-bea0b47e9af4",
       "width": 0,
-      "x": 820,
+      "x": 850,
       "y": 420,
+      "z": 55,
       "zOrder": 2,
       "numberProperties": [],
       "stringProperties": [],
@@ -130,8 +131,9 @@
       "name": "Astronaut_Finn_The_Frog",
       "persistentUuid": "bb039ce6-a784-49f3-b0ef-f9cb8e5d6b6a",
       "width": 0,
-      "x": 940,
+      "x": 1050,
       "y": 420,
+      "z": 55,
       "zOrder": 3,
       "numberProperties": [],
       "stringProperties": [],
@@ -146,8 +148,9 @@
       "name": "Astronaut_Barbara_The_Bee",
       "persistentUuid": "8492550d-7f25-4257-ad43-09ef75c743d4",
       "width": 0,
-      "x": 1180,
+      "x": 1050,
       "y": 420,
+      "z": -155,
       "zOrder": 4,
       "numberProperties": [],
       "stringProperties": [],
@@ -162,8 +165,9 @@
       "name": "Astronaut_Rae_The_Red_Panda",
       "persistentUuid": "6ed5ad5f-e75d-4030-9b8b-1902cc08a2a1",
       "width": 0,
-      "x": 1060,
+      "x": 850,
       "y": 420,
+      "z": -155,
       "zOrder": 5,
       "numberProperties": [],
       "stringProperties": [],
@@ -178,8 +182,8 @@
       "name": "CharButtonFernando",
       "persistentUuid": "2d65de12-03f4-41a8-a977-62f7d302750b",
       "width": 0,
-      "x": 300,
-      "y": 620,
+      "x": 74,
+      "y": 150,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -194,8 +198,8 @@
       "name": "CharButtonFinn",
       "persistentUuid": "1e7f0898-a174-4cae-8cbf-2a226d16e8ad",
       "width": 0,
-      "x": 490,
-      "y": 620,
+      "x": 74,
+      "y": 205,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -210,8 +214,8 @@
       "name": "CharButtonRae",
       "persistentUuid": "485f154d-a201-4403-b621-cbe36019fc8f",
       "width": 0,
-      "x": 680,
-      "y": 620,
+      "x": 74,
+      "y": 260,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -226,8 +230,8 @@
       "name": "CharButtonBarbara",
       "persistentUuid": "779cfff1-91c4-4c64-97cc-09dc4b829407",
       "width": 0,
-      "x": 870,
-      "y": 620,
+      "x": 74,
+      "y": 315,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -243,23 +247,7 @@
       "persistentUuid": "2a5149fc-a262-44eb-a894-8c9acf9c23cf",
       "width": 0,
       "x": 74,
-      "y": 254,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": false,
-      "height": 0,
-      "keepRatio": true,
-      "layer": "UI",
-      "name": "CharNameText",
-      "persistentUuid": "65dbc024-61d8-44d4-b5f0-815aca7d3c4b",
-      "width": 0,
-      "x": 74,
-      "y": 340,
+      "y": 460,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -275,7 +263,7 @@
       "persistentUuid": "c5401eb4-b556-4948-afa7-21b499acfba9",
       "width": 0,
       "x": 74,
-      "y": 420,
+      "y": 540,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -291,7 +279,7 @@
       "persistentUuid": "ff4ade66-bc88-4ff0-bd2a-8052e171ab07",
       "width": 0,
       "x": 74,
-      "y": 470,
+      "y": 585,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
@@ -413,6 +401,12 @@
           "persistentUuid": "b2552c26-b80c-4808-9851-35827359cd47",
           "type": "string",
           "value": "- SMALLER SHIELD (30)"
+        },
+        {
+          "name": "ModelScale",
+          "persistentUuid": "50104cfe-437b-4f70-b3b3-723601a52f1a",
+          "type": "number",
+          "value": 1
         }
       ],
       "effects": [],
@@ -420,8 +414,8 @@
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
-        "depth": 100,
-        "height": 100,
+        "depth": 157,
+        "height": 157,
         "isCastingShadow": true,
         "isReceivingShadow": true,
         "keepAspectRatio": true,
@@ -431,7 +425,7 @@
         "rotationX": 90,
         "rotationY": 0,
         "rotationZ": 90,
-        "width": 100,
+        "width": 157,
         "animations": [
           {
             "loop": false,
@@ -567,6 +561,12 @@
           "persistentUuid": "5ca6729f-edb7-46c6-83e6-fdde268dc581",
           "type": "string",
           "value": "- WIDER SPREAD (10 DEG)"
+        },
+        {
+          "name": "ModelScale",
+          "persistentUuid": "b50b3c8c-3064-4892-adba-0e4f8d473f9b",
+          "type": "number",
+          "value": 1
         }
       ],
       "effects": [],
@@ -574,8 +574,8 @@
       "content": {
         "centerLocation": "CenteredOnZ",
         "crossfadeDuration": 0.10000000149011612,
-        "depth": 100,
-        "height": 100,
+        "depth": 157,
+        "height": 157,
         "isCastingShadow": true,
         "isReceivingShadow": true,
         "keepAspectRatio": true,
@@ -585,7 +585,7 @@
         "rotationX": 90,
         "rotationY": 0,
         "rotationZ": 90,
-        "width": 100,
+        "width": 157,
         "animations": [
           {
             "loop": false,
@@ -720,6 +720,12 @@
           "persistentUuid": "5c5f4b64-2846-4f7f-b71a-8565230fcb02",
           "type": "string",
           "value": "- BIG AND SLOW (250)"
+        },
+        {
+          "name": "ModelScale",
+          "persistentUuid": "a3c335e4-88e7-4c1e-9e16-44c7771948b6",
+          "type": "number",
+          "value": 1.5
         }
       ],
       "effects": [],
@@ -873,6 +879,12 @@
           "persistentUuid": "ee67f6e5-4109-4fb1-b294-91bf924db241",
           "type": "string",
           "value": "- LESS HEALTH (75)"
+        },
+        {
+          "name": "ModelScale",
+          "persistentUuid": "b4757906-3cc3-4f85-a97b-3ada8f467c8b",
+          "type": "number",
+          "value": 1
         }
       ],
       "effects": [],
@@ -1014,7 +1026,7 @@
       "string": "FERNANDO",
       "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
       "textAlignment": "left",
-      "characterSize": 34,
+      "characterSize": 38,
       "color": {
         "b": 0,
         "g": 0,
@@ -1038,7 +1050,7 @@
         "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
         "textAlignment": "left",
         "verticalTextAlignment": "top",
-        "characterSize": 34,
+        "characterSize": 38,
         "lineHeight": 0,
         "color": "0;0;0"
       }
@@ -1071,7 +1083,7 @@
       "string": "FINN",
       "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
       "textAlignment": "left",
-      "characterSize": 34,
+      "characterSize": 38,
       "color": {
         "b": 0,
         "g": 0,
@@ -1095,7 +1107,7 @@
         "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
         "textAlignment": "left",
         "verticalTextAlignment": "top",
-        "characterSize": 34,
+        "characterSize": 38,
         "lineHeight": 0,
         "color": "0;0;0"
       }
@@ -1128,7 +1140,7 @@
       "string": "RAE",
       "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
       "textAlignment": "left",
-      "characterSize": 34,
+      "characterSize": 38,
       "color": {
         "b": 0,
         "g": 0,
@@ -1152,7 +1164,7 @@
         "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
         "textAlignment": "left",
         "verticalTextAlignment": "top",
-        "characterSize": 34,
+        "characterSize": 38,
         "lineHeight": 0,
         "color": "0;0;0"
       }
@@ -1185,7 +1197,7 @@
       "string": "BARBARA",
       "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
       "textAlignment": "left",
-      "characterSize": 34,
+      "characterSize": 38,
       "color": {
         "b": 0,
         "g": 0,
@@ -1209,7 +1221,7 @@
         "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
         "textAlignment": "left",
         "verticalTextAlignment": "top",
-        "characterSize": 34,
+        "characterSize": 38,
         "lineHeight": 0,
         "color": "0;0;0"
       }
@@ -1275,50 +1287,6 @@
       "assetStoreId": "",
       "bold": false,
       "italic": false,
-      "name": "CharNameText",
-      "persistentUuid": "59b44f17-bbc2-4589-92a9-15443a178b54",
-      "smoothed": true,
-      "type": "TextObject::Text",
-      "underlined": false,
-      "variables": [],
-      "effects": [],
-      "behaviors": [],
-      "string": "",
-      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
-      "textAlignment": "left",
-      "characterSize": 52,
-      "color": {
-        "b": 255,
-        "g": 255,
-        "r": 255
-      },
-      "content": {
-        "bold": false,
-        "isOutlineEnabled": true,
-        "isShadowEnabled": false,
-        "italic": false,
-        "outlineColor": "0;0;0",
-        "outlineThickness": 4,
-        "shadowAngle": 90,
-        "shadowBlurRadius": 2,
-        "shadowColor": "0;0;0",
-        "shadowDistance": 4,
-        "shadowOpacity": 127,
-        "smoothed": true,
-        "underlined": false,
-        "text": "",
-        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
-        "textAlignment": "left",
-        "verticalTextAlignment": "top",
-        "characterSize": 52,
-        "lineHeight": 0,
-        "color": "255;255;255"
-      }
-    },
-    {
-      "assetStoreId": "",
-      "bold": false,
-      "italic": false,
       "name": "PerkText",
       "persistentUuid": "0df615a6-45d0-42d3-a390-21996a1ccfa4",
       "smoothed": true,
@@ -1330,7 +1298,7 @@
       "string": "",
       "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
       "textAlignment": "left",
-      "characterSize": 26,
+      "characterSize": 24,
       "color": {
         "b": 130,
         "g": 230,
@@ -1354,7 +1322,7 @@
         "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
         "textAlignment": "left",
         "verticalTextAlignment": "top",
-        "characterSize": 26,
+        "characterSize": 24,
         "lineHeight": 0,
         "color": "110;230;130"
       }
@@ -1374,7 +1342,7 @@
       "string": "",
       "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
       "textAlignment": "left",
-      "characterSize": 26,
+      "characterSize": 24,
       "color": {
         "b": 120,
         "g": 120,
@@ -1398,7 +1366,7 @@
         "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
         "textAlignment": "left",
         "verticalTextAlignment": "top",
-        "characterSize": 26,
+        "characterSize": 24,
         "lineHeight": 0,
         "color": "255;120;120"
       }
@@ -1500,9 +1468,6 @@
         "objectName": "BackText"
       },
       {
-        "objectName": "CharNameText"
-      },
-      {
         "objectName": "PerkText"
       },
       {
@@ -1545,12 +1510,12 @@
           },
           "parameters": [
             "",
-            "1000",
+            "820",
             "420",
-            "50",
-            "330",
             "0",
-            "15",
+            "480",
+            "0",
+            "0",
             "",
             ""
           ]
@@ -2124,14 +2089,14 @@
         "    for (const o of runtimeScene.getObjects(n)) {",
         "        const v = o.getVariables();",
         "        const chosen = v.get('Index').getAsNumber() === sel;",
-        "        const cur = o.__s || 1, target = chosen ? 1.3 : 1;",
+        "        const base = v.has('ModelScale') ? v.get('ModelScale').getAsNumber() : 1;",
+        "        const cur = o.__s || base, target = base * (chosen ? 1.15 : 1);",
         "        o.__s = cur + (target - cur) * Math.min(1, dt * 10);",
         "        if (o.setScale) o.setScale(o.__s);",
         "        if (starting) { if (!S.started) o.setAnimationName(chosen ? 'Yes' : 'No'); }",
         "        else if (S.prev !== sel) o.setAnimationName(chosen ? 'Wave' : 'Idle');",
         "        else if (chosen && o.getAnimationName() === 'Wave' && o.hasAnimationEnded && o.hasAnimationEnded()) o.setAnimationName('Idle');",
         "        if (chosen && S.prev !== sel) {",
-        "            text('CharNameText', v.get('DisplayName').getAsString());",
         "            text('PerkText', v.get('Perk').getAsString());",
         "            text('DrawbackText', v.get('Drawback').getAsString());",
         "        }",
