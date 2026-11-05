@@ -43,9 +43,51 @@
           "name": "Astronaut_Barbara_The_Bee"
         }
       ]
+    },
+    {
+      "name": "CharMenuItems",
+      "objects": [
+        {
+          "name": "CharButtonFernando"
+        },
+        {
+          "name": "CharButtonFinn"
+        },
+        {
+          "name": "CharButtonRae"
+        },
+        {
+          "name": "CharButtonBarbara"
+        },
+        {
+          "name": "StartGameText"
+        },
+        {
+          "name": "BackText"
+        }
+      ]
     }
   ],
-  "variables": [],
+  "variables": [
+    {
+      "name": "CharSel",
+      "persistentUuid": "2ae69fa7-3c1d-4d72-9471-1bf53724cff7",
+      "type": "number",
+      "value": 0
+    },
+    {
+      "name": "Starting",
+      "persistentUuid": "f3281314-2292-46ba-b961-89dfe4967379",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "name": "FadeT",
+      "persistentUuid": "19dbe344-8b95-41a0-84a5-b7d54a494a0a",
+      "type": "number",
+      "value": 0
+    }
+  ],
   "instances": [
     {
       "angle": 0,
@@ -53,7 +95,7 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "name": "SinglePlayerText",
+      "name": "StartGameText",
       "persistentUuid": "3ba0c0bb-8813-4c16-9c24-0eeee5e97a6f",
       "width": 0,
       "x": 74,
@@ -72,9 +114,8 @@
       "name": "Astronaut_Fernando_The_Flamingo",
       "persistentUuid": "b6a67dac-d956-4b2e-bbf2-bea0b47e9af4",
       "width": 0,
-      "x": 1086,
-      "y": 452,
-      "z": 5,
+      "x": 820,
+      "y": 420,
       "zOrder": 2,
       "numberProperties": [],
       "stringProperties": [],
@@ -89,8 +130,8 @@
       "name": "Astronaut_Finn_The_Frog",
       "persistentUuid": "bb039ce6-a784-49f3-b0ef-f9cb8e5d6b6a",
       "width": 0,
-      "x": 945,
-      "y": 432,
+      "x": 940,
+      "y": 420,
       "zOrder": 3,
       "numberProperties": [],
       "stringProperties": [],
@@ -105,8 +146,8 @@
       "name": "Astronaut_Barbara_The_Bee",
       "persistentUuid": "8492550d-7f25-4257-ad43-09ef75c743d4",
       "width": 0,
-      "x": 1090,
-      "y": 343,
+      "x": 1180,
+      "y": 420,
       "zOrder": 4,
       "numberProperties": [],
       "stringProperties": [],
@@ -121,9 +162,153 @@
       "name": "Astronaut_Rae_The_Red_Panda",
       "persistentUuid": "6ed5ad5f-e75d-4030-9b8b-1902cc08a2a1",
       "width": 0,
-      "x": 1019,
-      "y": 401,
+      "x": 1060,
+      "y": 420,
       "zOrder": 5,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "CharButtonFernando",
+      "persistentUuid": "2d65de12-03f4-41a8-a977-62f7d302750b",
+      "width": 0,
+      "x": 300,
+      "y": 620,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "CharButtonFinn",
+      "persistentUuid": "1e7f0898-a174-4cae-8cbf-2a226d16e8ad",
+      "width": 0,
+      "x": 490,
+      "y": 620,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "CharButtonRae",
+      "persistentUuid": "485f154d-a201-4403-b621-cbe36019fc8f",
+      "width": 0,
+      "x": 680,
+      "y": 620,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "CharButtonBarbara",
+      "persistentUuid": "779cfff1-91c4-4c64-97cc-09dc4b829407",
+      "width": 0,
+      "x": 870,
+      "y": 620,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "BackText",
+      "persistentUuid": "2a5149fc-a262-44eb-a894-8c9acf9c23cf",
+      "width": 0,
+      "x": 74,
+      "y": 254,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "CharNameText",
+      "persistentUuid": "65dbc024-61d8-44d4-b5f0-815aca7d3c4b",
+      "width": 0,
+      "x": 74,
+      "y": 340,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "PerkText",
+      "persistentUuid": "c5401eb4-b556-4948-afa7-21b499acfba9",
+      "width": 0,
+      "x": 74,
+      "y": 420,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "DrawbackText",
+      "persistentUuid": "ff4ade66-bc88-4ff0-bd2a-8052e171ab07",
+      "width": 0,
+      "x": 74,
+      "y": 470,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": true,
+      "height": 720,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "FadeBlack",
+      "persistentUuid": "acac853e-fc8a-4e24-8052-4e1e6ff8f4df",
+      "width": 1280,
+      "x": 0,
+      "y": 0,
+      "zOrder": 1000,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -134,15 +319,28 @@
       "assetStoreId": "",
       "bold": false,
       "italic": false,
-      "name": "SinglePlayerText",
+      "name": "StartGameText",
       "persistentUuid": "0ee285ba-cacc-48f9-92dd-965f64d0213d",
       "smoothed": true,
       "type": "TextObject::Text",
       "underlined": false,
-      "variables": [],
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "cbc6de72-70c9-450a-a1f6-7aa74abbc09f",
+          "type": "number",
+          "value": 4
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "94570fae-f8a0-4225-a78b-2c08ffe1ad9e",
+          "type": "number",
+          "value": 1
+        }
+      ],
       "effects": [],
       "behaviors": [],
-      "string": "SINGLE PLAYER",
+      "string": "START",
       "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
       "textAlignment": "left",
       "characterSize": 40,
@@ -153,11 +351,11 @@
       },
       "content": {
         "bold": false,
-        "isOutlineEnabled": false,
+        "isOutlineEnabled": true,
         "isShadowEnabled": false,
         "italic": false,
-        "outlineColor": "255;255;255",
-        "outlineThickness": 2,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
         "shadowAngle": 90,
         "shadowBlurRadius": 2,
         "shadowColor": "0;0;0",
@@ -165,7 +363,7 @@
         "shadowOpacity": 127,
         "smoothed": true,
         "underlined": false,
-        "text": "SINGLE PLAYER",
+        "text": "START",
         "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
         "textAlignment": "left",
         "verticalTextAlignment": "top",
@@ -185,6 +383,36 @@
           "persistentUuid": "5c5971d2-7364-4a9a-8570-f324b4093cf3",
           "type": "number",
           "value": 5
+        },
+        {
+          "name": "Index",
+          "persistentUuid": "a88cb5fe-c8c9-4300-99eb-e4a8d9ccf4af",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "Character",
+          "persistentUuid": "d928f80c-5ae2-4a5d-b217-9fce5f8ac084",
+          "type": "string",
+          "value": "Astronaut_Fernando_The_Flamingo"
+        },
+        {
+          "name": "DisplayName",
+          "persistentUuid": "2c2eb9e3-53d8-42a4-aa8e-465101ee061e",
+          "type": "string",
+          "value": "FERNANDO"
+        },
+        {
+          "name": "Perk",
+          "persistentUuid": "51f2f783-7a64-4cc1-83db-6a339eaa0ef3",
+          "type": "string",
+          "value": "+ LUCKY CARDS, +10% CRIT"
+        },
+        {
+          "name": "Drawback",
+          "persistentUuid": "b2552c26-b80c-4808-9851-35827359cd47",
+          "type": "string",
+          "value": "- SMALLER SHIELD (30)"
         }
       ],
       "effects": [],
@@ -246,7 +474,7 @@
             "source": "Jump_Land"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "No",
             "source": "No"
           },
@@ -291,7 +519,7 @@
             "source": "Weapon"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Yes",
             "source": "Yes"
           }
@@ -309,6 +537,36 @@
           "persistentUuid": "81a3badb-21fe-430a-bed9-8c187b505ff7",
           "type": "number",
           "value": 5
+        },
+        {
+          "name": "Index",
+          "persistentUuid": "4ab6242f-f863-4882-b7ee-d5234bd4e42e",
+          "type": "number",
+          "value": 1
+        },
+        {
+          "name": "Character",
+          "persistentUuid": "eef90108-3b13-449d-9630-83c255d96697",
+          "type": "string",
+          "value": "Astronaut_Finn_The_Frog"
+        },
+        {
+          "name": "DisplayName",
+          "persistentUuid": "2154579b-4856-496f-babb-72c1cecc1173",
+          "type": "string",
+          "value": "FINN"
+        },
+        {
+          "name": "Perk",
+          "persistentUuid": "96e16c97-2321-4921-84a3-f6ed7c6f1901",
+          "type": "string",
+          "value": "+ JUMPS FROM THE START"
+        },
+        {
+          "name": "Drawback",
+          "persistentUuid": "5ca6729f-edb7-46c6-83e6-fdde268dc581",
+          "type": "string",
+          "value": "- WIDER SPREAD (10 DEG)"
         }
       ],
       "effects": [],
@@ -370,7 +628,7 @@
             "source": "Jump_Land"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "No",
             "source": "No"
           },
@@ -415,7 +673,7 @@
             "source": "Weapon"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Yes",
             "source": "Yes"
           }
@@ -432,6 +690,36 @@
           "name": "waveTime",
           "type": "number",
           "value": 4
+        },
+        {
+          "name": "Index",
+          "persistentUuid": "cb6653e4-d31b-4085-a385-82c35bce741c",
+          "type": "number",
+          "value": 2
+        },
+        {
+          "name": "Character",
+          "persistentUuid": "4e7c2bf9-0e94-49da-a126-10030bfb2acf",
+          "type": "string",
+          "value": "Astronaut_Rae_The_Red_Panda"
+        },
+        {
+          "name": "DisplayName",
+          "persistentUuid": "fefde54c-ea90-4bfe-8f5d-2811f6b46fc1",
+          "type": "string",
+          "value": "RAE"
+        },
+        {
+          "name": "Perk",
+          "persistentUuid": "8b1c1c6f-5d0e-42bb-a4db-3c1627354050",
+          "type": "string",
+          "value": "+ HEAVY MELEE (15)"
+        },
+        {
+          "name": "Drawback",
+          "persistentUuid": "5c5f4b64-2846-4f7f-b71a-8565230fcb02",
+          "type": "string",
+          "value": "- BIG AND SLOW (250)"
         }
       ],
       "effects": [],
@@ -493,7 +781,7 @@
             "source": "Jump_Land"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "No",
             "source": "No"
           },
@@ -538,7 +826,7 @@
             "source": "Weapon"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Yes",
             "source": "Yes"
           }
@@ -555,6 +843,36 @@
           "name": "waveTime",
           "type": "number",
           "value": 3
+        },
+        {
+          "name": "Index",
+          "persistentUuid": "b8f4e6d9-e954-4c11-b607-de15db707bbd",
+          "type": "number",
+          "value": 3
+        },
+        {
+          "name": "Character",
+          "persistentUuid": "233001eb-1d4a-46f0-846c-603335ce37a1",
+          "type": "string",
+          "value": "Astronaut_Barbara_The_Bee"
+        },
+        {
+          "name": "DisplayName",
+          "persistentUuid": "5cb59852-442a-43ac-a02d-04a85475fdb0",
+          "type": "string",
+          "value": "BARBARA"
+        },
+        {
+          "name": "Perk",
+          "persistentUuid": "9e4c13cc-f062-40d9-b077-20b0669e607d",
+          "type": "string",
+          "value": "+ NO SPREAD, FAST (360)"
+        },
+        {
+          "name": "Drawback",
+          "persistentUuid": "ee67f6e5-4109-4fb1-b294-91bf924db241",
+          "type": "string",
+          "value": "- LESS HEALTH (75)"
         }
       ],
       "effects": [],
@@ -616,7 +934,7 @@
             "source": "Jump_Land"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "No",
             "source": "No"
           },
@@ -661,19 +979,498 @@
             "source": "Weapon"
           },
           {
-            "loop": false,
+            "loop": true,
             "name": "Yes",
             "source": "Yes"
           }
         ]
       }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "CharButtonFernando",
+      "persistentUuid": "4c0fd9b3-45eb-4045-9264-1e4f8963040c",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "13ae0336-737d-4f16-ae3f-967594a769ce",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "4272f7ae-be48-45df-a4f4-a27e1ecdc706",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "FERNANDO",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 34,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "FERNANDO",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 34,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "CharButtonFinn",
+      "persistentUuid": "1ff5e98a-0bd5-4d7e-8ed0-d7e12cf09a62",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "60d641ba-9981-416e-a654-9a5b6912562e",
+          "type": "number",
+          "value": 1
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "17933a30-fbc2-455f-864f-a67c312c98e4",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "FINN",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 34,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "FINN",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 34,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "CharButtonRae",
+      "persistentUuid": "f2830b42-fdf9-49f8-bd33-e1860455fee5",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "fd44f503-d79c-4b90-bcce-e53baded9be2",
+          "type": "number",
+          "value": 2
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "1f4c3920-ee86-4794-9334-b20f5927e3d1",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "RAE",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 34,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "RAE",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 34,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "CharButtonBarbara",
+      "persistentUuid": "afcec203-8e06-4bad-abe4-c52c7bca4102",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "699c14d3-5149-40f4-a8de-52927387931d",
+          "type": "number",
+          "value": 3
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "6cd80a5f-9136-4ba2-a884-8de0a1586466",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "BARBARA",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 34,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "BARBARA",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 34,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "BackText",
+      "persistentUuid": "4225ee5e-d543-4612-8748-25c4acd5369c",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "ef9bf85a-0f42-4129-b412-4b0ef485d23c",
+          "type": "number",
+          "value": 5
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "5772e3fa-e985-4f18-9755-751c004a6cb0",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "BACK",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "BACK",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "CharNameText",
+      "persistentUuid": "59b44f17-bbc2-4589-92a9-15443a178b54",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 52,
+      "color": {
+        "b": 255,
+        "g": 255,
+        "r": 255
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 52,
+        "lineHeight": 0,
+        "color": "255;255;255"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "PerkText",
+      "persistentUuid": "0df615a6-45d0-42d3-a390-21996a1ccfa4",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 26,
+      "color": {
+        "b": 130,
+        "g": 230,
+        "r": 110
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 26,
+        "lineHeight": 0,
+        "color": "110;230;130"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "DrawbackText",
+      "persistentUuid": "d5803714-f4de-4cbe-b8cc-712700e0fd94",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "string": "",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 26,
+      "color": {
+        "b": 120,
+        "g": 120,
+        "r": 255
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 26,
+        "lineHeight": 0,
+        "color": "255;120;120"
+      }
+    },
+    {
+      "adaptCollisionMaskAutomatically": true,
+      "assetStoreId": "",
+      "name": "FadeBlack",
+      "persistentUuid": "e28d3464-f5c4-4c26-86fb-a4ba56c4237c",
+      "type": "Sprite",
+      "updateIfNotVisible": false,
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "animations": [
+        {
+          "name": "NewSprite",
+          "useMultipleDirections": false,
+          "directions": [
+            {
+              "looping": false,
+              "metadata": "{\"pskl\":{}}",
+              "timeBetweenFrames": 0.08,
+              "sprites": [
+                {
+                  "hasCustomCollisionMask": true,
+                  "image": "BlackBgSprite",
+                  "points": [],
+                  "originPoint": {
+                    "name": "origine",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "centerPoint": {
+                    "automatic": true,
+                    "name": "centre",
+                    "x": 0,
+                    "y": 0
+                  },
+                  "customCollisionMask": [
+                    [
+                      {
+                        "x": 0,
+                        "y": 0
+                      },
+                      {
+                        "x": 1,
+                        "y": 0
+                      },
+                      {
+                        "x": 1,
+                        "y": 1
+                      },
+                      {
+                        "x": 0,
+                        "y": 1
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "objectsFolderStructure": {
     "folderName": "__ROOT",
     "children": [
       {
-        "objectName": "SinglePlayerText"
+        "objectName": "StartGameText"
       },
       {
         "objectName": "Astronaut_Fernando_The_Flamingo"
@@ -686,10 +1483,49 @@
       },
       {
         "objectName": "Astronaut_Rae_The_Red_Panda"
+      },
+      {
+        "objectName": "CharButtonFernando"
+      },
+      {
+        "objectName": "CharButtonFinn"
+      },
+      {
+        "objectName": "CharButtonRae"
+      },
+      {
+        "objectName": "CharButtonBarbara"
+      },
+      {
+        "objectName": "BackText"
+      },
+      {
+        "objectName": "CharNameText"
+      },
+      {
+        "objectName": "PerkText"
+      },
+      {
+        "objectName": "DrawbackText"
+      },
+      {
+        "objectName": "FadeBlack"
       }
     ]
   },
   "events": [
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Character selection. Left/Right/Up/Down, the mouse and the D-pad move over FERNANDO, FINN, RAE, BARBARA, START and BACK. Enter / A / a click on a character jumps to START."
+    },
     {
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
@@ -705,37 +1541,72 @@
       "actions": [
         {
           "type": {
-            "value": "ThirdPersonCamera::LookFromDistanceAtObject3D"
+            "value": "ThirdPersonCamera::LookFromDistanceAtPosition3D"
           },
           "parameters": [
             "",
-            "PlayerModels",
-            "Object3D",
-            "200",
+            "1000",
+            "420",
+            "50",
+            "330",
             "0",
-            "20",
-            "\"\"",
+            "15",
+            "",
             ""
           ]
         },
         {
           "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+            "value": "PlayerInput::MenuSelect"
           },
           "parameters": [
-            "PlayerModels",
-            "Animation",
-            "=",
-            "\"Idle\""
+            "",
+            "\"chars\"",
+            "0",
+            ""
           ]
         },
         {
           "type": {
-            "value": "ResetObjectTimer"
+            "value": "SetNumberVariable"
           },
           "parameters": [
-            "PlayerModels",
-            "\"waveTimer\""
+            "CharSel",
+            "=",
+            "0"
+          ]
+        },
+        {
+          "type": {
+            "value": "ResizableCapability::ResizableBehavior::SetWidth"
+          },
+          "parameters": [
+            "FadeBlack",
+            "Resizable",
+            "=",
+            "SceneWindowWidth()"
+          ]
+        },
+        {
+          "type": {
+            "value": "ResizableCapability::ResizableBehavior::SetHeight"
+          },
+          "parameters": [
+            "FadeBlack",
+            "Resizable",
+            "=",
+            "SceneWindowHeight()"
+          ]
+        },
+        {
+          "type": {
+            "value": "OpacityCapability::OpacityBehavior::SetValue"
+          },
+          "parameters": [
+            "FadeBlack",
+            "Opacity",
+            "=",
+            "0"
           ]
         }
       ]
@@ -745,87 +1616,533 @@
       "conditions": [
         {
           "type": {
-            "value": "CompareObjectTimer"
+            "inverted": true,
+            "value": "BooleanVariable"
           },
           "parameters": [
-            "PlayerModels",
-            "\"waveTimer\"",
+            "Starting",
+            "True",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuUpdate"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "CharMenuItems",
+            "\"both\"",
+            "\"255;210;60\"",
+            "\"255;255;255\"",
+            "\"150;150;150\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+          },
+          "parameters": [
+            "PlayerInput::MenuSelected(\"chars\")",
+            "<=",
+            "3"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "CharSel",
+            "=",
+            "PlayerInput::MenuSelected(\"chars\")"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "0",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuSelect"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "4",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "1",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuSelect"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "4",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "2",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuSelect"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "4",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "3",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuSelect"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "4",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "4",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetStringVariable"
+          },
+          "parameters": [
+            "PlayerCharacters[0]",
+            "=",
+            "Amaze::ModelText(PlayerModels, CharSel, \"Character\")"
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::NewRun"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "RunSeed",
+            "=",
+            "RandomInRange(1, 999999)"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "Level",
+            "=",
+            "1"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetStringVariable"
+          },
+          "parameters": [
+            "RunId",
+            "=",
+            "Amaze::NewRunId()"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetBooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True"
+          ]
+        },
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "FadeT",
+            "=",
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            "5",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"RunSelection\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "inverted": true,
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::MenuBack"
+          },
+          "parameters": [
+            "",
+            "\"chars\"",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"RunSelection\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "START: Yes / No animations play for a moment, then the screen fades to black and the game starts."
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "SetNumberVariable"
+          },
+          "parameters": [
+            "FadeT",
+            "+",
+            "TimeDelta()"
+          ]
+        },
+        {
+          "type": {
+            "value": "OpacityCapability::OpacityBehavior::SetValue"
+          },
+          "parameters": [
+            "FadeBlack",
+            "Opacity",
+            "=",
+            "255 * clamp((FadeT - 0.8) / 0.8, 0, 1)"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "BooleanVariable"
+          },
+          "parameters": [
+            "Starting",
+            "True",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+          },
+          "parameters": [
+            "FadeT",
             ">=",
-            "PlayerModels.waveTime"
+            "1.7"
           ]
+        },
+        {
+          "type": {
+            "value": "BuiltinCommonInstructions::Once"
+          },
+          "parameters": []
         }
       ],
       "actions": [
         {
           "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+            "value": "Scene"
           },
           "parameters": [
-            "PlayerModels",
-            "Animation",
-            "=",
-            "\"Wave\""
-          ]
-        },
-        {
-          "type": {
-            "value": "SetNumberObjectVariable"
-          },
-          "parameters": [
-            "PlayerModels",
-            "waveTime",
-            "=",
-            "RandomInRange(3,10)"
-          ]
-        },
-        {
-          "type": {
-            "value": "ResetObjectTimer"
-          },
-          "parameters": [
-            "PlayerModels",
-            "\"waveTimer\""
+            "",
+            "\"GameScene\"",
+            ""
           ]
         }
       ]
     },
     {
-      "type": "BuiltinCommonInstructions::Standard",
-      "conditions": [
-        {
-          "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::Name"
-          },
-          "parameters": [
-            "PlayerModels",
-            "Animation",
-            "=",
-            "\"Wave\""
-          ]
-        },
-        {
-          "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::HasAnimationEnded"
-          },
-          "parameters": [
-            "PlayerModels",
-            "Animation"
-          ]
-        }
+      "type": "BuiltinCommonInstructions::JsCode",
+      "inlineCode": [
+        "// Models: all idle; the chosen one grows and waves once when the choice changes. START: the chosen one says Yes, the others No (both loop).",
+        "const NAMES = [\"Astronaut_Fernando_The_Flamingo\", \"Astronaut_Finn_The_Frog\", \"Astronaut_Rae_The_Red_Panda\", \"Astronaut_Barbara_The_Bee\"];",
+        "const V = runtimeScene.getVariables();",
+        "const sel = V.get('CharSel').getAsNumber();",
+        "const starting = V.get('Starting').getAsBoolean();",
+        "const dt = Math.min(0.1, runtimeScene.getElapsedTime() / 1000);",
+        "const S = runtimeScene.__charSel || (runtimeScene.__charSel = { prev: -1, started: false });",
+        "const text = (n, t) => runtimeScene.getObjects(n).forEach((o) => o.setText(t));",
+        "for (const n of NAMES) {",
+        "    for (const o of runtimeScene.getObjects(n)) {",
+        "        const v = o.getVariables();",
+        "        const chosen = v.get('Index').getAsNumber() === sel;",
+        "        const cur = o.__s || 1, target = chosen ? 1.3 : 1;",
+        "        o.__s = cur + (target - cur) * Math.min(1, dt * 10);",
+        "        if (o.setScale) o.setScale(o.__s);",
+        "        if (starting) { if (!S.started) o.setAnimationName(chosen ? 'Yes' : 'No'); }",
+        "        else if (S.prev !== sel) o.setAnimationName(chosen ? 'Wave' : 'Idle');",
+        "        else if (chosen && o.getAnimationName() === 'Wave' && o.hasAnimationEnded && o.hasAnimationEnded()) o.setAnimationName('Idle');",
+        "        if (chosen && S.prev !== sel) {",
+        "            text('CharNameText', v.get('DisplayName').getAsString());",
+        "            text('PerkText', v.get('Perk').getAsString());",
+        "            text('DrawbackText', v.get('Drawback').getAsString());",
+        "        }",
+        "    }",
+        "}",
+        "if (starting) S.started = true;",
+        "S.prev = sel;"
       ],
-      "actions": [
-        {
-          "type": {
-            "value": "AnimatableCapability::AnimatableBehavior::SetName"
-          },
-          "parameters": [
-            "PlayerModels",
-            "Animation",
-            "=",
-            "\"Idle\""
-          ]
-        }
-      ]
+      "parameterObjects": "",
+      "useStrict": true,
+      "eventsSheetExpanded": false
     },
     {
       "type": "BuiltinCommonInstructions::JsCode",

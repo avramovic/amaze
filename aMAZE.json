@@ -1344,6 +1344,17 @@
           "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Space Station/Characters/20f2e83b2993f8c828adb56fe6bbffbcd417b97802787bc194c4b5c78c16ea3d_Astronaut Barbara The Bee.glb",
           "name": "Astronaut Barbara The Bee.glb"
         }
+      },
+      {
+        "file": "assets/Camera Target.glb",
+        "kind": "model3D",
+        "metadata": "",
+        "name": "Camera Target.glb",
+        "userAdded": false,
+        "origin": {
+          "identifier": "https://asset-resources.gdevelop.io/public-resources/3D Scene Essentials/Camera/c6fe3d6ac48cfc12ca6246f7e8a4b0d585666c451669bf427195e151afaf8b58_Camera Target.glb",
+          "name": "Camera Target.glb"
+        }
       }
     ]
   },
@@ -1364,33 +1375,57 @@
       "persistentUuid": "f593a001-37e1-4be9-903c-f0371510856b",
       "type": "number",
       "value": 0
+    },
+    {
+      "name": "RunId",
+      "persistentUuid": "94952532-6e63-4d6d-a6af-34096214b00a",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "PlayerCharacters",
+      "persistentUuid": "1ee12a5d-2813-4da0-baac-3a974d050709",
+      "type": "array",
+      "children": [
+        {
+          "type": "string",
+          "value": "Astronaut_Rae_The_Red_Panda"
+        }
+      ]
     }
   ],
   "layouts": [
-    {
-      "__REFERENCE_TO_SPLIT_OBJECT": true,
-      "referenceTo": "/layouts/gamescene"
-    },
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/layouts/mainmenu"
     },
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/layouts/runselection"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/layouts/characterselection"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/layouts/gamescene"
     }
   ],
   "layoutsFolderStructure": {
     "folderName": "__ROOT",
     "children": [
       {
-        "itemName": "GameScene"
-      },
-      {
         "itemName": "MainMenu"
       },
       {
+        "itemName": "RunSelection"
+      },
+      {
         "itemName": "CharacterSelection"
+      },
+      {
+        "itemName": "GameScene"
       }
     ]
   },
@@ -1417,6 +1452,10 @@
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,
       "referenceTo": "/eventsFunctionsExtensions/amaze"
+    },
+    {
+      "__REFERENCE_TO_SPLIT_OBJECT": true,
+      "referenceTo": "/eventsFunctionsExtensions/playerinput"
     },
     {
       "__REFERENCE_TO_SPLIT_OBJECT": true,

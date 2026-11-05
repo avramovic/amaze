@@ -1,0 +1,1375 @@
+{
+  "author": "",
+  "category": "Input",
+  "dimension": "",
+  "extensionNamespace": "",
+  "fullName": "aMAZE player input",
+  "gdevelopVersion": "",
+  "helpPath": "",
+  "iconUrl": "",
+  "name": "PlayerInput",
+  "previewIconUrl": "",
+  "shortDescription": "Keyboard, mouse and gamepads behind logical actions, mapped to players with string tags.",
+  "version": "0.1.0",
+  "description": "One input layer for aMAZE: Forward/Backward/Left/Right/Jump/Melee/Shoot/Dash/Pause plus menu actions, read from keyboard, mouse and up to 4 gamepads. Devices belong to string tags (P1, P2), so local co-op only needs AssignDevice. Also a small menu helper (arrows, D-pad, stick, mouse hover and click).",
+  "tags": [],
+  "authorIds": [],
+  "dependencies": [],
+  "globalVariables": [],
+  "sceneVariables": [],
+  "eventsFunctions": [
+    {
+      "description": "PlayerInput - on first scene loaded",
+      "fullName": "PlayerInput - on first scene loaded",
+      "functionType": "Action",
+      "name": "onFirstSceneLoaded",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "// aMAZE PlayerInput: one place that reads keyboard + mouse and up to 4 gamepads and turns them into logical actions.",
+            "// Devices are mapped to players with string tags (\"P1\", \"P2\"...). Local co-op later = AssignDevice(\"P2\", \"Gamepad2\").",
+            "if (gdjs.playerInput && gdjs.playerInput.version === 1) return;",
+            "const P = (gdjs.playerInput = { version: 1 });",
+            "",
+            "const ACTIONS = ['Forward', 'Backward', 'Left', 'Right', 'Jump', 'Melee', 'Shoot', 'Dash', 'Pause', 'Confirm', 'Back', 'Delete', 'MenuUp', 'MenuDown', 'MenuLeft', 'MenuRight'];",
+            "const REPEAT = { MenuUp: 1, MenuDown: 1, MenuLeft: 1, MenuRight: 1 };",
+            "P.ACTIONS = ACTIONS;",
+            "P.CFG = {",
+            "    deadzone: 0.2,        // stick dead zone (radial, rescaled so the stick starts at 0 outside of it)",
+            "    moveThreshold: 0.35,  // stick push that counts as Forward/Backward/Left/Right",
+            "    menuThreshold: 0.55,  // stick push that counts as a menu direction",
+            "    repeatFirst: 0.4, repeatNext: 0.12, // menu direction auto-repeat (seconds, real time)",
+            "    lookYaw: 220, lookPitch: 110,       // degrees per second at full right-stick push",
+            "    mouseLook: 0.1,                     // degrees per pixel of locked-mouse movement (the old MovementX / 10)",
+            "};",
+            "// keyboard bindings by KeyboardEvent.code (physical keys, like the old KeyFromTextPressed)",
+            "const KEYS = {",
+            "    Forward: ['KeyW'], Backward: ['KeyS'], Left: ['KeyA'], Right: ['KeyD'],",
+            "    Jump: ['Space'], Dash: ['ShiftLeft'],",
+            "    Confirm: ['Enter', 'NumpadEnter'], Back: ['Escape'], Delete: ['Delete', 'Backspace'],",
+            "    MenuUp: ['ArrowUp'], MenuDown: ['ArrowDown'], MenuLeft: ['ArrowLeft'], MenuRight: ['ArrowRight'],",
+            "};",
+            "",
+            "const newState = function () {",
+            "    return { down: {}, just: {}, rel: {}, pulse: {}, next: {}, lookX: 0, lookY: 0, active: false };",
+            "};",
+            "// raw = { action: bool } for this frame; works out edges and the auto-repeat pulse of the menu directions",
+            "const step = function (st, raw, now) {",
+            "    st.active = false;",
+            "    for (const a of ACTIONS) {",
+            "        const d = !!raw[a], was = !!st.down[a];",
+            "        st.just[a] = d && !was;",
+            "        st.rel[a] = !d && was;",
+            "        let pulse = st.just[a];",
+            "        if (REPEAT[a]) {",
+            "            if (st.just[a]) st.next[a] = now + P.CFG.repeatFirst;",
+            "            else if (d && now >= st.next[a]) { pulse = true; st.next[a] = now + P.CFG.repeatNext; }",
+            "        }",
+            "        st.pulse[a] = pulse;",
+            "        st.down[a] = d;",
+            "        if (d) st.active = true;",
+            "    }",
+            "};",
+            "const merge = function (list) {",
+            "    const m = newState();",
+            "    for (const s of list) {",
+            "        for (const a of ACTIONS) {",
+            "            if (s.down[a]) m.down[a] = true;",
+            "            if (s.just[a]) m.just[a] = true;",
+            "            if (s.rel[a]) m.rel[a] = true;",
+            "            if (s.pulse[a]) m.pulse[a] = true;",
+            "        }",
+            "        m.lookX += s.lookX; m.lookY += s.lookY;",
+            "        if (s.active) m.active = true;",
+            "    }",
+            "    return m;",
+            "};",
+            "",
+            "// ---- keyboard (DOM events: the physical key code) + mouse (through the game's input manager)",
+            "P.keys = new Set();",
+            "P.kbEvents = 0; P.kbSeen = 0;",
+            "if (typeof window !== 'undefined') {",
+            "    const old = window.__amazePlayerInput;",
+            "    if (old) { window.removeEventListener('keydown', old.d); window.removeEventListener('keyup', old.u); window.removeEventListener('blur', old.b); }",
+            "    const d = function (e) { P.keys.add(e.code); P.kbEvents++; };",
+            "    const u = function (e) { P.keys.delete(e.code); };",
+            "    const b = function () { P.keys.clear(); };",
+            "    window.__amazePlayerInput = { d, u, b };",
+            "    window.addEventListener('keydown', d);",
+            "    window.addEventListener('keyup', u);",
+            "    window.addEventListener('blur', b);",
+            "}",
+            "const kbRaw = function (input) {",
+            "    const r = {};",
+            "    for (const a in KEYS) r[a] = KEYS[a].some((c) => P.keys.has(c));",
+            "    r.Melee = !!input && input.isMouseButtonPressed(0);",
+            "    r.Shoot = !!input && input.isMouseButtonPressed(2);",
+            "    return r;",
+            "};",
+            "",
+            "// ---- gamepads (standard mapping)",
+            "const connectedPads = function () {",
+            "    const list = (typeof navigator !== 'undefined' && navigator.getGamepads) ? navigator.getGamepads() : [];",
+            "    const out = [];",
+            "    for (let i = 0; i < list.length; i++) { const g = list[i]; if (g && g.connected) out.push(g); }",
+            "    return out;",
+            "};",
+            "const deadzone = function (x, y) {",
+            "    const m = Math.hypot(x, y), d = P.CFG.deadzone;",
+            "    if (m < d) return [0, 0];",
+            "    const k = Math.min(1, (m - d) / (1 - d)) / m;",
+            "    return [x * k, y * k];",
+            "};",
+            "const padRaw = function (g) {",
+            "    const ax = g.axes || [], bt = g.buttons || [];",
+            "    const b = (i) => !!(bt[i] && (bt[i].pressed || bt[i].value > 0.5));",
+            "    const [lx, ly] = deadzone(ax[0] || 0, ax[1] || 0);",
+            "    const [rx, ry] = deadzone(ax[2] || 0, ax[3] || 0);",
+            "    const T = P.CFG.moveThreshold, M = P.CFG.menuThreshold;",
+            "    const up = b(12), dn = b(13), lf = b(14), rt = b(15);",
+            "    return {",
+            "        raw: {",
+            "            Forward: up || ly < -T, Backward: dn || ly > T, Left: lf || lx < -T, Right: rt || lx > T,",
+            "            Jump: b(0), Melee: b(2) || b(5), Shoot: b(7), Dash: b(1) || b(4), Pause: b(9),",
+            "            Confirm: b(0), Back: b(1), Delete: b(2),",
+            "            MenuUp: up || ly < -M, MenuDown: dn || ly > M, MenuLeft: lf || lx < -M, MenuRight: rt || lx > M,",
+            "        },",
+            "        rx, ry, moved: lx !== 0 || ly !== 0 || rx !== 0 || ry !== 0,",
+            "    };",
+            "};",
+            "",
+            "// ---- players: tag -> devices",
+            "P.tags = { P1: ['Keyboard', 'AnyGamepad'] }; // single player: keyboard + mouse and any gamepad all drive the first player",
+            "P.last = {};                                  // tag -> 'Keyboard' | 'Gamepad' (last device that did something)",
+            "P.pads = {};",
+            "P.padList = [];",
+            "P.dev = { Keyboard: newState() };",
+            "P.cache = {};",
+            "P.dt = 0.016;",
+            "const ALL_DEVICES = ['Keyboard', 'Gamepad1', 'Gamepad2', 'Gamepad3', 'Gamepad4'];",
+            "P.devicesOf = function (tag) { return tag === 'Any' ? ALL_DEVICES : (P.tags[tag] || []); };",
+            "P.assign = function (tag, device) {",
+            "    const l = P.tags[tag] || (P.tags[tag] = []);",
+            "    if (l.indexOf(device) < 0) l.push(device);",
+            "    P.cache = {};",
+            "};",
+            "P.clear = function (tag) { P.tags[tag] = []; P.cache = {}; };",
+            "P.tagState = function (tag) {",
+            "    let s = P.cache[tag];",
+            "    if (!s) s = P.cache[tag] = merge(P.devicesOf(tag).map((d) => P.dev[d]).filter(Boolean));",
+            "    return s;",
+            "};",
+            "P.pressed = function (tag, a) { return !!P.tagState(tag).down[a]; };",
+            "P.just = function (tag, a) { return !!P.tagState(tag).just[a]; };",
+            "P.released = function (tag, a) { return !!P.tagState(tag).rel[a]; };",
+            "P.pulse = function (tag, a) { return !!P.tagState(tag).pulse[a]; };",
+            "P.look = function (tag, axis) { const s = P.tagState(tag); return axis === 'Y' ? s.lookY : s.lookX; };",
+            "P.lastDevice = function (tag) { return P.last[tag] || 'Keyboard'; };",
+            "P.connected = function () { return P.padList.length; };",
+            "",
+            "// once per frame (onScenePreEvents)",
+            "P.update = function (runtimeScene) {",
+            "    const now = (typeof performance !== 'undefined' ? performance.now() : Date.now()) / 1000;",
+            "    P.dt = P.lastNow ? Math.min(0.1, Math.max(0, now - P.lastNow)) : 0.016;",
+            "    P.lastNow = now;",
+            "    const input = runtimeScene.getGame().getInputManager();",
+            "",
+            "    // keyboard + mouse",
+            "    const kb = P.kbState || (P.kbState = newState());",
+            "    step(kb, kbRaw(input), now);",
+            "    if (input.isMouseButtonReleased(0)) kb.rel.Melee = true; // a click shorter than a frame is still a click",
+            "    if (input.isMouseButtonReleased(2)) kb.rel.Shoot = true;",
+            "    const H = typeof gdjs._MousePointerLockExtension !== 'undefined' ? gdjs._MousePointerLockExtension.handler : null;",
+            "    const lx = H ? (H.movementX || 0) : 0, ly = H ? (H.movementY || 0) : 0;",
+            "    kb.lookX = lx * P.CFG.mouseLook; kb.lookY = ly * P.CFG.mouseLook;",
+            "    const mx = input.getMouseX(), my = input.getMouseY();",
+            "    const moved = P.mx !== undefined && (mx !== P.mx || my !== P.my);",
+            "    P.mx = mx; P.my = my;",
+            "    if (moved || lx !== 0 || ly !== 0 || P.kbEvents !== P.kbSeen || input.isMouseButtonPressed(0) || input.isMouseButtonPressed(2)) kb.active = true;",
+            "    P.kbSeen = P.kbEvents;",
+            "",
+            "    // gamepads",
+            "    const pads = connectedPads();",
+            "    const alive = {};",
+            "    const curve = (v) => v * Math.abs(v); // finer aim around the centre",
+            "    P.padList = pads.map((g) => {",
+            "        alive[g.index] = true;",
+            "        const st = P.pads[g.index] || (P.pads[g.index] = newState());",
+            "        const pr = padRaw(g);",
+            "        step(st, pr.raw, now);",
+            "        st.lookX = curve(pr.rx) * P.CFG.lookYaw * P.dt;",
+            "        st.lookY = curve(pr.ry) * P.CFG.lookPitch * P.dt;",
+            "        if (pr.moved) st.active = true;",
+            "        return st;",
+            "    });",
+            "    for (const k in P.pads) if (!alive[k]) delete P.pads[k];",
+            "",
+            "    // devices by name; AnyGamepad = the pads no tag asked for by number",
+            "    const claimed = new Set();",
+            "    for (const t in P.tags) for (const d of P.tags[t]) { const m = /^Gamepad([1-4])$/.exec(d); if (m) claimed.add(parseInt(m[1], 10)); }",
+            "    P.dev = { Keyboard: kb };",
+            "    P.padList.forEach((s, i) => { if (i < 4) P.dev['Gamepad' + (i + 1)] = s; });",
+            "    P.dev.AnyGamepad = merge(P.padList.filter((s, i) => !claimed.has(i + 1)));",
+            "    P.cache = {};",
+            "",
+            "    // which kind of device was used last, per tag (menus and the pause logic read it)",
+            "    for (const t of Object.keys(P.tags).concat(['Any'])) {",
+            "        let k = false, g = false;",
+            "        for (const d of P.devicesOf(t)) { const s = P.dev[d]; if (s && s.active) { if (d === 'Keyboard') k = true; else g = true; } }",
+            "        if (g && !k) P.last[t] = 'Gamepad'; else if (k && !g) P.last[t] = 'Keyboard';",
+            "    }",
+            "};",
+            "",
+            "// ---- menus: text objects with the object variables Index (order) and Enabled (0 = greyed out)",
+            "P.menus = {};",
+            "const menuOf = function (key) { return P.menus[key] || (P.menus[key] = { sel: 0, mx: null, my: null, conf: -1, back: false }); };",
+            "P.menuSelect = function (key, index) { const st = menuOf(key); st.sel = index; st.mx = null; st.conf = -1; st.back = false; };",
+            "P.menuUpdate = function (runtimeScene, key, objs, axis, cSel, cNorm, cDis) {",
+            "    const st = menuOf(key);",
+            "    st.conf = -1; st.back = false;",
+            "    const items = [];",
+            "    for (const o of objs) {",
+            "        const hidden = typeof o.isVisible === 'function' ? !o.isVisible() : !!o.hidden;",
+            "        if (hidden) continue;",
+            "        const vars = o.getVariables();",
+            "        const idx = vars.has('Index') ? vars.get('Index').getAsNumber() : items.length;",
+            "        const en = vars.has('Enabled') ? vars.get('Enabled').getAsNumber() !== 0 : true;",
+            "        items.push({ o, idx, en });",
+            "    }",
+            "    if (!items.length) return;",
+            "    items.sort((a, b) => a.idx - b.idx);",
+            "    const n = items.length;",
+            "    let pos = items.findIndex((it) => it.idx === st.sel);",
+            "    if (pos < 0 || !items[pos].en) { pos = items.findIndex((it) => it.en); if (pos < 0) pos = 0; }",
+            "    const move = function (dir) {",
+            "        for (let k = 1; k <= n; k++) {",
+            "            const q = (((pos + dir * k) % n) + n) % n;",
+            "            if (items[q].en) return q;",
+            "        }",
+            "        return pos;",
+            "    };",
+            "    const useV = axis !== 'horizontal', useH = axis !== 'vertical';",
+            "    if ((useV && P.pulse('Any', 'MenuUp')) || (useH && P.pulse('Any', 'MenuLeft'))) pos = move(-1);",
+            "    else if ((useV && P.pulse('Any', 'MenuDown')) || (useH && P.pulse('Any', 'MenuRight'))) pos = move(1);",
+            "",
+            "    // mouse: moving over an item selects it, a click on it confirms it",
+            "    const input = runtimeScene.getGame().getInputManager();",
+            "    const mx = input.getMouseX(), my = input.getMouseY();",
+            "    const moved = st.mx !== null && (mx !== st.mx || my !== st.my);",
+            "    st.mx = mx; st.my = my;",
+            "    let hover = -1;",
+            "    for (let i = 0; i < n; i++) if (items[i].en && items[i].o.cursorOnObject(runtimeScene)) hover = i;",
+            "    if (moved && hover >= 0) pos = hover;",
+            "",
+            "    if (P.just('Any', 'Confirm') && items[pos].en) st.conf = items[pos].idx;",
+            "    else if (hover >= 0 && input.isMouseButtonReleased(0)) { pos = hover; st.conf = items[hover].idx; }",
+            "    if (P.just('Any', 'Back')) st.back = true;",
+            "",
+            "    st.sel = items[pos].idx;",
+            "    items.forEach((it, i) => it.o.setColor(!it.en ? cDis : (i === pos ? cSel : cNorm)));",
+            "};",
+            "P.menuConfirmed = function (key, index) { const st = P.menus[key]; return !!st && st.conf === index; };",
+            "P.menuBack = function (key) { const st = P.menus[key]; return !!st && st.back; };",
+            "P.menuSelected = function (key) { const st = P.menus[key]; return st ? st.sel : 0; };",
+            "P.menuConfirmedItem = function (key) { const st = P.menus[key]; return st ? st.conf : -1; };"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "PlayerInput - read the devices",
+      "fullName": "PlayerInput - read the devices",
+      "functionType": "Action",
+      "name": "onScenePreEvents",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "if (P) P.update(runtimeScene);"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Gives a device to a player tag. A tag can have several devices. By default P1 has Keyboard and AnyGamepad (every pad nobody asked for by number).",
+      "fullName": "Assign a device to a player",
+      "functionType": "Action",
+      "name": "AssignDevice",
+      "sentence": "Give _PARAM2_ to player _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "if (P) P.assign(String(eventsFunctionContext.getArgument('Tag')), String(eventsFunctionContext.getArgument('Device')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Player tag (for example P1)",
+          "name": "Tag",
+          "type": "string"
+        },
+        {
+          "description": "Device",
+          "name": "Device",
+          "supplementaryInformation": "[\"Keyboard\", \"Gamepad1\", \"Gamepad2\", \"Gamepad3\", \"Gamepad4\", \"AnyGamepad\"]",
+          "type": "stringWithSelector"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Removes all devices of a player tag.",
+      "fullName": "Remove the devices of a player",
+      "functionType": "Action",
+      "name": "ClearDevices",
+      "sentence": "Remove all devices of player _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "if (P) P.clear(String(eventsFunctionContext.getArgument('Tag')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Player tag (for example P1)",
+          "name": "Tag",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "The action is held down.",
+      "fullName": "Action is held",
+      "functionType": "Condition",
+      "name": "ActionPressed",
+      "sentence": "Action _PARAM2_ of player _PARAM1_ is held",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = !!P && P.pressed(String(eventsFunctionContext.getArgument('Tag')), String(eventsFunctionContext.getArgument('Action')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Player tag (P1, P2... or Any for every device)",
+          "name": "Tag",
+          "type": "string"
+        },
+        {
+          "description": "Action",
+          "name": "Action",
+          "supplementaryInformation": "[\"Forward\", \"Backward\", \"Left\", \"Right\", \"Jump\", \"Melee\", \"Shoot\", \"Dash\", \"Pause\", \"Confirm\", \"Back\", \"Delete\", \"MenuUp\", \"MenuDown\", \"MenuLeft\", \"MenuRight\"]",
+          "type": "stringWithSelector"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "The action was pressed during this frame.",
+      "fullName": "Action was just pressed",
+      "functionType": "Condition",
+      "name": "ActionJustPressed",
+      "sentence": "Action _PARAM2_ of player _PARAM1_ was just pressed",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = !!P && P.just(String(eventsFunctionContext.getArgument('Tag')), String(eventsFunctionContext.getArgument('Action')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Player tag (P1, P2... or Any for every device)",
+          "name": "Tag",
+          "type": "string"
+        },
+        {
+          "description": "Action",
+          "name": "Action",
+          "supplementaryInformation": "[\"Forward\", \"Backward\", \"Left\", \"Right\", \"Jump\", \"Melee\", \"Shoot\", \"Dash\", \"Pause\", \"Confirm\", \"Back\", \"Delete\", \"MenuUp\", \"MenuDown\", \"MenuLeft\", \"MenuRight\"]",
+          "type": "stringWithSelector"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "The action was released during this frame (a mouse click counts on release).",
+      "fullName": "Action was just released",
+      "functionType": "Condition",
+      "name": "ActionJustReleased",
+      "sentence": "Action _PARAM2_ of player _PARAM1_ was just released",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = !!P && P.released(String(eventsFunctionContext.getArgument('Tag')), String(eventsFunctionContext.getArgument('Action')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Player tag (P1, P2... or Any for every device)",
+          "name": "Tag",
+          "type": "string"
+        },
+        {
+          "description": "Action",
+          "name": "Action",
+          "supplementaryInformation": "[\"Forward\", \"Backward\", \"Left\", \"Right\", \"Jump\", \"Melee\", \"Shoot\", \"Dash\", \"Pause\", \"Confirm\", \"Back\", \"Delete\", \"MenuUp\", \"MenuDown\", \"MenuLeft\", \"MenuRight\"]",
+          "type": "stringWithSelector"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "True when pressed and then again at the auto-repeat rate (for menus: Menu* actions).",
+      "fullName": "Action repeats",
+      "functionType": "Condition",
+      "name": "ActionPulse",
+      "sentence": "Action _PARAM2_ of player _PARAM1_ repeats",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = !!P && P.pulse(String(eventsFunctionContext.getArgument('Tag')), String(eventsFunctionContext.getArgument('Action')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Player tag (P1, P2... or Any for every device)",
+          "name": "Tag",
+          "type": "string"
+        },
+        {
+          "description": "Action",
+          "name": "Action",
+          "supplementaryInformation": "[\"Forward\", \"Backward\", \"Left\", \"Right\", \"Jump\", \"Melee\", \"Shoot\", \"Dash\", \"Pause\", \"Confirm\", \"Back\", \"Delete\", \"MenuUp\", \"MenuDown\", \"MenuLeft\", \"MenuRight\"]",
+          "type": "stringWithSelector"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "The last device that was used by the player is a keyboard/mouse or a gamepad.",
+      "fullName": "Last used device",
+      "functionType": "Condition",
+      "name": "LastDeviceIs",
+      "sentence": "Player _PARAM1_ last used: _PARAM2_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = !!P && P.lastDevice(String(eventsFunctionContext.getArgument('Tag'))) === String(eventsFunctionContext.getArgument('Device'));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Player tag (P1, P2... or Any)",
+          "name": "Tag",
+          "type": "string"
+        },
+        {
+          "description": "Kind of device",
+          "name": "Device",
+          "supplementaryInformation": "[\"Keyboard\", \"Gamepad\"]",
+          "type": "stringWithSelector"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "At least one gamepad is connected.",
+      "fullName": "A gamepad is connected",
+      "functionType": "Condition",
+      "name": "GamepadConnected",
+      "sentence": "A gamepad is connected",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = !!P && P.connected() > 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Camera turn of this frame in degrees: locked mouse movement, or the right stick scaled by time. X turns the player, Y tilts the camera (down is positive).",
+      "fullName": "Look (degrees this frame)",
+      "functionType": "Expression",
+      "name": "Look",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = P ? P.look(String(eventsFunctionContext.getArgument('Tag')), String(eventsFunctionContext.getArgument('Axis'))) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Player tag",
+          "name": "Tag",
+          "type": "string"
+        },
+        {
+          "description": "Axis",
+          "name": "Axis",
+          "supplementaryInformation": "[\"X\", \"Y\"]",
+          "type": "stringWithSelector"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Keyboard or Gamepad.",
+      "fullName": "Last used device",
+      "functionType": "StringExpression",
+      "name": "LastDevice",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = P ? P.lastDevice(String(eventsFunctionContext.getArgument('Tag'))) : 'Keyboard';"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "string"
+      },
+      "parameters": [
+        {
+          "description": "Player tag",
+          "name": "Tag",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of connected gamepads.",
+      "fullName": "Connected gamepads",
+      "functionType": "Expression",
+      "name": "ConnectedGamepads",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = P ? P.connected() : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Call it every frame while a menu is on screen: arrows, D-pad, left stick and mouse hover move the selection, Enter / A / a click confirm.",
+      "fullName": "Update a menu",
+      "functionType": "Action",
+      "name": "MenuUpdate",
+      "sentence": "Update menu _PARAM1_ with _PARAM2_ (move with _PARAM3_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "if (!P) return;",
+            "P.menuUpdate(runtimeScene, String(eventsFunctionContext.getArgument('Key')), eventsFunctionContext.getObjects('Items'), String(eventsFunctionContext.getArgument('Axis')), String(eventsFunctionContext.getArgument('SelectedColor')), String(eventsFunctionContext.getArgument('NormalColor')), String(eventsFunctionContext.getArgument('DisabledColor')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Menu name (any text, keeps the selection)",
+          "name": "Key",
+          "type": "string"
+        },
+        {
+          "description": "Menu items (text objects or a group). Each needs the object variables Index (order, number) and optionally Enabled (0 = greyed out)",
+          "name": "Items",
+          "type": "objectList"
+        },
+        {
+          "description": "Directions that move the selection",
+          "name": "Axis",
+          "supplementaryInformation": "[\"vertical\", \"horizontal\", \"both\"]",
+          "type": "stringWithSelector"
+        },
+        {
+          "description": "Selected colour (r;g;b)",
+          "name": "SelectedColor",
+          "type": "string"
+        },
+        {
+          "description": "Normal colour (r;g;b)",
+          "name": "NormalColor",
+          "type": "string"
+        },
+        {
+          "description": "Disabled colour (r;g;b)",
+          "name": "DisabledColor",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Selects an item (use it when a menu opens).",
+      "fullName": "Select a menu item",
+      "functionType": "Action",
+      "name": "MenuSelect",
+      "sentence": "Select item _PARAM2_ of menu _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "if (P) P.menuSelect(String(eventsFunctionContext.getArgument('Key')), eventsFunctionContext.getArgument('Index'));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Menu name",
+          "name": "Key",
+          "type": "string"
+        },
+        {
+          "description": "Item Index",
+          "name": "Index",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "The item was confirmed during this frame.",
+      "fullName": "Menu item confirmed",
+      "functionType": "Condition",
+      "name": "MenuConfirmed",
+      "sentence": "Item _PARAM2_ of menu _PARAM1_ was confirmed",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = !!P && P.menuConfirmed(String(eventsFunctionContext.getArgument('Key')), eventsFunctionContext.getArgument('Index'));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Menu name",
+          "name": "Key",
+          "type": "string"
+        },
+        {
+          "description": "Item Index",
+          "name": "Index",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Back (Esc / B) was pressed during this frame.",
+      "fullName": "Menu back pressed",
+      "functionType": "Condition",
+      "name": "MenuBack",
+      "sentence": "Back was pressed in menu _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = !!P && P.menuBack(String(eventsFunctionContext.getArgument('Key')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Menu name",
+          "name": "Key",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Index of the item confirmed during this frame, -1 when none (for lists of runs).",
+      "fullName": "Confirmed menu item",
+      "functionType": "Expression",
+      "name": "MenuConfirmedItem",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = P ? P.menuConfirmedItem(String(eventsFunctionContext.getArgument('Key'))) : -1;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Menu name",
+          "name": "Key",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Index of the selected item.",
+      "fullName": "Selected menu item",
+      "functionType": "Expression",
+      "name": "MenuSelected",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const P = gdjs.playerInput;",
+            "eventsFunctionContext.returnValue = P ? P.menuSelected(String(eventsFunctionContext.getArgument('Key'))) : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Menu name",
+          "name": "Key",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    }
+  ],
+  "eventsFunctionsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+      {
+        "functionName": "onFirstSceneLoaded"
+      },
+      {
+        "functionName": "onScenePreEvents"
+      },
+      {
+        "functionName": "AssignDevice"
+      },
+      {
+        "functionName": "ClearDevices"
+      },
+      {
+        "functionName": "ActionPressed"
+      },
+      {
+        "functionName": "ActionJustPressed"
+      },
+      {
+        "functionName": "ActionJustReleased"
+      },
+      {
+        "functionName": "ActionPulse"
+      },
+      {
+        "functionName": "LastDeviceIs"
+      },
+      {
+        "functionName": "GamepadConnected"
+      },
+      {
+        "functionName": "Look"
+      },
+      {
+        "functionName": "LastDevice"
+      },
+      {
+        "functionName": "ConnectedGamepads"
+      },
+      {
+        "functionName": "MenuUpdate"
+      },
+      {
+        "functionName": "MenuSelect"
+      },
+      {
+        "functionName": "MenuConfirmed"
+      },
+      {
+        "functionName": "MenuBack"
+      },
+      {
+        "functionName": "MenuConfirmedItem"
+      },
+      {
+        "functionName": "MenuSelected"
+      }
+    ]
+  },
+  "eventsBasedBehaviors": [
+    {
+      "description": "Marks a player model as controlled by a player tag (P1, P2...). Devices are assigned to the tag with the PlayerInput actions, so one object works with keyboard, mouse or any gamepad.",
+      "fullName": "Input controller",
+      "helpPath": "",
+      "iconUrl": "",
+      "name": "InputController",
+      "objectType": "",
+      "previewIconUrl": "",
+      "eventsFunctions": [
+        {
+          "description": "Action of the player this object belongs to.",
+          "fullName": "Action is held",
+          "functionType": "Condition",
+          "name": "ActionPressed",
+          "sentence": "Action _PARAM2_ of _PARAM0_ is held",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "PlayerInput::ActionPressed"
+                  },
+                  "parameters": [
+                    "",
+                    "Tag",
+                    "Action",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "PlayerInput::InputController",
+              "type": "behavior"
+            },
+            {
+              "description": "Action",
+              "name": "Action",
+              "supplementaryInformation": "[\"Forward\", \"Backward\", \"Left\", \"Right\", \"Jump\", \"Melee\", \"Shoot\", \"Dash\", \"Pause\", \"Confirm\", \"Back\", \"Delete\", \"MenuUp\", \"MenuDown\", \"MenuLeft\", \"MenuRight\"]",
+              "type": "stringWithSelector"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Action of the player this object belongs to.",
+          "fullName": "Action was just pressed",
+          "functionType": "Condition",
+          "name": "ActionJustPressed",
+          "sentence": "Action _PARAM2_ of _PARAM0_ was just pressed",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "PlayerInput::ActionJustPressed"
+                  },
+                  "parameters": [
+                    "",
+                    "Tag",
+                    "Action",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "PlayerInput::InputController",
+              "type": "behavior"
+            },
+            {
+              "description": "Action",
+              "name": "Action",
+              "supplementaryInformation": "[\"Forward\", \"Backward\", \"Left\", \"Right\", \"Jump\", \"Melee\", \"Shoot\", \"Dash\", \"Pause\", \"Confirm\", \"Back\", \"Delete\", \"MenuUp\", \"MenuDown\", \"MenuLeft\", \"MenuRight\"]",
+              "type": "stringWithSelector"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Action of the player this object belongs to.",
+          "fullName": "Action was just released",
+          "functionType": "Condition",
+          "name": "ActionJustReleased",
+          "sentence": "Action _PARAM2_ of _PARAM0_ was just released",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "PlayerInput::ActionJustReleased"
+                  },
+                  "parameters": [
+                    "",
+                    "Tag",
+                    "Action",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "PlayerInput::InputController",
+              "type": "behavior"
+            },
+            {
+              "description": "Action",
+              "name": "Action",
+              "supplementaryInformation": "[\"Forward\", \"Backward\", \"Left\", \"Right\", \"Jump\", \"Melee\", \"Shoot\", \"Dash\", \"Pause\", \"Confirm\", \"Back\", \"Delete\", \"MenuUp\", \"MenuDown\", \"MenuLeft\", \"MenuRight\"]",
+              "type": "stringWithSelector"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Action of the player this object belongs to.",
+          "fullName": "Action repeats",
+          "functionType": "Condition",
+          "name": "ActionPulse",
+          "sentence": "Action _PARAM2_ of _PARAM0_ repeats",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "PlayerInput::ActionPulse"
+                  },
+                  "parameters": [
+                    "",
+                    "Tag",
+                    "Action",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "PlayerInput::InputController",
+              "type": "behavior"
+            },
+            {
+              "description": "Action",
+              "name": "Action",
+              "supplementaryInformation": "[\"Forward\", \"Backward\", \"Left\", \"Right\", \"Jump\", \"Melee\", \"Shoot\", \"Dash\", \"Pause\", \"Confirm\", \"Back\", \"Delete\", \"MenuUp\", \"MenuDown\", \"MenuLeft\", \"MenuRight\"]",
+              "type": "stringWithSelector"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "The last device used by the player of this object.",
+          "fullName": "Last used device",
+          "functionType": "Condition",
+          "name": "LastDeviceIs",
+          "sentence": "_PARAM0_ last used: _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "PlayerInput::LastDeviceIs"
+                  },
+                  "parameters": [
+                    "",
+                    "Tag",
+                    "Device",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "PlayerInput::InputController",
+              "type": "behavior"
+            },
+            {
+              "description": "Kind of device",
+              "name": "Device",
+              "supplementaryInformation": "[\"Keyboard\", \"Gamepad\"]",
+              "type": "stringWithSelector"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Camera turn of this frame in degrees.",
+          "fullName": "Look (degrees this frame)",
+          "functionType": "Expression",
+          "name": "Look",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnNumber"
+                  },
+                  "parameters": [
+                    "PlayerInput::Look(Tag, Axis)"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "expression"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "PlayerInput::InputController",
+              "type": "behavior"
+            },
+            {
+              "description": "Axis",
+              "name": "Axis",
+              "supplementaryInformation": "[\"X\", \"Y\"]",
+              "type": "stringWithSelector"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Sets the player tag of this object.",
+          "fullName": "Player tag",
+          "functionType": "Action",
+          "name": "SetTag",
+          "sentence": "Set the player tag of _PARAM0_ to _PARAM2_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "Tag",
+                    "=",
+                    "Value"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "PlayerInput::InputController",
+              "type": "behavior"
+            },
+            {
+              "description": "Player tag (P1, P2...)",
+              "name": "Value",
+              "type": "string"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Player tag of this object.",
+          "fullName": "Player tag",
+          "functionType": "StringExpression",
+          "name": "PlayerTag",
+          "sentence": "",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnString"
+                  },
+                  "parameters": [
+                    "Tag"
+                  ]
+                }
+              ]
+            }
+          ],
+          "expressionType": {
+            "type": "string"
+          },
+          "parameters": [
+            {
+              "description": "Object",
+              "name": "Object",
+              "type": "object"
+            },
+            {
+              "description": "Behavior",
+              "name": "Behavior",
+              "supplementaryInformation": "PlayerInput::InputController",
+              "type": "behavior"
+            }
+          ],
+          "objectGroups": []
+        }
+      ],
+      "eventsFunctionsFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "functionName": "ActionPressed"
+          },
+          {
+            "functionName": "ActionJustPressed"
+          },
+          {
+            "functionName": "ActionJustReleased"
+          },
+          {
+            "functionName": "ActionPulse"
+          },
+          {
+            "functionName": "LastDeviceIs"
+          },
+          {
+            "functionName": "Look"
+          },
+          {
+            "functionName": "SetTag"
+          },
+          {
+            "functionName": "PlayerTag"
+          }
+        ]
+      },
+      "propertyDescriptors": [
+        {
+          "value": "P1",
+          "type": "String",
+          "label": "Player tag",
+          "name": "Tag"
+        }
+      ],
+      "propertiesFolderStructure": {
+        "folderName": "__ROOT",
+        "children": [
+          {
+            "propertyName": "Tag"
+          }
+        ]
+      }
+    }
+  ],
+  "eventsBasedObjects": []
+}

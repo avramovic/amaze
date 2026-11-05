@@ -232,6 +232,17 @@
           "name": "Astronaut_Barbara_The_Bee"
         }
       ]
+    },
+    {
+      "name": "PauseItems",
+      "objects": [
+        {
+          "name": "ContinueText"
+        },
+        {
+          "name": "BackText"
+        }
+      ]
     }
   ],
   "variables": [
@@ -426,22 +437,6 @@
       "x": 416,
       "y": 416,
       "zOrder": 6,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": []
-    },
-    {
-      "angle": 0,
-      "customSize": false,
-      "height": 0,
-      "keepRatio": true,
-      "layer": "",
-      "name": "Astronaut_Rae_The_Red_Panda",
-      "persistentUuid": "a5664d96-c4da-4b73-8df5-379fb46e38d1",
-      "width": 0,
-      "x": 200,
-      "y": 200,
-      "zOrder": 8,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -981,6 +976,11 @@
           "PercentDamageReduction": "0"
         },
         {
+          "name": "InputController",
+          "type": "PlayerInput::InputController",
+          "Tag": "P1"
+        },
+        {
           "name": "Physics3D",
           "type": "Physics3D::Physics3DBehavior",
           "object3D": "Object3D",
@@ -1049,7 +1049,10 @@
           "PendingLevelUps": 0,
           "JustLeveledUp": false,
           "MetaLevel": 0,
-          "MetaDamageBonus": 0
+          "MetaDamageBonus": 0,
+          "Luck": 0.2,
+          "BaseCritPct": 10,
+          "BaseMaxShield": 30
         },
         {
           "name": "PlayerFSM",
@@ -11004,6 +11007,11 @@
           "PercentDamageReduction": "0"
         },
         {
+          "name": "InputController",
+          "type": "PlayerInput::InputController",
+          "Tag": "P1"
+        },
+        {
           "name": "Physics3D",
           "type": "Physics3D::Physics3DBehavior",
           "object3D": "Object3D",
@@ -11070,7 +11078,9 @@
           "PendingLevelUps": 0,
           "JustLeveledUp": false,
           "MetaLevel": 0,
-          "MetaDamageBonus": 0
+          "MetaDamageBonus": 0,
+          "StartsWithJump": true,
+          "BaseSpread": 10
         },
         {
           "name": "PlayerFSM",
@@ -12421,7 +12431,20 @@
       "smoothed": true,
       "type": "TextObject::Text",
       "underlined": false,
-      "variables": [],
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "e5c359d3-b883-4b80-96cf-b36ad6212014",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "07b66f13-2337-44fc-b7e3-89feeedf7be5",
+          "type": "number",
+          "value": 1
+        }
+      ],
       "effects": [],
       "behaviors": [],
       "string": "CONTINUE",
@@ -12465,7 +12488,20 @@
       "smoothed": true,
       "type": "TextObject::Text",
       "underlined": false,
-      "variables": [],
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "9925ce9f-3290-49f6-ae31-a7efb3ce985c",
+          "type": "number",
+          "value": 1
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "24527aff-8953-4b4d-80a8-5801e3ed781a",
+          "type": "number",
+          "value": 1
+        }
+      ],
       "effects": [],
       "behaviors": [],
       "string": "BACK TO MENU",
@@ -12643,6 +12679,11 @@
           "PercentDamageReduction": "0"
         },
         {
+          "name": "InputController",
+          "type": "PlayerInput::InputController",
+          "Tag": "P1"
+        },
+        {
           "name": "Physics3D",
           "type": "Physics3D::Physics3DBehavior",
           "object3D": "Object3D",
@@ -12693,7 +12734,7 @@
         {
           "name": "Player",
           "type": "Amaze::Player",
-          "MoveSpeed": 300,
+          "MoveSpeed": 250,
           "DamageMultiplier": 1,
           "PickupRange": 150,
           "InvulnerabilityTime": 0.5,
@@ -12709,7 +12750,9 @@
           "PendingLevelUps": 0,
           "JustLeveledUp": false,
           "MetaLevel": 0,
-          "MetaDamageBonus": 0
+          "MetaDamageBonus": 0,
+          "BaseMelee": 15,
+          "ModelScale": 1.5
         },
         {
           "name": "PlayerFSM",
@@ -12886,9 +12929,9 @@
         {
           "name": "Health",
           "type": "Health::Health",
-          "Health": "100",
+          "Health": "75",
           "CurrentHealth": "0",
-          "MaxHealth": "100",
+          "MaxHealth": "75",
           "DamageCooldown": "0.5",
           "AllowOverHealing": "",
           "IsHealthJustDamaged": "",
@@ -12910,6 +12953,11 @@
           "ShieldDamageTaken": "",
           "FlatDamageReduction": "0",
           "PercentDamageReduction": "0"
+        },
+        {
+          "name": "InputController",
+          "type": "PlayerInput::InputController",
+          "Tag": "P1"
         },
         {
           "name": "Physics3D",
@@ -12962,7 +13010,7 @@
         {
           "name": "Player",
           "type": "Amaze::Player",
-          "MoveSpeed": 300,
+          "MoveSpeed": 360,
           "DamageMultiplier": 1,
           "PickupRange": 150,
           "InvulnerabilityTime": 0.5,
@@ -12978,7 +13026,8 @@
           "PendingLevelUps": 0,
           "JustLeveledUp": false,
           "MetaLevel": 0,
-          "MetaDamageBonus": 0
+          "MetaDamageBonus": 0,
+          "BaseSpread": 0
         },
         {
           "name": "PlayerFSM",
@@ -13463,6 +13512,43 @@
             "=",
             "RandomInRange(1, 999999)"
           ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        }
+      ],
+      "actions": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "// The players are made from the global array PlayerCharacters (object names). Player i gets the input tag P<i+1>.",
+            "// One entry today; a second entry is all local co-op needs here (plus a second camera).",
+            "const list = runtimeScene.getGame().getVariables().get('PlayerCharacters');",
+            "const names = [];",
+            "if (list && typeof list.getAllChildrenArray === 'function') list.getAllChildrenArray().forEach((v) => { const s = String(v.getAsString()); if (s) names.push(s); });",
+            "if (!names.length) names.push('Astronaut_Rae_The_Red_Panda');",
+            "names.forEach((name, i) => {",
+            "    const o = runtimeScene.createObject(name);",
+            "    if (!o) { console.warn('[Players] unknown character ' + name); return; }",
+            "    o.setPosition(200 + i * 80, 200);",
+            "    const c = o.getBehavior('InputController');",
+            "    if (c) c._setTag('P' + (i + 1));",
+            "});"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
         }
       ]
     },
@@ -16246,6 +16332,17 @@
                 "Health",
                 ""
               ]
+            },
+            {
+              "type": {
+                "value": "PlayerInput::LastDeviceIs"
+              },
+              "parameters": [
+                "",
+                "\"P1\"",
+                "\"Keyboard\"",
+                ""
+              ]
             }
           ],
           "actions": [
@@ -16265,36 +16362,6 @@
               "parameters": [
                 "",
                 "\"Pause\""
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseSel",
-                "=",
-                "0"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseMx",
-                "=",
-                "MouseX()"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseMy",
-                "=",
-                "MouseY()"
               ]
             },
             {
@@ -16408,6 +16475,17 @@
                 "Opacity",
                 "=",
                 "128"
+              ]
+            },
+            {
+              "type": {
+                "value": "PlayerInput::MenuSelect"
+              },
+              "parameters": [
+                "",
+                "\"pause\"",
+                "0",
+                ""
               ]
             }
           ]
@@ -16474,6 +16552,17 @@
                 "Health",
                 ""
               ]
+            },
+            {
+              "type": {
+                "value": "PlayerInput::LastDeviceIs"
+              },
+              "parameters": [
+                "",
+                "\"P1\"",
+                "\"Keyboard\"",
+                ""
+              ]
             }
           ],
           "actions": [
@@ -16493,36 +16582,6 @@
               "parameters": [
                 "",
                 "\"Pause\""
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseSel",
-                "=",
-                "0"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseMx",
-                "=",
-                "MouseX()"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseMy",
-                "=",
-                "MouseY()"
               ]
             },
             {
@@ -16636,6 +16695,282 @@
                 "Opacity",
                 "=",
                 "128"
+              ]
+            },
+            {
+              "type": {
+                "value": "PlayerInput::MenuSelect"
+              },
+              "parameters": [
+                "",
+                "\"pause\"",
+                "0",
+                ""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "PlayerInput::ActionJustPressed"
+              },
+              "parameters": [
+                "",
+                "\"Any\"",
+                "\"Pause\"",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "LayerVisible"
+              },
+              "parameters": [
+                "",
+                "\"Pause\""
+              ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "Amaze::AreCardsOpen"
+              },
+              "parameters": [
+                "",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "Amaze::CardsRecentlyClosed"
+              },
+              "parameters": [
+                "",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "Health::Health::IsDead"
+              },
+              "parameters": [
+                "Players",
+                "Health",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "MousePointerLock::ExitPointerLock"
+              },
+              "parameters": [
+                "",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "0"
+              ]
+            },
+            {
+              "type": {
+                "value": "ShowLayer"
+              },
+              "parameters": [
+                "",
+                "\"Pause\""
+              ]
+            },
+            {
+              "type": {
+                "value": "ResizableCapability::ResizableBehavior::SetWidth"
+              },
+              "parameters": [
+                "BlackBg",
+                "Resizable",
+                "=",
+                "SceneWindowWidth()"
+              ]
+            },
+            {
+              "type": {
+                "value": "ResizableCapability::ResizableBehavior::SetHeight"
+              },
+              "parameters": [
+                "BlackBg",
+                "Resizable",
+                "=",
+                "SceneWindowHeight()"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetX"
+              },
+              "parameters": [
+                "BlackBg",
+                "=",
+                "0"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetY"
+              },
+              "parameters": [
+                "BlackBg",
+                "=",
+                "0"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetX"
+              },
+              "parameters": [
+                "PausedText",
+                "=",
+                "SceneWindowWidth() / 2 - PausedText.Width() / 2"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetX"
+              },
+              "parameters": [
+                "ContinueText",
+                "=",
+                "SceneWindowWidth() / 2 - ContinueText.Width() / 2"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetX"
+              },
+              "parameters": [
+                "BackText",
+                "=",
+                "SceneWindowWidth() / 2 - BackText.Width() / 2"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetY"
+              },
+              "parameters": [
+                "PausedText",
+                "=",
+                "SceneWindowHeight() * 0.22"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetY"
+              },
+              "parameters": [
+                "ContinueText",
+                "=",
+                "SceneWindowHeight() * 0.46"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetY"
+              },
+              "parameters": [
+                "BackText",
+                "=",
+                "SceneWindowHeight() * 0.58"
+              ]
+            },
+            {
+              "type": {
+                "value": "OpacityCapability::OpacityBehavior::SetValue"
+              },
+              "parameters": [
+                "BlackBg",
+                "Opacity",
+                "=",
+                "128"
+              ]
+            },
+            {
+              "type": {
+                "value": "PlayerInput::MenuSelect"
+              },
+              "parameters": [
+                "",
+                "\"pause\"",
+                "0",
+                ""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Else",
+          "conditions": [
+            {
+              "type": {
+                "value": "PlayerInput::ActionJustPressed"
+              },
+              "parameters": [
+                "",
+                "\"Any\"",
+                "\"Pause\"",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "LayerVisible"
+              },
+              "parameters": [
+                "",
+                "\"Pause\""
+              ]
+            },
+            {
+              "type": {
+                "value": "BooleanVariable"
+              },
+              "parameters": [
+                "DeathScreen",
+                "False",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "1"
+              ]
+            },
+            {
+              "type": {
+                "value": "HideLayer"
+              },
+              "parameters": [
+                "",
+                "\"Pause\""
               ]
             }
           ]
@@ -16721,6 +17056,63 @@
                 ">=",
                 "1.5"
               ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "Amaze::HasSecondChance"
+              },
+              "parameters": [
+                "",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "Amaze::DeleteRun"
+              },
+              "parameters": [
+                "",
+                "RunId",
+                ""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "Health::Health::IsDead"
+              },
+              "parameters": [
+                "Players",
+                "Health",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "BooleanVariable"
+              },
+              "parameters": [
+                "DeathScreen",
+                "False",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "DeathT",
+                ">=",
+                "1.5"
+              ]
             }
           ],
           "actions": [
@@ -16740,36 +17132,6 @@
               "parameters": [
                 "DeathScreen",
                 "True"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseSel",
-                "=",
-                "0"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseMx",
-                "=",
-                "MouseX()"
-              ]
-            },
-            {
-              "type": {
-                "value": "SetNumberVariable"
-              },
-              "parameters": [
-                "PauseMy",
-                "=",
-                "MouseY()"
               ]
             },
             {
@@ -16863,6 +17225,17 @@
                 "",
                 ""
               ]
+            },
+            {
+              "type": {
+                "value": "PlayerInput::MenuSelect"
+              },
+              "parameters": [
+                "",
+                "\"pause\"",
+                "0",
+                ""
+              ]
             }
           ]
         },
@@ -16896,8 +17269,10 @@
               "type": "BuiltinCommonInstructions::JsCode",
               "inlineCode": [
                 "const set = (n, t) => runtimeScene.getObjects(n).forEach((o) => { if (o.setText) o.setText(t); else o.setString(t); });",
+                "const G = gdjs.amazeUpg;",
                 "set('PausedText', 'YOU ARE DEAD');",
-                "set('ContinueText', 'RETRY');"
+                "set('ContinueText', G && G.U.lives > 0 ? 'SECOND CHANCE' : 'TRY AGAIN');",
+                "set('BackText', 'BACK TO MENU');"
               ],
               "parameterObjects": "",
               "useStrict": true,
@@ -16958,169 +17333,24 @@
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
-              "conditions": [
-                {
-                  "type": {
-                    "value": "KeyFromTextPressed"
-                  },
-                  "parameters": [
-                    "",
-                    "\"Up\""
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": {
-                    "value": "SetNumberVariable"
-                  },
-                  "parameters": [
-                    "PauseSel",
-                    "=",
-                    "1 - PauseSel"
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BuiltinCommonInstructions::Standard",
-              "conditions": [
-                {
-                  "type": {
-                    "value": "KeyFromTextPressed"
-                  },
-                  "parameters": [
-                    "",
-                    "\"Down\""
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": {
-                    "value": "SetNumberVariable"
-                  },
-                  "parameters": [
-                    "PauseSel",
-                    "=",
-                    "1 - PauseSel"
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BuiltinCommonInstructions::Standard",
-              "conditions": [
-                {
-                  "type": {
-                    "value": "IsCursorOnObject"
-                  },
-                  "parameters": [
-                    "ContinueText",
-                    "",
-                    "",
-                    ""
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "BuiltinCommonInstructions::CompareNumbers"
-                  },
-                  "parameters": [
-                    "abs(MouseX() - PauseMx) + abs(MouseY() - PauseMy)",
-                    ">",
-                    "0"
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": {
-                    "value": "SetNumberVariable"
-                  },
-                  "parameters": [
-                    "PauseSel",
-                    "=",
-                    "0"
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BuiltinCommonInstructions::Standard",
-              "conditions": [
-                {
-                  "type": {
-                    "value": "IsCursorOnObject"
-                  },
-                  "parameters": [
-                    "BackText",
-                    "",
-                    "",
-                    ""
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "BuiltinCommonInstructions::CompareNumbers"
-                  },
-                  "parameters": [
-                    "abs(MouseX() - PauseMx) + abs(MouseY() - PauseMy)",
-                    ">",
-                    "0"
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": {
-                    "value": "SetNumberVariable"
-                  },
-                  "parameters": [
-                    "PauseSel",
-                    "=",
-                    "1"
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BuiltinCommonInstructions::Standard",
               "conditions": [],
               "actions": [
                 {
                   "type": {
-                    "value": "SetNumberVariable"
+                    "value": "PlayerInput::MenuUpdate"
                   },
                   "parameters": [
-                    "PauseMx",
-                    "=",
-                    "MouseX()"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "SetNumberVariable"
-                  },
-                  "parameters": [
-                    "PauseMy",
-                    "=",
-                    "MouseY()"
+                    "",
+                    "\"pause\"",
+                    "PauseItems",
+                    "\"vertical\"",
+                    "\"255;210;60\"",
+                    "\"255;255;255\"",
+                    "\"120;120;120\"",
+                    ""
                   ]
                 }
               ]
-            },
-            {
-              "type": "BuiltinCommonInstructions::JsCode",
-              "inlineCode": [
-                "const sv = runtimeScene.getVariables().get('PauseSel').getAsNumber();",
-                "const paint = (name, on) => runtimeScene.getObjects(name).forEach((o) => o.setColor(on ? '255;210;60' : '255;255;255'));",
-                "paint('ContinueText', sv === 0);",
-                "paint('BackText', sv === 1);"
-              ],
-              "parameterObjects": "",
-              "useStrict": true,
-              "eventsSheetExpanded": false
             },
             {
               "type": "BuiltinCommonInstructions::Comment",
@@ -17132,28 +17362,20 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "CONTINUE: Enter or a click on it (a click sets LockClick so it does not also swing the weapon). Esc does nothing while paused: the first Esc only releases the mouse and opens the pause."
+              "comment": "CONTINUE (pause): Enter, A or a click. The lock is only requested when the last device was the keyboard/mouse, and a click sets LockClick so it does not also swing the weapon."
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
               "conditions": [
                 {
                   "type": {
-                    "value": "NumberVariable"
-                  },
-                  "parameters": [
-                    "PauseSel",
-                    "=",
-                    "0"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "KeyFromTextPressed"
+                    "value": "PlayerInput::MenuConfirmed"
                   },
                   "parameters": [
                     "",
-                    "\"Return\""
+                    "\"pause\"",
+                    "0",
+                    ""
                   ]
                 },
                 {
@@ -17185,15 +17407,6 @@
                     "",
                     "\"Pause\""
                   ]
-                },
-                {
-                  "type": {
-                    "value": "MousePointerLock::RequestPointerLock"
-                  },
-                  "parameters": [
-                    "",
-                    ""
-                  ]
                 }
               ]
             },
@@ -17202,21 +17415,13 @@
               "conditions": [
                 {
                   "type": {
-                    "value": "NumberVariable"
-                  },
-                  "parameters": [
-                    "PauseSel",
-                    "=",
-                    "0"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "KeyFromTextPressed"
+                    "value": "PlayerInput::MenuConfirmed"
                   },
                   "parameters": [
                     "",
-                    "\"Return\""
+                    "\"pause\"",
+                    "0",
+                    ""
                   ]
                 },
                 {
@@ -17225,7 +17430,18 @@
                   },
                   "parameters": [
                     "DeathScreen",
-                    "True",
+                    "False",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "PlayerInput::LastDeviceIs"
+                  },
+                  "parameters": [
+                    "",
+                    "\"P1\"",
+                    "\"Keyboard\"",
                     ""
                   ]
                 }
@@ -17239,16 +17455,6 @@
                     "",
                     ""
                   ]
-                },
-                {
-                  "type": {
-                    "value": "Scene"
-                  },
-                  "parameters": [
-                    "",
-                    "\"GameScene\"",
-                    ""
-                  ]
                 }
               ]
             },
@@ -17257,12 +17463,22 @@
               "conditions": [
                 {
                   "type": {
-                    "value": "IsCursorOnObject"
+                    "value": "PlayerInput::MenuConfirmed"
                   },
                   "parameters": [
-                    "ContinueText",
                     "",
-                    "",
+                    "\"pause\"",
+                    "0",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "DeathScreen",
+                    "False",
                     ""
                   ]
                 },
@@ -17274,46 +17490,9 @@
                     "",
                     "\"Left\""
                   ]
-                },
-                {
-                  "type": {
-                    "value": "BooleanVariable"
-                  },
-                  "parameters": [
-                    "DeathScreen",
-                    "False",
-                    ""
-                  ]
                 }
               ],
               "actions": [
-                {
-                  "type": {
-                    "value": "ChangeTimeScale"
-                  },
-                  "parameters": [
-                    "",
-                    "1"
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "HideLayer"
-                  },
-                  "parameters": [
-                    "",
-                    "\"Pause\""
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "MousePointerLock::RequestPointerLock"
-                  },
-                  "parameters": [
-                    "",
-                    ""
-                  ]
-                },
                 {
                   "type": {
                     "value": "SetBooleanVariable"
@@ -17326,26 +17505,29 @@
               ]
             },
             {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Death screen: SECOND CHANCE (only with the card) revives the player where they stand, everything collected stays. TRY AGAIN starts a new run of the same character (the old run was deleted when the player died)."
+            },
+            {
               "type": "BuiltinCommonInstructions::Standard",
               "conditions": [
                 {
                   "type": {
-                    "value": "IsCursorOnObject"
+                    "value": "PlayerInput::MenuConfirmed"
                   },
                   "parameters": [
-                    "ContinueText",
                     "",
-                    "",
+                    "\"pause\"",
+                    "0",
                     ""
-                  ]
-                },
-                {
-                  "type": {
-                    "value": "MouseButtonFromTextReleased"
-                  },
-                  "parameters": [
-                    "",
-                    "\"Left\""
                   ]
                 },
                 {
@@ -17357,16 +17539,172 @@
                     "True",
                     ""
                   ]
+                },
+                {
+                  "type": {
+                    "value": "Amaze::HasSecondChance"
+                  },
+                  "parameters": [
+                    "",
+                    ""
+                  ]
                 }
               ],
               "actions": [
                 {
                   "type": {
-                    "value": "MousePointerLock::RequestPointerLock"
+                    "value": "Amaze::SecondChance"
+                  },
+                  "parameters": [
+                    "",
+                    "Players",
+                    "Enemies",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "HideLayer"
+                  },
+                  "parameters": [
+                    "",
+                    "\"Pause\""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetBooleanVariable"
+                  },
+                  "parameters": [
+                    "DeathScreen",
+                    "False"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "DeathT",
+                    "=",
+                    "0"
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::JsCode",
+                  "inlineCode": [
+                    "const set = (n, t) => runtimeScene.getObjects(n).forEach((o) => { if (o.setText) o.setText(t); else o.setString(t); });",
+                    "set('PausedText', 'PAUSED');",
+                    "set('ContinueText', 'CONTINUE');"
+                  ],
+                  "parameterObjects": "",
+                  "useStrict": true,
+                  "eventsSheetExpanded": false
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "PlayerInput::LastDeviceIs"
+                      },
+                      "parameters": [
+                        "",
+                        "\"P1\"",
+                        "\"Keyboard\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "MousePointerLock::RequestPointerLock"
+                      },
+                      "parameters": [
+                        "",
+                        ""
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "PlayerInput::MenuConfirmed"
+                  },
+                  "parameters": [
+                    "",
+                    "\"pause\"",
+                    "0",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "DeathScreen",
+                    "True",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "inverted": true,
+                    "value": "Amaze::HasSecondChance"
                   },
                   "parameters": [
                     "",
                     ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "Amaze::NewRun"
+                  },
+                  "parameters": [
+                    "",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "RunSeed",
+                    "=",
+                    "0"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "Level",
+                    "=",
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "RunId",
+                    "=",
+                    "Amaze::NewRunId()"
                   ]
                 },
                 {
@@ -17377,6 +17715,35 @@
                     "",
                     "\"GameScene\"",
                     ""
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "PlayerInput::LastDeviceIs"
+                      },
+                      "parameters": [
+                        "",
+                        "\"P1\"",
+                        "\"Keyboard\"",
+                        ""
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "MousePointerLock::RequestPointerLock"
+                      },
+                      "parameters": [
+                        "",
+                        ""
+                      ]
+                    }
                   ]
                 }
               ]
@@ -17391,58 +17758,100 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "BACK TO MENU: no action yet (the menu scene comes later). Enter on it and a click on it both land here."
+              "comment": "BACK TO MENU goes to the run selection. From the death screen with a second chance left the saved run keeps going but the life is spent."
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
               "conditions": [
                 {
                   "type": {
-                    "value": "NumberVariable"
+                    "value": "PlayerInput::MenuConfirmed"
                   },
                   "parameters": [
-                    "PauseSel",
-                    "=",
-                    "1"
+                    "",
+                    "\"pause\"",
+                    "1",
+                    ""
                   ]
                 },
                 {
                   "type": {
-                    "value": "KeyFromTextPressed"
+                    "value": "BooleanVariable"
+                  },
+                  "parameters": [
+                    "DeathScreen",
+                    "True",
+                    ""
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Amaze::HasSecondChance"
                   },
                   "parameters": [
                     "",
-                    "\"Return\""
+                    ""
                   ]
                 }
               ],
-              "actions": []
+              "actions": [
+                {
+                  "type": {
+                    "value": "Amaze::SpendSavedLife"
+                  },
+                  "parameters": [
+                    "",
+                    "RunId",
+                    ""
+                  ]
+                }
+              ]
             },
             {
               "type": "BuiltinCommonInstructions::Standard",
               "conditions": [
                 {
                   "type": {
-                    "value": "IsCursorOnObject"
+                    "value": "PlayerInput::MenuConfirmed"
                   },
                   "parameters": [
-                    "BackText",
                     "",
+                    "\"pause\"",
+                    "1",
+                    ""
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "MousePointerLock::ExitPointerLock"
+                  },
+                  "parameters": [
                     "",
                     ""
                   ]
                 },
                 {
                   "type": {
-                    "value": "MouseButtonFromTextReleased"
+                    "value": "ChangeTimeScale"
                   },
                   "parameters": [
                     "",
-                    "\"Left\""
+                    "1"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "Scene"
+                  },
+                  "parameters": [
+                    "",
+                    "\"RunSelection\"",
+                    ""
                   ]
                 }
-              ],
-              "actions": []
+              ]
             }
           ]
         },
@@ -17581,6 +17990,17 @@
             "",
             ""
           ]
+        },
+        {
+          "type": {
+            "value": "PlayerInput::LastDeviceIs"
+          },
+          "parameters": [
+            "",
+            "\"P1\"",
+            "\"Keyboard\"",
+            ""
+          ]
         }
       ],
       "actions": [
@@ -17596,17 +18016,204 @@
       ]
     },
     {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Cards: arrows, D-pad, stick and Enter / A all come through PlayerInput (the digits 1-3 are still read in the card library)"
+    },
+    {
       "type": "BuiltinCommonInstructions::Standard",
       "conditions": [
         {
           "type": {
-            "value": "MousePointerLock::isPointerLocked"
+            "value": "PlayerInput::ActionPulse"
+          },
+          "parameters": [
+            "",
+            "\"Any\"",
+            "\"MenuLeft\"",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::AreCardsOpen"
           },
           "parameters": [
             "",
             ""
           ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::CardNav"
+          },
+          "parameters": [
+            "",
+            "-1",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::ActionPulse"
+          },
+          "parameters": [
+            "",
+            "\"Any\"",
+            "\"MenuUp\"",
+            ""
+          ]
         },
+        {
+          "type": {
+            "value": "Amaze::AreCardsOpen"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::CardNav"
+          },
+          "parameters": [
+            "",
+            "-1",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::ActionPulse"
+          },
+          "parameters": [
+            "",
+            "\"Any\"",
+            "\"MenuRight\"",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::AreCardsOpen"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::CardNav"
+          },
+          "parameters": [
+            "",
+            "1",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::ActionPulse"
+          },
+          "parameters": [
+            "",
+            "\"Any\"",
+            "\"MenuDown\"",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::AreCardsOpen"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::CardNav"
+          },
+          "parameters": [
+            "",
+            "1",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::ActionJustPressed"
+          },
+          "parameters": [
+            "",
+            "\"Any\"",
+            "\"Confirm\"",
+            ""
+          ]
+        },
+        {
+          "type": {
+            "value": "Amaze::AreCardsOpen"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::CardConfirm"
+          },
+          "parameters": [
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
         {
           "type": {
             "inverted": true,
@@ -17627,7 +18234,7 @@
           "parameters": [
             "Players",
             "+",
-            "(MousePointerLock::MovementX() / 10)"
+            "PlayerInput::Look(\"P1\", \"X\")"
           ]
         },
         {
@@ -17647,7 +18254,7 @@
           "parameters": [
             "camElevTarget",
             "=",
-            "clamp(camElevTarget+MousePointerLock::MovementY()/10, 5, 70)"
+            "clamp(camElevTarget+PlayerInput::Look(\"P1\", \"Y\"), 5, 70)"
           ]
         }
       ]
@@ -17745,11 +18352,12 @@
           "conditions": [
             {
               "type": {
-                "value": "KeyFromTextPressed"
+                "value": "PlayerInput::InputController::ActionPressed"
               },
               "parameters": [
-                "",
-                "\"w\""
+                "Players",
+                "InputController",
+                "\"Forward\""
               ]
             }
           ],
@@ -17770,11 +18378,12 @@
           "conditions": [
             {
               "type": {
-                "value": "KeyFromTextPressed"
+                "value": "PlayerInput::InputController::ActionPressed"
               },
               "parameters": [
-                "",
-                "\"s\""
+                "Players",
+                "InputController",
+                "\"Backward\""
               ]
             }
           ],
@@ -17795,11 +18404,12 @@
           "conditions": [
             {
               "type": {
-                "value": "KeyFromTextPressed"
+                "value": "PlayerInput::InputController::ActionPressed"
               },
               "parameters": [
-                "",
-                "\"a\""
+                "Players",
+                "InputController",
+                "\"Left\""
               ]
             }
           ],
@@ -17820,11 +18430,12 @@
           "conditions": [
             {
               "type": {
-                "value": "KeyFromTextPressed"
+                "value": "PlayerInput::InputController::ActionPressed"
               },
               "parameters": [
-                "",
-                "\"d\""
+                "Players",
+                "InputController",
+                "\"Right\""
               ]
             }
           ],
@@ -17845,11 +18456,12 @@
           "conditions": [
             {
               "type": {
-                "value": "KeyFromTextPressed"
+                "value": "PlayerInput::InputController::ActionPressed"
               },
               "parameters": [
-                "",
-                "\"Space\""
+                "Players",
+                "InputController",
+                "\"Jump\""
               ]
             },
             {
@@ -18039,6 +18651,18 @@
         },
         {
           "type": {
+            "value": "Amaze::SaveRun"
+          },
+          "parameters": [
+            "",
+            "RunId",
+            "Level",
+            "RunSeed",
+            ""
+          ]
+        },
+        {
+          "type": {
             "value": "Scene"
           },
           "parameters": [
@@ -18101,11 +18725,12 @@
       "conditions": [
         {
           "type": {
-            "value": "MouseButtonFromTextReleased"
+            "value": "PlayerInput::InputController::ActionJustReleased"
           },
           "parameters": [
-            "",
-            "\"Left\""
+            "Players",
+            "InputController",
+            "\"Melee\""
           ]
         }
       ],
@@ -18142,7 +18767,7 @@
           "conditions": [
             {
               "type": {
-                "value": "MousePointerLock::isPointerLocked"
+                "value": "Amaze::InputReady"
               },
               "parameters": [
                 "",
@@ -18190,16 +18815,17 @@
       "conditions": [
         {
           "type": {
-            "value": "MouseButtonFromTextReleased"
+            "value": "PlayerInput::InputController::ActionJustReleased"
           },
           "parameters": [
-            "",
-            "\"Right\""
+            "Players",
+            "InputController",
+            "\"Shoot\""
           ]
         },
         {
           "type": {
-            "value": "MousePointerLock::isPointerLocked"
+            "value": "Amaze::InputReady"
           },
           "parameters": [
             "",
@@ -18254,16 +18880,17 @@
       "conditions": [
         {
           "type": {
-            "value": "KeyFromTextPressed"
+            "value": "PlayerInput::InputController::ActionPressed"
           },
           "parameters": [
-            "",
-            "\"LShift\""
+            "Players",
+            "InputController",
+            "\"Dash\""
           ]
         },
         {
           "type": {
-            "value": "MousePointerLock::isPointerLocked"
+            "value": "Amaze::InputReady"
           },
           "parameters": [
             "",
@@ -19231,6 +19858,10 @@
     {
       "name": "Health",
       "type": "Health::Health"
+    },
+    {
+      "name": "InputController",
+      "type": "PlayerInput::InputController"
     },
     {
       "name": "MazeObject",

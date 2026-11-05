@@ -1238,8 +1238,8 @@
           "inlineCode": [
             "// aMAZE upgrade cards: run-wide player upgrades that persist between levels (gdjs.amazeUpg.U survives scene",
             "// changes), seeded chest offers, the 3D card UI, melee, chain shots, reflect, orbitals and the shield bubble.",
-            "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 11) return;",
-            "const G = (gdjs.amazeUpg = { version: 11 });",
+            "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 12) return;",
+            "const G = (gdjs.amazeUpg = { version: 12 });",
             "",
             "G.BASE = { speed: 300, speedCap: 700, shot: 10, life: 0.5, melee: 10, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 1000, orbitalCap: 4, orbCd: 30, orbCdMin: 10, orbCdCard: 1, rankXP: 10,",
             "    // crit / shooting / survival basics",
@@ -1323,7 +1323,7 @@
             "const RARITY_UNLOCK = [1, 1, 1, 40, 60]; // rank needed for Common, Uncommon, Rare, Epic, Mythic",
             "G.UNLOCK = UNLOCK;",
             "G.rankCost = function (rank) { return G.BASE.rankXP * rank; }; // XP to go from rank to rank+1: 10, 20, 30... (tune with BASE.rankXP)",
-            "G.rank = { xp: 0 }; // not saved anywhere yet",
+            "G.rank = { xp: 0 }; // the rank belongs to the run: it is part of the saved run",
             "// live = true also counts the XP collected on this level (not saved yet): that is what the XP bar shows.",
             "// Without it only the saved XP counts: that is what unlocks the cards.",
             "G.rankInfo = function (live) {",
@@ -1333,21 +1333,36 @@
             "};",
             "G.rankLevel = function () { return G.rankInfo().level; };",
             "",
-            "G.defaults = function () {",
+            "G.defaults = function (c) {",
+            "    c = c || {};",
+            "    const pick = function (v, d) { return typeof v === 'number' && isFinite(v) ? v : d; };",
             "    return {",
-            "        maxSpeed: G.BASE.speed, jumpUnlocked: false, jumpPct: 0,",
+            "        character: c.name || '', melee: pick(c.melee, G.BASE.melee), luck: pick(c.luck, 0), scale: pick(c.scale, 1),",
+            "        maxSpeed: pick(c.speed, G.BASE.speed), jumpUnlocked: !!c.jump, jumpPct: 0,",
             "        shotUnlocked: false, dmgPct: 0, rangeSec: 0, bounces: 0, chain: 0,",
             "        reflect: 0, meleePct: 0, meleeReach: G.BASE.reach, orbitals: 0,",
             "        orbCd: G.BASE.orbCd, orbCdT: 0, orbLive: 0,",
-            "        critPct: 0, critBonus: 0, exec: 0, knock: 0, fireRate: 0, extraShots: 0, spread: G.BASE.spread,",
+            "        critPct: pick(c.crit, 0), critBonus: 0, exec: 0, knock: 0, fireRate: 0, extraShots: 0, spread: pick(c.spread, G.BASE.spread),",
             "        lifesteal: 0, regenDelay: G.BASE.regenDelay, dodge: 0, lives: 0, revivePct: 0, phase: 0,",
             "        dashUnlocked: false, dashCd: G.BASE.dashCd, dashT: 0, thorns: 0,",
             "        picks: {},",
-            "        hp: null, maxHp: 100, shield: 0, maxShield: 50, regen: 0, // default max shield 50",
+            "        hp: null, maxHp: 100, shield: 0, maxShield: pick(c.shield, 50), regen: 0, // default max shield 50",
             "        lastLevel: 0, runSeed: 0,",
             "    };",
             "};",
             "G.U = G.defaults();",
+            "// ---- characters: the base stats are properties of the Player behaviour on each model (Amaze::Player)",
+            "G.charBase = function (p) {",
+            "    const b = p && p.getBehavior && p.getBehavior('Player');",
+            "    if (!b) return {};",
+            "    const n = function (f, d) { try { const v = Number(b[f]()); return isFinite(v) ? v : d; } catch (e) { return d; } };",
+            "    return {",
+            "        name: p.getName(), speed: n('_getMoveSpeed', G.BASE.speed), melee: n('_getBaseMelee', G.BASE.melee), spread: n('_getBaseSpread', G.BASE.spread),",
+            "        jump: n('_getStartsWithJump', 0) > 0, crit: n('_getBaseCritPct', 0), luck: n('_getLuck', 0), shield: n('_getBaseMaxShield', 50), scale: n('_getModelScale', 1),",
+            "    };",
+            "};",
+            "// A new run of the chosen character: the next GameScene start builds the stats from the model, and the rank starts again",
+            "G.newRun = function () { G.pendingNew = true; G.rank = { xp: 0 }; };",
             "const num = function (x) { const n = Number(x); return isFinite(n) ? n : 0; };",
             "G.R = null; // per-scene runtime state",
             "",
@@ -1406,7 +1421,7 @@
             "// Rarity weights: Common gives way to the higher tiers by 3 per level (never below 25)",
             "G.weights = function (level) {",
             "    const l = Math.max(0, level - 1);",
-            "    return [Math.max(25, 55 - 3 * l), 26 + l, 13 + l, 5 + 0.7 * l, 1 + 0.3 * l];",
+            "    return [Math.max(25, 55 - 3 * l), 26 + l, 13 + l, 5 + 0.7 * l, 1 + 0.3 * l].map(function (x, i) { return x * (1 + (G.U.luck || 0) * i); }); // luck: Uncommon x(1+L), Rare x(1+2L)...",
             "};",
             "G.roll = function (seed, level, forced, count) {",
             "    const r = G.rng(seed);",
@@ -1643,6 +1658,7 @@
             "",
             "// ---- second chance: called at the end of Health.Hit. A player that would die comes back, once per life.",
             "G.rescue = function (o) {",
+            "    return; // since the character update the second chance is chosen on the death screen (G.secondChance)",
             "    const U = G.U, R = G.R;",
             "    if (!R || U.lives <= 0 || !o.hasBehavior('Player')) return;",
             "    const h = o.getBehavior('Health');",
@@ -1924,7 +1940,11 @@
             "    G.dispose();",
             "    let U = G.U;",
             "    // A lower level or a different RunSeed means a new run: forget everything",
-            "    if (level < U.lastLevel || (U.runSeed && runSeed && U.runSeed !== runSeed)) U = G.U = G.defaults();",
+            "    if (G.pendingNew || !U.character || level < U.lastLevel || (U.runSeed && runSeed && U.runSeed !== runSeed)) {",
+            "        U = G.U = G.defaults(G.charBase(players[0]));",
+            "        G.rank = { xp: 0 };",
+            "        G.pendingNew = false;",
+            "    }",
             "    U.lastLevel = level;",
             "    if (runSeed) U.runSeed = runSeed;",
             "    G.R = {",
@@ -1947,6 +1967,7 @@
             "        U.hp = U.maxHp; // restarted after a death",
             "    }",
             "    G.push(players);",
+            "    for (const q of players) { if (U.scale && U.scale !== 1 && q.setScale) q.setScale(U.scale); } // a big character (Rae)",
             "};",
             "// Card menu input. A game pad only has to call G.cardNav(+-1) and G.cardConfirm().",
             "G.cardNav = function (dir) {",
@@ -1965,9 +1986,6 @@
             "        if (!G.R || !G.R.open) return;",
             "        const m = /^(?:Digit|Numpad)([1-3])$/.exec(e.code || '');",
             "        if (m) { G.R.keyPick = parseInt(m[1], 10) - 1; return; }",
-            "        if (e.code === 'ArrowLeft' || e.code === 'ArrowUp') { G.cardNav(-1); e.preventDefault(); }",
-            "        else if (e.code === 'ArrowRight' || e.code === 'ArrowDown') { G.cardNav(1); e.preventDefault(); }",
-            "        else if ((e.code === 'Enter' || e.code === 'NumpadEnter') && !e.repeat) { G.cardConfirm(); e.preventDefault(); }",
             "    };",
             "    window.addEventListener('keydown', G.keyHandler);",
             "}",
@@ -2224,7 +2242,7 @@
             "    const p = players[0];",
             "    if (!p) return;",
             "    const U = G.U;",
-            "    const dmg = G.BASE.melee * (1 + U.meleePct / 100) * G.mult(p);",
+            "    const dmg = U.melee * (1 + U.meleePct / 100) * G.mult(p);",
             "    const reach = Math.min(G.BASE.reachMax, U.meleeReach);",
             "    const face = p.getAngle();",
             "    const px = G.cx(p), py = G.cy(p), pz = G.cz(p);",
@@ -2326,7 +2344,7 @@
             "        hv = { x: px + Math.cos(a0) * 40, y: py + Math.sin(a0) * 40, z: pz };",
             "    }",
             "    const reach = Math.min(G.BASE.reachMax, G.U.meleeReach);",
-            "    const dmg = G.BASE.melee * (1 + G.U.meleePct / 100) * G.mult(p);",
+            "    const dmg = G.U.melee * (1 + G.U.meleePct / 100) * G.mult(p);",
             "    const hl = Math.max(1, Math.hypot(hv.x - px, hv.y - py));",
             "    const len = synthetic ? reach : hl + reach; // the embers ring starts at 60 around the player and grows with the reach",
             "    const ang = Math.atan2(hv.y - py, hv.x - px);",
@@ -2462,7 +2480,7 @@
             "        case 'shotRange': return fmt(G.shotLife(), 1) + 's';",
             "        case 'bounces': return String(U.bounces);",
             "        case 'chain': return String(U.chain);",
-            "        case 'melee': return fmt(G.BASE.melee * (1 + U.meleePct / 100) * mult, 1);",
+            "        case 'melee': return fmt(U.melee * (1 + U.meleePct / 100) * mult, 1);",
             "        case 'reach': return fmt(U.meleeReach, 0) + ' / ' + G.BASE.reachMax;",
             "        case 'orbs': return U.orbLive + ' / ' + G.BASE.orbitalCap;",
             "        case 'orbTime': return U.orbitals <= 0 ? '-' : U.orbCdT > 0 ? secs(U.orbCdT) + ' / ' + secs(U.orbCd) : 'ready (' + secs(U.orbCd) + ')';",
@@ -2853,7 +2871,88 @@
             "        R.bubble.material.opacity = 0.5 * Math.min(1, U.shield / U.maxShield);",
             "    }",
             "    G.fxStep(dt);",
-            "};"
+            "};",
+            "",
+            "// ---- second chance, chosen on the death screen: everything collected stays, health comes back to revivePct, one life is spent",
+            "G.secondChance = function (players, enemies) {",
+            "    const U = G.U, R = G.R;",
+            "    const p = players[0];",
+            "    if (!R || !p || U.lives <= 0) return false;",
+            "    const h = p.getBehavior('Health');",
+            "    if (!h) return false;",
+            "    U.lives--;",
+            "    const hp = Math.max(1, U.maxHp * U.revivePct / 100);",
+            "    h.SetHealth(hp);",
+            "    U.hp = hp;",
+            "    R.invuln = Math.max(R.invuln, G.BASE.reviveInvuln);",
+            "    const fsm = p.getBehavior('PlayerFSM');",
+            "    if (fsm) { fsm._setState('Idle'); fsm._setStateTime(0); fsm._setCurrentAnim(''); } // leave the Death pose",
+            "    // the enemies were celebrating: they go back to work and know where the player is",
+            "    for (const e of (enemies || [])) {",
+            "        const eb = e.getBehavior('Enemy');",
+            "        if (eb && eb._getState() === 'Celebrate') { eb._setState('Idle'); eb._setStateTime(0); eb._setAggro(true); eb._setAlerted(true); }",
+            "    }",
+            "    G.pop(p);",
+            "    G.say(p, 'SECOND CHANCE!', '#ffd23c', { size: 64, pop: true, life: 2 });",
+            "    R.healBurst = 2;",
+            "    console.log('[Cards] second chance used, ' + U.lives + ' left, back with ' + Math.round(hp) + ' health');",
+            "    return true;",
+            "};",
+            "",
+            "// ---- saved runs (localStorage 'aMAZE.runs'): { id, created, updated, level, runSeed, character, rank, players: [{ character, upg, rankXp }] }",
+            "// players is a list so a co-op run can keep one entry per player later.",
+            "G.RUNS_KEY = 'aMAZE.runs';",
+            "G.readRuns = function () {",
+            "    try { const l = JSON.parse(window.localStorage.getItem(G.RUNS_KEY) || '[]'); return Array.isArray(l) ? l : []; } catch (e) { return []; }",
+            "};",
+            "G.writeRuns = function (list) {",
+            "    try { window.localStorage.setItem(G.RUNS_KEY, JSON.stringify(list)); return true; } catch (e) { console.warn('[Runs] could not save', e); return false; }",
+            "};",
+            "G.sortedRuns = function () { return G.readRuns().slice().sort(function (x, y) { return (y.updated || 0) - (x.updated || 0); }); };",
+            "G.findRun = function (id) { return G.readRuns().find(function (r) { return r.id === id; }) || null; };",
+            "G.saveRun = function (id, level, runSeed) {",
+            "    if (!id) return;",
+            "    const list = G.readRuns();",
+            "    let r = list.find(function (x) { return x.id === id; });",
+            "    if (!r) { r = { id: id, created: Date.now() }; list.push(r); }",
+            "    r.updated = Date.now(); r.level = level; r.runSeed = runSeed;",
+            "    r.character = G.U.character || '';",
+            "    r.rank = G.rankInfo(false).level;",
+            "    r.players = [{ character: r.character, upg: JSON.parse(JSON.stringify(G.U)), rankXp: G.rank.xp }];",
+            "    G.writeRuns(list);",
+            "};",
+            "G.loadRun = function (id) {",
+            "    const r = G.findRun(id);",
+            "    if (!r || !r.players || !r.players[0]) return false;",
+            "    G.U = Object.assign(G.defaults(), JSON.parse(JSON.stringify(r.players[0].upg)));",
+            "    G.rank = { xp: Number(r.players[0].rankXp) || 0 };",
+            "    G.pendingNew = false;",
+            "    return true;",
+            "};",
+            "G.deleteRun = function (id) { G.writeRuns(G.readRuns().filter(function (r) { return r.id !== id; })); };",
+            "G.spendSavedLife = function (id) { // BACK TO MENU from the death screen with a second chance: the saved run keeps going but the life is gone",
+            "    const list = G.readRuns();",
+            "    const r = list.find(function (x) { return x.id === id; });",
+            "    const u = r && r.players && r.players[0] && r.players[0].upg;",
+            "    if (u && u.lives > 0) { u.lives--; G.writeRuns(list); }",
+            "};",
+            "G.charLabel = function (name) { const m = /^Astronaut_([A-Za-z]+)_/.exec(String(name || '')); return m ? m[1] : String(name || ''); };",
+            "G.runField = function (id, field) {",
+            "    const r = G.findRun(id);",
+            "    if (!r) return '';",
+            "    switch (field) {",
+            "        case 'character': return r.character || '';",
+            "        case 'label': return G.charLabel(r.character);",
+            "        case 'title': return G.charLabel(r.character).toUpperCase() + '  -  LEVEL ' + (r.level || 1) + '  -  RANK ' + (r.rank || 1);",
+            "        case 'level': return r.level || 1;",
+            "        case 'seed': return r.runSeed || 0;",
+            "        case 'rank': return r.rank || 1;",
+            "        case 'updated': return r.updated || 0;",
+            "        case 'lives': { const u = r.players && r.players[0] && r.players[0].upg; return u ? (u.lives || 0) : 0; }",
+            "        default: return '';",
+            "    }",
+            "};",
+            ""
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -5479,6 +5578,478 @@
       },
       "parameters": [],
       "objectGroups": []
+    },
+    {
+      "description": "The next GameScene starts a new run: stats come from the character model and the rank starts again.",
+      "fullName": "Start a new run",
+      "functionType": "Action",
+      "name": "NewRun",
+      "sentence": "Start a new run",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.newRun();"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "A new unique id for a run.",
+      "fullName": "New run id",
+      "functionType": "StringExpression",
+      "name": "NewRunId",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "eventsFunctionContext.returnValue = Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "string"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Saves the run (character, level, seed, upgrades, rank) under its id.",
+      "fullName": "Save the run",
+      "functionType": "Action",
+      "name": "SaveRun",
+      "sentence": "Save run _PARAM1_ (continue at level _PARAM2_, seed _PARAM3_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.saveRun(String(eventsFunctionContext.getArgument('RunId')), eventsFunctionContext.getArgument('Level'), eventsFunctionContext.getArgument('RunSeed'));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Run id",
+          "name": "RunId",
+          "type": "string"
+        },
+        {
+          "description": "Level to continue from",
+          "name": "Level",
+          "type": "expression"
+        },
+        {
+          "description": "Run seed",
+          "name": "RunSeed",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Loads the upgrades and rank of a saved run. Level, seed and character are read with RunNumber / RunText.",
+      "fullName": "Load a saved run",
+      "functionType": "Action",
+      "name": "LoadRun",
+      "sentence": "Load run _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.loadRun(String(eventsFunctionContext.getArgument('RunId')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Run id",
+          "name": "RunId",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Deletes a saved run.",
+      "fullName": "Delete a saved run",
+      "functionType": "Action",
+      "name": "DeleteRun",
+      "sentence": "Delete run _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.deleteRun(String(eventsFunctionContext.getArgument('RunId')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Run id",
+          "name": "RunId",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Takes one second chance away from the saved run.",
+      "fullName": "Spend a life of the saved run",
+      "functionType": "Action",
+      "name": "SpendSavedLife",
+      "sentence": "Spend a life of saved run _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.spendSavedLife(String(eventsFunctionContext.getArgument('RunId')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Run id",
+          "name": "RunId",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of saved runs.",
+      "fullName": "Saved runs",
+      "functionType": "Expression",
+      "name": "RunCount",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.readRuns().length : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Id of the saved run at a position, newest first.",
+      "fullName": "Saved run id",
+      "functionType": "StringExpression",
+      "name": "RunIdAt",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "const r = G ? G.sortedRuns()[Math.floor(eventsFunctionContext.getArgument('Index'))] : null;",
+            "eventsFunctionContext.returnValue = r ? r.id : '';"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "string"
+      },
+      "parameters": [
+        {
+          "description": "Position in the list (0 = the newest)",
+          "name": "Index",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Text of a saved run: character (object name), label (Rae), title (list line).",
+      "fullName": "Saved run text",
+      "functionType": "StringExpression",
+      "name": "RunText",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? String(G.runField(String(eventsFunctionContext.getArgument('RunId')), String(eventsFunctionContext.getArgument('Field')))) : '';"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "string"
+      },
+      "parameters": [
+        {
+          "description": "Run id",
+          "name": "RunId",
+          "type": "string"
+        },
+        {
+          "description": "character, label or title",
+          "name": "Field",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Number of a saved run.",
+      "fullName": "Saved run number",
+      "functionType": "Expression",
+      "name": "RunNumber",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? Number(G.runField(String(eventsFunctionContext.getArgument('RunId')), String(eventsFunctionContext.getArgument('Field')))) || 0 : 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "Run id",
+          "name": "RunId",
+          "type": "string"
+        },
+        {
+          "description": "level, seed, rank, lives or updated",
+          "name": "Field",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "The player has a second chance (life) left.",
+      "fullName": "Has a second chance",
+      "functionType": "Condition",
+      "name": "HasSecondChance",
+      "sentence": "The player has a second chance",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = !!G && G.U.lives > 0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Revives the dead player with the health of the Second Chance card, spends the life and wakes the celebrating enemies.",
+      "fullName": "Use the second chance",
+      "functionType": "Action",
+      "name": "SecondChance",
+      "sentence": "Use the second chance of _PARAM1_ (enemies: _PARAM2_)",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G && G.R) G.secondChance(eventsFunctionContext.getObjects('Players'), eventsFunctionContext.getObjects('Enemies'));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Players",
+          "name": "Players",
+          "type": "objectList"
+        },
+        {
+          "description": "Enemies",
+          "name": "Enemies",
+          "type": "objectList"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Moves the card selection.",
+      "fullName": "Card selection step",
+      "functionType": "Action",
+      "name": "CardNav",
+      "sentence": "Move the card selection by _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.cardNav(Math.sign(eventsFunctionContext.getArgument('Direction')));"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "-1 previous card, 1 next card",
+          "name": "Direction",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Picks the selected card.",
+      "fullName": "Confirm the selected card",
+      "functionType": "Action",
+      "name": "CardConfirm",
+      "sentence": "Pick the selected card",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "if (G) G.cardConfirm();"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "The game accepts attacks: the mouse is locked, or the player is using a gamepad (which needs no lock).",
+      "fullName": "Game input is ready",
+      "functionType": "Condition",
+      "name": "InputReady",
+      "sentence": "The game input is ready",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const H = typeof gdjs._MousePointerLockExtension !== 'undefined' ? gdjs._MousePointerLockExtension.handler : null;",
+            "const locked = !!H && H.isPointerLocked();",
+            "const pad = !!gdjs.playerInput && gdjs.playerInput.lastDevice('P1') === 'Gamepad';",
+            "eventsFunctionContext.returnValue = locked || pad;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Closes the game (desktop builds).",
+      "fullName": "Quit the game",
+      "functionType": "Action",
+      "name": "QuitGame",
+      "sentence": "Quit the game",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "gdjs.evtTools.runtimeScene.stopGame(runtimeScene);",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Text variable of the model that has the given Index variable.",
+      "fullName": "Model text",
+      "functionType": "StringExpression",
+      "name": "ModelText",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const want = Math.floor(eventsFunctionContext.getArgument('Index')), name = String(eventsFunctionContext.getArgument('Field'));",
+            "let out = '';",
+            "for (const o of eventsFunctionContext.getObjects('Models')) {",
+            "    const v = o.getVariables();",
+            "    if (v.has('Index') && v.get('Index').getAsNumber() === want && v.has(name)) { out = v.get(name).getAsString(); break; }",
+            "}",
+            "eventsFunctionContext.returnValue = out;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "string"
+      },
+      "parameters": [
+        {
+          "description": "Model objects (a group)",
+          "name": "Models",
+          "type": "objectList"
+        },
+        {
+          "description": "Value of the object variable Index",
+          "name": "Index",
+          "type": "expression"
+        },
+        {
+          "description": "Object variable name (DisplayName, Perk, Drawback, Character)",
+          "name": "Field",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
     }
   ],
   "eventsFunctionsFolderStructure": {
@@ -5693,6 +6264,57 @@
       },
       {
         "functionName": "CameraDistance"
+      },
+      {
+        "functionName": "NewRun"
+      },
+      {
+        "functionName": "NewRunId"
+      },
+      {
+        "functionName": "SaveRun"
+      },
+      {
+        "functionName": "LoadRun"
+      },
+      {
+        "functionName": "DeleteRun"
+      },
+      {
+        "functionName": "SpendSavedLife"
+      },
+      {
+        "functionName": "RunCount"
+      },
+      {
+        "functionName": "RunIdAt"
+      },
+      {
+        "functionName": "RunText"
+      },
+      {
+        "functionName": "RunNumber"
+      },
+      {
+        "functionName": "HasSecondChance"
+      },
+      {
+        "functionName": "SecondChance"
+      },
+      {
+        "functionName": "CardNav"
+      },
+      {
+        "functionName": "CardConfirm"
+      },
+      {
+        "functionName": "InputReady"
+      },
+      {
+        "functionName": "QuitGame"
+      },
+      {
+        "functionName": "ModelText"
       }
     ]
   },
@@ -14115,6 +14737,55 @@
           "label": "Meta damage bonus",
           "hidden": true,
           "name": "MetaDamageBonus"
+        },
+        {
+          "value": "10",
+          "type": "Number",
+          "label": "Base melee damage",
+          "group": "Character",
+          "name": "BaseMelee"
+        },
+        {
+          "value": "7",
+          "type": "Number",
+          "label": "Base shot spread (degrees)",
+          "group": "Character",
+          "name": "BaseSpread"
+        },
+        {
+          "value": "false",
+          "type": "Boolean",
+          "label": "Jump unlocked from the start",
+          "group": "Character",
+          "name": "StartsWithJump"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Base crit chance (%)",
+          "group": "Character",
+          "name": "BaseCritPct"
+        },
+        {
+          "value": "0",
+          "type": "Number",
+          "label": "Luck: 0.2 makes Uncommon x1.2, Rare x1.4, Epic x1.6, Mythic x1.8 more likely in card offers",
+          "group": "Character",
+          "name": "Luck"
+        },
+        {
+          "value": "50",
+          "type": "Number",
+          "label": "Base max shield",
+          "group": "Character",
+          "name": "BaseMaxShield"
+        },
+        {
+          "value": "1",
+          "type": "Number",
+          "label": "Model size (1 = normal)",
+          "group": "Character",
+          "name": "ModelScale"
         }
       ],
       "propertiesFolderStructure": {
@@ -14185,6 +14856,32 @@
           },
           {
             "propertyName": "MetaDamageBonus"
+          },
+          {
+            "folderName": "Character",
+            "children": [
+              {
+                "propertyName": "BaseMelee"
+              },
+              {
+                "propertyName": "BaseSpread"
+              },
+              {
+                "propertyName": "StartsWithJump"
+              },
+              {
+                "propertyName": "BaseCritPct"
+              },
+              {
+                "propertyName": "Luck"
+              },
+              {
+                "propertyName": "BaseMaxShield"
+              },
+              {
+                "propertyName": "ModelScale"
+              }
+            ]
           }
         ]
       }

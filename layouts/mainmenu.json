@@ -21,12 +21,33 @@
     "gridColor": 10401023,
     "gridAlpha": 0.8,
     "snap": false,
-    "zoomFactor": 0.546875,
+    "zoomFactor": 1.993459038490197,
     "windowMask": false,
     "selectedLayer": "",
     "gameEditorMode": "instances-editor"
   },
-  "objectsGroups": [],
+  "objectsGroups": [
+    {
+      "name": "MenuItems",
+      "objects": [
+        {
+          "name": "SinglePlayerText"
+        },
+        {
+          "name": "CoopText"
+        },
+        {
+          "name": "OnlineText"
+        },
+        {
+          "name": "OptionsText"
+        },
+        {
+          "name": "QuitText"
+        }
+      ]
+    }
+  ],
   "variables": [],
   "instances": [
     {
@@ -61,6 +82,87 @@
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "CoopText",
+      "persistentUuid": "3f7230b9-4ba4-4dbf-be7f-27bf40b4fcd5",
+      "width": 0,
+      "x": 74,
+      "y": 254,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "OnlineText",
+      "persistentUuid": "666b5b13-1d22-4a1d-ab21-1957077a0bea",
+      "width": 0,
+      "x": 74,
+      "y": 324,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "OptionsText",
+      "persistentUuid": "1fd9a944-c645-46e8-89ec-4180871d85b0",
+      "width": 0,
+      "x": 74,
+      "y": 394,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "UI",
+      "name": "QuitText",
+      "persistentUuid": "bdfe63f1-3433-4662-becd-a1bcab9028e6",
+      "width": 0,
+      "x": 74,
+      "y": 464,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 0,
+      "keepRatio": true,
+      "layer": "",
+      "name": "Camera_Target",
+      "persistentUuid": "8c99a7d1-f68c-4f6f-b915-8cb897a48757",
+      "width": 0,
+      "x": 1050,
+      "y": 450,
+      "z": 35,
+      "zOrder": 3,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     }
   ],
   "objects": [
@@ -73,7 +175,20 @@
       "smoothed": true,
       "type": "TextObject::Text",
       "underlined": false,
-      "variables": [],
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "4adea4ca-7b9c-4ee6-be0a-0eeaf318c649",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "7e961780-f0a4-4d4e-bbe9-604afe18fcc5",
+          "type": "number",
+          "value": 1
+        }
+      ],
       "effects": [],
       "behaviors": [],
       "string": "SINGLE PLAYER",
@@ -87,11 +202,11 @@
       },
       "content": {
         "bold": false,
-        "isOutlineEnabled": false,
+        "isOutlineEnabled": true,
         "isShadowEnabled": false,
         "italic": false,
-        "outlineColor": "255;255;255",
-        "outlineThickness": 2,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
         "shadowAngle": 90,
         "shadowBlurRadius": 2,
         "shadowColor": "0;0;0",
@@ -230,6 +345,260 @@
           }
         ]
       }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "CoopText",
+      "persistentUuid": "9debad69-dbd5-401f-84a0-240c515b5959",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "092afe39-32b5-482b-8cc0-41625d491f7e",
+          "type": "number",
+          "value": 1
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "fc1dccd2-50d3-44c4-89e0-b80de6688153",
+          "type": "number",
+          "value": 0
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "LOCAL CO-OP  (SOON)",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "LOCAL CO-OP  (SOON)",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "OnlineText",
+      "persistentUuid": "323e97f8-a9ab-48a6-aeda-203cf4ef4118",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "54e09ade-e175-4334-9154-39a08afe03c8",
+          "type": "number",
+          "value": 2
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "18d690a6-ebe2-4b2f-b275-cb63fcf178d7",
+          "type": "number",
+          "value": 0
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "ONLINE MULTIPLAYER  (SOON)",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "ONLINE MULTIPLAYER  (SOON)",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "OptionsText",
+      "persistentUuid": "b879ae17-8763-4758-9340-e09eb91f33fc",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "0056b8b5-c1f2-49ed-9402-79d577eb562b",
+          "type": "number",
+          "value": 3
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "9d8eb80f-52b7-468a-bd21-60b60893ca83",
+          "type": "number",
+          "value": 0
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "OPTIONS  (SOON)",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "OPTIONS  (SOON)",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "",
+      "bold": false,
+      "italic": false,
+      "name": "QuitText",
+      "persistentUuid": "f97d8349-c791-4c9e-8209-816fa98f3ecf",
+      "smoothed": true,
+      "type": "TextObject::Text",
+      "underlined": false,
+      "variables": [
+        {
+          "name": "Index",
+          "persistentUuid": "e299d1fe-2858-416e-b00a-2b6dc1b68ee4",
+          "type": "number",
+          "value": 4
+        },
+        {
+          "name": "Enabled",
+          "persistentUuid": "f81c86a7-c472-4543-99ee-50575234e546",
+          "type": "number",
+          "value": 1
+        }
+      ],
+      "effects": [],
+      "behaviors": [],
+      "string": "QUIT",
+      "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+      "textAlignment": "left",
+      "characterSize": 40,
+      "color": {
+        "b": 0,
+        "g": 0,
+        "r": 0
+      },
+      "content": {
+        "bold": false,
+        "isOutlineEnabled": true,
+        "isShadowEnabled": false,
+        "italic": false,
+        "outlineColor": "0;0;0",
+        "outlineThickness": 4,
+        "shadowAngle": 90,
+        "shadowBlurRadius": 2,
+        "shadowColor": "0;0;0",
+        "shadowDistance": 4,
+        "shadowOpacity": 127,
+        "smoothed": true,
+        "underlined": false,
+        "text": "QUIT",
+        "font": "078f2c53113817df13b013f3ef602c397bc7ae7305b8bb97b191688940cf3bd2_Kenney Future Narrow.ttf",
+        "textAlignment": "left",
+        "verticalTextAlignment": "top",
+        "characterSize": 40,
+        "lineHeight": 0,
+        "color": "0;0;0"
+      }
+    },
+    {
+      "assetStoreId": "aabb3c06827c46370d9b66df3e34e8fef4e9b62813c8a924bc40b836e4f08eab",
+      "name": "Camera_Target",
+      "persistentUuid": "2866a09a-2e46-42b5-b75f-28af314a37a8",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 15,
+        "height": 15,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Camera Target.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "width": 15,
+        "animations": []
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -240,6 +609,21 @@
       },
       {
         "objectName": "Astronaut_Fernando_The_Flamingo"
+      },
+      {
+        "objectName": "CoopText"
+      },
+      {
+        "objectName": "OnlineText"
+      },
+      {
+        "objectName": "OptionsText"
+      },
+      {
+        "objectName": "QuitText"
+      },
+      {
+        "objectName": "Camera_Target"
       }
     ]
   },
@@ -263,7 +647,7 @@
           },
           "parameters": [
             "",
-            "Astronaut_Fernando_The_Flamingo",
+            "Camera_Target",
             "Object3D",
             "100",
             "0",
@@ -290,6 +674,14 @@
           "parameters": [
             "Astronaut_Fernando_The_Flamingo",
             "\"waveTimer\""
+          ]
+        },
+        {
+          "type": {
+            "value": "Hide"
+          },
+          "parameters": [
+            "Camera_Target"
           ]
         }
       ]
@@ -377,6 +769,120 @@
             "Animation",
             "=",
             "\"Idle\""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Comment",
+      "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+      },
+      "comment": "Menu: mouse, arrows / W S, D-pad and the left stick all go through PlayerInput. Greyed items are not available yet."
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "SceneJustBegins"
+          },
+          "parameters": [
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuSelect"
+          },
+          "parameters": [
+            "",
+            "\"main\"",
+            "0",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [],
+      "actions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuUpdate"
+          },
+          "parameters": [
+            "",
+            "\"main\"",
+            "MenuItems",
+            "\"vertical\"",
+            "\"255;210;60\"",
+            "\"255;255;255\"",
+            "\"150;150;150\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"main\"",
+            "0",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Scene"
+          },
+          "parameters": [
+            "",
+            "\"RunSelection\"",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BuiltinCommonInstructions::Standard",
+      "conditions": [
+        {
+          "type": {
+            "value": "PlayerInput::MenuConfirmed"
+          },
+          "parameters": [
+            "",
+            "\"main\"",
+            "4",
+            ""
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": {
+            "value": "Amaze::QuitGame"
+          },
+          "parameters": [
+            "",
+            ""
           ]
         }
       ]
