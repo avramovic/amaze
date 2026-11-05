@@ -84,6 +84,8 @@ HP je za nivo 1. Brzina je relativna u odnosu na brzinu hodanja igrača. Osnovno
 - HP: `HP × (1 + 0.12 × (nivo − 1))`
 - Šteta: `šteta × (1 + 0.08 × (nivo − 1))`
 
+**Nivo neprijatelja prati rank igrača:** baza je `max(nivo lavirinta, round(rank × rankToEnemy))` (`BASE.rankToEnemy` = 0.5), pa ±2 po neprijatelju. Veličina lavirinta, broj spawnera, budžet i pool tipova ostaju po nivou lavirinta. XP se računa na osnovni HP (XP vrednost / faktor HP-a nivoa neprijatelja), da jači neprijatelji ne ubrzavaju rank. Daily igra sa najboljim rankom igrača (`aMAZE.bestRank`).
+
 ### Biomi po porodicama
 
 Biom traje 5 nivoa i završava se bossom tog bioma (poglavlje 8). Umesto mešanja svega, svaki biom ima 2-3 porodice plus sluge svog bossa (npr. podrazumevano, bez daily seeda: nivoi 1-5: Orc + Mushnub + Pigeon + sluge Žabe; nivoi 6-10: Ninja + Yeti + Ghost + sluge Lisice). Igrač uči neprijatelje u grupama, a težina je pod kontrolom.
