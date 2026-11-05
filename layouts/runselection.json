@@ -24,7 +24,7 @@
     "zoomFactor": 0.546875,
     "windowMask": false,
     "selectedLayer": "",
-    "gameEditorMode": "instances-editor"
+    "gameEditorMode": "embedded-game"
   },
   "objectsGroups": [
     {
@@ -112,6 +112,22 @@
       "x": 74,
       "y": 670,
       "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
+    },
+    {
+      "angle": 0,
+      "customSize": false,
+      "height": 15,
+      "layer": "",
+      "name": "Camera_Target",
+      "persistentUuid": "b0f95b62-908b-439f-aa3f-4e78267c6936",
+      "width": 15,
+      "x": 1050,
+      "y": 450,
+      "z": 35,
+      "zOrder": 3,
       "numberProperties": [],
       "stringProperties": [],
       "initialVariables": []
@@ -455,6 +471,32 @@
         "lineHeight": 0,
         "color": "0;0;0"
       }
+    },
+    {
+      "assetStoreId": "aabb3c06827c46370d9b66df3e34e8fef4e9b62813c8a924bc40b836e4f08eab",
+      "name": "Camera_Target",
+      "persistentUuid": "c4dac610-0e3d-4d77-8ab7-4b64d8ff9dcf",
+      "type": "Scene3D::Model3DObject",
+      "variables": [],
+      "effects": [],
+      "behaviors": [],
+      "content": {
+        "centerLocation": "CenteredOnZ",
+        "crossfadeDuration": 0.10000000149011612,
+        "depth": 15,
+        "height": 15,
+        "isCastingShadow": true,
+        "isReceivingShadow": true,
+        "keepAspectRatio": true,
+        "materialType": "StandardWithoutMetalness",
+        "modelResourceName": "Camera Target.glb",
+        "originLocation": "ModelOrigin",
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "width": 15,
+        "animations": []
+      }
     }
   ],
   "objectsFolderStructure": {
@@ -474,6 +516,9 @@
       },
       {
         "objectName": "HintText"
+      },
+      {
+        "objectName": "Camera_Target"
       }
     ]
   },
@@ -497,7 +542,7 @@
           },
           "parameters": [
             "",
-            "Astronaut_Fernando_The_Flamingo",
+            "Camera_Target",
             "Object3D",
             "100",
             "0",
@@ -524,6 +569,14 @@
           "parameters": [
             "Astronaut_Fernando_The_Flamingo",
             "\"waveTimer\""
+          ]
+        },
+        {
+          "type": {
+            "value": "Hide"
+          },
+          "parameters": [
+            "Camera_Target"
           ]
         }
       ]

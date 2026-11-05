@@ -74,15 +74,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "width": 0,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": [],
       "name": "TitleText",
       "persistentUuid": "bb6a6166-dac2-4083-8537-2ac04ae5e23d",
+      "width": 0,
       "x": 74,
-      "y": 100
+      "y": 100,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     },
     {
       "angle": 0,
@@ -90,15 +90,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "width": 0,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": [],
       "name": "DateText",
       "persistentUuid": "fd4f6ee1-313b-495a-aad0-9a99ca27984c",
+      "width": 0,
       "x": 74,
-      "y": 160
+      "y": 160,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     },
     {
       "angle": 0,
@@ -106,15 +106,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "width": 0,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": [],
       "name": "TimeText",
       "persistentUuid": "b747e593-7f4f-40eb-9625-77fa6620f9bd",
+      "width": 0,
       "x": 74,
-      "y": 215
+      "y": 215,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     },
     {
       "angle": 0,
@@ -122,15 +122,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "width": 0,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": [],
       "name": "BestText",
       "persistentUuid": "f1f4ea20-346e-41f8-b964-fa3383c877bc",
+      "width": 0,
       "x": 74,
-      "y": 270
+      "y": 270,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     },
     {
       "angle": 0,
@@ -138,15 +138,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "width": 0,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": [],
       "name": "AttemptsText",
       "persistentUuid": "b5c387c8-1c50-47a9-b9ab-756c58b3730b",
+      "width": 0,
       "x": 74,
-      "y": 310
+      "y": 310,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     },
     {
       "angle": 0,
@@ -154,15 +154,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "width": 0,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": [],
       "name": "StatusText",
       "persistentUuid": "c4a34be9-61f0-43a2-b368-f396fb497a02",
+      "width": 0,
       "x": 74,
-      "y": 352
+      "y": 352,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     },
     {
       "angle": 0,
@@ -170,15 +170,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "width": 0,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": [],
       "name": "LeaderboardText",
       "persistentUuid": "6cb94ba9-7215-4b3a-ac21-90cfed0d300d",
+      "width": 0,
       "x": 74,
-      "y": 430
+      "y": 430,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     },
     {
       "angle": 0,
@@ -186,15 +186,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
-      "width": 0,
-      "zOrder": 1,
-      "numberProperties": [],
-      "stringProperties": [],
-      "initialVariables": [],
       "name": "PlayAgainText",
       "persistentUuid": "76bc1d26-5cf4-4e11-a4b8-fec5ec0da4c9",
+      "width": 0,
       "x": 74,
-      "y": 490
+      "y": 490,
+      "zOrder": 1,
+      "numberProperties": [],
+      "stringProperties": [],
+      "initialVariables": []
     },
     {
       "angle": 0,
@@ -202,15 +202,15 @@
       "height": 0,
       "keepRatio": true,
       "layer": "UI",
+      "name": "DailyBackText",
+      "persistentUuid": "27b4f097-f72c-4c2b-8236-0a2d0dc859ea",
       "width": 0,
+      "x": 74,
+      "y": 550,
       "zOrder": 1,
       "numberProperties": [],
       "stringProperties": [],
-      "initialVariables": [],
-      "name": "DailyBackText",
-      "persistentUuid": "27b4f097-f72c-4c2b-8236-0a2d0dc859ea",
-      "x": 74,
-      "y": 550
+      "initialVariables": []
     }
   ],
   "objects": [
@@ -354,9 +354,9 @@
       "textAlignment": "left",
       "characterSize": 46,
       "color": {
-        "r": 255,
+        "b": 255,
         "g": 255,
-        "b": 255
+        "r": 255
       },
       "content": {
         "bold": false,
@@ -398,9 +398,9 @@
       "textAlignment": "left",
       "characterSize": 28,
       "color": {
-        "r": 255,
+        "b": 255,
         "g": 255,
-        "b": 255
+        "r": 255
       },
       "content": {
         "bold": false,
@@ -442,9 +442,9 @@
       "textAlignment": "left",
       "characterSize": 40,
       "color": {
-        "r": 110,
+        "b": 130,
         "g": 230,
-        "b": 130
+        "r": 110
       },
       "content": {
         "bold": false,
@@ -486,9 +486,9 @@
       "textAlignment": "left",
       "characterSize": 28,
       "color": {
-        "r": 255,
+        "b": 255,
         "g": 255,
-        "b": 255
+        "r": 255
       },
       "content": {
         "bold": false,
@@ -530,9 +530,9 @@
       "textAlignment": "left",
       "characterSize": 28,
       "color": {
-        "r": 255,
+        "b": 255,
         "g": 255,
-        "b": 255
+        "r": 255
       },
       "content": {
         "bold": false,
@@ -574,9 +574,9 @@
       "textAlignment": "left",
       "characterSize": 22,
       "color": {
-        "r": 200,
+        "b": 200,
         "g": 200,
-        "b": 200
+        "r": 200
       },
       "content": {
         "bold": false,
@@ -1020,8 +1020,8 @@
       "conditions": [
         {
           "type": {
-            "value": "BooleanVariable",
-            "inverted": true
+            "inverted": true,
+            "value": "BooleanVariable"
           },
           "parameters": [
             "BoardOpen",

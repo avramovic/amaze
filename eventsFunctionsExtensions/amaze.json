@@ -6120,11 +6120,11 @@
           "eventsSheetExpanded": false
         }
       ],
-      "parameters": [],
-      "objectGroups": [],
       "expressionType": {
         "type": "string"
-      }
+      },
+      "parameters": [],
+      "objectGroups": []
     },
     {
       "description": "Run seed of the daily challenge: the same number for everybody on the same UTC day.",
@@ -6144,11 +6144,11 @@
           "eventsSheetExpanded": false
         }
       ],
-      "parameters": [],
-      "objectGroups": [],
       "expressionType": {
         "type": "expression"
-      }
+      },
+      "parameters": [],
+      "objectGroups": []
     },
     {
       "description": "Level (difficulty) of the daily challenge.",
@@ -6168,11 +6168,11 @@
           "eventsSheetExpanded": false
         }
       ],
-      "parameters": [],
-      "objectGroups": [],
       "expressionType": {
         "type": "expression"
-      }
+      },
+      "parameters": [],
+      "objectGroups": []
     },
     {
       "description": "Maze size of the daily challenge in blocks (20 = 20 x 20).",
@@ -6192,11 +6192,11 @@
           "eventsSheetExpanded": false
         }
       ],
-      "parameters": [],
-      "objectGroups": [],
       "expressionType": {
         "type": "expression"
-      }
+      },
+      "parameters": [],
+      "objectGroups": []
     },
     {
       "description": "Best time of today's daily on this machine, in seconds (0 = not finished yet).",
@@ -6216,11 +6216,11 @@
           "eventsSheetExpanded": false
         }
       ],
-      "parameters": [],
-      "objectGroups": [],
       "expressionType": {
         "type": "expression"
-      }
+      },
+      "parameters": [],
+      "objectGroups": []
     },
     {
       "description": "Number of attempts at today's daily on this machine.",
@@ -6240,11 +6240,11 @@
           "eventsSheetExpanded": false
         }
       ],
-      "parameters": [],
-      "objectGroups": [],
       "expressionType": {
         "type": "expression"
-      }
+      },
+      "parameters": [],
+      "objectGroups": []
     },
     {
       "description": "Stable nickname used on the leaderboard.",
@@ -6264,11 +6264,11 @@
           "eventsSheetExpanded": false
         }
       ],
-      "parameters": [],
-      "objectGroups": [],
       "expressionType": {
         "type": "string"
-      }
+      },
+      "parameters": [],
+      "objectGroups": []
     },
     {
       "description": "Seconds as m:ss.cc.",
@@ -6288,6 +6288,9 @@
           "eventsSheetExpanded": false
         }
       ],
+      "expressionType": {
+        "type": "string"
+      },
       "parameters": [
         {
           "description": "Seconds",
@@ -6295,10 +6298,7 @@
           "type": "expression"
         }
       ],
-      "objectGroups": [],
-      "expressionType": {
-        "type": "string"
-      }
+      "objectGroups": []
     },
     {
       "description": "Counts a new attempt at today's daily.",

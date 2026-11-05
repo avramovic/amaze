@@ -13197,9 +13197,9 @@
       "textAlignment": "left",
       "characterSize": 36,
       "color": {
-        "r": 255,
+        "b": 255,
         "g": 255,
-        "b": 255
+        "r": 255
       },
       "content": {
         "bold": false,
@@ -13735,9 +13735,7 @@
       "events": [
         {
           "type": "BuiltinCommonInstructions::JsCode",
-          "inlineCode": [
-            "console.log('[Daily] ' + gdjs.amazeUpg.dailyDate(runtimeScene.getGame()) + ' seed ' + runtimeScene.getGame().getVariables().get('RunSeed').getAsNumber() + ' level ' + runtimeScene.getGame().getVariables().get('Level').getAsNumber());"
-          ],
+          "inlineCode": "console.log('[Daily] ' + gdjs.amazeUpg.dailyDate(runtimeScene.getGame()) + ' seed ' + runtimeScene.getGame().getVariables().get('RunSeed').getAsNumber() + ' level ' + runtimeScene.getGame().getVariables().get('Level').getAsNumber());",
           "parameterObjects": "",
           "useStrict": true,
           "eventsSheetExpanded": false
@@ -13759,8 +13757,8 @@
         },
         {
           "type": {
-            "value": "Health::Health::IsDead",
-            "inverted": true
+            "inverted": true,
+            "value": "Health::Health::IsDead"
           },
           "parameters": [
             "Players",
