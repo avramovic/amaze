@@ -19109,6 +19109,18 @@
             "topFaceResourceName": "skybox-top.jpg"
           },
           "booleanParameters": {}
+        },
+        {
+          "disabled": true,
+          "effectType": "Scene3D::ExponentialFog",
+          "name": "Thick Grey Fog",
+          "doubleParameters": {
+            "density": 0.0015
+          },
+          "stringParameters": {
+            "color": "150;150;150"
+          },
+          "booleanParameters": {}
         }
       ]
     },
