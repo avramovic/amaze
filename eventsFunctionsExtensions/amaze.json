@@ -3005,7 +3005,7 @@
             "",
             "// ---- daily challenge: the same maze for everybody on a UTC day. Results stay on this machine (localStorage 'aMAZE.daily').",
             "G.BASE.dailyLevel = 10;   // difficulty of the daily level (enemies, scaling, card rarity)",
-            "G.BASE.dailyBlocksMin = 10; G.BASE.dailyBlocksMax = 20; // the size of the daily maze is picked from the day's seed (the same for everybody)",
+            "G.BASE.dailyBlocksMin = 10; G.BASE.dailyBlocksMax = 15; // the size of the daily maze is picked from the day's seed (the same for everybody)",
             "G.BASE.dailyRank = 35;       // everybody plays the daily at this rank (card unlocks and rarities), never at the personal rank: no Epic / Mythic",
             "G.BASE.dailyStartCards = 12; // seeded starting build: this many cards are applied before the first move (the same for everybody that day)",
             "G.dailyBlocks = function (seed) { return G.BASE.dailyBlocksMin + G.hash(seed, 4242) % (G.BASE.dailyBlocksMax - G.BASE.dailyBlocksMin + 1); };",

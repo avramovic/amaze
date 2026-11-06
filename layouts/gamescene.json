@@ -16054,7 +16054,7 @@
           "parameters": [
             "EnemyProjectile",
             "+",
-            "cos(ToRad(EnemyProjectile.Angle())) * 600 * TimeDelta()"
+            "cos(ToRad(EnemyProjectile.Angle())) * 1000 * TimeDelta()"
           ]
         },
         {
@@ -16064,7 +16064,7 @@
           "parameters": [
             "EnemyProjectile",
             "+",
-            "sin(ToRad(EnemyProjectile.Angle())) * 600 * TimeDelta()"
+            "sin(ToRad(EnemyProjectile.Angle())) * 1000 * TimeDelta()"
           ]
         }
       ]
