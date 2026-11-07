@@ -1243,7 +1243,7 @@
             "if (gdjs.amazeUpg && gdjs.amazeUpg.version === 15) return;",
             "const G = (gdjs.amazeUpg = { version: 15 });",
             "",
-            "G.BASE = { speed: 300, speedCap: 700, shot: 10, life: 0.5, melee: 10, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 1000, orbitalCap: 4, orbCd: 30, orbCdMin: 10, orbCdCard: 1, rankXP: 10, rankToEnemy: 0.5,",
+            "G.BASE = { speed: 300, speedCap: 700, shot: 10, range: 5, melee: 10, reach: 60, reachMax: 120, orbDamage: 6, orbRadius: 130, jump: 100, reflectCap: 75, chainRange: 800, shotSpeed: 1000, orbitalCap: 4, orbCd: 30, orbCdMin: 10, orbCdCard: 1, rankXP: 10, rankToEnemy: 0.5,",
             "    // crit / shooting / survival basics",
             "    critMul: 2, execBelow: 0.3, spread: 7, regenDelay: 10, iframes: 0.5, fireMoment: 0.4, shootDuration: 0.87, extraShotValue: 0.6, volleyGap: 8,",
             "    dashSpeed: 1400, dashTime: 0.15, dashCd: 3, dashCdMin: 0.8, reviveInvuln: 1.5, chestOpen: 0.75, chestHold: 0.5, reflectDmg: 0.6,",
@@ -1280,7 +1280,7 @@
             "    { id: 'health-increase', title: 'Vitality', cat: 'healing', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + ' max health' },",
             "    { id: 'ricochet', title: 'Ricochet', cat: 'attack', v: [1, 1, 1, 2, 3], text: (v) => '+' + v + ' projectile bounce' + (v > 1 ? 's' : '') },",
             "    { id: 'falling-blob', title: 'Heavy Shot', cat: 'attack', v: [8, 12, 18, 28, 40], text: (v, U) => (U.shotUnlocked ? '' : 'Unlocks shooting (right click). ') + '+' + v + '% shot damage' },",
-            "    { id: 'projectile-timer', title: 'Long Shot', cat: 'attack', v: [0.5, 0.5, 0.75, 1, 2], text: (v) => '+' + v + 's shot range' },",
+            "    { id: 'projectile-timer', title: 'Long Shot', cat: 'attack', v: [5, 5, 7.5, 10, 20], text: (v) => '+' + v + 'm shot range' },",
             "    { id: 'fire-tail', title: 'Chain Shot', cat: 'attack', v: [1, 1, 1, 2, 3], text: (v) => 'Shots jump to ' + v + ' more enem' + (v > 1 ? 'ies' : 'y') },",
             "    { id: 'punch-blast', title: 'Punch Blast', cat: 'attack', v: [10, 15, 22, 35, 50], text: (v) => '+' + v + '% melee damage' },",
             "    { id: 'punch-range', title: 'Long Fist', cat: 'attack', v: [6, 9, 13, 21, 30], text: (v) => '+' + v + ' melee reach' },",
@@ -1351,7 +1351,7 @@
             "    return {",
             "        character: c.name || '', melee: pick(c.melee, G.BASE.melee), luck: pick(c.luck, 0), scale: pick(c.scale, 1),",
             "        maxSpeed: pick(c.speed, G.BASE.speed), jumpUnlocked: !!c.jump, jumpPct: 0,",
-            "        shotUnlocked: false, dmgPct: 0, rangeSec: 0, bounces: 0, chain: 0,",
+            "        shotUnlocked: false, dmgPct: 0, rangeM: 0, bounces: 0, chain: 0,",
             "        reflect: 0, meleePct: 0, meleeReach: G.BASE.reach, orbitals: 0,",
             "        orbCd: G.BASE.orbCd, orbCdT: 0, orbLive: 0,",
             "        critPct: pick(c.crit, 0), critBonus: 0, exec: 0, knock: 0, fireRate: 0, extraShots: 0, spread: pick(c.spread, G.BASE.spread),",
@@ -1470,7 +1470,7 @@
             "        case 'health-increase': U.maxHp += v; break; // max only, no healing",
             "        case 'ricochet': U.bounces = Math.min(G.BASE.bouncesCap, U.bounces + v); break;",
             "        case 'falling-blob': U.shotUnlocked = true; U.dmgPct += v; break;",
-            "        case 'projectile-timer': U.rangeSec += v; break;",
+            "        case 'projectile-timer': U.rangeM += v; break;",
             "        case 'fire-tail': U.chain += v; break;",
             "        case 'punch-blast': U.meleePct += v; break;",
             "        case 'punch-range': U.meleeReach = Math.min(G.BASE.reachMax, U.meleeReach + v); break;",
@@ -1747,7 +1747,8 @@
             "G.dist2 = function (a, b) { return Math.hypot(G.cx(a) - G.cx(b), G.cy(a) - G.cy(b)); };",
             "",
             "G.shotDamage = function () { return G.BASE.shot * (1 + G.U.dmgPct / 100); };",
-            "G.shotLife = function () { return G.BASE.life + G.U.rangeSec; };",
+            "G.shotRange = function () { return G.BASE.range + G.U.rangeM; }; // metres (1 px = 1 cm)",
+            "G.shotLife = function () { return G.shotRange() * 100 / G.shotSpeed(); }; // seconds, only for the lifeLeft countdown",
             "",
             "// ---- visual feedback: floating billboard texts and small particles (three.js sprites in the scene, like the orbital timer)",
             "const FX_MAX = 60;",
@@ -2491,7 +2492,7 @@
             "        case 'jump': return U.jumpUnlocked ? '+' + fmt(U.jumpPct, 0) + '%' : 'locked';",
             "        case 'shooting': return U.shotUnlocked ? 'ready' : 'locked';",
             "        case 'shotDamage': return fmt(G.shotDamage() * mult, 1);",
-            "        case 'shotRange': return fmt(G.shotLife(), 1) + 's';",
+            "        case 'shotRange': return fmt(G.shotRange(), 1) + ' m';",
             "        case 'bounces': return String(U.bounces);",
             "        case 'chain': return String(U.chain);",
             "        case 'melee': return fmt(U.melee * (1 + U.meleePct / 100) * mult, 1);",
@@ -2975,6 +2976,8 @@
             "    const r = G.findRun(id);",
             "    if (!r || !r.players || !r.players[0]) return false;",
             "    G.U = Object.assign(G.defaults(), JSON.parse(JSON.stringify(r.players[0].upg)));",
+            "    if (typeof G.U.rangeSec === 'number') { G.U.rangeM += G.U.rangeSec * 10; } // old runs stored the range in seconds",
+            "    delete G.U.rangeSec;",
             "    G.rank = { xp: Number(r.players[0].rankXp) || 0 };",
             "    G.pendingNew = false;",
             "    return true;",
@@ -5425,7 +5428,7 @@
       "objectGroups": []
     },
     {
-      "description": "Seconds a player projectile lives (its range).",
+      "description": "Seconds a player projectile lives (derived from its range in meters).",
       "fullName": "Projectile lifetime",
       "functionType": "Expression",
       "name": "UpgradeShotLife",
@@ -5435,7 +5438,31 @@
           "type": "BuiltinCommonInstructions::JsCode",
           "inlineCode": [
             "const G = gdjs.amazeUpg;",
-            "eventsFunctionContext.returnValue = G ? G.shotLife() : 1;"
+            "eventsFunctionContext.returnValue = G ? G.shotLife() : 0.5;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [],
+      "objectGroups": []
+    },
+    {
+      "description": "Player shot range in meters (1 px = 1 cm).",
+      "fullName": "Projectile range (meters)",
+      "functionType": "Expression",
+      "name": "UpgradeShotRange",
+      "sentence": "",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const G = gdjs.amazeUpg;",
+            "eventsFunctionContext.returnValue = G ? G.shotRange() : 5;"
           ],
           "parameterObjects": "",
           "useStrict": true,
@@ -6588,6 +6615,9 @@
       },
       {
         "functionName": "UpgradeShotLife"
+      },
+      {
+        "functionName": "UpgradeShotRange"
       },
       {
         "functionName": "Stat"

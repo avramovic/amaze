@@ -79,7 +79,7 @@ Kartica brzine se ne nudi kad je brzina na 700.
 | Kartica | Naziv | Šta radi | Vrednosti |
 |---|---|---|---|
 | `falling-blob` | Heavy Shot | **prva otključava pucanje** (desni klik), kasnije + šteta (%) | šteta 8 / 12 / 18 / 28 / 40 % |
-| `projectile-timer` | Long Shot | + domet projektila u **sekundama** (osnovni domet je 0.5 s, oko 300 jedinica) | +0.5 / 0.5 / 0.75 / 1 / 2 s |
+| `projectile-timer` | Long Shot | + domet projektila u **metrima** (osnovni domet 5 m; brzina 1000 px/s i 1 px = 1 cm, pa 1 s = 10 m; interno `G.shotRange()` u m, `G.shotLife()` u s samo za odbrojavanje `lifeLeft`) | +5 / 5 / 7.5 / 10 / 20 m |
 | `ricochet` | Ricochet | + odbijanja projektila od zida (početno 0) | 1 / 1 / 1 / 2 / 3, **cap 5** |
 | `fire-tail` | Chain Shot | posle pogotka iz neprijatelja izlazi **pravi projektil** (isti kao prvi hitac, ista šteta) ka najbližem neprijatelju koji nije pogođen, **u vidokrugu** (isti red ili kolona lavirinta bez zida) i **najviše 800 daleko** (2 polja). Svaki skok pogađa slabije (**×0.6 po skoku**, `BASE.chainDmg`). Nema odbijanja, staje na prvom zidu; kratko ne može da pogodi neprijatelja iz kog je izašao | 1 / 1 / 1 / 2 / 3 skokova |
 | `punch-blast` | Punch Blast | + šteta melee udarca | 10 / 15 / 22 / 35 / 50 % |
@@ -120,7 +120,7 @@ Orbovi su jaki, pa se posle pogotka troše.
 |---|---|---|
 | Max brzina | 300 | cap 700, polovina u BlueMist |
 | Skok | zaključan | visina 100 + % |
-| Pucanje | zaključano | desni klik, šteta 10, domet 0.5 s (brzina fiksnih **1000**, nema kartice za brzinu; čestice traga: flow = šteta hica × 5, postavlja se u `UpgradesStep`), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
+| Pucanje | zaključano | desni klik, šteta 10, domet 5 m (brzina fiksnih **1000**, nema kartice za brzinu; čestice traga: flow = šteta hica × 5, postavlja se u `UpgradesStep`), odbijanja 0, lanac 0, rasipanje **±7°**, 1 metak |
 | Regen | 0 | kad se doda, čeka **10 s** posle primljenog udarca (napadi ga ne prekidaju) |
 | Neranjivost posle udarca | 0.5 s | `DamageCooldown` u Health; Dodge početno 0 |
 | Melee | otključan | levi klik, animacija `Weapon`, šteta 5, domet 60 (max 120). Sečivo (`G.meleeTick`) maše lukom od −65° do +65° ispred igrača (s leva na desno) u prozoru `MeleeMoment`–`MeleeHitEnd`, dužine jednake dometu; svaki neprijatelj se pogađa najviše jednom po zamahu. Kost šake se koristi samo ako daje pravu poziciju. Trag `FireEmbers` je na vrhu sečiva, flow (čestica/s) = jačina melee napada |
