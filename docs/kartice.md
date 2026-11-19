@@ -163,6 +163,7 @@ Novi run počinje kad je `Level` manji nego prošli put ili kad se promeni `RunS
 - **XP se upisuje tek kad se level pobedi**: dodir vortexa poziva `Amaze::BankXP` (prvi korak događaja sa vortexom). Ako igrač umre ili ponovo učita level, XP tog levela se gubi, a već upisani XP ostaje.
 - **Čuvanje:** za sada **nigde**. XP živi samo u memoriji (`gdjs.amazeUpg.rank`) i posle ponovnog učitavanja projekta kreće od 0, tj. rank 1. Čuvanje po runu dolazi kasnije.
 - **Kriva** (linearna): za prelazak sa ranka R na R+1 treba `rankXP · R` XP, `rankXP = 10` (`G.BASE.rankXP`, jedino mesto za podešavanje tempa). Rank ne daje snagu, samo otključava kartice.
+- **Cap ranka po nivou lavirinta:** najviši rank na nivou N je `rankCapBase + rankCapPer · N` = `10 + 6 · N` (`G.rankCap`, `G.BASE.rankCapBase`, `G.BASE.rankCapPer`). XP iznad toga se gubi (`G.bankXP` ga ne upisuje, `G.rankInfo` ga ne računa), pa ko ubija sve ne može da pobegne od težine ni od otključanih kartica i retkosti (npr. nivo 1: rank 16, nivo 5: 40, nivo 10: 70, nivo 20: 130). Ko juri kroz nivoe ima niži rank, ali neprijatelji i dalje prate nivo lavirinta. Ne važi u daily-ju (fiksan rank) i kad nivo još nije poznat. Stariji sejv sa više XP-a se pri učitavanju svodi na cap.
 
 | Rank | Ukupno XP za taj rank |
 |---|---|

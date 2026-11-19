@@ -84,7 +84,7 @@ HP je za nivo 1. Brzina je relativna u odnosu na brzinu hodanja igrača. Osnovno
 - HP: `HP × (1 + 0.12 × (nivo − 1))`
 - Šteta: `šteta × (1 + 0.08 × (nivo − 1))`
 
-**Nivo neprijatelja prati rank igrača:** baza je `max(nivo lavirinta, round(rank × rankToEnemy))` (`BASE.rankToEnemy` = 0.5), pa ±2 po neprijatelju. Veličina lavirinta, broj spawnera, budžet i pool tipova ostaju po nivou lavirinta. XP se računa na osnovni HP (XP vrednost / faktor HP-a nivoa neprijatelja), da jači neprijatelji ne ubrzavaju rank. Daily igra sa najboljim rankom igrača (`aMAZE.bestRank`).
+**Nivo neprijatelja prati rank igrača:** baza je `max(nivo lavirinta, round(rank × rankToEnemy))` (`BASE.rankToEnemy` = 0.5), pa ±2 po neprijatelju. Rank je ograničen nivoom lavirinta (`G.rankCap`: `10 + 6 × nivo`, vidi `kartice.md`, XP i rank), pa ubijanje ne može da odvuče težinu u nedogled. Veličina lavirinta, broj spawnera, budžet i pool tipova ostaju po nivou lavirinta. XP se računa na osnovni HP (XP vrednost / faktor HP-a nivoa neprijatelja), da jači neprijatelji ne ubrzavaju rank. Daily igra sa najboljim rankom igrača (`aMAZE.bestRank`).
 
 ### Biomi po porodicama
 
